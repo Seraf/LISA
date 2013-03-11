@@ -8,4 +8,6 @@ Example :
 apt-get install julius julius-voxforge
 
 Launch with:
-julius -input adinnet -48 -realtime -v sample.dict  -dfa sample.dfa -h /usr/share/julius-voxforge/acoustic/hmmdefs -hlist /usr/share/julius-voxforge/acoustic/tiedlist
+julius -module -input adinnet -48 -realtime -v voxforge/sample.dict  -dfa voxforge/sample.dfa -h /usr/share/julius-voxforge/acoustic/hmmdefs -hlist /usr/share/julius-voxforge/acoustic/tiedlist
+
+USEFULL RESSOURCE TO CHECK FOR FRENCH LANGUAGE : http://www-lium.univ-lemans.fr/fr/content/ressources

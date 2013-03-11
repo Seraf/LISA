@@ -4,7 +4,7 @@ import pyjulius
 import Queue
 
 # Initialize and try to connect
-client = pyjulius.Client('julius.julien-syx.fr', 10500)
+client = pyjulius.Client('localhost', 10500)
 try:
     client.connect()
 except pyjulius.ConnectionError:
