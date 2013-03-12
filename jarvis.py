@@ -1,6 +1,7 @@
 import os, sys
 import bot
 import pyjulius
+import fnmatch
 import Queue
 
 def exists(x):
@@ -30,8 +31,9 @@ except pyjulius.ConnectionError:
 def main():
     # Load and teach the bot
     if exists('bot_library'):
-        botdn = os.path.join(os.path.dirname(__file__),'bot','RiveScriptFiles')
-        bot_library.learn(botdn)
+        for root, dirnames, filenames in os.walk('bot/Plugins'):
+            for filename in fnmatch.filter(filenames, '*.rs'):
+                bot_library.learn(root)
 
     print "Starting to poll for messages..."
 
