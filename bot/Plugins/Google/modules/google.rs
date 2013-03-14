@@ -7,6 +7,11 @@
     from oauth2client.file import Storage
     from oauth2client.client import OAuth2WebServerFlow
     from oauth2client.tools import run
+    import xml.etree.ElementTree as ET
+
+    configuration = ET.parse('bot/Plugins/Configuration/google.xml').getroot()
+    account = configuration.find('account')
+    calendars = account.find('calendars')
 
     FLAGS = gflags.FLAGS
 
@@ -18,8 +23,8 @@
     # The client_id and client_secret are copied from the API Access tab on
     # the Google APIs Console
     FLOW = OAuth2WebServerFlow(
-        client_id='779399468423.apps.googleusercontent.com',
-        client_secret='YzGpGCXABzZAO4pfD_ZV4q_d',
+        client_id=account.findtext('client_id'),
+        client_secret=account.findtext('client_secret'),
         scope='https://www.googleapis.com/auth/calendar',
         user_agent='JARVIS/0.1')
 
@@ -43,24 +48,37 @@
     # the Google APIs Console
     # to get a developerKey for your own application.
     service = build(serviceName='calendar', version='v3', http=http,
-            developerKey='AIzaSyAOdvOzmU3VkyDKj4baRYbZ3y8HM2Alc64')
+                    developerKey=account.findtext('developer_key'))
 
-    page_token = None
-    event_list = []
+    event_list = {}
     today = date.today()
     tomorrow = today + timedelta(days=1)
-    while True:
-        events = service.events().list(calendarId='fl6f2v9te1h3gmlsm2o3lqiu68@group.calendar.google.com',pageToken=page_token).execute()
-        if events['items']:
-            for event in events['items']:
-                if event['start']['dateTime']:
-                    event_date = dateutil.parser.parse(event['start']['dateTime']).date()
-                    if (args[0] == "aujourd'hui" or args[0] == "today") and (today == event_date):
-                        event_list.append(event['summary'])
-                    if (args[0] == "demain" or args[0] == "tomorrow") and (tomorrow == event_date):
-                        event_list.append(event['summary'])
-        page_token = events.get('nextPageToken')
-        if not page_token:
-            return "Voici les evenements prevus : "+ ' puis '.join(event_list)
-            break
+    for calendar in calendars.findall('calendar'):
+        page_token = None
+        while True:
+            events = service.events().list(calendarId=calendar.text,pageToken=page_token).execute()
+            if events['items']:
+                for event in events['items']:
+                    if event['start']['dateTime']:
+                        event_date = dateutil.parser.parse(event['start']['dateTime']).date()
+                        event_time = dateutil.parser.parse(event['start']['dateTime']).time()
+                        if (args[0] == "aujourd'hui" or args[0] == "today") and (today == event_date):
+                            event_list[event_time] = event['summary']
+                        if (args[0] == "demain" or args[0] == "tomorrow") and (tomorrow == event_date):
+                            event_list[event_time] = event['summary']
+            page_token = events.get('nextPageToken')
+            if not page_token:
+                break
+    if not event_list.items():
+        return "Il n'y a aucun evenement prévu pour ce jour"
+    sorted = event_list.items()
+    sorted.sort()
+    list_event_str = "Voici les evenements prevus pour "+args[0]+" : "
+    first = True
+    for event_time, event_summary in sorted:
+        if first == False:
+            list_event_str = list_event_str + " puis "
+        list_event_str = list_event_str + event_summary+" a " + event_time.strftime("%H") +" heure "+ event_time.strftime("%M")
+        first = False
+    return list_event_str
 < object
