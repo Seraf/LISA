@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configuration>
+    <ip>192.168.1.100</ip>
+    <port>3480</port>
+    <temperature>
+        <device_number>6</device_number>
+        <get>
+            <variables>
+                <variable>CurrentTemperature</variable>
+            </variables>
+        </get>
+    </temperature>
+</configuration>

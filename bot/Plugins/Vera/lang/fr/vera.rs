@@ -1,2 +1,2 @@
 + <bot name> quelle temperature fait il dans * ?
-- <call>temperature <star></call>
+- <call>gettemperature <star></call>
