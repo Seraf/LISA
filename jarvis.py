@@ -1,8 +1,9 @@
-import os, sys
-import bot
-import pyjulius
+import os
+import sys
 import fnmatch
-import Queue
+import pyjulius
+import libs
+
 
 def exists(x):
     if x in globals():
@@ -13,7 +14,7 @@ def exists(x):
 #Loading Jarvis
 try:
     global bot_library
-    bot_library = bot.RiveScriptBot()
+    bot_library = libs.RiveScriptBot()
     print "Successfully loaded bot"
 except:
     print "Couldn't load bot"
@@ -31,7 +32,7 @@ except pyjulius.ConnectionError:
 def main():
     # Load and teach the bot
     if exists('bot_library'):
-        for root, dirnames, filenames in os.walk('bot/Plugins'):
+        for root, dirnames, filenames in os.walk('Plugins'):
             for filename in fnmatch.filter(filenames, '*.rs'):
                 bot_library.learn(root)
 

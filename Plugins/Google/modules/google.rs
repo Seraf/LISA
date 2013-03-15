@@ -9,7 +9,7 @@
     from oauth2client.tools import run
     import xml.etree.ElementTree as ET
 
-    configuration = ET.parse('bot/Plugins/Configuration/google.xml').getroot()
+    configuration = ET.parse('Plugins/Configuration/google.xml').getroot()
     account = configuration.find('account')
     calendars = account.find('calendars')
 
