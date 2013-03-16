@@ -1,4 +1,4 @@
-> object calendar python
+> object getcalendars python
     import gflags
     import httplib2
     from datetime import timedelta, datetime, date

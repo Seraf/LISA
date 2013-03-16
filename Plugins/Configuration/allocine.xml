@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<configuration>
+    <partner_id>YW5kcm9pZC12M3M</partner_id>
+    <salles>
+        <salle name="Carré Sénart">B1139</salle>
+        <!--<salle name="La rotonde">B0076</salle> -->
+    </salles>
+</configuration>

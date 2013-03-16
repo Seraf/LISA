@@ -1,2 +1,2 @@
 + <bot name> events * ?
-- <call>calendar <star></call>
+- <call>getcalendars <star></call>
