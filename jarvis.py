@@ -3,7 +3,7 @@ import sys
 import fnmatch
 import pyjulius
 import libs
-
+import xml.etree.ElementTree as ET
 
 def exists(x):
     if x in globals():
@@ -34,7 +34,10 @@ def main():
     if exists('bot_library'):
         for root, dirnames, filenames in os.walk('Plugins'):
             for filename in fnmatch.filter(filenames, '*.rs'):
-                bot_library.learn(root)
+                configuration = ET.parse('Plugins/Configuration/jarvis.xml').getroot()
+                if 'lang/'+configuration.findtext('lang') in root or filename=='begin.rs':
+                    print root
+                    bot_library.learn(root)
 
     print "Starting to poll for messages..."
 
