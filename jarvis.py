@@ -36,7 +36,6 @@ def main():
             for filename in fnmatch.filter(filenames, '*.rs'):
                 configuration = ET.parse('Plugins/Configuration/jarvis.xml').getroot()
                 if 'lang/'+configuration.findtext('lang') in root or filename=='begin.rs':
-                    print root
                     bot_library.learn(root)
 
     print "Starting to poll for messages..."
