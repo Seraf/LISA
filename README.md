@@ -4,14 +4,11 @@ JARVIS
 Repository of a JARVIS system to control my house
 ![Image](docs/images/jarvis-architecture.png?raw=true)
 
-Installation :
-apt-get install julius julius-voxforge
+Complete redesign of the application using cmusphinx:  
+The goal is to have the possibility to separate each element and let them communicate by network.
+With this system you will be able to have one IA, multiple speech engine, and multiple clients.
 
-You will need these python libraries :
-easy_install pyjulius
-easy_install python-rivescript
-
-Launch with:
-julius -module -input adinnet -48 -realtime -v voxforge/sample.dict  -dfa voxforge/sample.dfa -h /usr/share/julius-voxforge/acoustic/hmmdefs -hlist /usr/share/julius-voxforge/acoustic/tiedlist
+Using twisted, the client should be able to transmit the data of the microphone but also the zone where the sound come from.
+So the program will be able to answer in the zone where the sound was recorded.
 
 USEFULL RESSOURCE TO CHECK FOR FRENCH LANGUAGE : http://www-lium.univ-lemans.fr/fr/content/ressources
