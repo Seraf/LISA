@@ -4,40 +4,40 @@ import fnmatch
 import libs
 import xml.etree.ElementTree as ET
 
-def exists(x):
-    if x in globals():
-        return True
-    else:
-        return False
+from twisted.internet.protocol import Factory
+from twisted.protocols.basic import LineReceiver
+from twisted.internet import reactor
 
-#Loading Jarvis
-try:
-    global bot_library
-    bot_library = libs.RiveScriptBot()
-    print "Successfully loaded bot"
-except:
-    print "Couldn't load bot"
+class Jarvis(LineReceiver):
+    def __init__(self, bot_library):
+        self.bot_library = bot_library
+
+    def connectionLost(self, reason):
+        print reason
+
+    def lineReceived(self, line):
+        self.sendLine(str(self.bot_library.respond_to(str(line.encode("utf-8"))).encode("utf-8")))
 
 
-def main():
-    # Load and teach the bot
-    if exists('bot_library'):
+class JarvisFactory(Factory):
+
+    def __init__(self):
+        #Loading Jarvis
+        try:
+            self.bot_library = libs.RiveScriptBot()
+            print "Successfully loaded bot"
+        except:
+            print "Couldn't load bot"
+
         for root, dirnames, filenames in os.walk('Plugins'):
             for filename in fnmatch.filter(filenames, '*.rs'):
                 configuration = ET.parse('Plugins/Configuration/jarvis.xml').getroot()
                 if 'lang/'+configuration.findtext('lang') in root or filename=='begin.rs':
-                    bot_library.learn(root)
+                    self.bot_library.learn(root)
 
-    print "Starting to poll for messages..."
+    def buildProtocol(self, addr):
+        return Jarvis(self.bot_library)
 
-    # For tests only, listen on the stdin
-    while True:
-        line = sys.stdin.readline()
-        if exists('bot_library'):
-            response = bot_library.respond_to(str(line))
-            print response
-        else:
-            print "There is no bot to provide a response"
 
-if __name__ == '__main__':
-    main()
+reactor.listenTCP(10042, JarvisFactory())
+reactor.run()
