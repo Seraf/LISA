@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import os
 import sys
 import fnmatch
@@ -32,7 +33,7 @@ class JarvisFactory(Factory):
         for root, dirnames, filenames in os.walk('Plugins'):
             for filename in fnmatch.filter(filenames, '*.rs'):
                 configuration = ET.parse('Plugins/Configuration/jarvis.xml').getroot()
-                if 'lang/'+configuration.findtext('lang') in root or filename=='begin.rs':
+                if os.path.normpath('lang/'+configuration.findtext('lang')) in root or filename=='begin.rs':
                     self.bot_library.learn(root)
 
     def buildProtocol(self, addr):
