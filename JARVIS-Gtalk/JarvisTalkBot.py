@@ -1,20 +1,54 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+from twisted.words.protocols.jabber.jid import JID
+from twisted.words.xish import domish
+from wokkel.xmppim import MessageProtocol, AvailablePresence
+from wokkel import client, xmppim
 
-import sys
-import time
+class JarvisBotProtocol(MessageProtocol):
+    def connectionMade(self):
+        print "Connected!"
 
-from PyGtalkRobot import GtalkRobot
+        # send initial presence
+        self.send(AvailablePresence())
 
-############################################################################################################################
+    def connectionLost(self, reason):
+        print "Disconnected!"
 
-class JarvisBot(GtalkRobot):
-    def command_001_TalkToJarvis(self, user, message, args):
-        '''.*?(?s)(?m)'''
-        self.replyMessage(user, time.strftime("%Y-%m-%d %a %H:%M:%S", time.gmtime()))
+    def onMessage(self, msg):
+        if msg["type"] == 'chat' and hasattr(msg, "body") and msg.body is not None:
 
-############################################################################################################################
+
+            reply = domish.Element((None, "message"))
+            reply["to"] = msg["from"]
+            #reply["from"] = msg["to"]
+            reply["type"] = 'chat'
+            reply.addElement("body", content="echo: " + str(msg.body))
+
+            self.send(reply)
+
+
+jid = JID("jarvis.systeme@gmail.com/JARVIS")
+secret = 'jarvispowered'
+
+xmppClient = client.XMPPClient(jid, secret)
+xmppClient.logTraffic = True
+
 if __name__ == "__main__":
-    bot = JarvisBot()
-    bot.setState('available', "J.A.R.V.I.S")
-    bot.start("jarvis.systeme@gmail.com", "jarvispowered")
+    # Start as a regular Python script.
+
+    import sys
+    from twisted.python import log
+    from twisted.internet import reactor
+
+    log.startLogging(sys.stdout, setStdout=0)
+    jarvisbot = JarvisBotProtocol()
+    jarvisbot.setHandlerParent(xmppClient)
+    xmppClient.startService()
+    reactor.run()
+else:
+    # Start as a Twisted Application
+
+    from twisted.application import service
+    application = service.Application("XMPP Client")
+    jarvisbot = JarvisBotProtocol()
+    jarvisbot.setHandlerParent(xmppClient)
+    xmppClient.setServiceParent(application)
