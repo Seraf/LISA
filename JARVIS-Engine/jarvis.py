@@ -4,21 +4,29 @@ import sys
 import fnmatch
 import libs
 import xml.etree.ElementTree as ET
-
-from twisted.internet.protocol import Factory
+import json
+from twisted.internet.protocol import Factory, Protocol
 from twisted.protocols.basic import LineReceiver
 from twisted.internet import reactor
 
-class Jarvis(LineReceiver):
+#class Jarvis(LineReceiver):
+class Jarvis(Protocol):
     def __init__(self, bot_library):
         self.bot_library = bot_library
 
     def connectionLost(self, reason):
-        print reason
+        print 'Lost connection.  Reason:', reason
 
+    def dataReceived(self, data):
+        jsonData = json.loads(data)
+        answerbody = str(self.bot_library.respond_to(str(jsonData['body'].encode("utf-8"))).encode("utf-8"))
+        self.transport.write(json.dumps({"from": jsonData["from"],"type": jsonData["type"],"body": answerbody}))
+
+    """
     def lineReceived(self, line):
+        print line
         self.sendLine(str(self.bot_library.respond_to(str(line.encode("utf-8"))).encode("utf-8")))
-
+    """
 
 class JarvisFactory(Factory):
 
