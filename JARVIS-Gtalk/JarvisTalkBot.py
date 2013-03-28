@@ -6,6 +6,12 @@ from wokkel import client, xmppim
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
 import json
 from sys import stdout
+import xml.etree.ElementTree as ET
+
+configuration = ET.parse('Configuration/Gtalk.xml').getroot()
+account = configuration.find('account')
+whitelist = configuration.find('whitelist')
+botname = configuration.find('botname')
 
 class JarvisClient(Protocol):
     def __init__(self, JarvisBotProtocol):
@@ -58,12 +64,13 @@ class JarvisBotProtocol(MessageProtocol):
         self.send(reply)
 
     def onMessage(self, msg):
-        if msg["type"] == 'chat' and hasattr(msg, "body") and msg.body is not None:
-            self.jarvisclientfactory.protocol.sendMessage(json.dumps({"from": msg["from"],"type": msg["type"], "body": str(msg.body)}))
+        for id in whitelist:
+            if msg["type"] == 'chat' and hasattr(msg, "body") and msg.body is not None and id.text in msg['from']:
+                self.jarvisclientfactory.protocol.sendMessage(json.dumps(\
+                    {"from": msg["from"],"type": msg["type"], "body": str(msg.body)}))
 
-
-jid = JID("jarvis.systeme@gmail.com/JARVIS")
-secret = 'jarvispowered'
+jid = JID(account[0].text+"/"+botname.text)
+secret = account[1].text
 
 xmppClient = client.XMPPClient(jid, secret)
 xmppClient.logTraffic = False
@@ -74,20 +81,13 @@ if __name__ == "__main__":
     import sys
     from twisted.python import log
     from twisted.internet import reactor
-
     log.startLogging(sys.stdout, setStdout=0)
-
-
-
     jarvisbot = JarvisBotProtocol()
     jarvisbot.setHandlerParent(xmppClient)
-
-
     xmppClient.startService()
     reactor.run()
 else:
     # Start as a Twisted Application
-
     from twisted.application import service
     application = service.Application("JarvisTalkBot")
     jarvisbot = JarvisBotProtocol()

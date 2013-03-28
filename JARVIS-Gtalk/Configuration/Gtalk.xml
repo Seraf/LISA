@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<configuration>
+    <account>
+        <login>jarvis.systeme@gmail.com</login>
+        <password>jarvispowered</password>
+    </account>
+    <whitelist>
+        <id>nephilim.seraphin@gmail.com</id>
+        <id>laurene.syx@gmail.com</id>
+        <id>guillaume.lacouque@gmail.com</id>
+        <id>claire.beaufils@gmail.com</id>
+    </whitelist>
+    <botname>JARVIS</botname>
+</configuration>
