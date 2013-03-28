@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from twisted.words.protocols.jabber.jid import JID
 from twisted.words.xish import domish
 from wokkel.xmppim import MessageProtocol, AvailablePresence
@@ -7,19 +8,23 @@ import json
 from sys import stdout
 
 class JarvisClient(Protocol):
+    def __init__(self, JarvisBotProtocol):
+        self.JarvisBotProtocol = JarvisBotProtocol
     def sendMessage(self, msg):
         self.transport.write(msg)
 
     def dataReceived(self, data):
         "As soon as any data is received, write it back."
-        print "Server said:", data
+        self.JarvisBotProtocol.sendAnswer(data)
 
 class JarvisClientFactory(ReconnectingClientFactory):
+    def __init__(self, JarvisBotProtocol):
+        self.JarvisBotProtocol = JarvisBotProtocol
     def startedConnecting(self, connector):
         print 'Started to connect.'
 
     def buildProtocol(self, addr):
-        self.protocol = JarvisClient()
+        self.protocol = JarvisClient(self.JarvisBotProtocol)
         print 'Connected to Jarvis.'
         print 'Resetting reconnection delay'
         self.resetDelay()
@@ -35,7 +40,7 @@ class JarvisClientFactory(ReconnectingClientFactory):
 
 class JarvisBotProtocol(MessageProtocol):
     def connectionMade(self):
-        self.jarvisclientfactory = JarvisClientFactory()
+        self.jarvisclientfactory = JarvisClientFactory(self)
         print "Connected!"
         jarvisclient = reactor.connectTCP("localhost", 10042, self.jarvisclientfactory)
         # send initial presence
@@ -44,19 +49,17 @@ class JarvisBotProtocol(MessageProtocol):
     def connectionLost(self, reason):
         print "Disconnected!"
 
+    def sendAnswer(self,data):
+        jsonData = json.loads(data)
+        reply = domish.Element((None, "message"))
+        reply["to"] = jsonData["from"]
+        reply["type"] = jsonData["type"]
+        reply.addElement("body", content=jsonData["body"])
+        self.send(reply)
+
     def onMessage(self, msg):
         if msg["type"] == 'chat' and hasattr(msg, "body") and msg.body is not None:
-
-
-            reply = domish.Element((None, "message"))
-            reply["to"] = msg["from"]
-            #reply["from"] = msg["to"]
-            reply["type"] = 'chat'
-
-            self.jarvisclientfactory.protocol.sendMessage(json.dumps({"from": msg["from"],"type": msg["type"], "body": str(msg.body)})) #str(msg.body)}))
-            #reply.addElement("body", content="echo: " + str(msg.body))
-
-            #self.send(reply)
+            self.jarvisclientfactory.protocol.sendMessage(json.dumps({"from": msg["from"],"type": msg["type"], "body": str(msg.body)}))
 
 
 jid = JID("jarvis.systeme@gmail.com/JARVIS")

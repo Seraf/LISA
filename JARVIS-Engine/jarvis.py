@@ -22,12 +22,6 @@ class Jarvis(Protocol):
         answerbody = str(self.bot_library.respond_to(str(jsonData['body'].encode("utf-8"))).encode("utf-8"))
         self.transport.write(json.dumps({"from": jsonData["from"],"type": jsonData["type"],"body": answerbody}))
 
-    """
-    def lineReceived(self, line):
-        print line
-        self.sendLine(str(self.bot_library.respond_to(str(line.encode("utf-8"))).encode("utf-8")))
-    """
-
 class JarvisFactory(Factory):
 
     def __init__(self):
