@@ -12,3 +12,8 @@ Using twisted, the client should be able to transmit the data of the microphone 
 So the program will be able to answer in the zone where the sound was recorded.
 
 USEFULL RESSOURCE TO CHECK FOR FRENCH LANGUAGE : http://www-lium.univ-lemans.fr/fr/content/ressources
+
+
+Rules engines should include :
+- A scheduler (launch some scripts like a cron)
+- Execute something if something is triggered
