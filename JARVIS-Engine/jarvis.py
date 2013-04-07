@@ -18,7 +18,8 @@ class Jarvis(Protocol):
     def dataReceived(self, data):
         print scheduler.print_jobs()
         jsonData = json.loads(data)
-        answerbody = str(self.bot_library.respond_to(str(jsonData['body'].encode("utf-8"))).encode("utf-8"))
+        answerbody = self.bot_library.respond_to(str(jsonData['body'].encode('utf-8'))).decode("utf-8")
+        #answerbody = str(self.bot_library.respond_to(str(jsonData['body'].encode("utf-8"))).encode("utf-8"))
         self.transport.write(json.dumps({"from": jsonData["from"],"type": jsonData["type"],"body": answerbody}))
 
 class JarvisFactory(Factory):
