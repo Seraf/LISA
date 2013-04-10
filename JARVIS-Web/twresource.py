@@ -15,7 +15,8 @@ class Root(resource.Resource):
 
 
 class GoogleResource(resource.Resource):
-    def __init__(self):
+    def __init__(self, JarvisClientFactory):
+        self.jarvisclientfactory = JarvisClientFactory
         resource.Resource.__init__(self)
 
     def getChild(self, name, request):
@@ -26,6 +27,8 @@ class GoogleResource(resource.Resource):
         page = yield client.getPage("http://google.com/search?q=%s" % q)
         request.write(page)
         request.finish()
+        #self.jarvisclientfactory.protocol.sendMessage(json.dumps( \
+        #    {"from": msg["from"],"type": msg["type"], "body": unicode(msg.body)}))
 
     def render_GET(self, request):
         q = request.args.get('q', [""])[0]

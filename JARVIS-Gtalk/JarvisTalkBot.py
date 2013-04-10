@@ -5,7 +5,6 @@ from wokkel.xmppim import MessageProtocol, AvailablePresence
 from wokkel import client, xmppim
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
 import json
-from sys import stdout
 import xml.etree.ElementTree as ET
 
 configuration = ET.parse('Configuration/Gtalk.xml').getroot()

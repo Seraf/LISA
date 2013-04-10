@@ -2,11 +2,37 @@ import sys
 import os
 
 from twisted.application import internet, service
-from twisted.web import server, resource, wsgi, static
+from twisted.web import server, wsgi, static
 from twisted.python import threadpool
 from twisted.internet import reactor
-
+from twisted.internet.protocol import Protocol, ReconnectingClientFactory
+from sys import stdout
 import twresource
+
+class JarvisClient(Protocol):
+    def sendMessage(self, msg):
+        self.transport.write(msg)
+
+    def dataReceived(self, data):
+        stdout.write(data)
+
+class JarvisClientFactory(ReconnectingClientFactory):
+    def startedConnecting(self, connector):
+        print 'Started to connect.'
+
+    def buildProtocol(self, addr):
+        print 'Connected to Jarvis.'
+        print 'Resetting reconnection delay'
+        self.resetDelay()
+        return JarvisClient()
+
+    def clientConnectionLost(self, connector, reason):
+        print 'Lost connection.  Reason:', reason
+        ReconnectingClientFactory.clientConnectionLost(self, connector, reason)
+
+    def clientConnectionFailed(self, connector, reason):
+        print 'Connection failed. Reason:', reason
+        ReconnectingClientFactory.clientConnectionFailed(self, connector, reason)
 
 PORT = 8000
 
@@ -36,9 +62,13 @@ root = twresource.Root(wsgi_root)
 staticrsrc = static.File(os.path.join(os.path.abspath("."), "jarvis/static"))
 root.putChild("static", staticrsrc)
 
+
+jarvisclientfactory = JarvisClientFactory()
+jarvisclient = reactor.connectTCP("localhost", 10042, jarvisclientfactory)
+
 # The cool part! Add in pure Twisted Web Resouce in the mix
 # This 'pure twisted' code could be using twisted's XMPP functionality, etc:
-root.putChild("google", twresource.GoogleResource())
+root.putChild("jarvis-engine", twresource.GoogleResource(jarvisclientfactory))
 
 # Serve it up:
 main_site = server.Site(root)
