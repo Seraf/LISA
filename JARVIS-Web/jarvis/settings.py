@@ -119,7 +119,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'plugin_management'
+    'plugin_management',
+    'googlespeech',
 )
 
 # A sample logging configuration. The only tangible logging
