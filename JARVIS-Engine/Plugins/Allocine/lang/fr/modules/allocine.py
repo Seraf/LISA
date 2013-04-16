@@ -9,7 +9,7 @@ class Allocine:
 
         configuration = ET.parse('Plugins/Configuration/allocine.xml').getroot()
         salles = configuration.find('salles')
-        url = "http://api.allocine.fr/rest/v3/showtimelist?partner="+configuration.findtext('partner_id')+"&theaters="
+        url = "http://api.allocine.fr/rest/v3/showtimelist?partner="+configuration.findtext('partner_id')+"&format=json&theaters="
 
         for salle in salles:
             url=url+salle.text+","
