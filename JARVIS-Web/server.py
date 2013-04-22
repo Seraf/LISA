@@ -51,7 +51,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
     def onMessage(self, msg, binary):
         print "sending echo:", msg
         self.jarvisclientfactory.protocol.sendMessage(json.dumps( \
-            {"from": "Jarvis-Web","type": "Chat", "body": unicode(msg)}))
+            {"from": "Jarvis-Web","type": "Chat", "body": unicode(msg.decode('utf-8'))}))
 
 class Root(resource.Resource):
     def __init__(self, wsgi_resource):

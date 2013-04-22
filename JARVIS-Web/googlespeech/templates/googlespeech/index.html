@@ -52,14 +52,31 @@
         function readme(txt){
             txt = txt.split('.').join("");
             txt = txt.split('&').join("et");
-            play_sound("http://translate.google.com/translate_tts?ie=UTF-8&q="+'"'+encodeURIComponent(txt)+'"'+"&tl=fr&total=1&idx=0prev=input");
+            txt = txt.split('à').join("a");
+            txt = txt.split('-').join(" ");
+            txt = txt.split('?').join("");
+            txt = txt.split('\'').join("");
+            txt = txt.split(':').join("");
+            txt = txt.split('«').join("");
+            txt = txt.split('»').join("");
+            txt = txt.replace(/ +(?= )/g,'');
+            txt = txt.trim();
+            console.log("http://translate.google.com/translate_tts?ie=UTF-8&q="+'"'+encodeURIComponent(txt)+'"'+"&tl=fr&total=1&idx=0&prev=input");
+            play_sound("http://translate.google.com/translate_tts?ie=UTF-8&q="+'"'+encodeURIComponent(txt)+'"'+"&tl=fr&total=1&idx=0&prev=input");
         }
 
         function send() {
             var msg = document.getElementById('message').value;
             $('#chat').append('<li class="me"><strong>Me</strong> > '+msg+'</li>');
             sock.send(msg);
+
+        $('#message').onwebkitspeechchange = function(e) {
+                console.log(e); // SpeechInputEvent
+                document.getElementById('sendit').send();
+
+            }
         };
+
     </script>
 </head>
 <body>
@@ -72,6 +89,6 @@
             Message:
             <input id="message" type="text" value="Hello, world!" x-webkit-speech>
     </p>
-    <button onclick='send();'>Send Message</button>
+    <button id="sendit" onclick='send();'>Send Message</button>
 </body>
 </html>

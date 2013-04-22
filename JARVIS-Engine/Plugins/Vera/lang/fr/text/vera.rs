@@ -1,5 +1,8 @@
-+ <bot name> quelle temperature fait il dans * ?
++ quelle temperature fait il dans *
 - <call>gettemperature <star></call>
+
++ quel température fait-il dans *
+@ quelle temperature fait il dans *
 
 > object gettemperature python
     import sys, os, inspect
