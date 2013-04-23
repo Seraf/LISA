@@ -7,9 +7,7 @@ from twisted.python import threadpool
 from twisted.internet import reactor
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
 from django.core.handlers.wsgi import WSGIHandler
-from autobahn.websocket import WebSocketServerFactory, \
-    WebSocketServerProtocol, \
-    listenWS
+from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol, listenWS
 import json
 
 class JarvisClient(Protocol):
@@ -49,7 +47,6 @@ class WebSocketProtocol(WebSocketServerProtocol):
         WebSocketServerProtocol.connectionMade(self)
 
     def onMessage(self, msg, binary):
-        print "sending echo:", msg
         self.jarvisclientfactory.protocol.sendMessage(json.dumps( \
             {"from": "Jarvis-Web","type": "Chat", "body": unicode(msg)}))
 
