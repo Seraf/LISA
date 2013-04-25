@@ -1,4 +1,4 @@
-+ <bot name> quelle temperature fait il dans * ?
++ quelle temperature fait il dans * ?
 - <call>gettemperature <star></call>
 
 > object gettemperature python

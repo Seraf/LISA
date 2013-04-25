@@ -1,4 +1,4 @@
-+ <bot name> events * ?
++ events * ?
 - <call>getcalendars <star></call>
 
 > object getcalendars python
