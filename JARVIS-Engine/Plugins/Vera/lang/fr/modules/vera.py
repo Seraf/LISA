@@ -1,21 +1,16 @@
 import urllib, json
-import xml.etree.ElementTree as ET
 
 class Vera:
     def __init__(self):
         pass
 
     def getTemperature(self, args):
-        configuration = ET.parse('Plugins/Configuration/vera.xml').getroot()
-        temperature = configuration.find('temperature')
-        get = temperature.find('get')
-        variables = get.find('variables')
-
-        url = "http://"+configuration.findtext('ip')+":"+configuration.findtext('port')+"/data_request?id=status&output_format=json&DeviceNum="+temperature.findtext('device_number')
-        veraResponse = urllib.urlopen(url)
-        states = json.load(veraResponse)['Device_Num_'+temperature.findtext('device_number')]['states']
-
+        configuration = json.load(open('Plugins/Configuration/vera.json'))
+        for device in configuration['temperature']:
+            url = "http://"+configuration['ip']+":"+configuration['port']+"/data_request?id=status&output_format=json&DeviceNum="+device['device_id']
+            veraResponse = urllib.urlopen(url)
+            states = json.load(veraResponse)['Device_Num_'+device['device_id']]['states']
         for state in states:
-            for variable in variables.findall('variable'):
+            for variable in device['variables']:
                 if state['variable'] == variable.text:
-                    return "Il fait "+state['value']+" degres"
+                    return u"Il fait "+state['value']+u" degrés"

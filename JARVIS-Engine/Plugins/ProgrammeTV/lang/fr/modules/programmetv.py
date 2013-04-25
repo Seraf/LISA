@@ -1,16 +1,17 @@
-
-import urllib
+# -*- coding: UTF-8 -*-
+import urllib, json
 import xml.etree.ElementTree as ET
 from datetime import date
 import os
+
 class ProgrammeTV:
     def __init__(self):
         pass
 
     def getProgrammeTV(self):
-        configuration = ET.parse('Plugins/Configuration/programmetv.xml').getroot()
+        configuration = json.load(open('Plugins/Configuration/programmetv.json'))
 
-        url = "http://www.kazer.org/tvguide.xml?u="+configuration.findtext('user_id')
+        url = "http://www.kazer.org/tvguide.xml?u="+configuration['user_id']
         kazerResponse = urllib.urlopen(url)
         if not os.path.exists('tmp/'+str(date.today())+'_programmetv.xml'):
             print "Downloading the tv program"
