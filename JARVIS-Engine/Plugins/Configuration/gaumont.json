@@ -1,7 +1,7 @@
 {
     "url": "http://www.cinemasgaumontpathe.com/index.php?do=ajax_fiche_cinema_grille_horaire&id_cinema=",
     "salles": [
-        {"id": "22", "name": "Carré Sénart"},
-        {"id": "76", "name": "Dammarie-les-lys"}
+        {"id": "22", "name": "Carré Sénart", "enabled": "True"},
+        {"id": "76", "name": "Dammarie-les-lys", "enabled": "False"}
     ]
 }

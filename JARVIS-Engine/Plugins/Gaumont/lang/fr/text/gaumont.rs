@@ -1,4 +1,4 @@
-+ il y a quoi au cinema
++ il y a quoi au cinema [*]
 - <call>getfilms</call>
 
 > object getfilms python
