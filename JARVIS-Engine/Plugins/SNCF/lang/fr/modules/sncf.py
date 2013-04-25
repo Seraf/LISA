@@ -8,7 +8,7 @@ class SNCF:
 
     def getTrains(self):
         configuration = json.load(open('Plugins/Configuration/sncf.json'))
-        soup = BeautifulSoup(urllib.urlopen(configuration['url']))
+        soup = BeautifulSoup(urllib.urlopen(configuration['url']), "lxml")
         list_problemRSS = soup.find_all("title")
         list_problem_filter = []
         for problem in list_problemRSS:
