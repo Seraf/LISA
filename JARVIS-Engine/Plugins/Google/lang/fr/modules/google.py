@@ -6,7 +6,7 @@ from apiclient.discovery import build
 from oauth2client.file import Storage
 from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.tools import run
-import xml.etree.ElementTree as ET
+import json
 
 
 class Google:
@@ -14,10 +14,7 @@ class Google:
         pass
 
     def getCalendars(self,args):
-        configuration = ET.parse('Plugins/Configuration/google.xml').getroot()
-        account = configuration.find('account')
-        calendars = account.find('calendars')
-
+        configuration = json.load(open('Plugins/Configuration/google.json'))
         FLAGS = gflags.FLAGS
 
         # Set up a Flow object to be used if we need to authenticate. This
@@ -28,8 +25,8 @@ class Google:
         # The client_id and client_secret are copied from the API Access tab on
         # the Google APIs Console
         FLOW = OAuth2WebServerFlow(
-            client_id=account.findtext('client_id'),
-            client_secret=account.findtext('client_secret'),
+            client_id=configuration['account']['client_id'],
+            client_secret=configuration['account']['client_secret'],
             scope='https://www.googleapis.com/auth/calendar',
             user_agent='JARVIS/0.1')
 
@@ -53,15 +50,15 @@ class Google:
         # the Google APIs Console
         # to get a developerKey for your own application.
         service = build(serviceName='calendar', version='v3', http=http,
-                        developerKey=account.findtext('developer_key'))
+                        developerKey=configuration['account']['developer_key'])
 
         event_list = {}
         today = date.today()
         tomorrow = today + timedelta(days=1)
-        for calendar in calendars.findall('calendar'):
+        for calendar in configuration['account']['calendars']:
             page_token = None
             while True:
-                events = service.events().list(calendarId=calendar.text,pageToken=page_token).execute()
+                events = service.events().list(calendarId=calendar['id'],pageToken=page_token).execute()
                 if events['items']:
                     for event in events['items']:
                         if event['start']['dateTime']:
@@ -75,14 +72,14 @@ class Google:
                 if not page_token:
                     break
         if not event_list.items():
-            return "Il n'y a aucun evenement prevu pour ce jour"
+            return u"Il n'y a aucun évenement prévu pour ce jour"
         sorted = event_list.items()
         sorted.sort()
-        list_event_str = "Voici les evenements prevus pour "+args[0]+" : "
+        list_event_str = u"Voici les évenements prévus pour "+args[0]+" : "
         first = True
         for event_time, event_summary in sorted:
             if first == False:
-                list_event_str = list_event_str + " puis "
-            list_event_str = list_event_str + event_summary+" a " + event_time.strftime("%H") +" heure "+ event_time.strftime("%M")
+                list_event_str = list_event_str + u" puis "
+            list_event_str = list_event_str + event_summary+u" à " + event_time.strftime("%H") +u" heure "+ event_time.strftime("%M")
             first = False
         return list_event_str

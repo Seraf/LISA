@@ -2,7 +2,6 @@
 import os
 import fnmatch
 import libs
-import xml.etree.ElementTree as ET
 import json
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
@@ -29,10 +28,10 @@ class JarvisFactory(Factory):
         except:
             print "Couldn't load bot"
 
+        configuration = json.load(open('Plugins/Configuration/jarvis.json'))
         for root, dirnames, filenames in os.walk('Plugins'):
             for filename in fnmatch.filter(filenames, '*.rs'):
-                configuration = ET.parse('Plugins/Configuration/jarvis.xml').getroot()
-                if os.path.normpath('lang/'+configuration.findtext('lang')) in root or filename=='begin.rs':
+                if os.path.normpath('lang/'+configuration['lang']) in root or filename=='begin.rs':
                     self.bot_library.learn(root)
 
     def buildProtocol(self, addr):

@@ -1,0 +1,13 @@
+{
+    "ip": "192.168.1.100",
+    "port": "3480",
+    "temperature": [
+        {
+            "room": "salon",
+            "device_id": "11",
+            "variables": [
+                {"type": "get", "name": "CurrentTemperature"}
+            ]
+        }
+    ]
+}

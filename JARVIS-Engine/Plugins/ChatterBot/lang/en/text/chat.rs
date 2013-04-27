@@ -1,19 +1,19 @@
 // A generic set of chatting responses. This set mimicks the classic Eliza bot.
 
-+ <bot name> *
++ *
 - I'm not sure I understand you fully.
 - Please go on.
 - That is interesting. Please continue.
 - Tell me more about that.
 - Does talking about this bother you?
 
-+ <bot name> [*] (sorry|apologize|apology) [*]
++ [*] (sorry|apologize|apology) [*]
 - Please don't apologize.
 - Apologies are not necessary.
 - I've told you that apologies are not required.
 - It did not bother me. Please continue.
 
-+ <bot name> i remember *
++ i remember *
 - Do you often think of <star>?
 - Does thinking of <star> bring anything else to mind?
 - Why do you remember <star> just now?
@@ -21,17 +21,17 @@
 - What is the connection between me and <star>?
 - What else does <star> remind you of?
 
-+ <bot name> do you remember *
++ do you remember *
 - Did you think I would forget <star>?
 - Why do you think I should recall <star> now?
 - What about <star>?
 - You mentioned <star>?
 
-+ <bot name> you remember *
++ you remember *
 - How could I forget <star>?
 - What about <star> should I remember?
 
-+ <bot name> i forget *
++ i forget *
 - Can you think of why you might forget <star>?
 - Why can't you remember <star>?
 - How often do you think of <star>?
@@ -40,14 +40,14 @@
 - Are you generally forgetful?
 - Do you think you are suppressing <star>?
 
-+ <bot name> did you forget *
++ did you forget *
 - Why do you ask?
 - Are you sure you told me?
 - Would it bother you if I forgot <star>?
 - Why should I recall <star> just now?
 - Tell me more about <star>.
 
-+ <bot name> [*] if *
++ [*] if *
 - Do you think it's likely that <star>?
 - Do you wish that <star>?
 - What do you know about <star>?
@@ -56,7 +56,7 @@
 - But what are the chances that <star>?
 - What does this speculation lead to?
 
-+ <bot name> [*] i dreamed *
++ [*] i dreamed *
 - Really, <star>?
 - Have you ever fantasized <star> while you were awake?
 - Have you ever dreamed <star> before?
@@ -65,7 +65,7 @@
 - What persons appear in your dreams?
 - Do you believe that dreams have something to do with your problem?
 
-+ <bot name> [*] perhaps [*]
++ [*] perhaps [*]
 - You don't seem quite certain.
 - Why the uncertain tone?
 - Can't you be more positive?
@@ -73,11 +73,11 @@
 - Don't you know?
 - How likely, would you estimate?
 
-+ (hello|hi|hey|howdy|hola|hai|yo) <bot name> [*]
++ (hello|hi|hey|howdy|hola|hai|yo) [*]
 - How do you do. Please state your problem.
 - Hi. What seems to be your problem?
 
-+ <bot name> [*] computer [*]
++ [*] computer [*]
 - Do computers worry you?
 - Why do you mention computers?
 - What do you think machines have to do with your problem?
@@ -85,13 +85,13 @@
 - What about machines worries you?
 - What do you think about machines?
 
-+ <bot name> am i *
++ am i *
 - Do you believe you are <star>?
 - Would you want to be <star>?
 - Do you wish I would tell you you are <star>?
 - What would it mean if you were <star>?
 
-+ <bot name> are you *
++ are you *
 - Are you interested in whether I am <star> or not?
 - Would you prefer if I weren't <star>?
 - Perhaps I am <star> in your fantasies.
@@ -99,20 +99,20 @@
 - Would it matter to you?
 - What if I were <star>?
 
-+ <bot name> you are *
++ you are *
 - What makes you think I am <star>?
 - Does it please you to believe I am <star>?
 - Do you sometimes wish you were <star>?
 - Perhaps you would like to be <star>.
 
-+ <bot name> * are *
++ * are *
 - Did you think they might not be <star2>?
 - Would you like it if they were not <star2>?
 - What if they were not <star2>?
 - Are they always <star2>?
 - Are you positive they are <star2>?
 
-+ <bot name> [*] your *
++ [*] your *
 - Why are you concerned over my <star>?
 - What about your own <star>?
 - Are you worried about someone else's <star>?
@@ -120,26 +120,26 @@
 - What makes you think of my <star>?
 - Do you want my <star>?
 
-+ <bot name> was i *
++ was i *
 - What if you were <star>?
 - Do you think you were <star>?
 - Were you <star>?
 - What would it mean if you were <star>?
 - What does '<star>' suggest to you?
 
-+ <bot name> i was *
++ i was *
 - Were you really?
 - Why do you tell me you were <star> now?
 - Perhaps I already know you were <star>.
 
-+ <bot name> [*] was you *
++ [*] was you *
 - Would you like to believe I was <star>?
 - What suggests that I was <star>?
 - What do you think?
 - Perhaps I was <star>.
 - What if I had been <star>?
 
-+ <bot name> i (desire|want|need) *
++ i (desire|want|need) *
 - What would it mean to you if you got <star2>?
 - Why do you want <star2>?
 - Suppose you got <star2> soon.
@@ -147,56 +147,56 @@
 - What would getting <star2> mean to you?
 - What does wanting <star2> have to do with this discussion?
 
-+ <bot name> i am (sad|unhappy|mad|angry|pissed|depressed) [*]
++ i am (sad|unhappy|mad|angry|pissed|depressed) [*]
 - I am sorry to hear that you are <star>.
 - Do you think coming here will help you not to be <star>?
 - I'm sure it's not pleasant to be <star>.
 - Can you explain what made you <star>?
 
-+ <bot name> i am (happy|excited|glad) [*]
++ i am (happy|excited|glad) [*]
 - How have I helped you to be <star>?
 - Has your treatment made you <star>?
 - What makes you <star> just now?
 - Can you explain why you are <star>?
 
-+ <bot name> i (believe|think) *
++ i (believe|think) *
 - Do you really think so?
 - But you are not sure you <star2>.
 - Do you really doubt you <star2>
 
-+ <bot name> i am *
++ i am *
 - Is it because you are <star> that you came to me?
 - How long have you been <star>?
 - Do you believe it is normal to be <star>?
 - Do you enjoy being <star>?
 - Do you know anyone else who is <star>?
 
-+ <bot name> i can not *
++ i can not *
 - How do you know that you can't <star>?
 - Have you tried?
 - Perhaps you could <star> now.
 - Do you really want to be able to <star>?
 - What if you could <star>?
 
-+ <bot name> i do not *
++ i do not *
 - Don't you really <star>?
 - Why don't you <star>?
 - Do you wish to be able to <star>?
 - Does that trouble you?
 
-+ <bot name> i feel *
++ i feel *
 - Tell me more about such feelings.
 - Do you often feel <star>?
 - Do you enjoy feeling <star>?
 - Of what does feeling <star> remind you?
 
-+ <bot name> i * you
++ i * you
 - Perhaps in your fantasies we <star> each other.
 - Do you wish to <star> me?
 - You seem to need to <star> me.
 - Do you <star> anyone else?
 
-+ <bot name> you * me
++ you * me
 - Why do you think I <star> you?
 - You like to think I <star> you -- don't you?
 - What makes you think I <star> you?
@@ -205,29 +205,29 @@
 - Suppose I did <star> you -- what would that mean?
 - Does someone else believe I <star> you?
 
-+ <bot name> [*] you *
++ [*] you *
 - We were discussing you -- not me.
 - Oh, I <star>?
 - You're not really talking about me -- are you?
 - What are your feelings now?
 
-+ <bot name> [*] (yes|yeah|yep|yup) [*]
++ [*] (yes|yeah|yep|yup) [*]
 - Please go on.
 - Please tell me more about this.
 - Why don't you tell me a little more about this.
 - I see.
 - I understand.
 
-+ <bot name> [*] (nope|nah) [*]
++ [*] (nope|nah) [*]
 - Are you saying no just to be negative?
 - Does this make you feel unhappy?
 - Why not?
 - Why 'no'?
 
-+ <bot name> no
++ no
 @ nope
 
-+ <bot name> no one *
++ no one *
 - Are you sure, no one <star>?
 - Surely someone <star>.
 - Can you think of anyone at all?
@@ -236,23 +236,23 @@
 - You have a particular person in mind, don't you?
 - Who do you think you are talking about?
 
-+ <bot name> [*] my (mom|dad|mother|father|bro|brother|sis|sister|cousin|aunt|uncle) *
++ [*] my (mom|dad|mother|father|bro|brother|sis|sister|cousin|aunt|uncle) *
 - Tell me more about your family.
 - Who else in your family <star2>?
 - Your <star>?
 - What else comes to mind when you think of your <star>?
 
-+ <bot name> can you *
++ can you *
 - You believe I can <star> don't you?
 - You want me to be able to <star>.
 - Perhaps you would like to be able to <star> yourself.
 
-+ <bot name> can i *
++ can i *
 - Whether or not you can <star> depends on you more than on me.
 - Do you want to be able to <star>?
 - Perhaps you don't want to <star>.
 
-+ <bot name> (what|who|when|where|how) [*]
++ (what|who|when|where|how) [*]
 - Why do you ask?
 - Does that question interest you?
 - What is it you really want to know?
@@ -263,25 +263,25 @@
 - Have you asked such questions before?
 - Have you asked anyone else?
 
-+ <bot name> [*] because [*]
++ [*] because [*]
 - Is that the real reason?
 - Don't any other reasons come to mind?
 - Does that reason seem to explain anything else?
 - What other reasons might there be?
 
-+ <bot name> why do not you *
++ why do not you *
 - Do you believe I don't <star>?
 - Perhaps I will <star> in good time.
 - Should you <star> yourself?
 - You want me to <star>?
 
-+ <bot name> why can not i *
++ why can not i *
 - Do you think you should be able to <star>?
 - Do you want to be able to <star>?
 - Do you believe this will help you to <star>?
 - Have you any idea why you can't <star>?
 
-+ <bot name> everyone *
++ everyone *
 - Really, everyone?
 - Surely not everyone.
 - Can you think of anyone in particular?
@@ -292,7 +292,7 @@
 - You have a particular reason in mind, don't you?
 - Who do you think you're talking about?
 
-+ <bot name> [*] (fuck|fucker|shit|damn|shut up|bitch) [*]
++ [*] (fuck|fucker|shit|damn|shut up|bitch) [*]
 - Does it make you feel strong to use that kind of language?
 - Are you venting your feelings now?
 - Are you angry?
