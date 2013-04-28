@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import urllib, json
 
 class Vera:
@@ -12,5 +13,6 @@ class Vera:
             states = json.load(veraResponse)['Device_Num_'+device['device_id']]['states']
         for state in states:
             for variable in device['variables']:
-                if state['variable'] == variable.text:
-                    return u"Il fait "+state['value']+u" degrés"
+                if state['variable'] == variable['name']:
+                    return json.dumps({"plugin": "vera","method": "getTemperature", \
+                                       "body": u"Il fait "+state['value']+u" degrés"})

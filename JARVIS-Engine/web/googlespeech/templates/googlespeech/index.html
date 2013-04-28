@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <script src="/static/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript">
         var sock = null;
@@ -36,6 +37,7 @@
 
         function play_sound(url){
             if(play_html5_audio){
+                console.log("here :"+ url);
                 var snd = new Audio(url);
                 snd.load();
                 snd.play();
@@ -52,7 +54,7 @@
         function readme(txt){
             txt = txt.split('.').join("");
             txt = txt.split('&').join("et");
-            txt = txt.split('à').join("a");
+            txt = txt.split('é').join("e");
             txt = txt.split('-').join(" ");
             txt = txt.split('?').join("");
             txt = txt.split('\'').join("");
@@ -61,8 +63,8 @@
             txt = txt.split('»').join("");
             txt = txt.replace(/ +(?= )/g,'');
             txt = txt.trim();
-            console.log("http://translate.google.com/translate_tts?ie=UTF-8&q="+'"'+encodeURIComponent(txt)+'"'+"&tl=fr&total=1&idx=0&prev=input");
-            play_sound("http://translate.google.com/translate_tts?ie=UTF-8&q="+'"'+encodeURIComponent(txt)+'"'+"&tl=fr&total=1&idx=0&prev=input");
+            console.log("http://translate.google.com/translate_tts?ie=UTF-8&q="+encodeURIComponent(txt)+"%20&tl=fr&total=1&idx=0&prev=input");
+            play_sound("http://translate.google.com/translate_tts?ie=UTF-8&q="+encodeURIComponent(txt)+"%20&tl=fr&total=1&idx=0&prev=input");
         }
 
         function send() {

@@ -30,4 +30,5 @@ class ProgrammeTV:
             if child.tag == "programme":
                 if date.today().strftime("%Y%m%d")+"2045" <= child.attrib['start'][:12] and date.today().strftime("%Y%m%d")+"2200" > child.attrib['start'][:12]:
                     programmetv_str = programmetv_str + 'Sur '+channelDict[child.attrib['channel']]+' a '+ child.attrib['start'][8:10] + ' heure ' + child.attrib['start'][10:12] + ' il y a : '+ child.find('title').text+'. '
-        return programmetv_str
+        return json.dumps({"plugin": "programmetv","method": "getProgrammeTV", \
+                           "body": programmetv_str})

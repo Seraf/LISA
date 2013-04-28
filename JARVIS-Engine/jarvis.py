@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-import os,fnmatch,libs,json,sys
+import os,fnmatch,libs,json,sys,uuid
 from twisted.internet.protocol import Factory, Protocol, ReconnectingClientFactory
 from twisted.internet import reactor
 from twisted.application import internet, service
@@ -12,19 +12,37 @@ from apscheduler.scheduler import Scheduler
 
 scheduler = Scheduler()
 scheduler.start()
+configuration = json.load(open('Configuration/jarvis.json'))
 
 class Jarvis(Protocol):
-    def __init__(self, bot_library):
+    def __init__(self,factory, bot_library):
+        self.factory = factory
         self.bot_library = bot_library
         self.scheduler = scheduler
 
+    def connectionMade(self):
+        self.client_uuid = str(uuid.uuid1())
+        self.factory.clients.append({"object": self, "zone": "", "type": "", "uuid": self.client_uuid})
+
     def connectionLost(self, reason):
         print 'Lost connection.  Reason:', reason
+        for client in self.factory.clients:
+            if client['object'] == self:
+                self.factory.clients.remove(client)
 
     def dataReceived(self, data):
         jsonData = json.loads(data)
-        answerbody = self.bot_library.respond_to(str(jsonData['body'].encode('utf-8')))
-        self.transport.write(json.dumps({"from": jsonData["from"],"type": jsonData["type"],"body": answerbody}))
+        for client in self.factory.clients:
+            if client['object'] == self and (not client['type'] or not client['zone']):
+                client['type'],client['zone'] = jsonData['type'],jsonData['zone']
+        answer = self.bot_library.respond_to(str(jsonData['body'].encode('utf-8')))
+        try:
+            jsonAnswer = json.loads(answer)
+        except:
+            jsonAnswer = json.loads(json.dumps({"plugin": "Chat","method": "Chat","body": answer}))
+        self.transport.write(json.dumps({'plugin': jsonAnswer['plugin'],'method': jsonAnswer['method'],\
+                                         'body': jsonAnswer['body'],'client_uuid': self.client_uuid,\
+                                         'from': jsonData['from']}))
 
 class JarvisFactory(Factory):
     def __init__(self):
@@ -33,19 +51,20 @@ class JarvisFactory(Factory):
             print "Successfully loaded bot"
         except:
             print "Couldn't load bot"
+        self.clients = []
 
-        configuration = json.load(open('Plugins/Configuration/jarvis.json'))
         for root, dirnames, filenames in os.walk('Plugins'):
             for filename in fnmatch.filter(filenames, '*.rs'):
                 if os.path.normpath('lang/'+configuration['lang']) in root or filename=='begin.rs':
                     self.bot_library.learn(root)
 
     def buildProtocol(self, addr):
-        return Jarvis(self.bot_library)
+        return Jarvis(self,self.bot_library)
 
 class JarvisClient(Protocol):
     def __init__(self, WebSocketProtocol):
         self.WebSocketProtocol = WebSocketProtocol
+
     def sendMessage(self, msg):
         self.transport.write(msg)
 
@@ -76,12 +95,12 @@ class JarvisClientFactory(ReconnectingClientFactory):
 class WebSocketProtocol(WebSocketServerProtocol):
     def connectionMade(self):
         self.jarvisclientfactory = JarvisClientFactory(self)
-        reactor.connectTCP("localhost", 10042, self.jarvisclientfactory)
+        reactor.connectTCP(configuration['jarvis_url'], 10042, self.jarvisclientfactory)
         WebSocketServerProtocol.connectionMade(self)
 
     def onMessage(self, msg, binary):
         self.jarvisclientfactory.protocol.sendMessage(json.dumps( \
-            {"from": "Jarvis-Web","type": "Chat", "body": unicode(msg.decode('utf-8'))}))
+            {"from": "Jarvis-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
 
 class Root(resource.Resource):
     def __init__(self, wsgi_resource):
@@ -113,7 +132,7 @@ root = Root(wsgi_root)
 staticrsrc = static.File(os.path.join(os.path.abspath("."), "web/jarvis/static"))
 root.putChild("static", staticrsrc)
 
-socketfactory = WebSocketServerFactory("ws://localhost:8000", debug = False)
+socketfactory = WebSocketServerFactory("ws://"+configuration['jarvis_url']+":8000", debug = False)
 socketfactory.protocol = WebSocketProtocol
 socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)

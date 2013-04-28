@@ -12,7 +12,10 @@ class Cinema:
         for salle in configuration['salles']:
             if salle['enabled'] == 'True':
                 film_str += u" Dans la salle "+ salle['name'] +u" sont joués les films : "
-                soup = BeautifulSoup(urllib.urlopen(configuration['url_' + salle['type']] + salle['id']), "lxml")
+                #lxml improve speed but need to be installed
+                #soup = BeautifulSoup(urllib.urlopen(configuration['url_' + salle['type']] + salle['id']),"lxml")
+                soup = BeautifulSoup(urllib.urlopen(configuration['url_' + salle['type']] + salle['id']))
                 if salle['type'] == "Gaumont":
                     film_str += u' puis '.join(unicode(film.get_text()) for film in soup.find_all("p", class_="titre"))
-        return film_str
+        return json.dumps({"plugin": "Cinema","method": "getFilms", \
+                           "body": film_str})

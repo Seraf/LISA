@@ -56,9 +56,10 @@ class JarvisBotProtocol(MessageProtocol):
 
     def sendAnswer(self,data):
         jsonData = json.loads(data)
+        print jsonData
         reply = domish.Element((None, "message"))
         reply["to"] = jsonData["from"]
-        reply["type"] = jsonData["type"]
+        reply["type"] = "chat"
         reply.addElement("body", content=unicode(jsonData["body"]))
         self.send(reply)
 
@@ -66,7 +67,7 @@ class JarvisBotProtocol(MessageProtocol):
         for id in whitelist:
             if msg["type"] == 'chat' and hasattr(msg, "body") and msg.body is not None and id.text in msg['from']:
                 self.jarvisclientfactory.protocol.sendMessage(json.dumps( \
-                    {"from": msg["from"],"type": msg["type"], "body": unicode(msg.body)}))
+                    {"from": msg["from"],"type": msg["type"], "body": unicode(msg.body), "zone": "Gtalk"}))
 
 jid = JID(account[0].text+"/"+botname.text)
 secret = account[1].text

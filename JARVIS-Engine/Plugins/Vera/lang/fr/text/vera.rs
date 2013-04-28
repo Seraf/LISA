@@ -1,6 +1,9 @@
 + quelle temperature fait il dans * ?
 - <call>gettemperature <star></call>
 
++ quel température fait-il dans *
+@ quelle temperature fait il dans * ?
+
 > object gettemperature python
     import sys, os, inspect
     cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split( \

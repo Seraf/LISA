@@ -82,4 +82,5 @@ class Google:
                 list_event_str = list_event_str + u" puis "
             list_event_str = list_event_str + event_summary+u" à " + event_time.strftime("%H") +u" heure "+ event_time.strftime("%M")
             first = False
-        return list_event_str
+        return json.dumps({"plugin": "google","method": "getCalendars",\
+                           "body": list_event_str})

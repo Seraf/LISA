@@ -1,0 +1,9 @@
+{
+    "lang": "fr",
+    "jarvis_url": "localhost",
+    "database": {
+        "server": "localhost",
+        "user": "jarvis",
+        "pass": "jarvispowered"
+    }
+}
