@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 import os,fnmatch,libs,json,sys,uuid
-from twisted.internet.protocol import Factory, Protocol, ReconnectingClientFactory
+from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static, resource
@@ -40,6 +40,7 @@ class Jarvis(Protocol):
             jsonAnswer = json.loads(answer)
         except:
             jsonAnswer = json.loads(json.dumps({"plugin": "Chat","method": "Chat","body": answer}))
+        #HERE SHOULD BE THE RULES ENGINE
         self.transport.write(json.dumps({'plugin': jsonAnswer['plugin'],'method': jsonAnswer['method'],\
                                          'body': jsonAnswer['body'],'client_uuid': self.client_uuid,\
                                          'from': jsonData['from']}))
@@ -61,47 +62,6 @@ class JarvisFactory(Factory):
     def buildProtocol(self, addr):
         return Jarvis(self,self.bot_library)
 
-class JarvisClient(Protocol):
-    def __init__(self, WebSocketProtocol):
-        self.WebSocketProtocol = WebSocketProtocol
-
-    def sendMessage(self, msg):
-        self.transport.write(msg)
-
-    def dataReceived(self, data):
-        self.WebSocketProtocol.sendMessage(data)
-
-class JarvisClientFactory(ReconnectingClientFactory):
-    def __init__(self, WebSocketProtocol):
-        self.WebSocketProtocol = WebSocketProtocol
-    def startedConnecting(self, connector):
-        print 'Started to connect.'
-
-    def buildProtocol(self, addr):
-        self.protocol = JarvisClient(self.WebSocketProtocol)
-        print 'Connected to Jarvis.'
-        print 'Resetting reconnection delay'
-        self.resetDelay()
-        return self.protocol
-
-    def clientConnectionLost(self, connector, reason):
-        print 'Lost connection.  Reason:', reason
-        ReconnectingClientFactory.clientConnectionLost(self, connector, reason)
-
-    def clientConnectionFailed(self, connector, reason):
-        print 'Connection failed. Reason:', reason
-        ReconnectingClientFactory.clientConnectionFailed(self, connector, reason)
-
-class WebSocketProtocol(WebSocketServerProtocol):
-    def connectionMade(self):
-        self.jarvisclientfactory = JarvisClientFactory(self)
-        reactor.connectTCP(configuration['jarvis_url'], 10042, self.jarvisclientfactory)
-        WebSocketServerProtocol.connectionMade(self)
-
-    def onMessage(self, msg, binary):
-        self.jarvisclientfactory.protocol.sendMessage(json.dumps( \
-            {"from": "Jarvis-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
-
 class Root(resource.Resource):
     def __init__(self, wsgi_resource):
         resource.Resource.__init__(self)
@@ -115,10 +75,21 @@ class Root(resource.Resource):
 def wsgi_resource():
     pool = threadpool.ThreadPool()
     pool.start()
-    # Allow Ctrl-C to get you out cleanly:
     reactor.addSystemEventTrigger('after', 'shutdown', pool.stop)
     wsgi_resource = wsgi.WSGIResource(reactor, pool, WSGIHandler())
     return wsgi_resource
+
+class WebSocketProtocol(WebSocketServerProtocol):
+    def connectionMade(self):
+        WebSocketServerProtocol.connectionMade(self)
+        self.jarvisclientfactory = libs.JarvisClientFactory(self)
+        reactor.connectTCP(configuration['jarvis_url'], configuration['jarvis_engine_port'], \
+                           self.jarvisclientfactory)
+
+    def onMessage(self, msg, binary):
+        self.jarvisclientfactory.protocol.sendMessage(json.dumps( \
+            {"from": "Jarvis-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
+
 # Twisted Application Framework setup:
 application = service.Application('JARVIS')
 
@@ -132,11 +103,12 @@ root = Root(wsgi_root)
 staticrsrc = static.File(os.path.join(os.path.abspath("."), "web/jarvis/static"))
 root.putChild("static", staticrsrc)
 
-socketfactory = WebSocketServerFactory("ws://"+configuration['jarvis_url']+":8000", debug = False)
+socketfactory = WebSocketServerFactory("ws://" + configuration['jarvis_url'] + ":" +\
+                                       str(configuration['jarvis_web_port']),debug=True)
 socketfactory.protocol = WebSocketProtocol
 socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)
 
 # Serve it up:
-internet.TCPServer(8000, server.Site(root)).setServiceParent(application)
-internet.TCPServer(10042, JarvisFactory()).setServiceParent(application)
+internet.TCPServer(configuration['jarvis_web_port'], server.Site(root)).setServiceParent(application)
+internet.TCPServer(configuration['jarvis_engine_port'], JarvisFactory()).setServiceParent(application)

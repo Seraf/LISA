@@ -1,6 +1,8 @@
 {
     "lang": "fr",
     "jarvis_url": "localhost",
+    "jarvis_engine_port": 10042,
+    "jarvis_web_port": 8000,
     "database": {
         "server": "localhost",
         "user": "jarvis",
