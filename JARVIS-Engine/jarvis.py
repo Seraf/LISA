@@ -40,10 +40,8 @@ class Jarvis(Protocol):
             jsonAnswer = json.loads(answer)
         except:
             jsonAnswer = json.loads(json.dumps({"plugin": "Chat","method": "Chat","body": answer}))
-        #HERE SHOULD BE THE RULES ENGINE
-        self.transport.write(json.dumps({'plugin': jsonAnswer['plugin'],'method': jsonAnswer['method'],\
-                                         'body': jsonAnswer['body'],'client_uuid': self.client_uuid,\
-                                         'from': jsonData['from']}))
+        libs.RulesEngine(configuration).Rules(jsonData, jsonAnswer, self)
+
 
 class JarvisFactory(Factory):
     def __init__(self):
@@ -104,7 +102,7 @@ staticrsrc = static.File(os.path.join(os.path.abspath("."), "web/jarvis/static")
 root.putChild("static", staticrsrc)
 
 socketfactory = WebSocketServerFactory("ws://" + configuration['jarvis_url'] + ":" +\
-                                       str(configuration['jarvis_web_port']),debug=True)
+                                       str(configuration['jarvis_web_port']),debug=False)
 socketfactory.protocol = WebSocketProtocol
 socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)

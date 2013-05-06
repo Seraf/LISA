@@ -35,18 +35,18 @@ Rules engines should include :
 
 INSTALL
 ======
-The easiest way is to run install.sh. As it's open source, you can see it will only install python packages necessary to run J.A.R.V.I.S.
-Now, install the last version of rivescript with :
+The easiest way is to run the installer. As it's open source, you can see it will only install python packages necessary to run J.A.R.V.I.S.
+You need to be in the top directory (JARVIS) where there is the README.md file.
 <pre>
-git submodule update --init
+sh install/install.sh
 </pre>
 Then, go into JARVIS-ENGINE and run :
 <pre>
 twistd -ny server.py
 </pre>
-You should be able to go to http://localhost:8000/speech/ (a webinterface will come soon).
+You should be able to go to http://localhost:8000/speech/ (a webinterface will come soon and the twisted program will be daemonized as a service in the future).
 
-If you want to test (you will need to configure you personal data (create a gtalk account)), you can connect a GTALK Bot to J.A.R.V.I.S :
+If you want to test (you will need to configure your personal data (create a gtalk account)), you can connect a GTALK Bot to J.A.R.V.I.S :
 <pre>
 twist -ny JarvisTalkBot.py
 </pre>

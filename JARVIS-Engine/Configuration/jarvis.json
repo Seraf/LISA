@@ -5,6 +5,7 @@
     "jarvis_web_port": 8000,
     "database": {
         "server": "localhost",
+        "port": 27017,
         "user": "jarvis",
         "pass": "jarvispowered"
     }
