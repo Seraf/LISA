@@ -5,7 +5,7 @@
     <script src="/static/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript">
         var sock = null;
-        var wsuri = "ws://localhost:8000/websocket";
+        var wsuri = "ws://"+$(location).attr('host')+"/websocket";
 
         window.onload = function() {
 
