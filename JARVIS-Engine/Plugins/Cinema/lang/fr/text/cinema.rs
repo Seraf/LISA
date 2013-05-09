@@ -1,6 +1,8 @@
 + il y a quoi au cinema [*]
 - <call>getfilms</call>
 
++ il ya quoi au cinéma [*]
+@ il y a quoi au cinema [*]
 > object getfilms python
 import sys, os, inspect
 cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split( \

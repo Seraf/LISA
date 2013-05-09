@@ -14,6 +14,18 @@ scheduler = Scheduler()
 scheduler.start()
 configuration = json.load(open('Configuration/jarvis.json'))
 
+class ThreadPoolService(service.Service):
+    def __init__(self, pool):
+        self.pool = pool
+
+    def startService(self):
+        service.Service.startService(self)
+        self.pool.start()
+
+    def stopService(self):
+        service.Service.stopService(self)
+        self.pool.stop()
+
 class Jarvis(Protocol):
     def __init__(self,factory, bot_library):
         self.factory = factory
@@ -62,6 +74,7 @@ class JarvisFactory(Factory):
 
 class Root(resource.Resource):
     def __init__(self, wsgi_resource):
+        print wsgi_resource
         resource.Resource.__init__(self)
         self.wsgi_resource = wsgi_resource
 
@@ -69,13 +82,6 @@ class Root(resource.Resource):
         path0 = request.prepath.pop(0)
         request.postpath.insert(0, path0)
         return self.wsgi_resource
-
-def wsgi_resource():
-    pool = threadpool.ThreadPool()
-    pool.start()
-    reactor.addSystemEventTrigger('after', 'shutdown', pool.stop)
-    wsgi_resource = wsgi.WSGIResource(reactor, pool, WSGIHandler())
-    return wsgi_resource
 
 class WebSocketProtocol(WebSocketServerProtocol):
     def connectionMade(self):
@@ -95,8 +101,13 @@ application = service.Application('JARVIS')
 sys.path.append(os.path.join(os.path.abspath("."), "web"))
 sys.path.append(os.path.join(os.path.abspath("."), "web/jarvis"))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'web.jarvis.settings'
-wsgi_root = wsgi_resource()
-root = Root(wsgi_root)
+
+multi = service.MultiService()
+pool = threadpool.ThreadPool()
+tps = ThreadPoolService(pool)
+tps.setServiceParent(multi)
+resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
+root = Root(resource_wsgi)
 
 staticrsrc = static.File(os.path.join(os.path.abspath("."), "web/jarvis/static"))
 root.putChild("static", staticrsrc)
@@ -108,5 +119,6 @@ socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)
 
 # Serve it up:
-internet.TCPServer(configuration['jarvis_web_port'], server.Site(root)).setServiceParent(application)
-internet.TCPServer(configuration['jarvis_engine_port'], JarvisFactory()).setServiceParent(application)
+internet.TCPServer(configuration['jarvis_web_port'], server.Site(root)).setServiceParent(multi)
+internet.TCPServer(configuration['jarvis_engine_port'], JarvisFactory()).setServiceParent(multi)
+multi.setServiceParent(application)
