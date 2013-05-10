@@ -8,10 +8,8 @@ from twisted.python import threadpool
 from django.core.handlers.wsgi import WSGIHandler
 from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from autobahn.resource import WebSocketResource
-from apscheduler.scheduler import Scheduler
 
-scheduler = Scheduler()
-scheduler.start()
+
 configuration = json.load(open('Configuration/jarvis.json'))
 
 class ThreadPoolService(service.Service):
@@ -30,7 +28,6 @@ class Jarvis(Protocol):
     def __init__(self,factory, bot_library):
         self.factory = factory
         self.bot_library = bot_library
-        self.scheduler = scheduler
 
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
@@ -74,7 +71,6 @@ class JarvisFactory(Factory):
 
 class Root(resource.Resource):
     def __init__(self, wsgi_resource):
-        print wsgi_resource
         resource.Resource.__init__(self)
         self.wsgi_resource = wsgi_resource
 
