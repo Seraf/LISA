@@ -1,4 +1,5 @@
-! version = 2.0
+! var name = jarvis
+! global debug = true
 
 + *
 - Пожалуйста, продолжайте.

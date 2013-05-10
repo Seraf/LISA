@@ -1,3 +1,6 @@
+! var name = jarvis
+! global debug = true
+
 + il est quelle heure[*]
 - <call>gettime</call>
 

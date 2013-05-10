@@ -1,0 +1,8 @@
+{
+    "name": "ChatterBot",
+    "version": "1.0",
+    "author": "Julien Syx",
+    "enabled": 1,
+    "lang": ["fr","en","ru"],
+    "configuration": {}
+}

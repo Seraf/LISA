@@ -1,20 +1,23 @@
 # -*- coding: UTF-8 -*-
 import urllib, json
 from bs4 import BeautifulSoup
+from pymongo import MongoClient
 
 class SNCF:
     def __init__(self):
-        pass
+        self.configuration_jarvis = json.load(open('Configuration/jarvis.json'))
+        mongo = MongoClient(self.configuration_jarvis['database']['server'], \
+                            self.configuration_jarvis['database']['port'])
+        self.configuration = mongo.jarvis.plugins.find_one({"name": "SNCF"})
 
     def getTrains(self):
-        configuration = json.load(open('Plugins/Configuration/sncf.json'))
         #lxml improve speed but need to be installed
         #soup = BeautifulSoup(urllib.urlopen(configuration['url'],"lxml"))
-        soup = BeautifulSoup(urllib.urlopen(configuration['url']))
+        soup = BeautifulSoup(urllib.urlopen(self.configuration['configuration']['url']))
         list_problemRSS = soup.find_all("title")
         list_problem_filter = []
         for problem in list_problemRSS:
-            for ligne in configuration['lignes']:
+            for ligne in self.configuration['configuration']['lignes']:
                 if ligne['name'] in problem.get_text() and ligne['enabled'] == 'True':
                     list_problem_filter.append(unicode(problem.get_text()))
         if not list_problem_filter:

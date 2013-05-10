@@ -7,14 +7,15 @@ from oauth2client.file import Storage
 from oauth2client.client import OAuth2WebServerFlow
 from oauth2client.tools import run
 import json
-
+from pymongo import MongoClient
 
 class Google:
     def __init__(self):
-        pass
+        mongo = MongoClient(self.configuration_jarvis['database']['server'], \
+                            self.configuration_jarvis['database']['port'])
+        self.configuration = mongo.jarvis.plugins.find_one({"name": "Google"})
 
     def getCalendars(self,args):
-        configuration = json.load(open('Plugins/Configuration/google.json'))
         FLAGS = gflags.FLAGS
 
         # Set up a Flow object to be used if we need to authenticate. This
@@ -25,8 +26,8 @@ class Google:
         # The client_id and client_secret are copied from the API Access tab on
         # the Google APIs Console
         FLOW = OAuth2WebServerFlow(
-            client_id=configuration['account']['client_id'],
-            client_secret=configuration['account']['client_secret'],
+            client_id=self.configuration['configuration']['account']['client_id'],
+            client_secret=self.configuration['configuration']['account']['client_secret'],
             scope='https://www.googleapis.com/auth/calendar',
             user_agent='JARVIS/0.1')
 
@@ -50,12 +51,12 @@ class Google:
         # the Google APIs Console
         # to get a developerKey for your own application.
         service = build(serviceName='calendar', version='v3', http=http,
-                        developerKey=configuration['account']['developer_key'])
+                        developerKey=self.configuration['configuration']['account']['developer_key'])
 
         event_list = {}
         today = date.today()
         tomorrow = today + timedelta(days=1)
-        for calendar in configuration['account']['calendars']:
+        for calendar in self.configuration['configuration']['account']['calendars']:
             page_token = None
             while True:
                 events = service.events().list(calendarId=calendar['id'],pageToken=page_token).execute()

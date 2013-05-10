@@ -8,7 +8,7 @@ from twisted.python import threadpool
 from django.core.handlers.wsgi import WSGIHandler
 from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from autobahn.resource import WebSocketResource
-
+from pymongo import MongoClient
 
 configuration = json.load(open('Configuration/jarvis.json'))
 
@@ -61,10 +61,60 @@ class JarvisFactory(Factory):
             print "Couldn't load bot"
         self.clients = []
 
-        for root, dirnames, filenames in os.walk('Plugins'):
-            for filename in fnmatch.filter(filenames, '*.rs'):
-                if os.path.normpath('lang/'+configuration['lang']) in root or filename=='begin.rs':
-                    self.bot_library.learn(root)
+        mongo = MongoClient(configuration['database']['server'], configuration['database']['port'])
+        self.database = mongo.jarvis
+
+        # Install the default Chatterbot plugin
+        self.build_default_plugin()
+
+        # Load enabled plugins for the main language
+        for plugin in self.database.plugins.find( { "enabled": 1 , "lang": configuration['lang'] } ):
+            print os.path.normpath('Plugins/' + plugin['name'] + '/lang/' \
+                                   + configuration['lang'] + '/text')
+            self.bot_library.learn(os.path.normpath('Plugins/' + plugin['name'] + '/lang/' \
+                                                    + configuration['lang'] + '/text'))
+
+    def build_default_plugin(self):
+        try:
+            with open('Plugins/ChatterBot/chatterbot.json'):
+                chatterbot_configuration    =   json.load(open('Plugins/ChatterBot/chatterbot.json'))
+                key_defaulplugin            =   { "name": chatterbot_configuration['name'] }
+                data_defaultplugin          =   chatterbot_configuration
+                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
+
+            # The part below will disappear when everything will be manageable from the web interface
+            with open('Plugins/Cinema/cinema.json'):
+                cinema_configuration    =   json.load(open('Plugins/Cinema/cinema.json'))
+                key_defaulplugin            =   { "name": cinema_configuration['name'] }
+                data_defaultplugin          =   cinema_configuration
+                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
+
+            with open('Plugins/Google/google.json'):
+                google_configuration    =   json.load(open('Plugins/Google/google.json'))
+                key_defaulplugin            =   { "name": google_configuration['name'] }
+                data_defaultplugin          =   google_configuration
+                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
+
+            with open('Plugins/ProgrammeTV/programmetv.json'):
+                programmetv_configuration    =   json.load(open('Plugins/ProgrammeTV/programmetv.json'))
+                key_defaulplugin            =   { "name": programmetv_configuration['name'] }
+                data_defaultplugin          =   programmetv_configuration
+                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
+
+            with open('Plugins/SNCF/sncf.json'):
+                sncf_configuration    =   json.load(open('Plugins/SNCF/sncf.json'))
+                key_defaulplugin            =   { "name": sncf_configuration['name'] }
+                data_defaultplugin          =   sncf_configuration
+                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
+
+            with open('Plugins/Vera/vera.json'):
+                vera_configuration    =   json.load(open('Plugins/Vera/vera.json'))
+                key_defaulplugin            =   { "name": vera_configuration['name'] }
+                data_defaultplugin          =   vera_configuration
+                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
+
+        except IOError:
+            pass
 
     def buildProtocol(self, addr):
         return Jarvis(self,self.bot_library)
@@ -83,8 +133,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
     def connectionMade(self):
         WebSocketServerProtocol.connectionMade(self)
         self.jarvisclientfactory = libs.JarvisClientFactory(self)
-        reactor.connectTCP(configuration['jarvis_url'], configuration['jarvis_engine_port'], \
-                           self.jarvisclientfactory)
+        reactor.connectTCP(configuration['jarvis_url'], configuration['jarvis_engine_port'], self.jarvisclientfactory)
 
     def onMessage(self, msg, binary):
         self.jarvisclientfactory.protocol.sendMessage(json.dumps( \

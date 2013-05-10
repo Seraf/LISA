@@ -1,0 +1,20 @@
+{
+    "name": "Google",
+    "version": "1.0",
+    "author": "Julien Syx",
+    "enabled": 1,
+    "lang": ["fr"],
+    "configuration": {
+        "account": {
+            "email": "jarvis.systeme@gmail.com",
+            "password": "jarvispowered",
+            "client_id": "779399468423.apps.googleusercontent.com",
+            "client_secret": "YzGpGCXABzZAO4pfD_ZV4q_d",
+            "developer_key": "AIzaSyAOdvOzmU3VkyDKj4baRYbZ3y8HM2Alc64",
+            "calendars": [
+                {"name": "Domotique", "id": "9h02ddqhfol3luc1gj1nfs522s@group.calendar.google.com"},
+                {"name": "Domotique2", "id": "6al008cnsbu8d4182q6q1q8npc@group.calendar.google.com"}
+            ]
+        }
+    }
+}
