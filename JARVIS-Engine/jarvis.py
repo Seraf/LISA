@@ -113,6 +113,12 @@ class JarvisFactory(Factory):
                 data_defaultplugin          =   vera_configuration
                 self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
 
+            with open('Plugins/Izipedia/izipedia.json'):
+                izipedia_configuration      =   json.load(open('Plugins/Izipedia/izipedia.json'))
+                key_defaulplugin            =   { "name": izipedia_configuration['name'] }
+                data_defaultplugin          =   izipedia_configuration
+                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
+
         except IOError:
             pass
 

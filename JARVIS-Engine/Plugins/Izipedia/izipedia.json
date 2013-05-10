@@ -1,0 +1,13 @@
+{
+    "name": "Izipedia",
+    "version": "1.0",
+    "author": "Julien Syx",
+    "enabled": 1,
+    "lang": ["fr"],
+    "configuration": {
+        "user_id": "XXXX",
+        "secret_key": "XXXXXXXXXXX",
+        "ip_adress": "XXX.XXX.XXX.XXX",
+        "api_format": "json"
+    }
+}
