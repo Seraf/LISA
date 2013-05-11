@@ -119,6 +119,12 @@ class JarvisFactory(Factory):
                 data_defaultplugin          =   izipedia_configuration
                 self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
 
+            with open('Plugins/BBox/bbox.json'):
+                bbox_configuration      =   json.load(open('Plugins/BBox/bbox.json'))
+                key_defaulplugin            =   { "name": bbox_configuration['name'] }
+                data_defaultplugin          =   bbox_configuration
+                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
+
         except IOError:
             pass
 

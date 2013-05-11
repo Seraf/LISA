@@ -15,3 +15,4 @@ django-celery>=3.0
 celery-with-mongodb>=3.0
 django-celery-with-mongodb>=3.0
 requests>=1.2.0
+pysnmp>=4.2.4

@@ -1,0 +1,12 @@
+{
+    "name": "BBox",
+    "version": "1.0",
+    "author": "Julien Syx",
+    "enabled": 1,
+    "lang": ["fr"],
+    "configuration": {
+        "ip": "192.168.1.1",
+        "oid": "1.3.6.1.4.1.8711.101.13.1.3.28.0",
+        "community": "public"
+    }
+}
