@@ -5,7 +5,7 @@ from pysnmp.carrier.asynsock.dispatch import AsynsockDispatcher
 from pysnmp.carrier.asynsock.dgram import udp
 from pyasn1.codec.ber import encoder, decoder
 from pysnmp.proto import api
-from time import time
+from time import time, sleep
 
 class SNMP:
     def __init__(self):
@@ -65,7 +65,6 @@ class SNMP:
         transportDispatcher.runDispatcher()
         transportDispatcher.closeDispatcher()
 
-
 class BBox:
     def __init__(self):
         self.configuration_jarvis = json.load(open('Configuration/jarvis.json'))
@@ -86,6 +85,19 @@ class BBox:
             "dix": ["50","59"],
             "onze": ["50","50"],
             "douze": ["50","51"],
+            "suivante": ["25"],
+            "précédente": ["26"],
+            "precedente": ["26"]
+        }
+        self.actions = {
+            "augmente": ["27"],
+            "augmenter": ["27"],
+            "monte": ["27"],
+            "monter": ["27"],
+            "baisse": ["28"],
+            "baisser": ["28"],
+            "descend": ["28"],
+            "descendre": ["28"]
         }
 
     def change_channel(self, args):
@@ -100,13 +112,84 @@ class BBox:
                             "body": u"Chaine changée"})
 
     def change_volume(self, args):
+        action = str(args[0]).strip()
+        for order in self.actions[action]:
+            self.snmp.send( host=str(self.configuration['configuration']['ip']),                \
+                            community=str(self.configuration['configuration']['community']),    \
+                            oid=str(self.configuration['configuration']['oid']),                \
+                            value=str(order)
+            )
+        if order == "27":
+            body = u"augmenté"
+        else:
+            body = u"baissé"
         return json.dumps({ "plugin": "BBox","method": "change_volume",                         \
-                            "body": ""})
+                            "body": u"Volume " + body})
 
     def rec_channel(self, args):
-        return json.dumps({ "plugin": "BBox","method": "rec_channel",                           \
-                            "body": ""})
+        # Should review the record, the best should be to record from an hour to another hour
+        # instead of using the record built by Bouygues
+        number = str(args[0]).strip()
+        if number == "cette":
+            #Send REC
+            self.snmp.send( host=str(self.configuration['configuration']['ip']),                \
+                            community=str(self.configuration['configuration']['community']),    \
+                            oid=str(self.configuration['configuration']['oid']),                \
+                            value=str("24")
+            )
+            sleep(2)
+            #Send OK
+            self.snmp.send( host=str(self.configuration['configuration']['ip']), \
+                            community=str(self.configuration['configuration']['community']), \
+                            oid=str(self.configuration['configuration']['oid']), \
+                            value=str("7")
+            )
+            return json.dumps({ "plugin": "BBox","method": "rec_channel",                       \
+                                "body": u"Enregistrement en cours de la chaîne en cours" })
+        else:
+            for chaine in self.chaines[number]:
+                self.snmp.send( host=str(self.configuration['configuration']['ip']),            \
+                                community=str(self.configuration['configuration']['community']),\
+                                oid=str(self.configuration['configuration']['oid']),            \
+                                value=str(chaine)
+            )
+            # Enregistrement
+            #Send REC
+            self.snmp.send( host=str(self.configuration['configuration']['ip']), \
+                            community=str(self.configuration['configuration']['community']), \
+                            oid=str(self.configuration['configuration']['oid']), \
+                            value=str("24")
+            )
+            sleep(2)
+            #Send OK
+            self.snmp.send( host=str(self.configuration['configuration']['ip']), \
+                            community=str(self.configuration['configuration']['community']), \
+                            oid=str(self.configuration['configuration']['oid']), \
+                            value=str("7")
+            )
+            return json.dumps({ "plugin": "BBox","method": "rec_channel",                       \
+                                "body": u"Enregistrement en cours de la chaîne " + number + u" en cours" })
 
     def pause_channel(self, args):
-        return json.dumps({ "plugin": "BBox","method": "pause_channel",                         \
-                            "body": ""})
+        number = str(args[0]).strip()
+        self.snmp.send( host=str(self.configuration['configuration']['ip']), \
+                        community=str(self.configuration['configuration']['community']), \
+                        oid=str(self.configuration['configuration']['oid']), \
+                        value=str("20")
+        )
+        sleep(2)
+        for chaine in self.chaines[number]:
+            self.snmp.send( host=str(self.configuration['configuration']['ip']), \
+                            community=str(self.configuration['configuration']['community']), \
+                            oid=str(self.configuration['configuration']['oid']), \
+                            value=str(chaine)
+            )
+        sleep(6)
+
+        self.snmp.send( host=str(self.configuration['configuration']['ip']), \
+                        community=str(self.configuration['configuration']['community']), \
+                        oid=str(self.configuration['configuration']['oid']), \
+                        value=str("23")
+        )
+        return json.dumps({ "plugin": "BBox","method": "pause_channel", \
+                            "body": u"Chaine mise en pause"})

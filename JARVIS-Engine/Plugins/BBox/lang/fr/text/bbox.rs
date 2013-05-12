@@ -15,7 +15,7 @@
 + enregistre la (@chaines)[*]
 - <call>rec_channel <star></call>
 
-+ met sur pause *
++ met sur pause*
 - <call>pause_channel <star></call>
 
 + met sur pause la (@chaines)[*]
