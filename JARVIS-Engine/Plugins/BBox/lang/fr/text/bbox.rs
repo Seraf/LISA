@@ -15,8 +15,8 @@
 + enregistre la (@chaines)[*]
 - <call>rec_channel <star></call>
 
-+ met sur pause*
-- <call>pause_channel <star></call>
++ met sur pause
+- <call>pause_channel</call>
 
 + met sur pause la (@chaines)[*]
 - <call>pause_channel <star></call>
@@ -63,5 +63,8 @@ if cmd_subfolder not in sys.path:
     sys.path.insert(0, cmd_subfolder)
 
 from bbox import BBox
-return BBox().pause_channel(args)
+if args:
+    return BBox().pause_channel(args)
+else:
+    return BBox().pause_channel()
 < object

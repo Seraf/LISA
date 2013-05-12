@@ -153,6 +153,7 @@ class BBox:
                                 oid=str(self.configuration['configuration']['oid']),            \
                                 value=str(chaine)
             )
+            sleep(3)
             # Enregistrement
             #Send REC
             self.snmp.send( host=str(self.configuration['configuration']['ip']), \
@@ -170,21 +171,22 @@ class BBox:
             return json.dumps({ "plugin": "BBox","method": "rec_channel",                       \
                                 "body": u"Enregistrement en cours de la chaîne " + number + u" en cours" })
 
-    def pause_channel(self, args):
-        number = str(args[0]).strip()
+    def pause_channel(self, args=None):
         self.snmp.send( host=str(self.configuration['configuration']['ip']), \
                         community=str(self.configuration['configuration']['community']), \
                         oid=str(self.configuration['configuration']['oid']), \
                         value=str("20")
         )
         sleep(2)
-        for chaine in self.chaines[number]:
-            self.snmp.send( host=str(self.configuration['configuration']['ip']), \
-                            community=str(self.configuration['configuration']['community']), \
-                            oid=str(self.configuration['configuration']['oid']), \
-                            value=str(chaine)
-            )
-        sleep(6)
+        if args:
+            number = str(args[0]).strip()
+            for chaine in self.chaines[number]:
+                self.snmp.send( host=str(self.configuration['configuration']['ip']), \
+                                community=str(self.configuration['configuration']['community']), \
+                                oid=str(self.configuration['configuration']['oid']), \
+                                value=str(chaine)
+                )
+            sleep(6)
 
         self.snmp.send( host=str(self.configuration['configuration']['ip']), \
                         community=str(self.configuration['configuration']['community']), \
