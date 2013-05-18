@@ -7,7 +7,6 @@
     "configuration": {
         "user_id": "XXXX",
         "secret_key": "XXXXXXXXXXX",
-        "ip_adress": "XXX.XXX.XXX.XXX",
         "api_format": "json"
     }
 }
