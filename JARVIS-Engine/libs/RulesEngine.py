@@ -12,9 +12,13 @@ class RulesEngine():
         data_defaultanswer =    {
                                     "name": "DefaultAnwser",    \
                                     "order": 999,               \
-                                    "if": None,                 \
-                                    "operator": None,           \
-                                    "compare": None,            \
+                                    "conditions": [
+                                                    {
+                                                        "if": '1',                  \
+                                                        "operator": '==',           \
+                                                        "compare": '1',             \
+                                                    }
+                                                  ],
                                     "then": "jarvisprotocol.transport.write(json.dumps(                     \
                                                     {                                                       \
                                                         'plugin': jsonAnswer['plugin'],                     \
@@ -30,6 +34,11 @@ class RulesEngine():
     def Rules(self, jsonData, jsonAnswer, jarvisprotocol):
         rulescollection = self.database.rules
         for rule in rulescollection.find().sort([("order", 1)]):
-            eval(rule['then'])
+            # should build a if string by recursively parsing conditions
+            # condition = self.build_condition(conditions=rule['conditions'])
+            for condition in rule['conditions']:
+                condition_string = 'if ' + condition['if'] + ' ' + condition['operator'] + ' ' +            \
+                                   condition['compare'] + ': '
+                exec(condition_string + rule['then'])
             if rule['end']:
                 break
