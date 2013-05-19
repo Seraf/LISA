@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-import os,fnmatch,libs,json,sys,uuid
+import os,libs,json,sys,uuid
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
 from twisted.application import internet, service

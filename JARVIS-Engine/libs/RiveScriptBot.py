@@ -6,7 +6,6 @@ rivescript_failed_responses = set(["ERR: No Reply Found" , "ERR: No Reply Matche
 class RiveScriptBot():
     def respond_to(self, text, user="localuser"):
         response = self.k.reply(user,text)
-        # SET HERE A RULE ENGINE. Should think about return a json string with the name of the module, the tts ...
         if response in rivescript_failed_responses:
             response = failed_response
         return response
