@@ -66,7 +66,9 @@ class JarvisFactory(Factory):
 
         # Install the default Chatterbot plugin
         self.build_default_plugin()
+        self.build_grammar()
 
+    def build_grammar(self):
         # Load enabled plugins for the main language
         for plugin in self.database.plugins.find( { "enabled": 1 , "lang": configuration['lang'] } ):
             print os.path.normpath('Plugins/' + plugin['name'] + '/lang/' \
@@ -129,7 +131,8 @@ class JarvisFactory(Factory):
             pass
 
     def buildProtocol(self, addr):
-        return Jarvis(self,self.bot_library)
+        self.Jarvis = Jarvis(self,self.bot_library)
+        return self.Jarvis
 
 class Root(resource.Resource):
     def __init__(self, wsgi_resource):
@@ -151,8 +154,23 @@ class WebSocketProtocol(WebSocketServerProtocol):
         self.jarvisclientfactory.protocol.sendMessage(json.dumps( \
             {"from": "Jarvis-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
 
+class JarvisReload(resource.Resource):
+    def __init__(self, JarvisFactory):
+        self.JarvisFactory = JarvisFactory
+        resource.Resource.__init__(self)
+
+    def getChild(self, path, request):
+        self.JarvisFactory.build_grammar()
+        return "OK"
+
+    def render_GET(self, request):
+        self.JarvisFactory.build_grammar()
+        return "OK"
+
 # Twisted Application Framework setup:
 application = service.Application('JARVIS')
+
+JarvisFactory = JarvisFactory()
 
 # Environment setup for Django project files:
 sys.path.append(os.path.join(os.path.abspath("."), "web"))
@@ -168,6 +186,7 @@ root = Root(resource_wsgi)
 
 staticrsrc = static.File(os.path.join(os.path.abspath("."), "web/jarvis/static"))
 root.putChild("static", staticrsrc)
+root.putChild("reload", JarvisReload(JarvisFactory))
 
 socketfactory = WebSocketServerFactory("ws://" + configuration['jarvis_url'] + ":" +\
                                        str(configuration['jarvis_web_port']),debug=False)
@@ -177,5 +196,5 @@ root.putChild("websocket", socketresource)
 
 # Serve it up:
 internet.TCPServer(configuration['jarvis_web_port'], server.Site(root)).setServiceParent(multi)
-internet.TCPServer(configuration['jarvis_engine_port'], JarvisFactory()).setServiceParent(multi)
+internet.TCPServer(configuration['jarvis_engine_port'], JarvisFactory).setServiceParent(multi)
 multi.setServiceParent(application)
