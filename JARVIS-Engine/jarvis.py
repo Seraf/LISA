@@ -175,7 +175,7 @@ application = service.Application('JARVIS')
 # Instance of JarvisFactory to pass it to other services
 JarvisFactory = JarvisFactory()
 # Create a task manager to pass it to other services
-taskman = ScheduledTaskManager()
+taskman = ScheduledTaskManager(configuration)
 scheduler = ScheduledTaskService(taskman)
 
 # Environment setup for Django project files:
