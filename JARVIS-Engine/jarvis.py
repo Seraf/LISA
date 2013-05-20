@@ -9,6 +9,8 @@ from django.core.handlers.wsgi import WSGIHandler
 from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from autobahn.resource import WebSocketResource
 from pymongo import MongoClient
+from libs.txscheduler.manager import ScheduledTaskManager
+from libs.txscheduler.service import ScheduledTaskService
 
 configuration = json.load(open('Configuration/jarvis.json'))
 
@@ -170,13 +172,18 @@ class JarvisReload(resource.Resource):
 # Twisted Application Framework setup:
 application = service.Application('JARVIS')
 
+# Instance of JarvisFactory to pass it to other services
 JarvisFactory = JarvisFactory()
+# Create a task manager to pass it to other services
+taskman = ScheduledTaskManager()
+scheduler = ScheduledTaskService(taskman)
 
 # Environment setup for Django project files:
 sys.path.append(os.path.join(os.path.abspath("."), "web"))
 sys.path.append(os.path.join(os.path.abspath("."), "web/jarvis"))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'web.jarvis.settings'
 
+# Creating MultiService
 multi = service.MultiService()
 pool = threadpool.ThreadPool()
 tps = ThreadPoolService(pool)
@@ -194,7 +201,9 @@ socketfactory.protocol = WebSocketProtocol
 socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)
 
+
 # Serve it up:
 internet.TCPServer(configuration['jarvis_web_port'], server.Site(root)).setServiceParent(multi)
 internet.TCPServer(configuration['jarvis_engine_port'], JarvisFactory).setServiceParent(multi)
+scheduler.setServiceParent(multi)
 multi.setServiceParent(application)
