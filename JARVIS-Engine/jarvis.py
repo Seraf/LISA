@@ -62,7 +62,7 @@ class JarvisFactory(Factory):
         except:
             print "Couldn't load bot"
         self.clients = []
-
+        self.syspath = sys.path
         mongo = MongoClient(configuration['database']['server'], configuration['database']['port'])
         self.database = mongo.jarvis
 
@@ -71,10 +71,12 @@ class JarvisFactory(Factory):
         self.build_grammar()
 
     def build_grammar(self):
+        path = os.path.abspath(__file__)
+        dir_path = os.path.dirname(path)
         # Load enabled plugins for the main language
         for plugin in self.database.plugins.find( { "enabled": 1 , "lang": configuration['lang'] } ):
-            print os.path.normpath('Plugins/' + plugin['name'] + '/lang/' \
-                                   + configuration['lang'] + '/text')
+            sys.path.append(str(os.path.normpath(dir_path + '/Plugins/' + plugin['name'] + '/lang/' \
+                                             + configuration['lang'] + '/modules/')))
             self.bot_library.learn(os.path.normpath('Plugins/' + plugin['name'] + '/lang/' \
                                                     + configuration['lang'] + '/text'))
 
@@ -159,6 +161,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
 class JarvisReload(resource.Resource):
     def __init__(self, JarvisFactory):
         self.JarvisFactory = JarvisFactory
+        sys.path = self.JarvisFactory.syspath
         resource.Resource.__init__(self)
 
     def getChild(self, path, request):
