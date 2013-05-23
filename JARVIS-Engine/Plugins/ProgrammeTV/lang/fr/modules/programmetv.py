@@ -13,14 +13,7 @@ class ProgrammeTV:
         self.configuration = mongo.jarvis.plugins.find_one({"name": "ProgrammeTV"})
 
     def getProgrammeTV(self):
-        url = "http://www.kazer.org/tvguide.xml?u=" + self.configuration['configuration']['user_id']
-        if not os.path.exists('tmp/'+str(date.today())+'_programmetv.xml'):
-            print "Downloading the tv program"
-            import glob
-            files=glob.glob('tmp/*_programmetv.xml')
-            for filename in files:
-                os.unlink(filename)
-            urllib.urlretrieve(url,'tmp/'+str(date.today())+'_programmetv.xml')
+        self.downloadProgrammeTV()
         programmetv = ET.parse('tmp/'+str(date.today())+'_programmetv.xml').getroot()
 
         channelDict = {}
@@ -35,3 +28,14 @@ class ProgrammeTV:
                                       + child.attrib['start'][8:10] + ' heure ' + child.attrib['start'][10:12]  \
                                       + ' il y a : ' + child.find('title').text + '. '
         return json.dumps({"plugin": "programmetv","method": "getProgrammeTV", "body": programmetv_str})
+
+    def downloadProgrammeTV(self):
+        url = "http://www.kazer.org/tvguide.xml?u=" + self.configuration['configuration']['user_id']
+        if not os.path.exists('tmp/'+str(date.today())+'_programmetv.xml'):
+            print "Downloading the tv program"
+            import glob
+            files=glob.glob('tmp/*_programmetv.xml')
+            for filename in files:
+                os.unlink(filename)
+            urllib.urlretrieve(url,'tmp/'+str(date.today())+'_programmetv.xml')
+        return "SUCCESS"
