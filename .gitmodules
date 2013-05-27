@@ -4,3 +4,6 @@
 [submodule "JARVIS-Engine/libs/txscheduler"]
 	path = JARVIS-Engine/libs/txscheduler
 	url = https://github.com/Seraf/txscheduler.git
+[submodule "JARVIS-Engine/Plugins"]
+	path = JARVIS-Engine/Plugins
+	url = https://github.com/Seraf/JARVIS-Plugins.git
