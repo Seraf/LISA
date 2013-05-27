@@ -6,6 +6,7 @@ connect(DBNAME)
 class Plugin(DynamicDocument):
     name = StringField(max_length=120, required=True)
     lang = ListField(StringField(max_length=2))
+    enabled = BooleanField()
     meta = {
         'collection': 'plugins',
         'allow_inheritance': False
