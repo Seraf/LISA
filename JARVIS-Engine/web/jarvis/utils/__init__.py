@@ -1,0 +1,1 @@
+from decorators import method_restricted_to, is_ajax

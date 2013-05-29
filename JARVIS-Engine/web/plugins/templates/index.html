@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script type="text/javascript">
+        var install = function(name) {
+            $.ajax({type:'POST', url:'/plugins/install', async:true,
+                    data:{
+                        name:name
+                    },
+                    success: function(data, status, xhr) {
+                        console.log(data);
+                        console.log(status);
+                        console.log(xhr);
+                    }
+                });
+            };
+
+    </script>
 </head>
 <body>
-    <!-- Cycle through entries -->
     {% for plugin in Plugins %}
         <ul>
             <li><h2>{{ plugin.name }}</h2></li>
@@ -14,15 +30,34 @@
                     <li>{{ lang }}</li>
                 {% endfor %}
             </ul>
-            {% if plugin.enabled %}
-                {% if plugin.enabled == True %}
-                    <li>Disable</li>
-                {% elif plugin.enabled == False %}
-                    <li>Enable</li>
+            <li>{{ plugin.description_fr }}</li>
+            <li>{{ plugin.description_ru }}</li>
+            <li>{{ plugin.description_en }}</li>
+            <li id="action">
+                {% if plugin.enabled %}
+                    {% if plugin.enabled == True %}
+                        <a href="#" class="button" id="button-disable">
+                            <span class="disable">Disable</span>
+                        </a>
+                    {% elif plugin.enabled == False %}
+                        <a href="#" class="button"id="button-enable">
+                            <span class="enable">Enable</span>
+                        </a>
+                        <a href="#" class="button" id="button-remove">
+                            <span class="remove">Remove</span>
+                        </a>
+                    {% endif %}
+                {% else %}
+                    <a href="#"  onclick="install('{{ plugin.name }}');" class="button" id="button-install">
+                        <span class="install">Install</span>
+                    </a>
                 {% endif %}
-            {% else %}
-                <li>Install</li>
-            {% endif %}
+                {% if plugin.upgrade %}
+                    <a href="#" class="button" id="button-upgrade">
+                        <span class="upgrade">Upgrade</span>
+                    </a>
+                {% endif %}
+            </li>
         </ul>
     {% endfor %}
 </body>
