@@ -20,10 +20,11 @@ def index(request):
     return render_to_response('index.html', {'Plugins': plugins},
                               context_instance=RequestContext(request))
 
-#@is_ajax()
-#@method_restricted_to('POST')
+@is_ajax()
+@method_restricted_to('POST')
 def install(request):
     plugin_name = request.POST.get('name', '')
+
     """
     metareq = requests.get('https://raw.github.com/Seraf/JARVIS-Plugins/master/plugin_list.json')
     if(metareq.ok):

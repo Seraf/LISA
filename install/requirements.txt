@@ -12,3 +12,4 @@ wokkel>=0.7.1
 requests>=1.2.0
 pysnmp>=4.2.4
 mongoengine>=0.8.1
+GitPython>=0.3.1
