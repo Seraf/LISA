@@ -13,6 +13,10 @@ from libs.txscheduler.manager import ScheduledTaskManager
 from libs.txscheduler.service import ScheduledTaskService
 
 configuration = json.load(open('Configuration/jarvis.json'))
+path = os.path.abspath(__file__)
+dir_path = os.path.dirname(path)
+if not os.path.exists(dir_path + '/' + 'Plugins'):
+    os.mkdir(dir_path + '/' + 'Plugins')
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):

@@ -2,6 +2,7 @@
 import os
 APP_DIR = os.path.dirname( globals()['__file__'] )
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+JARVIS_PATH = os.path.abspath(os.path.dirname(__file__) + '../../../')
 
 DBNAME = 'jarvis'
 

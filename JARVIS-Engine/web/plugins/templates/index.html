@@ -5,10 +5,12 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script type="text/javascript">
         var csrf = "{{ csrf_token }}";
-        var install = function(name) {
+        var install = function(name,url,sha) {
             $.ajax({type:'POST', url:'/plugins/install', async:true,
                     data:{
                         name:name,
+                        url:url,
+                        sha:sha,
                         csrfmiddlewaretoken:csrf
                     },
                     success: function(data, status, xhr) {
@@ -50,7 +52,7 @@
                         </a>
                     {% endif %}
                 {% else %}
-                    <a href="#"  onclick="install('{{ plugin.name }}');" class="button" id="button-install">
+                    <a href="#"  onclick="install('{{ plugin.name }}','{{ plugin.url }}','{{ plugin.sha }}');" class="button" id="button-install">
                         <span class="install">Install</span>
                     </a>
                 {% endif %}
