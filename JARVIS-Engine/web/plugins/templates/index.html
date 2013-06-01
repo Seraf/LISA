@@ -18,8 +18,63 @@
                         console.log(status);
                         console.log(xhr);
                     }
-                });
-            };
+            });
+            $.ajax({type:'GET', url:'/reload', async:true,
+                data:{},
+                success: function(data, status, xhr) {}
+            });
+        };
+        var uninstall = function(name) {
+            $.ajax({type:'POST', url:'/plugins/uninstall', async:true,
+                data:{
+                    name:name,
+                    csrfmiddlewaretoken:csrf
+                },
+                success: function(data, status, xhr) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(xhr);
+                }
+            });
+            $.ajax({type:'GET', url:'/reload', async:true,
+                data:{},
+                success: function(data, status, xhr) {}
+            });
+        };
+        var enable = function(name) {
+            $.ajax({type:'POST', url:'/plugins/enable', async:true,
+                data:{
+                    name:name,
+                    csrfmiddlewaretoken:csrf
+                },
+                success: function(data, status, xhr) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(xhr);
+                }
+            });
+            $.ajax({type:'GET', url:'/reload', async:true,
+                data:{},
+                success: function(data, status, xhr) {}
+            });
+        };
+        var disable = function(name) {
+            $.ajax({type:'POST', url:'/plugins/disable', async:true,
+                data:{
+                    name:name,
+                    csrfmiddlewaretoken:csrf
+                },
+                success: function(data, status, xhr) {
+                    console.log(data);
+                    console.log(status);
+                    console.log(xhr);
+                }
+            });
+            $.ajax({type:'GET', url:'/reload', async:true,
+                data:{},
+                success: function(data, status, xhr) {}
+            });
+        };
 
     </script>
 </head>
@@ -37,22 +92,21 @@
             <li>{{ plugin.description_fr }}</li>
             <li>{{ plugin.description_ru }}</li>
             <li>{{ plugin.description_en }}</li>
+            {{ plugin }}
             <li id="action">
-                {% if plugin.enabled %}
-                    {% if plugin.enabled == True %}
-                        <a href="#" class="button" id="button-disable">
-                            <span class="disable">Disable</span>
-                        </a>
-                    {% elif plugin.enabled == False %}
-                        <a href="#" class="button"id="button-enable">
-                            <span class="enable">Enable</span>
-                        </a>
-                        <a href="#" class="button" id="button-remove">
-                            <span class="remove">Remove</span>
-                        </a>
-                    {% endif %}
+                {% if plugin.enabled == True %}
+                    <a href="#" onclick="disable('{{ plugin.name }}');" class="button" id="button-disable">
+                        <span class="disable">Disable</span>
+                    </a>
+                {% elif plugin.installed == True %}
+                    <a href="#" onclick="enable('{{ plugin.name }}');" class="button"id="button-enable">
+                        <span class="enable">Enable</span>
+                    </a>
+                    <a href="#" onclick="uninstall('{{ plugin.name }}');" class="button" id="button-remove">
+                        <span class="remove">Remove</span>
+                    </a>
                 {% else %}
-                    <a href="#"  onclick="install('{{ plugin.name }}','{{ plugin.url }}','{{ plugin.sha }}');" class="button" id="button-install">
+                    <a href="#" onclick="install('{{ plugin.name }}','{{ plugin.url }}','{{ plugin.sha }}');" class="button" id="button-install">
                         <span class="install">Install</span>
                     </a>
                 {% endif %}

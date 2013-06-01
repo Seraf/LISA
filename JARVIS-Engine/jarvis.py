@@ -4,7 +4,7 @@ from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static, resource
-from twisted.python import threadpool
+from twisted.python import threadpool, log
 from django.core.handlers.wsgi import WSGIHandler
 from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol
 from autobahn.resource import WebSocketResource
@@ -40,7 +40,7 @@ class Jarvis(Protocol):
         self.factory.clients.append({"object": self, "zone": "", "type": "", "uuid": self.client_uuid})
 
     def connectionLost(self, reason):
-        print 'Lost connection.  Reason:', reason
+        log.msg('Lost connection.  Reason:', reason)
         for client in self.factory.clients:
             if client['object'] == self:
                 self.factory.clients.remove(client)
@@ -62,81 +62,26 @@ class JarvisFactory(Factory):
     def __init__(self):
         try:
             self.bot_library = libs.RiveScriptBot()
-            print "Successfully loaded bot"
+            log.msg("Successfully loaded bot")
         except:
-            print "Couldn't load bot"
+            log.msg("Couldn't load bot")
         self.clients = []
         self.syspath = sys.path
         mongo = MongoClient(configuration['database']['server'], configuration['database']['port'])
         self.database = mongo.jarvis
 
         # Install the default Chatterbot plugin
-        self.build_default_plugin()
         self.build_grammar()
 
     def build_grammar(self):
         path = os.path.abspath(__file__)
         dir_path = os.path.dirname(path)
         # Load enabled plugins for the main language
-        for plugin in self.database.plugins.find( { "enabled": 1 , "lang": configuration['lang'] } ):
+        for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
             sys.path.append(str(os.path.normpath(dir_path + '/Plugins/' + plugin['name'] + '/lang/' \
                                              + configuration['lang'] + '/modules/')))
             self.bot_library.learn(os.path.normpath('Plugins/' + plugin['name'] + '/lang/' \
                                                     + configuration['lang'] + '/text'))
-
-    def build_default_plugin(self):
-        try:
-            with open('Plugins/ChatterBot/chatterbot.json'):
-                chatterbot_configuration    =   json.load(open('Plugins/ChatterBot/chatterbot.json'))
-                key_defaulplugin            =   { "name": chatterbot_configuration['name'] }
-                data_defaultplugin          =   chatterbot_configuration
-                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
-
-            # The part below will disappear when everything will be manageable from the web interface
-            with open('Plugins/Cinema/cinema.json'):
-                cinema_configuration    =   json.load(open('Plugins/Cinema/cinema.json'))
-                key_defaulplugin            =   { "name": cinema_configuration['name'] }
-                data_defaultplugin          =   cinema_configuration
-                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
-
-            with open('Plugins/Google/google.json'):
-                google_configuration    =   json.load(open('Plugins/Google/google.json'))
-                key_defaulplugin            =   { "name": google_configuration['name'] }
-                data_defaultplugin          =   google_configuration
-                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
-
-            with open('Plugins/ProgrammeTV/programmetv.json'):
-                programmetv_configuration    =   json.load(open('Plugins/ProgrammeTV/programmetv.json'))
-                key_defaulplugin            =   { "name": programmetv_configuration['name'] }
-                data_defaultplugin          =   programmetv_configuration
-                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
-
-            with open('Plugins/SNCF/sncf.json'):
-                sncf_configuration    =   json.load(open('Plugins/SNCF/sncf.json'))
-                key_defaulplugin            =   { "name": sncf_configuration['name'] }
-                data_defaultplugin          =   sncf_configuration
-                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
-
-            with open('Plugins/Vera/vera.json'):
-                vera_configuration    =   json.load(open('Plugins/Vera/vera.json'))
-                key_defaulplugin            =   { "name": vera_configuration['name'] }
-                data_defaultplugin          =   vera_configuration
-                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
-
-            with open('Plugins/Izipedia/izipedia.json'):
-                izipedia_configuration      =   json.load(open('Plugins/Izipedia/izipedia.json'))
-                key_defaulplugin            =   { "name": izipedia_configuration['name'] }
-                data_defaultplugin          =   izipedia_configuration
-                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
-
-            with open('Plugins/BBox/bbox.json'):
-                bbox_configuration      =   json.load(open('Plugins/BBox/bbox.json'))
-                key_defaulplugin            =   { "name": bbox_configuration['name'] }
-                data_defaultplugin          =   bbox_configuration
-                self.database.plugins.update(key_defaulplugin, data_defaultplugin, upsert=True)
-
-        except IOError:
-            pass
 
     def buildProtocol(self, addr):
         self.Jarvis = Jarvis(self,self.bot_library)

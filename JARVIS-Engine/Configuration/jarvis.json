@@ -8,5 +8,6 @@
         "port": 27017,
         "user": "jarvis",
         "pass": "jarvispowered"
-    }
+    },
+    "debug": false
 }
