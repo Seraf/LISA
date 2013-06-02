@@ -7,21 +7,22 @@
         var csrf = "{{ csrf_token }}";
         var install = function(name,url,sha) {
             $.ajax({type:'POST', url:'/plugins/install', async:true,
-                    data:{
-                        name:name,
-                        url:url,
-                        sha:sha,
-                        csrfmiddlewaretoken:csrf
-                    },
-                    success: function(data, status, xhr) {
-                        console.log(data);
-                        console.log(status);
-                        console.log(xhr);
-                    }
-            });
-            $.ajax({type:'GET', url:'/reload', async:true,
-                data:{},
-                success: function(data, status, xhr) {}
+                data:{
+                    name:name,
+                    url:url,
+                    sha:sha,
+                    csrfmiddlewaretoken:csrf
+                },
+                success: function(data, status, xhr) {
+                    $.ajax({type:'GET', url:'/jarvisreload', async:true,
+                        data:{},
+                        success: function(data, status, xhr) {}
+                    });
+                    $.ajax({type:'GET', url:'/schedulerreload', async:true,
+                        data:{},
+                        success: function(data, status, xhr) {}
+                    });
+                }
             });
         };
         var uninstall = function(name) {
@@ -31,14 +32,15 @@
                     csrfmiddlewaretoken:csrf
                 },
                 success: function(data, status, xhr) {
-                    console.log(data);
-                    console.log(status);
-                    console.log(xhr);
+                    $.ajax({type:'GET', url:'/jarvisreload', async:true,
+                        data:{},
+                        success: function(data, status, xhr) {}
+                    });
+                    $.ajax({type:'GET', url:'/schedulerreload', async:true,
+                        data:{},
+                        success: function(data, status, xhr) {}
+                    });
                 }
-            });
-            $.ajax({type:'GET', url:'/reload', async:true,
-                data:{},
-                success: function(data, status, xhr) {}
             });
         };
         var enable = function(name) {
@@ -48,14 +50,15 @@
                     csrfmiddlewaretoken:csrf
                 },
                 success: function(data, status, xhr) {
-                    console.log(data);
-                    console.log(status);
-                    console.log(xhr);
+                    $.ajax({type:'GET', url:'/jarvisreload', async:true,
+                        data:{},
+                        success: function(data, status, xhr) {}
+                    });
+                    $.ajax({type:'GET', url:'/schedulerreload', async:true,
+                        data:{},
+                        success: function(data, status, xhr) {}
+                    });
                 }
-            });
-            $.ajax({type:'GET', url:'/reload', async:true,
-                data:{},
-                success: function(data, status, xhr) {}
             });
         };
         var disable = function(name) {
@@ -65,17 +68,17 @@
                     csrfmiddlewaretoken:csrf
                 },
                 success: function(data, status, xhr) {
-                    console.log(data);
-                    console.log(status);
-                    console.log(xhr);
+                    $.ajax({type:'GET', url:'/jarvisreload', async:true,
+                        data:{},
+                        success: function(data, status, xhr) {}
+                    });
+                    $.ajax({type:'GET', url:'/schedulerreload', async:true,
+                        data:{},
+                        success: function(data, status, xhr) {}
+                    });
                 }
             });
-            $.ajax({type:'GET', url:'/reload', async:true,
-                data:{},
-                success: function(data, status, xhr) {}
-            });
         };
-
     </script>
 </head>
 <body>

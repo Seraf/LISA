@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-import os,libs,json,sys,uuid
+import os,libs,json,sys,uuid,cgi
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
 from twisted.application import internet, service
@@ -121,6 +121,17 @@ class JarvisReload(resource.Resource):
         self.JarvisFactory.build_grammar()
         return "OK"
 
+class Scheduler_reload(resource.Resource):
+    def __init__(self, taskman):
+        self.taskman = taskman
+        resource.Resource.__init__(self)
+    def getChild(self, path, request):
+        return self.taskman.reload()
+
+    def render_GET(self, request):
+        return self.taskman.reload()
+
+
 # Twisted Application Framework setup:
 application = service.Application('JARVIS')
 
@@ -145,7 +156,8 @@ root = Root(resource_wsgi)
 
 staticrsrc = static.File(os.path.join(os.path.abspath("."), "web/jarvis/static"))
 root.putChild("static", staticrsrc)
-root.putChild("reload", JarvisReload(JarvisFactory))
+root.putChild("jarvisreload", JarvisReload(JarvisFactory))
+root.putChild("schedulerreload", Scheduler_reload(taskman))
 
 socketfactory = WebSocketServerFactory("ws://" + configuration['jarvis_url'] + ":" +\
                                        str(configuration['jarvis_web_port']),debug=False)

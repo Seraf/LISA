@@ -30,6 +30,9 @@ def enable(request):
     for plugin in Plugin.objects(name=plugin_name):
         plugin.enabled = True
         plugin.save()
+        for cron in Cron.objects(plugin=plugin):
+            cron.enabled = True
+            cron.save()
     return HttpResponse('OK')
 
 @is_ajax()
@@ -39,6 +42,9 @@ def disable(request):
     for plugin in Plugin.objects(name=plugin_name):
         plugin.enabled = False
         plugin.save()
+        for cron in Cron.objects(plugin=plugin):
+            cron.enabled = False
+            cron.save()
     return HttpResponse('OK')
 
 @is_ajax()

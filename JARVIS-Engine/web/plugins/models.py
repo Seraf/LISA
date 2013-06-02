@@ -16,12 +16,14 @@ class Plugin(DynamicDocument):
 
 class Rule(DynamicDocument):
     plugin = ReferenceField(Plugin, reverse_delete_rule=CASCADE)
+    enabled = BooleanField()
     meta = {
         'collection': 'rules',
         'allow_inheritance': False
     }
 class Cron(DynamicDocument):
     plugin = ReferenceField(Plugin, reverse_delete_rule=CASCADE)
+    enabled = BooleanField()
     meta = {
         'collection': 'crons',
         'allow_inheritance': False
