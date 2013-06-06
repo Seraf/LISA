@@ -29,10 +29,6 @@ So the program will be able to answer in the zone where the sound was recorded.
 Ressources :
 Sphinx French Language : http://www-lium.univ-lemans.fr/fr/content/ressources
 
-Rules engines should include :
-- A scheduler (launch some scripts like a cron)
-- Execute something if something is triggered
-
 INSTALL
 ======
 The easiest way is to run the installer. As it's open source, you can see it will only install python packages necessary to run J.A.R.V.I.S.
@@ -40,13 +36,14 @@ You need to be in the top directory (JARVIS) where there is the README.md file.
 <pre>
 sh install/install.sh
 </pre>
+(Actually I use the django toolbar to debug ... so add it with:)
+<pre>
+sudo pip -r install/optional.txt
+</pre>
+
 Then, go into JARVIS-ENGINE and run :
 <pre>
-twistd -ny server.py
+twistd -ny jarvis.py
 </pre>
 You should be able to go to http://localhost:8000/speech/ (a webinterface will come soon and the twisted program will be daemonized as a service in the future).
-
-If you want to test (you will need to configure your personal data (create a gtalk account)), you can connect a GTALK Bot to J.A.R.V.I.S :
-<pre>
-twist -ny JarvisTalkBot.py
-</pre>
+To install plugins : http://localhost:8000/plugins/ (the interface have not Ajax yet, so after clicking on an action, reload the page with F5 !)
