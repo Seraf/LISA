@@ -46,5 +46,7 @@ Then, go into JARVIS-ENGINE and run :
 twistd -ny jarvis.py
 </pre>
 To install plugins : http://localhost:8000/plugins/ (the interface have not Ajax yet, so after clicking on an action, reload the page with F5 !)
+Plugins aren't translated yet. By default it will use the english language. Change the JARVIS-Engine/Configuration/jarvis.json lang attribute to "en" to use english in plugins, then look how a plugin is built, you will see it's very easy to add a new language to the plugin.
+
 
 You should be able to go to http://localhost:8000/speech/ (a webinterface will come soon and the twisted program will be daemonized as a service in the future).
