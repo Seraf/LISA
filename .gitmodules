@@ -1,6 +1,6 @@
-[submodule "JARVIS-Engine/libs/rivescript"]
-	path = JARVIS-Engine/libs/rivescript
-	url = https://github.com/Seraf/rivescript-python.git
 [submodule "JARVIS-Engine/libs/txscheduler"]
 	path = JARVIS-Engine/libs/txscheduler
 	url = https://github.com/Seraf/txscheduler.git
+[submodule "JARVIS-Engine/libs/rivescript"]
+	path = JARVIS-Engine/libs/rivescript
+	url = https://github.com/kirsle/rivescript-python.git
