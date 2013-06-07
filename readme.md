@@ -45,5 +45,6 @@ Then, go into JARVIS-ENGINE and run :
 <pre>
 twistd -ny jarvis.py
 </pre>
-You should be able to go to http://localhost:8000/speech/ (a webinterface will come soon and the twisted program will be daemonized as a service in the future).
 To install plugins : http://localhost:8000/plugins/ (the interface have not Ajax yet, so after clicking on an action, reload the page with F5 !)
+
+You should be able to go to http://localhost:8000/speech/ (a webinterface will come soon and the twisted program will be daemonized as a service in the future).
