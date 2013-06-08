@@ -15,4 +15,4 @@ class RiveScriptBot():
         self.k.sort_replies()
 
     def __init__(self):
-        self.k = rivescript.RiveScript()
+        self.k = rivescript.RiveScript(utf8=True)
