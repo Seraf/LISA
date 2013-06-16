@@ -27,5 +27,5 @@ So the program will be able to answer in the zone where the sound was recorded.
 JARVIS Engine
 =============
 
-.. include:: ../JARVIS-Engine/README.rst
-.. include:: ../JARVIS-Engine/INSTALL.rst
+.. include:: JARVIS-Engine/README.rst
+.. include:: JARVIS-Engine/INSTALL.rst
