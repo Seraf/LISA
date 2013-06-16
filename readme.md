@@ -18,16 +18,13 @@ The technologies I plan to use are :
 * Mongodb (as database)
 
 The architecture of J.A.R.V.I.S will be like this :
-![Image](docs/images/jarvis-architecture.png?raw=true)
+![Image](docs/images/jarvis-schema.png?raw=true)
 
 The goal is to have the possibility to separate each element and let them communicate by network.
 With this system you will be able to have one IA, multiple speech engine, and multiple clients.
 
 Using twisted, the client should be able to transmit the data of the microphone but also the zone where the sound come from.
 So the program will be able to answer in the zone where the sound was recorded.
-
-Ressources :
-Sphinx French Language : http://www-lium.univ-lemans.fr/fr/content/ressources
 
 INSTALL
 ======
