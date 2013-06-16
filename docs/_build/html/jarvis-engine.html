@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to JARVIS’s documentation! &mdash; JARVIS 0.1 documentation</title>
+    <title>JARVIS Engine &mdash; JARVIS 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="JARVIS 0.1 documentation" href="#" />
-    <link rel="next" title="About" href="about.html" /> 
+    <link rel="top" title="JARVIS 0.1 documentation" href="index.html" />
+    <link rel="prev" title="JARVIS Speech" href="jarvis-speech.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,9 +35,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="about.html" title="About"
-             accesskey="N">next</a> |</li>
-        <li><a href="#">JARVIS 0.1 documentation</a> &raquo;</li> 
+          <a href="jarvis-speech.html" title="JARVIS Speech"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">JARVIS 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,26 +46,21 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-jarvis-s-documentation">
-<h1>Welcome to JARVIS&#8217;s documentation!<a class="headerlink" href="#welcome-to-jarvis-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jarvis-client.html">JARVIS Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jarvis-speech.html">JARVIS Speech</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jarvis-engine.html">JARVIS Engine</a></li>
-</ul>
+  <div class="section" id="jarvis-engine">
+<span id="id1"></span><h1>JARVIS Engine<a class="headerlink" href="#jarvis-engine" title="Permalink to this headline">¶</a></h1>
+<p>The easiest way is to run the installer. As it&#8217;s open source, you can see it will only install python packages necessary to run J.A.R.V.I.S.
+You need to be in the top directory (JARVIS) where there is the README.md file.</p>
+<div class="highlight-python"><pre>sh install/install.sh</pre>
 </div>
+<p>(Actually I use the django toolbar to debug ... so add it with:)</p>
+<div class="highlight-python"><pre>sudo pip -r install/optional.txt</pre>
 </div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
-</ul>
+<p>Then, go into JARVIS-ENGINE and run :</p>
+<div class="highlight-python"><pre>twistd -ny jarvis.py</pre>
+</div>
+<p>To install plugins : <a class="reference external" href="http://localhost:8000/plugins/">http://localhost:8000/plugins/</a> (the interface have not Ajax yet, so after clicking on an action, reload the page with F5 !)
+Plugins aren&#8217;t translated yet. By default it will use the english language. Change the JARVIS-Engine/Configuration/jarvis.json lang attribute to &#8220;en&#8221; to use english in plugins, then look how a plugin is built, you will see it&#8217;s very easy to add a new language to the plugin.</p>
+<p>You should be able to go to <a class="reference external" href="http://localhost:8000/speech/">http://localhost:8000/speech/</a> (a webinterface will come soon and the twisted program will be daemonized as a service in the future).</p>
 </div>
 
 
@@ -74,20 +69,12 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to JARVIS&#8217;s documentation!</a><ul>
-</ul>
-</li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
-  <h4>Next topic</h4>
-  <p class="topless"><a href="about.html"
-                        title="next chapter">About</a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="jarvis-speech.html"
+                        title="previous chapter">JARVIS Speech</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
+    <li><a href="_sources/jarvis-engine.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -114,9 +101,9 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="about.html" title="About"
-             >next</a> |</li>
-        <li><a href="#">JARVIS 0.1 documentation</a> &raquo;</li> 
+          <a href="jarvis-speech.html" title="JARVIS Speech"
+             >previous</a> |</li>
+        <li><a href="index.html">JARVIS 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -11,6 +11,11 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   about
+   overview
+   jarvis-client
+   jarvis-speech
+   jarvis-engine
 
 
 Indices and tables

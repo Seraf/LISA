@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to JARVIS’s documentation! &mdash; JARVIS 0.1 documentation</title>
+    <title>Overview &mdash; JARVIS 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="JARVIS 0.1 documentation" href="#" />
-    <link rel="next" title="About" href="about.html" /> 
+    <link rel="top" title="JARVIS 0.1 documentation" href="index.html" />
+    <link rel="next" title="JARVIS-Client" href="jarvis-client.html" />
+    <link rel="prev" title="About" href="about.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,9 +36,12 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="about.html" title="About"
+          <a href="jarvis-client.html" title="JARVIS-Client"
              accesskey="N">next</a> |</li>
-        <li><a href="#">JARVIS 0.1 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="about.html" title="About"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">JARVIS 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,26 +50,14 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-jarvis-s-documentation">
-<h1>Welcome to JARVIS&#8217;s documentation!<a class="headerlink" href="#welcome-to-jarvis-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
-<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jarvis-client.html">JARVIS Client</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jarvis-speech.html">JARVIS Speech</a></li>
-<li class="toctree-l1"><a class="reference internal" href="jarvis-engine.html">JARVIS Engine</a></li>
-</ul>
-</div>
-</div>
-<div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
-<ul class="simple">
-<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
-<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
-<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
-</ul>
+  <div class="section" id="overview">
+<span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>The architecture of J.A.R.V.I.S will be like this :</p>
+<img alt="_images/jarvis-schema.png" src="_images/jarvis-schema.png" />
+<p>The goal is to have the possibility to separate each element and let them communicate by network.
+With this system you will be able to have one IA, multiple speech engine, and multiple clients.</p>
+<p>Using twisted, the client should be able to transmit the data of the microphone but also the zone where the sound come from.
+So the program will be able to answer in the zone where the sound was recorded.</p>
 </div>
 
 
@@ -74,20 +66,15 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Welcome to JARVIS&#8217;s documentation!</a><ul>
-</ul>
-</li>
-<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-</ul>
-
-  <h4>Next topic</h4>
+  <h4>Previous topic</h4>
   <p class="topless"><a href="about.html"
-                        title="next chapter">About</a></p>
+                        title="previous chapter">About</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="jarvis-client.html"
+                        title="next chapter">JARVIS-Client</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
+    <li><a href="_sources/overview.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -114,9 +101,12 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="about.html" title="About"
+          <a href="jarvis-client.html" title="JARVIS-Client"
              >next</a> |</li>
-        <li><a href="#">JARVIS 0.1 documentation</a> &raquo;</li> 
+        <li class="right" >
+          <a href="about.html" title="About"
+             >previous</a> |</li>
+        <li><a href="index.html">JARVIS 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
