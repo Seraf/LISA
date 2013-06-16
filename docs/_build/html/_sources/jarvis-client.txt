@@ -4,5 +4,5 @@
 JARVIS Client
 #######
 
-.. include:: ../JARVIS-Client/README
-.. include:: ../JARVIS-Client/INSTALL
+.. include:: ../JARVIS-Client/README.rst
+.. include:: ../JARVIS-Client/INSTALL.rst

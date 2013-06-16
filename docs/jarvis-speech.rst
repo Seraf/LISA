@@ -4,4 +4,4 @@
 JARVIS Speech
 #######
 
-.. include:: ../JARVIS-Speech/README
+.. include:: ../JARVIS-Speech/README.rst

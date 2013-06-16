@@ -3,8 +3,8 @@
 JARVIS Engine
 =============
 
-.. include:: ../JARVIS-Engine/README
-.. include:: ../JARVIS-Engine/INSTALL
+.. include:: ../JARVIS-Engine/README.rst
+.. include:: ../JARVIS-Engine/INSTALL.rst
 
 Configuration
 -------------
