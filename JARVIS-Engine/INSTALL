@@ -1,3 +1,5 @@
+Install
+-------
 The easiest way is to run the installer. As it's open source, you can see it will only install python packages necessary to run J.A.R.V.I.S.
 You need to be in the top directory (JARVIS) where there is the README.md file.
 ::
