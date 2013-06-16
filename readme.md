@@ -18,6 +18,7 @@ The technologies I plan to use are :
 * Mongodb (as database)
 
 The architecture of J.A.R.V.I.S will be like this :
+
 ![Image](docs/images/jarvis-schema.png?raw=true)
 
 The goal is to have the possibility to separate each element and let them communicate by network.
