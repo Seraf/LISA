@@ -123,3 +123,47 @@ The JSON must contain the plugin name, the method called, and the answer in the 
 
 You can also return any extra data in the field name of your choice. It can be used by the rule engine to match
 some condition and/or feed other plugins with these data.
+
+Unit tests
+^^^^^^^^^^
+Each plugin should come with unit tests. It allows to be sure everything is OK and there's nothing broken from an old
+version to a newer. To have your plugin registered on the github repository, your plugin must provide unit tests and
+they should be OK.
+
+Unit test use the JARVIS-Engine to test if the sentence provided return the good answer.
+
+Example of a unit test : ::
+
+    import json, os, sys
+    from twisted.trial import unittest
+    from twisted.test import proto_helpers
+
+    # Used to include the jarvis.py engine and call it from unit test
+    sys.path.append(os.path.normpath(os.path.join(os.path.abspath("../../../"))))
+
+    from jarvis import JarvisFactory, configuration
+
+    class ChatTestCase(unittest.TestCase):
+        # Call the Factory skipping the network part
+        def setUp(self):
+            factory = JarvisFactory()
+            self.proto = factory.buildProtocol(('127.0.0.1', 0))
+            self.tr = proto_helpers.StringTransport()
+            self.proto.makeConnection(self.tr)
+
+        # Build simulate data received (json data)
+        def _test(self, sentence, expected):
+            self.proto.dataReceived(json.dumps({"type": "Chat", "zone": "Test",
+                                                "from": "Test",
+                                                "body": '%s' % (sentence)
+            }))
+            jsonAnswer = json.loads(self.tr.value())
+            # We check if the answer is equal to what we expected
+            self.assertEqual(jsonAnswer['body'], expected)
+
+        # Inject some sentences to test depending the language used
+        def test_hello(self):
+            if configuration['lang'] == 'en':
+                return self._test(sentence='chat test', expected='chat OK')
+            elif configuration['lang'] == 'fr':
+                return self._test(sentence='Bonjour', expected='Bonjour. Comment allez vous ?')
