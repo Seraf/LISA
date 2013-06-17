@@ -12,11 +12,11 @@ from pymongo import MongoClient
 from libs.txscheduler.manager import ScheduledTaskManager
 from libs.txscheduler.service import ScheduledTaskService
 
-configuration = json.load(open('Configuration/jarvis.json'))
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
-if not os.path.exists(dir_path + '/' + 'Plugins'):
-    os.mkdir(dir_path + '/' + 'Plugins')
+configuration = json.load(open(os.path.normpath(dir_path + '/' + 'Configuration/jarvis.json')))
+if not os.path.exists(os.path.normpath(dir_path + '/' + 'Plugins')):
+    os.mkdir(os.path.normpath(dir_path + '/' + 'Plugins'))
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):
@@ -76,11 +76,12 @@ class JarvisFactory(Factory):
     def build_grammar(self):
         path = os.path.abspath(__file__)
         dir_path = os.path.dirname(path)
+        self.bot_library.learn(os.path.normpath(dir_path + '/' + 'Configuration/'))
         # Load enabled plugins for the main language
         for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
             sys.path.append(str(os.path.normpath(dir_path + '/Plugins/' + plugin['name'] + '/lang/' \
                                              + configuration['lang'] + '/modules/')))
-            self.bot_library.learn(os.path.normpath('Plugins/' + plugin['name'] + '/lang/' \
+            self.bot_library.learn(os.path.normpath(dir_path + '/' + 'Plugins/' + plugin['name'] + '/lang/' \
                                                     + configuration['lang'] + '/text'))
 
     def buildProtocol(self, addr):
@@ -136,14 +137,14 @@ class Scheduler_reload(resource.Resource):
 application = service.Application('JARVIS')
 
 # Instance of JarvisFactory to pass it to other services
-JarvisFactory = JarvisFactory()
+JarvisInstance = JarvisFactory()
 # Create a task manager to pass it to other services
 taskman = ScheduledTaskManager(configuration)
 scheduler = ScheduledTaskService(taskman)
 
 # Environment setup for Django project files:
-sys.path.append(os.path.join(os.path.abspath("."), "web"))
-sys.path.append(os.path.join(os.path.abspath("."), "web/jarvis"))
+sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
+sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/jarvis")))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'web.jarvis.settings'
 
 # Creating MultiService
@@ -154,9 +155,9 @@ tps.setServiceParent(multi)
 resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
 root = Root(resource_wsgi)
 
-staticrsrc = static.File(os.path.join(os.path.abspath("."), "web/jarvis/static"))
+staticrsrc = static.File(os.path.normpath(os.path.join(os.path.abspath("."), "web/jarvis/static")))
 root.putChild("static", staticrsrc)
-root.putChild("jarvisreload", JarvisReload(JarvisFactory))
+root.putChild("jarvisreload", JarvisReload(JarvisInstance))
 root.putChild("schedulerreload", Scheduler_reload(taskman))
 
 socketfactory = WebSocketServerFactory("ws://" + configuration['jarvis_url'] + ":" +\
@@ -168,6 +169,6 @@ root.putChild("websocket", socketresource)
 
 # Serve it up:
 internet.TCPServer(configuration['jarvis_web_port'], server.Site(root)).setServiceParent(multi)
-internet.TCPServer(configuration['jarvis_engine_port'], JarvisFactory).setServiceParent(multi)
+internet.TCPServer(configuration['jarvis_engine_port'], JarvisInstance).setServiceParent(multi)
 scheduler.setServiceParent(multi)
 multi.setServiceParent(application)
