@@ -1,4 +1,4 @@
-import json
+import json, re
 from pymongo import MongoClient
 
 class RulesEngine():
@@ -12,7 +12,8 @@ class RulesEngine():
         data_defaultanswer =    {
                                     "name": "DefaultAnwser",    \
                                     "order": 999,               \
-                                    "code": "jarvisprotocol.transport.write(json.dumps(                     \
+                                    "before": None,
+                                    "after": "jarvisprotocol.transport.write(json.dumps(                     \
                                                     {                                                       \
                                                         'plugin': jsonAnswer['plugin'],                     \
                                                         'method': jsonAnswer['method'],                     \
@@ -25,9 +26,35 @@ class RulesEngine():
                                 }
         self.database.rules.update(key_defaultanswer, data_defaultanswer, upsert=True)
 
-    def Rules(self, jsonData, jsonAnswer, jarvisprotocol):
+    def Rules(self, jsonData, jarvisprotocol):
         rulescollection = self.database.rules
-        for rule in rulescollection.find({ "enabled": True }).sort([("order", 1)]):
-            exec(rule['code'])
+
+        for rule in rulescollection.find({ "enabled": True, "before": {"$ne":None}}).sort([("order", 1)]):
+            #jarvisprotocol.bot_library.k.freeze_uservars(user="localuser")
+            reply = jarvisprotocol.bot_library.respond_to(user="localuser", text=str(jsonData['body'].encode('utf-8')))
+            last = jarvisprotocol.bot_library.k.last_match(user="localuser")
+            info = jarvisprotocol.bot_library.k.trigger_info(trigger=last)
+            #jarvisprotocol.bot_library.k.thaw_uservars(user="localuser", action="thaw")
+            filename = re.match(r"^.*/Plugins/(\w+)/.*", info[0]['filename']).group(1)
+            try:
+                jsonAnswer = json.loads(reply)
+            except:
+                jsonAnswer = json.loads(json.dumps({"plugin": filename,"method": None,"body": reply}))
+            exec(rule['before'])
+
+        #jarvisprotocol.bot_library.k.freeze_uservars(user="localuser")
+        reply = jarvisprotocol.bot_library.respond_to(user="localuser", text=str(jsonData['body'].encode('utf-8')))
+        last = jarvisprotocol.bot_library.k.last_match(user="localuser")
+        info = jarvisprotocol.bot_library.k.trigger_info(trigger=last)
+        #jarvisprotocol.bot_library.k.thaw_uservars(user="localuser", action="discard")
+        filename = re.match(r"^.*/Plugins/(\w+)/.*", info[0]['filename']).group(1)
+        try:
+            jsonAnswer = json.loads(reply)
+        except:
+            jsonAnswer = json.loads(json.dumps({"plugin": filename,"method": None,"body": reply}))
+
+        for rule in rulescollection.find({ "enabled": True, "after": {"$ne":None}}).sort([("order", 1)]):
+            exec(rule['after'])
+            #Problem here : it don't check if the condition of the rule after has matched to end the rules
             if rule['end']:
                 break

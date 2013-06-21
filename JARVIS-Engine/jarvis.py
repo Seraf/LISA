@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-import os,libs,json,sys,uuid,cgi
+import os,libs,json,sys,uuid
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor
 from twisted.application import internet, service
@@ -50,12 +50,7 @@ class Jarvis(Protocol):
         for client in self.factory.clients:
             if client['object'] == self and (not client['type'] or not client['zone']):
                 client['type'],client['zone'] = jsonData['type'],jsonData['zone']
-        answer = self.bot_library.respond_to(str(jsonData['body'].encode('utf-8')))
-        try:
-            jsonAnswer = json.loads(answer)
-        except:
-            jsonAnswer = json.loads(json.dumps({"plugin": "Chat","method": "Chat","body": answer}))
-        libs.RulesEngine(configuration).Rules(jsonData, jsonAnswer, self)
+        libs.RulesEngine(configuration).Rules(jsonData=jsonData, jarvisprotocol=self)
 
 
 class JarvisFactory(Factory):
