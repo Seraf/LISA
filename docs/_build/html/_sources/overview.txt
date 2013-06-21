@@ -4,9 +4,9 @@
 Overview
 #######
 
-The architecture of J.A.R.V.I.S will be like this :
+The architecture of L.I.S.A will be like this :
 
-.. image:: images/jarvis-schema.png
+.. image:: images/lisa-schema.png
 
 The goal is to have the possibility to separate each element and let them communicate by network.
 With this system you will be able to have one IA, multiple speech engine, and multiple clients.

@@ -1,0 +1,13 @@
+{
+    "lang": "fr",
+    "lisa_url": "localhost",
+    "lisa_engine_port": 10042,
+    "lisa_web_port": 8000,
+    "database": {
+        "server": "localhost",
+        "port": 27017,
+        "user": "lisa",
+        "pass": "lisapowered"
+    },
+    "debug": false
+}

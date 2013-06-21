@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>LISA Engine &mdash; L.I.S.A 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="top" title="L.I.S.A 0.1 documentation" href="index.html" />
+    <link rel="prev" title="LISA Speech" href="lisa-speech.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lisa-speech.html" title="LISA Speech"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">L.I.S.A 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="lisa-engine">
+<span id="id1"></span><h1>LISA Engine<a class="headerlink" href="#lisa-engine" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="install">
+<h2>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way is to run the installer. As it&#8217;s open source, you can see it will only install python packages necessary to run J.A.R.V.I.S.
+You need to be in the top directory (LISA) where there is the README.md file.</p>
+<div class="highlight-python"><pre>sh install/install.sh</pre>
+</div>
+<p>(Actually I use the django toolbar to debug ... so add it with:)</p>
+<div class="highlight-python"><pre>sudo pip -r install/optional.txt</pre>
+</div>
+<p>Then, go into LISA-ENGINE and run :</p>
+<div class="highlight-python"><pre>twistd -ny lisa.py</pre>
+</div>
+<p>To install plugins : <a class="reference external" href="http://localhost:8000/plugins/">http://localhost:8000/plugins/</a> (the interface have not Ajax yet, so after clicking on an action, reload the page with F5 !)
+Plugins aren&#8217;t translated yet. By default it will use the english language. Change the LISA-Engine/Configuration/lisa.json lang attribute to &#8220;en&#8221; to use english in plugins, then look how a plugin is built, you will see it&#8217;s very easy to add a new language to the plugin.</p>
+<p>You should be able to go to <a class="reference external" href="http://localhost:8000/speech/">http://localhost:8000/speech/</a> (a webinterface will come soon and the twisted program will be daemonized as a service in the future).</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>LISA Engine come by default with some parameters contained in Configuration/lisa.json.</p>
+<p>Here are the parameters available :</p>
+<p><strong>lang</strong>: The lang parameter will define which language to use in plugins. Some plugins will not be available in some
+languages.</p>
+<p><strong>lisa_url</strong>: Is used in the lisa web part. Set here the dns you want to use.</p>
+<p><strong>lisa_engine_port</strong>: This field contains the port number (integer) where LISA will listen. You can choose any port
+you want, take care to report the modification on clients too. By default, LISA will listen on the port 10042.</p>
+<p><strong>lisa_web_port</strong>: It is the port number (integer) where the webserver will listen. By default, LISA will listen on
+the port 8000 to avoid conflict with any webserver already installed. If there is no one, it can be set to 80.</p>
+<p><strong>Database</strong>:</p>
+<p><strong>server</strong>: DNS or IP of where the mongodb server is located. By default it will use localhost.</p>
+<p><strong>port</strong>: Port used by mongodb (27017 by default).</p>
+<p><strong>user</strong>: User granted to connect to the lisa database (&#8216;lisa&#8217; by default).</p>
+<p><strong>pass</strong>: Pass of the user granted to connect the lisa database (&#8216;lisapowered&#8217; by default).</p>
+<p><strong>debug</strong>: Display the debug/verbose mode. The value is false by default.</p>
+</div>
+<div class="section" id="rules">
+<h2>Rules<a class="headerlink" href="#rules" title="Permalink to this headline">¶</a></h2>
+<p>LISA Engine include a rule engine to allow the user to modify the behavior of a plugin.
+The user can fill python code with condition which will be executed if conditions are matching.</p>
+<p>For example, the output of a plugin can be overwritten depending the time of the day, or depending something else.
+With this system and choosing carefully the rules order, you can chain plugins.</p>
+</div>
+<div class="section" id="plugins">
+<h2>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h2>
+<p>All plugins have the same structure:</p>
+<div class="highlight-python"><pre>.
+└── ChatterBot
+    ├── chatterbot.json
+    ├── lang
+    │   ├── fr
+    │   │   ├── modules
+    │   │   │   └── chat.py
+    │   │   └── text
+    │   │       └── chat.rs
+    │   ├── en
+    │   │   ├── modules
+    │   │   │   └── chat.py
+    │   │   └── text
+    │   │       └── chat.rs
+    │   ├── ru
+    │   │   ├── modules
+    │   │   │   └── chat.py
+    │   │   └── text
+    │   │       └── chat.rs
+    └── README.md</pre>
+</div>
+<ul class="simple">
+<li>A README file to explain what the plugin do and how it works</li>
+<li>A json file used for setup of the plugin, containing cron, rules, and parameters to setup (used only for the install)</li>
+<li>A lang directory containing all langs available</li>
+<li>A text file (.rs) containing all sentences and rules to launch a function</li>
+<li>A module file (.py) containing the class and all the methods called by text file</li>
+</ul>
+<div class="section" id="text-file">
+<h3>Text file<a class="headerlink" href="#text-file" title="Permalink to this headline">¶</a></h3>
+<p>The text file is in a Rivescript format. You will get more information about this &#8220;language&#8221; on
+<a class="reference external" href="http://www.rivescript.com">http://www.rivescript.com</a> .</p>
+<p>Example:</p>
+<div class="highlight-python"><pre>+ give me the tv guide [*]
+- &lt;call&gt;getprogrammetv&lt;/call&gt;
+
+&gt; object getprogrammetv python
+    import sys, os, inspect
+    cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split( \
+        inspect.getfile(inspect.currentframe()))[0],os.path.normpath("Plugins/ProgrammeTV/lang/en/modules/"))))
+    if cmd_subfolder not in sys.path:
+        sys.path.insert(0, cmd_subfolder)
+
+    from programmetv import ProgrammeTV
+    return ProgrammeTV().getProgrammeTV()
+&lt; object</pre>
+</div>
+</div>
+<div class="section" id="module-file">
+<h3>Module file<a class="headerlink" href="#module-file" title="Permalink to this headline">¶</a></h3>
+<p>Example of plugin :</p>
+<div class="highlight-python"><pre># -*- coding: UTF-8 -*-
+import urllib, json
+import xml.etree.ElementTree as ET
+from datetime import date
+import os
+from pymongo import MongoClient
+
+class ProgrammeTV:
+    def __init__(self):
+        self.configuration_lisa = json.load(open('Configuration/lisa.json'))
+        mongo = MongoClient(self.configuration_lisa['database']['server'], \
+                            self.configuration_lisa['database']['port'])
+        self.configuration = mongo.lisa.plugins.find_one({"name": "ProgrammeTV"})
+
+    def getProgrammeTV(self):
+        programmetv_str = [...] &lt;&lt;&lt; Here the code to fill a string and return it as an answer
+        return json.dumps({"plugin": "programmetv","method": "getProgrammeTV", "body": programmetv_str})</pre>
+</div>
+<p>There&#8217;s many possibilities, code is flexible and there&#8217;s no limit except one : you have to always return a JSON.</p>
+<p>The JSON must contain the plugin name, the method called, and the answer in the &#8220;body&#8221; field.</p>
+<p>You can also return any extra data in the field name of your choice. It can be used by the rule engine to match
+some condition and/or feed other plugins with these data.</p>
+</div>
+<div class="section" id="unit-tests">
+<h3>Unit tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h3>
+<p>Each plugin should come with unit tests. It allows to be sure everything is OK and there&#8217;s nothing broken from an old
+version to a newer. To have your plugin registered on the github repository, your plugin must provide unit tests and
+they should be OK.</p>
+<p>Unit test use the LISA-Engine to test if the sentence provided return the good answer.</p>
+<p>Example of a unit test :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">twisted.trial</span> <span class="kn">import</span> <span class="n">unittest</span>
+<span class="kn">from</span> <span class="nn">twisted.test</span> <span class="kn">import</span> <span class="n">proto_helpers</span>
+
+<span class="c"># Used to include the lisa.py engine and call it from unit test</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;../../../&quot;</span><span class="p">))))</span>
+
+<span class="kn">from</span> <span class="nn">lisa</span> <span class="kn">import</span> <span class="n">LisaFactory</span><span class="p">,</span> <span class="n">configuration</span>
+
+<span class="k">class</span> <span class="nc">ChatTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="c"># Call the Factory skipping the network part</span>
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">factory</span> <span class="o">=</span> <span class="n">LisaFactory</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proto</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">buildProtocol</span><span class="p">((</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tr</span> <span class="o">=</span> <span class="n">proto_helpers</span><span class="o">.</span><span class="n">StringTransport</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proto</span><span class="o">.</span><span class="n">makeConnection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">)</span>
+
+    <span class="c"># Build simulate data received (json data)</span>
+    <span class="k">def</span> <span class="nf">_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentence</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proto</span><span class="o">.</span><span class="n">dataReceived</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">({</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;Chat&quot;</span><span class="p">,</span> <span class="s">&quot;zone&quot;</span><span class="p">:</span> <span class="s">&quot;Test&quot;</span><span class="p">,</span>
+                                            <span class="s">&quot;from&quot;</span><span class="p">:</span> <span class="s">&quot;Test&quot;</span><span class="p">,</span>
+                                            <span class="s">&quot;body&quot;</span><span class="p">:</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">sentence</span><span class="p">)</span>
+        <span class="p">}))</span>
+        <span class="n">jsonAnswer</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="o">.</span><span class="n">value</span><span class="p">())</span>
+        <span class="c"># We check if the answer is equal to what we expected</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">jsonAnswer</span><span class="p">[</span><span class="s">&#39;body&#39;</span><span class="p">],</span> <span class="n">expected</span><span class="p">)</span>
+
+    <span class="c"># Inject some sentences to test depending the language used</span>
+    <span class="k">def</span> <span class="nf">test_hello</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">configuration</span><span class="p">[</span><span class="s">&#39;lang&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;en&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">sentence</span><span class="o">=</span><span class="s">&#39;chat test&#39;</span><span class="p">,</span> <span class="n">expected</span><span class="o">=</span><span class="s">&#39;chat OK&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">configuration</span><span class="p">[</span><span class="s">&#39;lang&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;fr&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_test</span><span class="p">(</span><span class="n">sentence</span><span class="o">=</span><span class="s">&#39;Bonjour&#39;</span><span class="p">,</span> <span class="n">expected</span><span class="o">=</span><span class="s">&#39;Bonjour. Comment allez vous ?&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">LISA Engine</a><ul>
+<li><a class="reference internal" href="#install">Install</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#rules">Rules</a></li>
+<li><a class="reference internal" href="#plugins">Plugins</a><ul>
+<li><a class="reference internal" href="#text-file">Text file</a></li>
+<li><a class="reference internal" href="#module-file">Module file</a></li>
+<li><a class="reference internal" href="#unit-tests">Unit tests</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lisa-speech.html"
+                        title="previous chapter">LISA Speech</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/lisa-engine.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="lisa-speech.html" title="LISA Speech"
+             >previous</a> |</li>
+        <li><a href="index.html">L.I.S.A 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Julien Syx.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

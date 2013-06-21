@@ -1,9 +1,9 @@
-.. JARVIS documentation master file, created by
+.. LISA documentation master file, created by
    sphinx-quickstart on Sun Jun 16 10:21:52 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to JARVIS's documentation!
+Welcome to L.I.S.A's documentation!
 ==================================
 
 Contents:
@@ -13,9 +13,9 @@ Contents:
 
    about
    overview
-   jarvis-client
-   jarvis-speech
-   jarvis-engine
+   lisa-client
+   lisa-speech
+   lisa-engine
 
 
 Indices and tables
