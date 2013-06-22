@@ -1,7 +1,7 @@
 About
 #####
 
-This project is like the L.I.S.A IA developed by Tony Stark in Iron Man.
+This project is like the J.A.R.V.I.S IA developed by Tony Stark in Iron Man.
 
 I decided to create my own Digital Life Assistant because I didn't found any good project to contribute, or the concept wasn't good enough to fit my needs. I want something fast, easy to understand, easy to edit, easy to add features. Something small enough to run on a cheap computer like Raspberry Pi.
 
@@ -14,7 +14,7 @@ You will find all documentation needed on https://lisa-project.readthedocs.org/e
 Overview
 #######
 
-The architecture of J.A.R.V.I.S will be like this :
+The architecture of L.I.S.A will be like this :
 
 .. image:: docs/images/lisa-schema.png
 
