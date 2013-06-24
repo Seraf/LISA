@@ -1,0 +1,6 @@
+{
+    "lisa_url": "localhost",
+    "lisa_engine_port": 10042,
+    "lisa_engine_port_ssl": 10043,
+    "enable_secure_mode": true
+}

@@ -2,12 +2,17 @@
     "lang": "fr",
     "lisa_url": "localhost",
     "lisa_engine_port": 10042,
+    "lisa_engine_port_ssl": 10043,
     "lisa_web_port": 8000,
+    "lisa_web_port_ssl": 8443,
+
     "database": {
         "server": "localhost",
         "port": 27017,
         "user": "lisa",
         "pass": "lisapowered"
     },
-    "debug": false
+    "debug": false,
+    "enable_secure_mode": true,
+    "enable_unsecure_mode": true
 }

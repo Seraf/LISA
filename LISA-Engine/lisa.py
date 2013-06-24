@@ -11,7 +11,6 @@ from autobahn.resource import WebSocketResource
 from pymongo import MongoClient
 from libs.txscheduler.manager import ScheduledTaskManager
 from libs.txscheduler.service import ScheduledTaskService
-from libs.authentification import DjangoAuthChecker, LISARealm, portal
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
@@ -55,8 +54,7 @@ class Lisa(Protocol):
 
 
 class LisaFactory(Factory):
-    def __init__(self, portalInstance):
-        self.portal = portalInstance
+    def __init__(self):
         try:
             self.bot_library = libs.RiveScriptBot()
             log.msg("Successfully loaded bot")
@@ -129,15 +127,19 @@ class Scheduler_reload(resource.Resource):
     def render_GET(self, request):
         return self.taskman.reload()
 
+def verifyCallback(connection, x509, errnum, errdepth, ok):
+    if not ok:
+        print 'invalid cert from subject:', x509.get_subject()
+        return False
+    else:
+        print "Certs are fine"
+    return True
 
 # Twisted Application Framework setup:
 application = service.Application('LISA')
 
 # Instance of LisaFactory to pass it to other services.
-checker = DjangoAuthChecker()
-realm = LISARealm()
-p = portal.Portal(realm, [checker])
-LisaInstance = LisaFactory(p)
+LisaInstance = LisaFactory()
 
 # Create a task manager to pass it to other services
 taskman = ScheduledTaskManager(configuration)
@@ -167,9 +169,38 @@ socketfactory.protocol = WebSocketProtocol
 socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)
 
+if configuration['enable_secure_mode']:
+    from OpenSSL import SSL
+    from twisted.internet import ssl
 
-# Serve it up:
-internet.TCPServer(configuration['lisa_web_port'], server.Site(root)).setServiceParent(multi)
-internet.TCPServer(configuration['lisa_engine_port'], LisaInstance).setServiceParent(multi)
+    SSLContextFactory = ssl.DefaultOpenSSLContextFactory(
+        os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
+        os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
+    )
+    ctx = SSLContextFactory.getContext()
+    ctx.set_verify(
+        SSL.VERIFY_PEER | SSL.VERIFY_FAIL_IF_NO_PEER_CERT,
+        verifyCallback
+    )
+    # Since we have self-signed certs we have to explicitly
+    # tell the server to trust them.
+    with open(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'), 'w') as outfile:
+        for file in os.listdir(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/')):
+            with open(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/'+file)) as infile:
+                for line in infile:
+                    outfile.write(line)
+
+
+    ctx.load_verify_locations(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'))
+
+    internet.SSLServer(configuration['lisa_web_port_ssl'], server.Site(root), SSLContextFactory).setServiceParent(multi)
+    internet.SSLServer(configuration['lisa_engine_port_ssl'], LisaInstance, SSLContextFactory).setServiceParent(multi)
+
+elif configuration['enable_unsecure_mode']:
+    # Serve it up:
+    internet.TCPServer(configuration['lisa_web_port'], server.Site(root)).setServiceParent(multi)
+    internet.TCPServer(configuration['lisa_engine_port'], LisaInstance).setServiceParent(multi)
+else:
+    exit(1)
 scheduler.setServiceParent(multi)
 multi.setServiceParent(application)
