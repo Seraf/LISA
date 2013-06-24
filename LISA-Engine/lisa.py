@@ -174,11 +174,15 @@ if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
         from OpenSSL import SSL
         from twisted.internet import ssl
 
-        SSLContextFactory = ssl.DefaultOpenSSLContextFactory(
+        SSLContextFactoryEngine = ssl.DefaultOpenSSLContextFactory(
             os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
             os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
         )
-        ctx = SSLContextFactory.getContext()
+        SSLContextFactoryWeb = ssl.DefaultOpenSSLContextFactory(
+            os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
+            os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
+        )
+        ctx = SSLContextFactoryEngine.getContext()
         ctx.set_verify(
             SSL.VERIFY_PEER | SSL.VERIFY_FAIL_IF_NO_PEER_CERT,
             verifyCallback
@@ -194,8 +198,10 @@ if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
 
         ctx.load_verify_locations(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'))
 
-        internet.SSLServer(configuration['lisa_web_port_ssl'], server.Site(root), SSLContextFactory).setServiceParent(multi)
-        internet.SSLServer(configuration['lisa_engine_port_ssl'], LisaInstance, SSLContextFactory).setServiceParent(multi)
+        internet.SSLServer(configuration['lisa_web_port_ssl'],
+                           server.Site(root), SSLContextFactoryWeb).setServiceParent(multi)
+        internet.SSLServer(configuration['lisa_engine_port_ssl'],
+                           LisaInstance, SSLContextFactoryEngine).setServiceParent(multi)
 
     if configuration['enable_unsecure_mode']:
         # Serve it up:
