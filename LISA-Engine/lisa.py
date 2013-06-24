@@ -169,37 +169,38 @@ socketfactory.protocol = WebSocketProtocol
 socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)
 
-if configuration['enable_secure_mode']:
-    from OpenSSL import SSL
-    from twisted.internet import ssl
+if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
+    if configuration['enable_secure_mode']:
+        from OpenSSL import SSL
+        from twisted.internet import ssl
 
-    SSLContextFactory = ssl.DefaultOpenSSLContextFactory(
-        os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
-        os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
-    )
-    ctx = SSLContextFactory.getContext()
-    ctx.set_verify(
-        SSL.VERIFY_PEER | SSL.VERIFY_FAIL_IF_NO_PEER_CERT,
-        verifyCallback
-    )
-    # Since we have self-signed certs we have to explicitly
-    # tell the server to trust them.
-    with open(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'), 'w') as outfile:
-        for file in os.listdir(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/')):
-            with open(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/'+file)) as infile:
-                for line in infile:
-                    outfile.write(line)
+        SSLContextFactory = ssl.DefaultOpenSSLContextFactory(
+            os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
+            os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
+        )
+        ctx = SSLContextFactory.getContext()
+        ctx.set_verify(
+            SSL.VERIFY_PEER | SSL.VERIFY_FAIL_IF_NO_PEER_CERT,
+            verifyCallback
+        )
+        # Since we have self-signed certs we have to explicitly
+        # tell the server to trust them.
+        with open(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'), 'w') as outfile:
+            for file in os.listdir(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/')):
+                with open(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/'+file)) as infile:
+                    for line in infile:
+                        outfile.write(line)
 
 
-    ctx.load_verify_locations(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'))
+        ctx.load_verify_locations(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'))
 
-    internet.SSLServer(configuration['lisa_web_port_ssl'], server.Site(root), SSLContextFactory).setServiceParent(multi)
-    internet.SSLServer(configuration['lisa_engine_port_ssl'], LisaInstance, SSLContextFactory).setServiceParent(multi)
+        internet.SSLServer(configuration['lisa_web_port_ssl'], server.Site(root), SSLContextFactory).setServiceParent(multi)
+        internet.SSLServer(configuration['lisa_engine_port_ssl'], LisaInstance, SSLContextFactory).setServiceParent(multi)
 
-elif configuration['enable_unsecure_mode']:
-    # Serve it up:
-    internet.TCPServer(configuration['lisa_web_port'], server.Site(root)).setServiceParent(multi)
-    internet.TCPServer(configuration['lisa_engine_port'], LisaInstance).setServiceParent(multi)
+    if configuration['enable_unsecure_mode']:
+        # Serve it up:
+        internet.TCPServer(configuration['lisa_web_port'], server.Site(root)).setServiceParent(multi)
+        internet.TCPServer(configuration['lisa_engine_port'], LisaInstance).setServiceParent(multi)
 else:
     exit(1)
 scheduler.setServiceParent(multi)
