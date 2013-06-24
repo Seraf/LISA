@@ -11,6 +11,7 @@ from autobahn.resource import WebSocketResource
 from pymongo import MongoClient
 from libs.txscheduler.manager import ScheduledTaskManager
 from libs.txscheduler.service import ScheduledTaskService
+from libs.authentification import DjangoAuthChecker, LISARealm, portal
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
@@ -54,7 +55,8 @@ class Lisa(Protocol):
 
 
 class LisaFactory(Factory):
-    def __init__(self):
+    def __init__(self, portalInstance):
+        self.portal = portalInstance
         try:
             self.bot_library = libs.RiveScriptBot()
             log.msg("Successfully loaded bot")
@@ -131,8 +133,12 @@ class Scheduler_reload(resource.Resource):
 # Twisted Application Framework setup:
 application = service.Application('LISA')
 
-# Instance of LisaFactory to pass it to other services
-LisaInstance = LisaFactory()
+# Instance of LisaFactory to pass it to other services.
+checker = DjangoAuthChecker()
+realm = LISARealm()
+p = portal.Portal(realm, [checker])
+LisaInstance = LisaFactory(p)
+
 # Create a task manager to pass it to other services
 taskman = ScheduledTaskManager(configuration)
 scheduler = ScheduledTaskService(taskman)
