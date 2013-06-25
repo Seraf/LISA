@@ -40,12 +40,6 @@ class Lisa(Protocol):
     def __init__(self,factory, bot_library):
         self.factory = factory
         self.bot_library = bot_library
-        if configuration['enable_secure_mode']:
-            ctx = ServerTLSContext(
-                privateKeyFileName=os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
-                certificateFileName= os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
-            )
-            self.transport.startTLS(ctx, self.factory)
 
     def answertoclient(self, jsondata):
         self.transport.write(jsondata)
@@ -53,6 +47,12 @@ class Lisa(Protocol):
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
         self.factory.clients.append({"object": self, "zone": "", "type": "", "uuid": self.client_uuid})
+        if configuration['enable_secure_mode']:
+            ctx = ServerTLSContext(
+                privateKeyFileName=os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
+                certificateFileName= os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
+            )
+            self.transport.startTLS(ctx, self.factory)
 
     def connectionLost(self, reason):
         log.msg('Lost connection.  Reason:', reason)
@@ -84,8 +84,6 @@ class LisaFactory(Factory):
         self.build_grammar()
 
     def build_grammar(self):
-        path = os.path.abspath(__file__)
-        dir_path = os.path.dirname(path)
         self.bot_library.learn(os.path.normpath(dir_path + '/' + 'Configuration/'))
         # Load enabled plugins for the main language
         for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
@@ -147,7 +145,7 @@ def verifyCallback(connection, x509, errnum, errdepth, ok):
         print 'invalid cert from subject:', x509.get_subject()
         return False
     else:
-        print "Certs are fine"
+        print "Certs are OK"
     return True
 
 # Twisted Application Framework setup:

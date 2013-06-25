@@ -11,9 +11,6 @@ class LisaClient(Protocol):
     def __init__(self,factory):
         self.factory = factory
 
-        if configuration['enable_secure_mode']:
-            ctx = ClientTLSContext()
-            self.transport.startTLS(ctx, self.factory)
 
     def sendMessage(self, message):
         self.transport.write(json.dumps(
@@ -25,13 +22,18 @@ class LisaClient(Protocol):
         datajson = json.loads(data)
         print datajson
 
+    def connectionMade(self):
+        print 'Connected to Lisa.'
+        if configuration['enable_secure_mode']:
+            ctx = ClientTLSContext()
+            self.transport.startTLS(ctx, self.factory)
+
 class LisaClientFactory(ReconnectingClientFactory):
     def startedConnecting(self, connector):
         print 'Started to connect.'
 
     def buildProtocol(self, addr):
         self.protocol = LisaClient(self)
-        print 'Connected to Lisa.'
         print 'Resetting reconnection delay'
         self.resetDelay()
         return self.protocol
