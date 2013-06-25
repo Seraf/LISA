@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import os,libs,json,sys,uuid
 from twisted.internet.protocol import Factory, Protocol
-from twisted.internet import reactor
+from twisted.internet import reactor, ssl
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static, resource
 from twisted.python import threadpool, log
@@ -11,6 +11,7 @@ from autobahn.resource import WebSocketResource
 from pymongo import MongoClient
 from libs.txscheduler.manager import ScheduledTaskManager
 from libs.txscheduler.service import ScheduledTaskService
+from OpenSSL import SSL
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
@@ -30,10 +31,24 @@ class ThreadPoolService(service.Service):
         service.Service.stopService(self)
         self.pool.stop()
 
+class ServerTLSContext(ssl.DefaultOpenSSLContextFactory):
+    def __init__(self, *args, **kw):
+        kw['sslmethod'] = SSL.TLSv1_METHOD
+        ssl.DefaultOpenSSLContextFactory.__init__(self, *args, **kw)
+
 class Lisa(Protocol):
     def __init__(self,factory, bot_library):
         self.factory = factory
         self.bot_library = bot_library
+        if configuration['enable_secure_mode']:
+            ctx = ServerTLSContext(
+                privateKeyFileName=os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
+                certificateFileName= os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
+            )
+            self.transport.startTLS(ctx, self.factory)
+
+    def answertoclient(self, jsondata):
+        self.transport.write(jsondata)
 
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
@@ -171,9 +186,6 @@ root.putChild("websocket", socketresource)
 
 if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
     if configuration['enable_secure_mode']:
-        from OpenSSL import SSL
-        from twisted.internet import ssl
-
         SSLContextFactoryEngine = ssl.DefaultOpenSSLContextFactory(
             os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
             os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
