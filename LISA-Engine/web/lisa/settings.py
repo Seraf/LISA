@@ -102,10 +102,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'lisa.urls'
+ROOT_URLCONF = 'web.lisa.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'lisa.wsgi.application'
+WSGI_APPLICATION = 'web.lisa.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -122,7 +122,7 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.headers.HeaderDebugPanel',
     'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
     'debug_toolbar.panels.template.TemplateDebugPanel',
-    #'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
     'debug_toolbar.panels.signals.SignalDebugPanel',
     'debug_toolbar.panels.logger.LoggingPanel',
 )
@@ -145,6 +145,7 @@ INSTALLED_APPS = (
 
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
+SESSION_ENGINE = 'mongoengine.django.sessions'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

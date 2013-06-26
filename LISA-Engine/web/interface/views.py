@@ -9,20 +9,22 @@ def login(request):
     from mongoengine.django.auth import User
     from mongoengine.queryset import DoesNotExist
     from django.contrib import messages
-    try:
-        user = User.objects.get(username=request.POST['username'])
-        if user.check_password(request.POST['password']):
-            user.backend = 'mongoengine.django.auth.MongoEngineBackend'
-            print login(request, user)
-            request.session.set_expiry(60 * 60 * 1) # 1 hour timeout
-            print "return"
-            return redirect('index')
-        else:
+    if request.method == "POST":
+        try:
+            user = User.objects.get(username=request.POST['username'])
+            if user.check_password(request.POST['password']):
+                user.backend = 'mongoengine.django.auth.MongoEngineBackend'
+                print login(request, user)
+                request.session.set_expiry(60 * 60 * 1) # 1 hour timeout
+                print "return"
+                return redirect('index')
+            else:
+                messages.add_message(request,messages.ERROR,u"Incorrect login name or password !")
+        except DoesNotExist:
             messages.add_message(request,messages.ERROR,u"Incorrect login name or password !")
-    except DoesNotExist:
-        messages.add_message(request,messages.ERROR,u"Incorrect login name or password !")
-    return render(request, 'login.html', {})
-
+        return render(request, 'login.html', {})
+    else:
+        return render(request, 'login.html', {})
 def logout(request):
     from django.contrib.auth import logout
     logout(request)

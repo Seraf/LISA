@@ -1,5 +1,5 @@
 from mongoengine import *
-from lisa.settings import DBNAME
+from web.lisa.settings import DBNAME
 connect(DBNAME)
 
 
