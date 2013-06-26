@@ -127,6 +127,10 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.logger.LoggingPanel',
 )
 
+DEBUG_TOOLBAR_CONFIG = {
+    'INTERCEPT_REDIRECTS': False,
+    'ENABLE_STACKTRACES' : True,
+    }
 INSTALLED_APPS = (
     'django.contrib.auth',
     'mongoengine.django.mongo_auth',

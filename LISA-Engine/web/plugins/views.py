@@ -4,11 +4,16 @@ from django.http import HttpResponse
 from models import Plugin, Rule, Cron
 import requests, json, git, os
 from shutil import rmtree
-from web.lisa.utils import method_restricted_to, is_ajax
-from web.lisa.settings import LISA_PATH
+try:
+    from web.lisa.utils import method_restricted_to, is_ajax
+    from web.lisa.settings import LISA_PATH
+except ImportError:
+    from lisa.utils import method_restricted_to, is_ajax
+    from lisa.settings import LISA_PATH
+
 
 @method_restricted_to('GET')
-def index(request):
+def list(request):
     plugins = []
     metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
     if(metareq.ok):
@@ -20,7 +25,7 @@ def index(request):
             if os.path.exists(LISA_PATH + '/Plugins/' + item['name']):
                 item['installed'] = True
             plugins.append(item)
-    return render_to_response('index.html', {'Plugins': plugins},
+    return render_to_response('list.html', {'Plugins': plugins},
                               context_instance=RequestContext(request))
 
 @is_ajax()
