@@ -4,8 +4,8 @@ from django.http import HttpResponse
 from models import Plugin, Rule, Cron
 import requests, json, git, os
 from shutil import rmtree
-from web.lisa.utils import method_restricted_to, is_ajax
-from web.lisa.settings import LISA_PATH
+from lisa.utils import method_restricted_to, is_ajax
+from lisa.settings import LISA_PATH
 
 @method_restricted_to('GET')
 def index(request):
