@@ -2,6 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse
 from models import Plugin, Rule, Cron
+from django.contrib.auth.decorators import login_required
 import requests, json, git, os
 from shutil import rmtree
 try:
@@ -13,6 +14,7 @@ except ImportError:
 
 
 @method_restricted_to('GET')
+@login_required()
 def list(request):
     plugins = []
     metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
@@ -30,6 +32,7 @@ def list(request):
 
 @is_ajax()
 @method_restricted_to('POST')
+@login_required()
 def enable(request):
     plugin_name = request.POST.get('name', '')
     for plugin in Plugin.objects(name=plugin_name):
@@ -42,6 +45,7 @@ def enable(request):
 
 @is_ajax()
 @method_restricted_to('POST')
+@login_required()
 def disable(request):
     plugin_name = request.POST.get('name', '')
     for plugin in Plugin.objects(name=plugin_name):
@@ -54,6 +58,7 @@ def disable(request):
 
 @is_ajax()
 @method_restricted_to('POST')
+@login_required()
 def uninstall(request):
     plugin_name = request.POST.get('name', '')
     for plugin in Plugin.objects(name=plugin_name):
@@ -64,6 +69,7 @@ def uninstall(request):
 
 @is_ajax()
 @method_restricted_to('POST')
+@login_required()
 def install(request):
     plugin_name = request.POST.get('name', '')
     plugin_url = request.POST.get('url', '')

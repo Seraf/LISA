@@ -11,6 +11,9 @@ DBNAME = 'lisa'
 from mongoengine import connect
 connect(DBNAME, host=configuration['database']['server'], port=configuration['database']['port'])
 
+LOGIN_REDIRECT_URL='/'
+LOGIN_URL='login'
+LOGOUT_URL='logout'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
