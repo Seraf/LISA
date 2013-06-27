@@ -106,14 +106,28 @@ class Root(resource.Resource):
         request.postpath.insert(0, path0)
         return self.wsgi_resource
 
+class CtxFactory(ssl.ClientContextFactory):
+    def getContext(self):
+        self.method = SSL.SSLv23_METHOD
+        ctx = ssl.ClientContextFactory.getContext(self)
+        ctx.use_certificate_file(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/websocket.crt'))
+        ctx.use_privatekey_file(os.path.normpath(dir_path + '/' + 'Configuration/ssl/websocket.key'))
+        return ctx
+
 class WebSocketProtocol(WebSocketServerProtocol):
     def connectionMade(self):
+        self.configuration = configuration
         WebSocketServerProtocol.connectionMade(self)
         self.lisaclientfactory = libs.LisaClientFactory(self)
-        reactor.connectTCP(configuration['lisa_url'], configuration['lisa_engine_port'], self.lisaclientfactory)
+        if configuration['enable_secure_mode']:
+             reactor.connectSSL(configuration['lisa_url'], configuration['lisa_engine_port_ssl'],
+                                self.lisaclientfactory, CtxFactory()
+             )
+        else:
+            reactor.connectTCP(configuration['lisa_url'], configuration['lisa_engine_port'], self.lisaclientfactory)
 
     def onMessage(self, msg, binary):
-        self.lisaclientfactory.protocol.sendMessage(json.dumps( \
+        self.lisaclientfactory.protocol.sendMessage(json.dumps(
             {"from": "Lisa-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
 
 class LisaReload(resource.Resource):
@@ -176,8 +190,13 @@ root.putChild("static", staticrsrc)
 root.putChild("lisareload", LisaReload(LisaInstance))
 root.putChild("schedulerreload", Scheduler_reload(taskman))
 
-socketfactory = WebSocketServerFactory("ws://" + configuration['lisa_url'] + ":" +\
+if configuration['enable_secure_mode']:
+    socketfactory = WebSocketServerFactory("wss://" + configuration['lisa_url'] + ":" +\
+                                       str(configuration['lisa_web_port_ssl']),debug=False)
+else:
+    socketfactory = WebSocketServerFactory("ws://" + configuration['lisa_url'] + ":" +\
                                        str(configuration['lisa_web_port']),debug=False)
+
 socketfactory.protocol = WebSocketProtocol
 socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)

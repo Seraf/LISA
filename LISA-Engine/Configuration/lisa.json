@@ -13,6 +13,6 @@
         "pass": "lisapowered"
     },
     "debug": false,
-    "enable_secure_mode": true,
+    "enable_secure_mode": false,
     "enable_unsecure_mode": true
 }

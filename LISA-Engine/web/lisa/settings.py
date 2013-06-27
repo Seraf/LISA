@@ -1,13 +1,16 @@
 # Django settings for blog project.
-import os
+import os, json
 APP_DIR = os.path.dirname( globals()['__file__'] )
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 LISA_PATH = os.path.abspath(os.path.dirname(__file__) + '../../../')
 
-from mongoengine import connect
-connect('lisa', host='localhost', port=27017)
+configuration = json.load(open(os.path.normpath(LISA_PATH + '/' + 'Configuration/lisa.json')))
 
 DBNAME = 'lisa'
+
+from mongoengine import connect
+connect(DBNAME, host=configuration['database']['server'], port=configuration['database']['port'])
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
