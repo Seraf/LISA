@@ -1,6 +1,37 @@
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
-from twisted.internet import ssl
 from OpenSSL import SSL
+import os,libs,json
+from twisted.internet import reactor, ssl
+from autobahn.websocket import WebSocketServerProtocol
+
+class CtxFactory(ssl.ClientContextFactory):
+    def __init__(self, dir_path):
+        self.dir_path = dir_path
+
+    def getContext(self):
+        self.method = SSL.SSLv23_METHOD
+        ctx = ssl.ClientContextFactory.getContext(self)
+        ctx.use_certificate_file(os.path.normpath(self.dir_path + '/' + 'Configuration/ssl/public/websocket.crt'))
+        ctx.use_privatekey_file(os.path.normpath(self.dir_path + '/' + 'Configuration/ssl/websocket.key'))
+        return ctx
+
+class WebSocketProtocol(WebSocketServerProtocol):
+    def connectionMade(self):
+        self.configuration = self.configuration
+        WebSocketServerProtocol.connectionMade(self)
+        self.lisaclientfactory = libs.LisaClientFactory(self)
+        if self.configuration['enable_secure_mode']:
+             reactor.connectSSL(self.configuration['lisa_url'], self.configuration['lisa_engine_port_ssl'],
+                                self.lisaclientfactory, CtxFactory()
+             )
+        else:
+            reactor.connectTCP(self.configuration['lisa_url'],
+                               self.configuration['lisa_engine_port'], self.lisaclientfactory)
+
+    def onMessage(self, msg, binary):
+        self.lisaclientfactory.protocol.sendMessage(json.dumps(
+            {"from": "Lisa-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
+
 
 class ClientTLSContext(ssl.ClientContextFactory):
     isClient = 1

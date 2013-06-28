@@ -79,8 +79,6 @@ class LisaFactory(Factory):
         self.syspath = sys.path
         mongo = MongoClient(configuration['database']['server'], configuration['database']['port'])
         self.database = mongo.lisa
-
-        # Install the default Chatterbot plugin
         self.build_grammar()
 
     def build_grammar(self):
@@ -96,76 +94,8 @@ class LisaFactory(Factory):
         self.Lisa = Lisa(self,self.bot_library)
         return self.Lisa
 
-class Root(resource.Resource):
-    def __init__(self, wsgi_resource):
-        resource.Resource.__init__(self)
-        self.wsgi_resource = wsgi_resource
-
-    def getChild(self, path, request):
-        path0 = request.prepath.pop(0)
-        request.postpath.insert(0, path0)
-        return self.wsgi_resource
-
-class CtxFactory(ssl.ClientContextFactory):
-    def getContext(self):
-        self.method = SSL.SSLv23_METHOD
-        ctx = ssl.ClientContextFactory.getContext(self)
-        ctx.use_certificate_file(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/websocket.crt'))
-        ctx.use_privatekey_file(os.path.normpath(dir_path + '/' + 'Configuration/ssl/websocket.key'))
-        return ctx
-
-class WebSocketProtocol(WebSocketServerProtocol):
-    def connectionMade(self):
-        self.configuration = configuration
-        WebSocketServerProtocol.connectionMade(self)
-        self.lisaclientfactory = libs.LisaClientFactory(self)
-        if configuration['enable_secure_mode']:
-             reactor.connectSSL(configuration['lisa_url'], configuration['lisa_engine_port_ssl'],
-                                self.lisaclientfactory, CtxFactory()
-             )
-        else:
-            reactor.connectTCP(configuration['lisa_url'], configuration['lisa_engine_port'], self.lisaclientfactory)
-
-    def onMessage(self, msg, binary):
-        self.lisaclientfactory.protocol.sendMessage(json.dumps(
-            {"from": "Lisa-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
-
-class LisaReload(resource.Resource):
-    def __init__(self, LisaFactory):
-        self.LisaFactory = LisaFactory
-        sys.path = self.LisaFactory.syspath
-        resource.Resource.__init__(self)
-
-    def getChild(self, path, request):
-        self.LisaFactory.build_grammar()
-        return "OK"
-
-    def render_GET(self, request):
-        self.LisaFactory.build_grammar()
-        return "OK"
-
-class Scheduler_reload(resource.Resource):
-    def __init__(self, taskman):
-        self.taskman = taskman
-        resource.Resource.__init__(self)
-    def getChild(self, path, request):
-        return self.taskman.reload()
-
-    def render_GET(self, request):
-        return self.taskman.reload()
-
-def verifyCallback(connection, x509, errnum, errdepth, ok):
-    if not ok:
-        print 'invalid cert from subject:', x509.get_subject()
-        return False
-    else:
-        print "Certs are OK"
-    return True
-
 # Twisted Application Framework setup:
 application = service.Application('LISA')
-
-# Instance of LisaFactory to pass it to other services.
 LisaInstance = LisaFactory()
 
 # Create a task manager to pass it to other services
@@ -182,14 +112,16 @@ multi = service.MultiService()
 pool = threadpool.ThreadPool()
 tps = ThreadPoolService(pool)
 tps.setServiceParent(multi)
-resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
-root = Root(resource_wsgi)
 
+# Creating the web stuff
+resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
+root = libs.Root(resource_wsgi)
 staticrsrc = static.File(os.path.normpath(os.path.join(os.path.abspath("."), "web/lisa/static")))
 root.putChild("static", staticrsrc)
-root.putChild("lisareload", LisaReload(LisaInstance))
-root.putChild("schedulerreload", Scheduler_reload(taskman))
+root.putChild("lisareload", libs.LisaReload(LisaInstance))
+root.putChild("schedulerreload", libs.Scheduler_reload(taskman))
 
+# Create the websocket
 if configuration['enable_secure_mode']:
     socketfactory = WebSocketServerFactory("wss://" + configuration['lisa_url'] + ":" +\
                                        str(configuration['lisa_web_port_ssl']),debug=False)
@@ -197,10 +129,12 @@ else:
     socketfactory = WebSocketServerFactory("ws://" + configuration['lisa_url'] + ":" +\
                                        str(configuration['lisa_web_port']),debug=False)
 
-socketfactory.protocol = WebSocketProtocol
+socketfactory.protocol = libs.WebSocketProtocol
+socketfactory.protocol.configuration, socketfactory.protocol.dir_path = configuration, dir_path
 socketresource = WebSocketResource(socketfactory)
 root.putChild("websocket", socketresource)
 
+# Configuring servers to launch
 if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
     if configuration['enable_secure_mode']:
         SSLContextFactoryEngine = ssl.DefaultOpenSSLContextFactory(
@@ -214,7 +148,7 @@ if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
         ctx = SSLContextFactoryEngine.getContext()
         ctx.set_verify(
             SSL.VERIFY_PEER | SSL.VERIFY_FAIL_IF_NO_PEER_CERT,
-            verifyCallback
+            libs.verifyCallback
         )
         # Since we have self-signed certs we have to explicitly
         # tell the server to trust them.
