@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-fixed-top"> 
+<div class="navbar navbar-fixed-top">
  <div class="navbar-inner">
   <div class="container-fluid">
    <a data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar">
@@ -8,11 +8,20 @@
    </a>
    <a href="/" class="brand">LISA Dashboard</a>
    <div class="nav-collapse">
+       <ul class="nav pull-left">
+           <li class>
+               <a href="/speech">Speech</a>
+           </li>
+           <li class="divider-vertical" />
+           <li class>
+               <a href="/plugins/list">Plugins</a>
+           </li>
+       </ul>
     <ul class="nav pull-right">
      <li id="menu1" class="dropdown">
       <a href="#" data-toggle="dropdown" class="dropdown-toggle">admin<b class="caret"></b></a>
-      <ul class="dropdown-menu"><li><a href="/admin">Admin</a></li><li><a href="/users/profile">Profile</a></li>
-       <li><a href="/users/logout">Log Out</a></li>
+      <ul class="dropdown-menu">
+          <li><a href="/logout">Log Out</a></li>
       </ul>
      </li>
     </ul>

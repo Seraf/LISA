@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script type="text/javascript">
+{% extends "base/base.html" %}
+
+{% block title %}{{ section.title }}{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
         var csrf = "{{ csrf_token }}";
         var install = function(name,url,sha) {
             $.ajax({type:'POST', url:'/plugins/install', async:true,
@@ -80,8 +79,10 @@
             });
         };
     </script>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
+<div class=span12>
     {% for plugin in Plugins %}
         <ul>
             <li><h2>{{ plugin.name }}</h2></li>
@@ -121,5 +122,5 @@
             </li>
         </ul>
     {% endfor %}
-</body>
-</html>
+</div>
+{% endblock %}
