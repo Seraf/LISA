@@ -3,10 +3,10 @@ import os,libs,json,sys,uuid
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor, ssl
 from twisted.application import internet, service
-from twisted.web import server, wsgi, static, resource
+from twisted.web import server, wsgi, static
 from twisted.python import threadpool, log
 from django.core.handlers.wsgi import WSGIHandler
-from autobahn.websocket import WebSocketServerFactory, WebSocketServerProtocol
+from autobahn.websocket import WebSocketServerFactory
 from autobahn.resource import WebSocketResource
 from pymongo import MongoClient
 from libs.txscheduler.manager import ScheduledTaskManager
