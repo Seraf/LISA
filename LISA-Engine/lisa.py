@@ -67,7 +67,6 @@ class Lisa(Protocol):
                 client['type'],client['zone'] = jsonData['type'],jsonData['zone']
         libs.RulesEngine(configuration).Rules(jsonData=jsonData, lisaprotocol=self)
 
-
 class LisaFactory(Factory):
     def __init__(self):
         try:
@@ -94,6 +93,16 @@ class LisaFactory(Factory):
         self.Lisa = Lisa(self,self.bot_library)
         return self.Lisa
 
+    def LisaReload(self):
+        log.msg("Reloading L.I.S.A Engine")
+        sys.path = self.syspath
+        self.build_grammar()
+
+    def SchedReload(self):
+        log.msg("Reloading Task Scheduler")
+        self.taskman = taskman
+        return self.taskman.reload()
+
 # Twisted Application Framework setup:
 application = service.Application('LISA')
 LisaInstance = LisaFactory()
@@ -118,8 +127,6 @@ resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
 root = libs.Root(resource_wsgi)
 staticrsrc = static.File(os.path.normpath(os.path.join(os.path.abspath("."), "web/lisa/static")))
 root.putChild("static", staticrsrc)
-root.putChild("lisareload", libs.LisaReload(LisaInstance))
-root.putChild("schedulerreload", libs.Scheduler_reload(taskman))
 
 # Create the websocket
 if configuration['enable_secure_mode']:

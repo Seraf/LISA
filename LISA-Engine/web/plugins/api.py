@@ -1,8 +1,15 @@
 from tastypie import authorization
 from tastypie_mongoengine import resources, fields
-from models import Plugin, Description
+from models import Plugin, Description, Rule, Cron
 from django.conf.urls.defaults import *
-from tastypie.utils import trailing_slash
+import json, git, lisa
+from shutil import rmtree
+
+try:
+    from web.lisa.settings import LISA_PATH
+except ImportError:
+    from lisa.settings import LISA_PATH
+
 
 class PluginResource(resources.MongoEngineResource):
     description = fields.EmbeddedListField(of='plugins.api.EmbeddedDescriptionResource',
@@ -20,27 +27,120 @@ class PluginResource(resources.MongoEngineResource):
                 self.wrap_view('enable'), name="api_plugin_enable"),
             url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/disable$" % (self._meta.resource_name),
                 self.wrap_view('disable'), name="api_plugin_disable"),
-            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/remove$" % (self._meta.resource_name),
-                self.wrap_view('remove'), name="api_plugin_remove"),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/uninstall$" % (self._meta.resource_name),
+                self.wrap_view('uninstall'), name="api_plugin_uninstall"),
             url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/upgrade$" % (self._meta.resource_name),
                 self.wrap_view('upgrade'), name="api_plugin_upgrade"),
             ]
 
-    from tastypie.http import HttpCreated, HttpNotModified
-
     def install(self, request, **kwargs):
-        self.method_check(request, allowed=['post','get'])
+        self.method_check(request, allowed=['post'])
         self.is_authenticated(request)
         self.throttle_check(request)
 
+        from tastypie.http import HttpCreated, HttpNotModified
+
         try:
-            output = kwargs['plugin_name']
+            plugin_url = request.POST.get("url")
+            plugin_sha = request.POST.get("sha")
+            plugin_name = kwargs['plugin_name']
+            repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/Plugins/' + plugin_name)
+            repo.git.checkout(plugin_sha)
+            metadata = json.load(open(LISA_PATH + '/Plugins/' + plugin_name + '/' + str(plugin_name).lower() + '.json'))
+            plugin = Plugin()
+            for item in metadata:
+                if item != 'cron' or item != 'rules':
+                    setattr(plugin, item, metadata[item])
+            plugin.save(validate=False)
+            for item in metadata:
+                if item == 'rules':
+                    for rule_item in metadata['rule']:
+                        rule = Rule()
+                        for parameter in rule_item:
+                            setattr(rule, parameter, rule_item[parameter])
+                        rule.plugin = plugin
+                        rule.save(validate=False)
+                if item == 'cron':
+                    for cron_item in metadata['cron']:
+                        cron = Cron()
+                        for parameter in cron_item:
+                            setattr(cron, parameter, cron_item[parameter])
+                        cron.plugin = plugin
+                        cron.save(validate=False)
         except:
             pass
         #except FailedException as failure:
         #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
         self.log_throttled_access(request)
-        return self.create_response(request, { 'status' : 'success', 'log' : output })
+        lisa.LisaInstance.SchedReload()
+        lisa.LisaInstance.LisaReload()
+        return self.create_response(request, { 'status': 'success', 'log': "Plugin Installed"}, HttpCreated)
+
+    def enable(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        from tastypie.http import HttpAccepted, HttpNotModified
+
+        try:
+            for plugin in Plugin.objects(pk=kwargs['pk']):
+                plugin.enabled = True
+                plugin.save()
+                for cron in Cron.objects(plugin=plugin):
+                    cron.enabled = True
+                    cron.save()
+        except:
+            pass
+            #except FailedException as failure:
+        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+        self.log_throttled_access(request)
+        lisa.LisaInstance.SchedReload()
+        lisa.LisaInstance.LisaReload()
+        return self.create_response(request, { 'status': 'success', 'log': "Plugin Enabled"}, HttpAccepted)
+
+    def disable(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        from tastypie.http import HttpAccepted, HttpNotModified
+
+        try:
+            for plugin in Plugin.objects(pk=kwargs['pk']):
+                plugin.enabled = False
+                plugin.save()
+                for cron in Cron.objects(plugin=plugin):
+                    cron.enabled = False
+                    cron.save()
+        except:
+            pass
+            #except FailedException as failure:
+        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+        self.log_throttled_access(request)
+        lisa.LisaInstance.SchedReload()
+        lisa.LisaInstance.LisaReload()
+        return self.create_response(request, { 'status': 'success', 'log': "Plugin Disabled"}, HttpAccepted)
+
+    def uninstall(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        from tastypie.http import HttpAccepted, HttpNotModified
+
+        try:
+            for plugin in Plugin.objects(pk=kwargs['pk']):
+                rmtree(LISA_PATH + '/Plugins/' + plugin['name'])
+                plugin.delete()
+        except:
+            pass
+            #except FailedException as failure:
+        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+        self.log_throttled_access(request)
+        lisa.LisaInstance.SchedReload()
+        lisa.LisaInstance.LisaReload()
+        return self.create_response(request, { 'status': 'success', 'log': "Plugin Deleted"}, HttpAccepted)
 
 
 class EmbeddedDescriptionResource(resources.MongoEngineResource):
