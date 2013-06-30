@@ -5,12 +5,16 @@ except ImportError:
     from lisa.settings import DBNAME
 connect(DBNAME)
 
+class Description(EmbeddedDocument):
+    lang = StringField(max_length=2)
+    description = StringField()
 
 class Plugin(DynamicDocument):
     name = StringField(max_length=120, required=True)
     lang = ListField(StringField(max_length=2))
     enabled = BooleanField()
-    version = FloatField()
+    version = StringField()
+    description = ListField(EmbeddedDocumentField(Description))
     configuration = DictField()
     meta = {
         'collection': 'plugins',
