@@ -54,14 +54,14 @@ class PluginResource(resources.MongoEngineResource):
             plugin.save(validate=False)
             for item in metadata:
                 if item == 'rules':
-                    for rule_item in metadata['rule']:
+                    for rule_item in metadata['rules']:
                         rule = Rule()
                         for parameter in rule_item:
                             setattr(rule, parameter, rule_item[parameter])
                         rule.plugin = plugin
                         rule.save(validate=False)
-                if item == 'cron':
-                    for cron_item in metadata['cron']:
+                if item == 'crons':
+                    for cron_item in metadata['crons']:
                         cron = Cron()
                         for parameter in cron_item:
                             setattr(cron, parameter, cron_item[parameter])

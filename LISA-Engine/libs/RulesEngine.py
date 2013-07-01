@@ -13,12 +13,12 @@ class RulesEngine():
                                     "name": "DefaultAnwser",    \
                                     "order": 999,               \
                                     "before": None,
-                                    "after": "lisaprotocol.transport.write(json.dumps(                     \
+                                    "after": "lisaprotocol.answerToClient(json.dumps(                       \
                                                     {                                                       \
                                                         'plugin': jsonAnswer['plugin'],                     \
                                                         'method': jsonAnswer['method'],                     \
                                                         'body': jsonAnswer['body'],                         \
-                                                        'client_uuid': lisaprotocol.client_uuid,          \
+                                                        'clients_zone': ['all'],                            \
                                                         'from': jsonData['from']                            \
                                                     }))",
                                     "end": True,

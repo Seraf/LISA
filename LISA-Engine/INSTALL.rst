@@ -17,7 +17,15 @@ Then, go into LISA-ENGINE and run :
 
   twistd -ny lisa.py
 
-To install plugins : http://localhost:8000/plugins/ (the interface have not Ajax yet, so after clicking on an action, reload the page with F5 !)
+You should now create your first user :
+::
+
+  cd LISA-Engine/web/
+  python manage.py createsuperuser
+
+.. warning:: As a new interface is in development, it will quickly change. The interface will use the API
+
+To install plugins : http://localhost:8000/ (you should login first)(the interface have not Ajax yet, so after clicking on an action, reload the page with F5 !)
 Plugins aren't translated yet. By default it will use the english language. Change the LISA-Engine/Configuration/lisa.json lang attribute to "en" to use english in plugins, then look how a plugin is built, you will see it's very easy to add a new language to the plugin.
 
 
