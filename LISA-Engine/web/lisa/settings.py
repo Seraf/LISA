@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'tastypie',
     'tastypie_mongoengine',
+    'tastypie_swagger',
     'debug_toolbar',
     'interface',
     'plugins',
@@ -158,6 +159,7 @@ INSTALLED_APPS = (
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
 SESSION_ENGINE = 'mongoengine.django.sessions'
+TASTYPIE_SWAGGER_API_MODULE = 'web.lisa.urls.v1_api'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

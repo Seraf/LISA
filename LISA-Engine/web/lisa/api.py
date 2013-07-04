@@ -1,29 +1,68 @@
 from tastypie import authorization
-from tastypie_mongoengine import resources
 from django.conf.urls.defaults import *
 import json
 from libs import LisaInstance, Lisa
+from tastypie import resources
+from tastypie.utils import trailing_slash
 
 try:
     from web.lisa.settings import LISA_PATH
 except ImportError:
     from lisa.settings import LISA_PATH
 
+class Lisa(object):
+    def __init__(self):
+        return None
 
-class LisaResource(resources.MongoEngineResource):
+class LisaResource(resources.Resource):
     class Meta:
-        allowed_methods = ('get', 'post')
+        resource_name = 'lisa'
+        allowed_methods = ()
         authorization = authorization.Authorization()
+        object_class = Lisa
+        extra_actions = [
+            {
+                'name': 'engine/reload',
+                'http_method': 'GET',
+                'fields': {}
+            },
+            {
+                'name': 'scheduler/reload',
+                'http_method': 'GET',
+                'fields': {}
+            },
+            {
+                'name': 'speak',
+                'http_method': 'POST',
+                'fields':{
+                    'message': {
+                        'type': 'string',
+                        'required': True,
+                        'description': 'The message to transmit to client(s)'
+                    },
+                    'clients_zone': {
+                        'type': 'list',
+                        'required': True,
+                        'description': "Provide a list of zones : ['all','WebSocket','Bedroom'] ..."
+                    }
+                }
+            }
+        ]
 
-    def prepend_urls(self):
+    def base_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/engine/reload$" % (self._meta.resource_name),
+            url(r"^(?P<resource_name>%s)%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('dispatch_list'), name="api_dispatch_list"),
+            url(r"^(?P<resource_name>%s)/schema%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('get_schema'), name="api_get_schema"),
+
+            url(r"^(?P<resource_name>%s)/engine/reload%s$" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('engine_reload'), name="api_lisa_engine_reload"),
-            url(r"^(?P<resource_name>%s)/scheduler/reload" % (self._meta.resource_name),
+            url(r"^(?P<resource_name>%s)/scheduler/reload%s" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('scheduler_reload'), name="api_lisa_scheduler_reload"),
-            url(r"^(?P<resource_name>%s)/speak" % (self._meta.resource_name),
+            url(r"^(?P<resource_name>%s)/speak%s" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('speak'), name="api_lisa_speak"),
-            ]
+        ]
 
     def speak(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
@@ -50,7 +89,7 @@ class LisaResource(resources.MongoEngineResource):
         return self.create_response(request, { 'status': 'success', 'log': "Message sent"}, HttpAccepted)
 
     def engine_reload(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
+        self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
 
@@ -66,7 +105,7 @@ class LisaResource(resources.MongoEngineResource):
         return self.create_response(request, { 'status': 'success', 'log': "L.I.S.A Engine reloaded"}, HttpAccepted)
 
     def scheduler_reload(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
+        self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
 
@@ -81,3 +120,6 @@ class LisaResource(resources.MongoEngineResource):
         self.log_throttled_access(request)
         return self.create_response(request, { 'status': 'success', 'log': "L.I.S.A Task Scheduler reloaded"},
                                     HttpAccepted)
+
+    def get_object_list(self, request):
+        return [Lisa()]

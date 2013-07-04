@@ -10,12 +10,12 @@ class Description(EmbeddedDocument):
     description = StringField()
 
 class Plugin(DynamicDocument):
-    name = StringField(max_length=120, required=True)
-    lang = ListField(StringField(max_length=2))
-    enabled = BooleanField()
-    version = StringField()
-    description = ListField(EmbeddedDocumentField(Description))
-    configuration = DictField()
+    name = StringField(max_length=120, required=True, help_text='Name of the plugin')
+    lang = ListField(StringField(max_length=2), help_text="List of supported languages : ['all','WebSocket']")
+    enabled = BooleanField(help_text="Boolean to know if the plugin is enabled or not")
+    version = StringField(help_text="The version number of the plugin")
+    description = ListField(EmbeddedDocumentField(Description), help_text="Contains a description of the plugin")
+    configuration = DictField(help_text="Configuration dictionnary of the plugin")
     meta = {
         'collection': 'plugins',
         'allow_inheritance': False
