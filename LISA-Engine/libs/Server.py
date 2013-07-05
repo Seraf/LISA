@@ -30,13 +30,8 @@ class Lisa(Protocol):
 
     def answerToClient(self, jsondata):
         jsonreturned = json.loads(jsondata)
-        print jsonreturned
-        print jsonreturned['clients_zone']
         for zone in jsonreturned['clients_zone']:
-            print zone
             for client in self.factory.clients:
-                print client
-                print client['zone']
                 if client['zone'] == zone or zone == 'all':
                     client['object'].transport.write(jsondata)
 
@@ -80,10 +75,14 @@ class LisaFactory(Factory):
         self.bot_library.learn(os.path.normpath(dir_path + '/' + 'Configuration/'))
         # Load enabled plugins for the main language
         for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
-            sys.path.append(str(os.path.normpath(dir_path + '/Plugins/' + plugin['name'] + '/lang/' \
-                                             + configuration['lang'] + '/modules/')))
-            self.bot_library.learn(os.path.normpath(dir_path + '/' + 'Plugins/' + plugin['name'] + '/lang/' \
-                                                    + configuration['lang'] + '/text'))
+            plugin_module_path = str(os.path.normpath(dir_path + '/Plugins/' + plugin['name'] + '/modules/'))
+            plugin_web_path = str(os.path.normpath(dir_path + '/Plugins/' + plugin['name'] + '/web/'))
+            if os.path.exists(plugin_module_path):
+                sys.path.append(plugin_module_path)
+            if os.path.exists(plugin_web_path):
+                sys.path.append(plugin_web_path)
+            self.bot_library.learn(os.path.normpath(dir_path + '/' + 'Plugins/' + plugin['name'] + '/lang/' +
+                                                    configuration['lang'] + '/'))
 
     def buildProtocol(self, addr):
         self.Lisa = Lisa(self,self.bot_library)

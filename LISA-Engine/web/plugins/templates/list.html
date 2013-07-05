@@ -5,77 +5,26 @@
 <script type="text/javascript">
         var csrf = "{{ csrf_token }}";
         var install = function(name,url,sha) {
-            $.ajax({type:'POST', url:'/plugins/install', async:true,
+            $.ajax({type:'POST', url:'/api/v1/plugin/'+name+'/install/', async:true,
                 data:{
-                    name:name,
                     url:url,
                     sha:sha,
                     csrfmiddlewaretoken:csrf
                 },
                 success: function(data, status, xhr) {
-                    $.ajax({type:'GET', url:'/lisareload', async:true,
-                        data:{},
-                        success: function(data, status, xhr) {}
-                    });
-                    $.ajax({type:'GET', url:'/schedulerreload', async:true,
-                        data:{},
-                        success: function(data, status, xhr) {}
-                    });
                 }
             });
         };
-        var uninstall = function(name) {
-            $.ajax({type:'POST', url:'/plugins/uninstall', async:true,
-                data:{
-                    name:name,
-                    csrfmiddlewaretoken:csrf
-                },
-                success: function(data, status, xhr) {
-                    $.ajax({type:'GET', url:'/lisareload', async:true,
-                        data:{},
-                        success: function(data, status, xhr) {}
-                    });
-                    $.ajax({type:'GET', url:'/schedulerreload', async:true,
-                        data:{},
-                        success: function(data, status, xhr) {}
-                    });
-                }
+        var uninstall = function(id) {
+            $.ajax({type:'GET', url:'/api/v1/plugin/'+id+'/uninstall/', async:true
             });
         };
-        var enable = function(name) {
-            $.ajax({type:'POST', url:'/plugins/enable', async:true,
-                data:{
-                    name:name,
-                    csrfmiddlewaretoken:csrf
-                },
-                success: function(data, status, xhr) {
-                    $.ajax({type:'GET', url:'/lisareload', async:true,
-                        data:{},
-                        success: function(data, status, xhr) {}
-                    });
-                    $.ajax({type:'GET', url:'/schedulerreload', async:true,
-                        data:{},
-                        success: function(data, status, xhr) {}
-                    });
-                }
+        var enable = function(id) {
+            $.ajax({type:'GET', url:'/api/v1/plugin/'+id+'/enable/', async:true
             });
         };
-        var disable = function(name) {
-            $.ajax({type:'POST', url:'/plugins/disable', async:true,
-                data:{
-                    name:name,
-                    csrfmiddlewaretoken:csrf
-                },
-                success: function(data, status, xhr) {
-                    $.ajax({type:'GET', url:'/lisareload', async:true,
-                        data:{},
-                        success: function(data, status, xhr) {}
-                    });
-                    $.ajax({type:'GET', url:'/schedulerreload', async:true,
-                        data:{},
-                        success: function(data, status, xhr) {}
-                    });
-                }
+        var disable = function(id) {
+            $.ajax({type:'GET', url:'/api/v1/plugin/'+id+'/disable/', async:true
             });
         };
     </script>
@@ -99,14 +48,14 @@
             {{ plugin }}
             <li id="action">
                 {% if plugin.enabled == True %}
-                    <a href="#" onclick="disable('{{ plugin.name }}');" class="button" id="button-disable">
+                    <a href="#" onclick="disable('{{ plugin.id }}');" class="button" id="button-disable">
                         <span class="disable">Disable</span>
                     </a>
                 {% elif plugin.installed == True %}
-                    <a href="#" onclick="enable('{{ plugin.name }}');" class="button"id="button-enable">
+                    <a href="#" onclick="enable('{{ plugin.id }}');" class="button"id="button-enable">
                         <span class="enable">Enable</span>
                     </a>
-                    <a href="#" onclick="uninstall('{{ plugin.name }}');" class="button" id="button-remove">
+                    <a href="#" onclick="uninstall('{{ plugin.id }}');" class="button" id="button-remove">
                         <span class="remove">Remove</span>
                     </a>
                 {% else %}

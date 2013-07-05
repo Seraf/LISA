@@ -18,7 +18,7 @@ class PluginResource(resources.MongoEngineResource):
                                            attribute='description', full=True, null=True)
     class Meta:
         queryset = Plugin.objects.all()
-        allowed_methods = ('get')
+        allowed_methods = ('get','post')
         authorization = authorization.Authorization()
         extra_actions = [
             {
@@ -84,7 +84,7 @@ class PluginResource(resources.MongoEngineResource):
         ]
 
     def install(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
+        self.method_check(request, allowed=['post','get'])
         self.is_authenticated(request)
         self.throttle_check(request)
 
