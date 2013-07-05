@@ -46,3 +46,6 @@ With this system and choosing carefully the rules order, you can chain plugins.
 API
 ----
 LISA embed an API for every possible actions on the website.
+Once you started the server, you can access to the API doc (and test it in live) at this address (depending your ip):
+
+    http://127.0.0.1:8000/api/docs/
