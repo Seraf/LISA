@@ -8,31 +8,47 @@ Plugins
 All plugins have the same structure: ::
 
     .
-    └── ChatterBot
-        ├── chatterbot.json
-        ├── lang
-        │   ├── fr
-        │   │   ├── modules
-        │   │   │   └── chat.py
-        │   │   └── text
-        │   │       └── chat.rs
-        │   ├── en
-        │   │   ├── modules
-        │   │   │   └── chat.py
-        │   │   └── text
-        │   │       └── chat.rs
-        │   ├── ru
-        │   │   ├── modules
-        │   │   │   └── chat.py
-        │   │   └── text
-        │   │       └── chat.rs
-        └── README.md
+    ├── chatterbot.json
+    ├── lang
+    │   ├── en
+    │   │   ├── chat.rs
+    │   │   └── LC_MESSAGES
+    │   │       ├── chat.mo
+    │   │       └── chat.po
+    │   ├── fr
+    │   │   ├── chat.rs
+    │   │   └── LC_MESSAGES
+    │   │       ├── chat.mo
+    │   │       └── chat.po
+    │   └── ru
+    │       ├── chat.rs
+    │       └── LC_MESSAGES
+    │           ├── chat.mo
+    │           └── chat.po
+    ├── modules
+    │   ├── chat.py
+    │   └── chat.pyc
+    ├── README.rst
+    └── tests
+        └── chat_test.py
+
 
 - A README file to explain what the plugin do and how it works
 - A json file used for setup of the plugin, containing cron, rules, and parameters to setup (used only for the install)
 - A lang directory containing all langs available
 - A text file (.rs) containing all sentences and rules to launch a function
 - A module file (.py) containing the class and all the methods called by text file
+
+Language file
+^^^^^^^^^^^^^
+The module is generic and should use gettext. The id of the string should be in english.
+To add a new translation, add a LC_MESSAGE directory, then (replace <domain> by the name of your plugin : ::
+
+    xgettext --language=Python --keyword=_ --output=<domain>.po --from-code=UTF-8 `find . -name "*.py"`
+
+This will generate a translation source file. To be used, you need to compile it (each time you will do a modification) : ::
+
+    msgfmt <domain>.po --output-file <domain>.mo
 
 Text file
 ^^^^^^^^^
@@ -47,7 +63,7 @@ Example: ::
     > object getprogrammetv python
         import sys, os, inspect
         cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split( \
-            inspect.getfile(inspect.currentframe()))[0],os.path.normpath("Plugins/ProgrammeTV/lang/en/modules/"))))
+            inspect.getfile(inspect.currentframe()))[0],os.path.normpath("Plugins/ProgrammeTV/modules/"))))
         if cmd_subfolder not in sys.path:
             sys.path.insert(0, cmd_subfolder)
 
@@ -66,10 +82,16 @@ Example of plugin : ::
     import os
     from pymongo import MongoClient
 
+    import gettext
+
+    path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
+    inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
+    _ = translation = gettext.translation(domain='programmetv', localedir=path, languages=[configuration['lang']]).ugettext
+
     class ProgrammeTV:
         def __init__(self):
             self.configuration_lisa = json.load(open('Configuration/lisa.json'))
-            mongo = MongoClient(self.configuration_lisa['database']['server'], \
+            mongo = MongoClient(self.configuration_lisa['database']['server'],
                                 self.configuration_lisa['database']['port'])
             self.configuration = mongo.lisa.plugins.find_one({"name": "ProgrammeTV"})
 
@@ -97,19 +119,17 @@ Example of a unit test : ::
     import json, os, sys
     from twisted.trial import unittest
     from twisted.test import proto_helpers
-
-    # Used to include the lisa.py engine and call it from unit test
     sys.path.append(os.path.normpath(os.path.join(os.path.abspath("../../../"))))
-
-    from lisa import LisaFactory, configuration
+    import libs
+    from lisa import configuration
 
     class ChatTestCase(unittest.TestCase):
-        # Call the Factory skipping the network part
         def setUp(self):
-            factory = LisaFactory()
+            factory = libs.LisaInstance
             self.proto = factory.buildProtocol(('127.0.0.1', 0))
             self.tr = proto_helpers.StringTransport()
             self.proto.makeConnection(self.tr)
+
 
         # Build simulate data received (json data)
         def _test(self, sentence, expected):

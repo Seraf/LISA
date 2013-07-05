@@ -48,25 +48,29 @@
 <h2>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h2>
 <p>All plugins have the same structure:</p>
 <div class="highlight-python"><pre>.
-└── ChatterBot
-    ├── chatterbot.json
-    ├── lang
-    │   ├── fr
-    │   │   ├── modules
-    │   │   │   └── chat.py
-    │   │   └── text
-    │   │       └── chat.rs
-    │   ├── en
-    │   │   ├── modules
-    │   │   │   └── chat.py
-    │   │   └── text
-    │   │       └── chat.rs
-    │   ├── ru
-    │   │   ├── modules
-    │   │   │   └── chat.py
-    │   │   └── text
-    │   │       └── chat.rs
-    └── README.md</pre>
+├── chatterbot.json
+├── lang
+│   ├── en
+│   │   ├── chat.rs
+│   │   └── LC_MESSAGES
+│   │       ├── chat.mo
+│   │       └── chat.po
+│   ├── fr
+│   │   ├── chat.rs
+│   │   └── LC_MESSAGES
+│   │       ├── chat.mo
+│   │       └── chat.po
+│   └── ru
+│       ├── chat.rs
+│       └── LC_MESSAGES
+│           ├── chat.mo
+│           └── chat.po
+├── modules
+│   ├── chat.py
+│   └── chat.pyc
+├── README.rst
+└── tests
+    └── chat_test.py</pre>
 </div>
 <ul class="simple">
 <li>A README file to explain what the plugin do and how it works</li>
@@ -75,6 +79,16 @@
 <li>A text file (.rs) containing all sentences and rules to launch a function</li>
 <li>A module file (.py) containing the class and all the methods called by text file</li>
 </ul>
+<div class="section" id="language-file">
+<h3>Language file<a class="headerlink" href="#language-file" title="Permalink to this headline">¶</a></h3>
+<p>The module is generic and should use gettext. The id of the string should be in english.
+To add a new translation, add a LC_MESSAGE directory, then (replace &lt;domain&gt; by the name of your plugin :</p>
+<div class="highlight-python"><pre>xgettext --language=Python --keyword=_ --output=&lt;domain&gt;.po --from-code=UTF-8 `find . -name "*.py"`</pre>
+</div>
+<p>This will generate a translation source file. To be used, you need to compile it (each time you will do a modification) :</p>
+<div class="highlight-python"><pre>msgfmt &lt;domain&gt;.po --output-file &lt;domain&gt;.mo</pre>
+</div>
+</div>
 <div class="section" id="text-file">
 <h3>Text file<a class="headerlink" href="#text-file" title="Permalink to this headline">¶</a></h3>
 <p>The text file is in a Rivescript format. You will get more information about this &#8220;language&#8221; on
@@ -86,7 +100,7 @@
 &gt; object getprogrammetv python
     import sys, os, inspect
     cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split( \
-        inspect.getfile(inspect.currentframe()))[0],os.path.normpath("Plugins/ProgrammeTV/lang/en/modules/"))))
+        inspect.getfile(inspect.currentframe()))[0],os.path.normpath("Plugins/ProgrammeTV/modules/"))))
     if cmd_subfolder not in sys.path:
         sys.path.insert(0, cmd_subfolder)
 
@@ -105,10 +119,16 @@ from datetime import date
 import os
 from pymongo import MongoClient
 
+import gettext
+
+path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
+inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
+_ = translation = gettext.translation(domain='programmetv', localedir=path, languages=[configuration['lang']]).ugettext
+
 class ProgrammeTV:
     def __init__(self):
         self.configuration_lisa = json.load(open('Configuration/lisa.json'))
-        mongo = MongoClient(self.configuration_lisa['database']['server'], \
+        mongo = MongoClient(self.configuration_lisa['database']['server'],
                             self.configuration_lisa['database']['port'])
         self.configuration = mongo.lisa.plugins.find_one({"name": "ProgrammeTV"})
 
@@ -131,19 +151,17 @@ they should be OK.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">twisted.trial</span> <span class="kn">import</span> <span class="n">unittest</span>
 <span class="kn">from</span> <span class="nn">twisted.test</span> <span class="kn">import</span> <span class="n">proto_helpers</span>
-
-<span class="c"># Used to include the lisa.py engine and call it from unit test</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s">&quot;../../../&quot;</span><span class="p">))))</span>
-
-<span class="kn">from</span> <span class="nn">lisa</span> <span class="kn">import</span> <span class="n">LisaFactory</span><span class="p">,</span> <span class="n">configuration</span>
+<span class="kn">import</span> <span class="nn">libs</span>
+<span class="kn">from</span> <span class="nn">lisa</span> <span class="kn">import</span> <span class="n">configuration</span>
 
 <span class="k">class</span> <span class="nc">ChatTestCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
-    <span class="c"># Call the Factory skipping the network part</span>
     <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">factory</span> <span class="o">=</span> <span class="n">LisaFactory</span><span class="p">()</span>
+        <span class="n">factory</span> <span class="o">=</span> <span class="n">libs</span><span class="o">.</span><span class="n">LisaInstance</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proto</span> <span class="o">=</span> <span class="n">factory</span><span class="o">.</span><span class="n">buildProtocol</span><span class="p">((</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tr</span> <span class="o">=</span> <span class="n">proto_helpers</span><span class="o">.</span><span class="n">StringTransport</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proto</span><span class="o">.</span><span class="n">makeConnection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tr</span><span class="p">)</span>
+
 
     <span class="c"># Build simulate data received (json data)</span>
     <span class="k">def</span> <span class="nf">_test</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sentence</span><span class="p">,</span> <span class="n">expected</span><span class="p">):</span>
@@ -177,6 +195,7 @@ they should be OK.</p>
   <ul>
 <li><a class="reference internal" href="#">LISA Plugins</a><ul>
 <li><a class="reference internal" href="#plugins">Plugins</a><ul>
+<li><a class="reference internal" href="#language-file">Language file</a></li>
 <li><a class="reference internal" href="#text-file">Text file</a></li>
 <li><a class="reference internal" href="#module-file">Module file</a></li>
 <li><a class="reference internal" href="#unit-tests">Unit tests</a></li>
