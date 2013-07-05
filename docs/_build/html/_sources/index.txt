@@ -16,6 +16,7 @@ Contents:
    lisa-client
    lisa-speech
    lisa-engine
+   lisa-plugins
 
 
 Indices and tables
