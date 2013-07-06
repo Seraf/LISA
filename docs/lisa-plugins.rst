@@ -26,11 +26,19 @@ All plugins have the same structure: ::
     │           ├── chat.mo
     │           └── chat.po
     ├── modules
-    │   ├── chat.py
-    │   └── chat.pyc
+    │   └── chat.py
     ├── README.rst
-    └── tests
-        └── chat_test.py
+    ├── tests
+    │   └── chat_test.py
+    └── web
+        ├── api.py
+        ├── __init__.py
+        ├── models.py
+        ├── templates
+        │   └── widget.html
+        ├── tests.py
+        ├── urls.py
+        └── views.py
 
 
 - A README file to explain what the plugin do and how it works
@@ -38,7 +46,7 @@ All plugins have the same structure: ::
 - A lang directory containing all langs available
 - A text file (.rs) containing all sentences and rules to launch a function
 - A module file (.py) containing the class and all the methods called by text file
-
+- The web directory allow to expose the plugin in the L.I.S.A API and can be used to add widgets on L.I.S.A dashboard
 Language file
 ^^^^^^^^^^^^^
 The module is generic and should use gettext. The id of the string should be in english.

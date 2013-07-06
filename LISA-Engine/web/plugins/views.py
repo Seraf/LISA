@@ -21,6 +21,7 @@ def list(request):
     if(metareq.ok):
         for item in json.loads(metareq.text or metareq.content):
             for plugin in Plugin.objects(name=item['name']):
+                item['id'] = plugin.id
                 item['enabled'] = plugin.enabled
                 if plugin.version < item['version']:
                     item['upgrade'] = True

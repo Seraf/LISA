@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-
-from django.http import HttpResponse
-from django.shortcuts import render_to_response
-from django.template import RequestContext,Template,Context,loader
 from django.contrib.auth.decorators import login_required
+
+def dashboard(request):
+    return render(request, 'dashboard.html', {
+    })
 
 def login(request):
     from django.contrib.auth import login

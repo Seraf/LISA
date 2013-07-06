@@ -24,7 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
-    <link rel="top" title="L.I.S.A 0.1 documentation" href="index.html" /> 
+    <link rel="top" title="L.I.S.A 0.1 documentation" href="index.html" />
+    <link rel="prev" title="LISA Engine" href="lisa-engine.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,6 +34,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lisa-engine.html" title="LISA Engine"
+             accesskey="P">previous</a> |</li>
         <li><a href="index.html">L.I.S.A 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -66,11 +70,19 @@
 │           ├── chat.mo
 │           └── chat.po
 ├── modules
-│   ├── chat.py
-│   └── chat.pyc
+│   └── chat.py
 ├── README.rst
-└── tests
-    └── chat_test.py</pre>
+├── tests
+│   └── chat_test.py
+└── web
+    ├── api.py
+    ├── __init__.py
+    ├── models.py
+    ├── templates
+    │   └── widget.html
+    ├── tests.py
+    ├── urls.py
+    └── views.py</pre>
 </div>
 <ul class="simple">
 <li>A README file to explain what the plugin do and how it works</li>
@@ -78,6 +90,7 @@
 <li>A lang directory containing all langs available</li>
 <li>A text file (.rs) containing all sentences and rules to launch a function</li>
 <li>A module file (.py) containing the class and all the methods called by text file</li>
+<li>The web directory allow to expose the plugin in the L.I.S.A API and can be used to add widgets on L.I.S.A dashboard</li>
 </ul>
 <div class="section" id="language-file">
 <h3>Language file<a class="headerlink" href="#language-file" title="Permalink to this headline">¶</a></h3>
@@ -205,6 +218,9 @@ they should be OK.</p>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lisa-engine.html"
+                        title="previous chapter">LISA Engine</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/lisa-plugins.txt"
@@ -233,6 +249,9 @@ they should be OK.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="lisa-engine.html" title="LISA Engine"
+             >previous</a> |</li>
         <li><a href="index.html">L.I.S.A 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>

@@ -14,17 +14,6 @@
         {% block css %}
         <link href="/static/css/my.css" rel="stylesheet">
         {% endblock %}
-
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-
-        <script src="/static/js/jquery-1.9.1.min.js"></script>
-        <script src="/static/js/bootstrap.js"></script>
-        {% block javascript %}
-        <script src="/static/js/my.js"></script>
-        {% endblock %}
     </head>
     <body>
     {% block body %}
@@ -48,6 +37,17 @@
         </div> <!-- /footer -->
         <div class="modal hide fade in" style="display: hidden; width: 800px;" id="myModal">
         </div>
+           <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+
+        <script src="/static/js/jquery-1.9.1.min.js"></script>
+        <script src="/static/js/bootstrap.js"></script>
+        {% block javascript %}
+        <script src="/static/js/my.js"></script>
+        {% endblock %}
+
     </body>
 </html>
    
