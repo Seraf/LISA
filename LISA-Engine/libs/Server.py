@@ -33,11 +33,12 @@ class Lisa(Protocol):
     def answerToClient(self, jsondata):
         jsonreturned = json.loads(jsondata)
         for zone in jsonreturned['clients_zone']:
-            for client in self.factory.clients:
-                if client['zone'] == zone or zone == 'all':
-                    client['object'].transport.write(jsondata)
-                elif zone == 'sender':
-                    self.transport.write(jsondata)
+            if zone == 'sender':
+                self.transport.write(jsondata)
+            else:
+                for client in self.factory.clients:
+                    if client['zone'] == zone or zone == 'all':
+                        client['object'].transport.write(jsondata)
 
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
