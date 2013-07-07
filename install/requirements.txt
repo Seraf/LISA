@@ -15,3 +15,4 @@ mongoengine>=0.8.1
 GitPython>=0.3.1
 django-tastypie>=0.9.15
 django-tastypie-mongoengine>=0.4.1
+django-tastypie-swagger>=0.1.1

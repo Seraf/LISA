@@ -18,7 +18,7 @@ class RulesEngine():
                                                         'plugin': jsonAnswer['plugin'],                     \
                                                         'method': jsonAnswer['method'],                     \
                                                         'body': jsonAnswer['body'],                         \
-                                                        'clients_zone': ['all'],                            \
+                                                        'clients_zone': ['sender'],                         \
                                                         'from': jsonData['from']                            \
                                                     }))",
                                     "end": True,

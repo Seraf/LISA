@@ -36,6 +36,8 @@ class Lisa(Protocol):
             for client in self.factory.clients:
                 if client['zone'] == zone or zone == 'all':
                     client['object'].transport.write(jsondata)
+                elif zone == 'sender':
+                    self.transport.write(jsondata)
 
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
