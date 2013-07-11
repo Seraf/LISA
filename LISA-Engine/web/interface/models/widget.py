@@ -1,6 +1,5 @@
 from mongoengine import *
 from mongoengine.django.auth import User
-from web.interface.models.workspace import Workspace
 
 try:
     from web.lisa.settings import DBNAME
@@ -23,10 +22,10 @@ class WidgetUser(DynamicDocument):
     class Meta:
         app_label = "interface"
 
-    workspace = ReferenceField(Workspace, reverse_workspacedelete_rule=CASCADE)
+    workspace = ReferenceField('Workspace')
     coordx = IntField(required=True, help_text="X coord")
     coordy = IntField(required=True, help_text="X coord")
-    user = ReferenceField(User, reverse_userdelete_rule=CASCADE)
+    user = ReferenceField(User)
     meta = {
         'collection': 'widgets_users',
         'allow_inheritance': False
