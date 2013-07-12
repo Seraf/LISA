@@ -22,10 +22,10 @@ class WidgetUser(DynamicDocument):
     class Meta:
         app_label = "interface"
 
-    workspace = ReferenceField('Workspace')
+    workspace = ReferenceField('Workspace', required=True, dbref=False)
     coordx = IntField(required=True, help_text="X coord")
     coordy = IntField(required=True, help_text="X coord")
-    user = ReferenceField(User)
+    user = ReferenceField(User, required=True, dbref=False)
     meta = {
         'collection': 'widgets_users',
         'allow_inheritance': False

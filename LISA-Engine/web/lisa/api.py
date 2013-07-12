@@ -2,19 +2,29 @@ from tastypie import authorization
 from django.conf.urls.defaults import *
 import json
 from libs import LisaInstance, Lisa
-from tastypie import resources
+from tastypie import resources as tastyresources
+from tastypie_mongoengine import resources as mongoresources
 from tastypie.utils import trailing_slash
+from mongoengine.django.auth import User
 
 try:
     from web.lisa.settings import LISA_PATH
 except ImportError:
     from lisa.settings import LISA_PATH
 
+class UserResource(mongoresources.MongoEngineResource):
+    class Meta:
+        resource_name = 'user'
+        allowed_methods = ()
+        allowed_methods = ('get','post')
+        authorization = authorization.Authorization()
+        object_class = User
+
 class Lisa(object):
     def __init__(self):
         return None
 
-class LisaResource(resources.Resource):
+class LisaResource(tastyresources.Resource):
     class Meta:
         resource_name = 'lisa'
         allowed_methods = ()
@@ -66,13 +76,8 @@ class LisaResource(resources.Resource):
 
         ]
 
-    def base_urls(self):
+    def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)%s$" % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('dispatch_list'), name="api_dispatch_list"),
-            url(r"^(?P<resource_name>%s)/schema%s$" % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('get_schema'), name="api_get_schema"),
-
             url(r"^(?P<resource_name>%s)/engine/reload%s$" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('engine_reload'), name="api_lisa_engine_reload"),
             url(r"^(?P<resource_name>%s)/scheduler/reload%s" % (self._meta.resource_name, trailing_slash()),

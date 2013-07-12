@@ -13,7 +13,7 @@ class Workspace(DynamicDocument):
 
     name = StringField(max_length=120, required=True, help_text='Name of the Workspace')
     widgets = ListField(EmbeddedDocumentField('WidgetUser'), help_text="Contains a list of widgets")
-    user = ReferenceField(User)
+    user = ReferenceField(User, required=True)
     meta = {
         'collection': 'workspaces',
         'allow_inheritance': False
