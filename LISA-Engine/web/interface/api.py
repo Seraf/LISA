@@ -29,6 +29,8 @@ class WidgetByUserResource(mongoresources.MongoEngineResource):
         return object_list.filter(user=request.user)
 
 class WorkspaceResource(mongoresources.MongoEngineResource):
+    user = fields.ReferenceField(to='web.lisa.api.UserResource', attribute='user', full=True)
+
     class Meta:
         queryset = Workspace.objects.all()
         allowed_methods = ('get','post')

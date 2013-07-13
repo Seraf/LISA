@@ -4,6 +4,7 @@ import json
 from libs import LisaInstance, Lisa
 from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
+from tastypie_mongoengine import fields
 from tastypie.utils import trailing_slash
 from mongoengine.django.auth import User
 
@@ -19,6 +20,9 @@ class UserResource(mongoresources.MongoEngineResource):
         allowed_methods = ('get','post')
         authorization = authorization.Authorization()
         object_class = User
+        polymorphic = {
+            'user': 'self',
+            }
 
 class Lisa(object):
     def __init__(self):
