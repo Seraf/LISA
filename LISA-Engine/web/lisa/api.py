@@ -16,13 +16,9 @@ except ImportError:
 class UserResource(mongoresources.MongoEngineResource):
     class Meta:
         resource_name = 'user'
-        allowed_methods = ()
         allowed_methods = ('get','post')
         authorization = authorization.Authorization()
         object_class = User
-        polymorphic = {
-            'user': 'self',
-            }
 
 class Lisa(object):
     def __init__(self):
