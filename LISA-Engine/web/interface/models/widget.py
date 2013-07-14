@@ -12,6 +12,7 @@ class Widget(DynamicDocument):
         app_label = "interface"
 
     name = StringField(required=True, help_text="Widget name")
+    plugin = ReferenceField('Plugin', required=True)
     view = StringField(required=True, help_text="View of the plugin")
     meta = {
         'collection': 'widgets',
@@ -22,10 +23,10 @@ class WidgetUser(DynamicDocument):
     class Meta:
         app_label = "interface"
 
-    workspace = ReferenceField('Workspace', required=True, dbref=False)
     coordx = IntField(required=True, help_text="X coord")
     coordy = IntField(required=True, help_text="X coord")
-    user = ReferenceField(User, required=True, dbref=False)
+    user = ReferenceField(User, required=True)
+    widget = ReferenceField('Widget', required=True)
     meta = {
         'collection': 'widgets_users',
         'allow_inheritance': False
