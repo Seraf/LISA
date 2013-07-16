@@ -13,4 +13,4 @@ def index(request):
     else:
         websocket = 'ws'
     context = {'websocket': websocket}
-    return render(request, 'googlespeech/test.html', context)
+    return render(request, 'googlespeech/index.html', context)

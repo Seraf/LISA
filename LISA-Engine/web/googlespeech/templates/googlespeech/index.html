@@ -3,6 +3,68 @@
 {% block title %}{{ section.title }}{% endblock %}
 {% block javascript %}
 <script type="text/javascript">
+        var url = '/api/v1/lisa/tts/google/';
+        var source;
+        var context = new webkitAudioContext();
+        var analyser = context.createAnalyser();
+        var canvas=document.getElementById('canvas1');
+        var canvasContext=canvas.getContext('2d');
+        var isFinished = false;
+
+        function playSound(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(analyser);
+            analyser.connect(context.destination);
+            source.onended = function() {
+                isFinished = true;
+            }
+            source.start(0);
+        }
+
+        function readme(message) {
+            var request = new XMLHttpRequest();
+            request.open('POST', url, true);
+            request.responseType = 'arraybuffer';
+            request.onload = function(){
+                context.decodeAudioData(request.response, function(buffer) {
+                    playSound(buffer);
+                });
+            };
+            var data = new FormData();
+            data.append('message', message);
+            data.append('lang', 'fr');
+            request.send(data);
+        }
+
+        function draw() {
+            window.webkitRequestAnimationFrame(draw);
+            render();
+        }
+        var separator=2;
+        var height=canvas.height=100;
+        var width=canvas.width=200;
+        var spacer=2;
+
+        function clear() {
+            canvasContext.beginPath();
+            canvasContext.clearRect(0, 0, width, height);
+            canvasContext.fill();
+        }
+
+        function render(){
+            var freqByteData = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(freqByteData);
+            canvasContext.beginPath();
+            canvasContext.clearRect(0, 0, width, height);
+            canvasContext.fillStyle = '#1ab2ff';
+            canvasContext.lineCap = 'round';
+            canvasContext.fill();
+            for(var i=0;i<analyser.frequencyBinCount;i++){
+                canvasContext.fillRect(i*2,height,1,-freqByteData[i]/2);
+            }
+        }
+
     var sock = null;
     var wsuri = "{{ websocket }}://"+$(location).attr('host')+"/websocket";
 
@@ -23,47 +85,9 @@
             var JsonData = jQuery.parseJSON(e.data);
             $('#chat').append('<li class="lisa"><strong>Lisa</strong> > '+JsonData.body+'</li>');
             readme(JsonData.body);
+            draw();
         }
     };
-
-    function html5_audio(){
-        var a = document.createElement('audio');
-        return !!(a.canPlayType && a.canPlayType('audio/mpeg;').replace(/no/, ''));
-    }
-
-    var play_html5_audio = false;
-    if(html5_audio()) play_html5_audio = true;
-
-    function play_sound(url){
-        if(play_html5_audio){
-            var snd = new Audio(url);
-            snd.load();
-            snd.play();
-        }else{
-            $("#sound").remove();
-            var sound = $("<embed id='sound' type='audio/mpeg' />");
-            sound.attr('src', url);
-            sound.attr('loop', false);
-            sound.attr('hidden', true);
-            sound.attr('autostart', true);
-            $('body').append(sound);
-        }
-    }
-    function readme(txt){
-        txt = txt.split('.').join("");
-        txt = txt.split('&').join("et");
-        txt = txt.split('é').join("e");
-        txt = txt.split('-').join(" ");
-        txt = txt.split('?').join("");
-        txt = txt.split('\'').join("");
-        txt = txt.split(':').join("");
-        txt = txt.split('«').join("");
-        txt = txt.split('»').join("");
-        txt = txt.replace(/ +(?= )/g,'');
-        txt = txt.trim();
-        console.log("http://translate.google.com/translate_tts?ie=UTF-8&q="+encodeURIComponent(txt)+"%20&tl=fr&total=1&idx=0&prev=input");
-        play_sound("http://translate.google.com/translate_tts?ie=UTF-8&q="+encodeURIComponent(txt)+"%20&tl=fr&total=1&idx=0&prev=input");
-    }
 
     function send() {
         var msg = document.getElementById('message').value;
@@ -92,5 +116,9 @@
         <input id="message" type="text" value="Hello, world!" x-webkit-speech>
     </p>
     <button id="sendit" onclick='send();'>Send Message</button>
+</div>
+<div class=span10>
+    <canvas id='canvas1'>
+    </canvas>
 </div>
 {% endblock %}
