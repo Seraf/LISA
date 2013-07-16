@@ -16,9 +16,11 @@ v1_api.register(LisaResource())
 
 from libs.Server import enabled_plugins
 for plugin in enabled_plugins:
-    metapluginResource = namedAny(plugin+'.web.api.'+plugin+'Resource')
-    v1_api.register(metapluginResource())
-
+    try:
+        metapluginResource = namedAny(plugin+'.web.api.'+plugin+'Resource')
+        v1_api.register(metapluginResource())
+    except:
+        pass
 urlpatterns = patterns('',
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
