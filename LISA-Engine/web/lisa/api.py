@@ -122,7 +122,7 @@ class LisaResource(tastyresources.Resource):
         import re
         import requests
         from django.http import HttpResponse
-
+        combined_sound = []
         try:
             message = request.POST.get("message")
             lang = request.POST.getlist("lang")
@@ -146,24 +146,24 @@ class LisaResource(tastyresources.Resource):
                             if len(temp_string) > 80:
                                 temp_array.append(temp_string)
                                 temp_string = ""
-                        #append final part
+                            #append final part
                         temp_array.append(temp_string)
                         combined_text.extend(temp_array)
-            #download chunks and write them to the output file
-            tmpsound = None
+                #download chunks and write them to the output file
             for idx, val in enumerate(combined_text):
                 headers = {"Host":"translate.google.com",
-                  "Referer":"http://translate.google.com/",
-                  "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.63 Safari/537.36"}
+                           "Referer":"http://translate.google.com/",
+                           "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.63 Safari/537.36"}
                 r = requests.get("http://translate.google.com/translate_tts?tl=%s&q=%s&total=%s&idx=%s" % (str(lang[0]), val, len(combined_text), idx),
                                  headers=headers)
-                tmpsound += r.content
+
+                combined_sound.append(r.content)
         except:
             pass
             #except FailedException as failure:
         #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
         self.log_throttled_access(request)
-        return HttpResponse(tmpsound, mimetype="audio/mpeg")
+        return HttpResponse(''.join(combined_sound), content_type="audio/mpeg", mimetype="audio/mpeg")
 
     def engine_reload(self, request, **kwargs):
         self.method_check(request, allowed=['get'])

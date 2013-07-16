@@ -20,7 +20,7 @@ class WidgetResource(mongoresources.MongoEngineResource):
 
 class WidgetByUserResource(mongoresources.MongoEngineResource):
     user = fields.ReferenceField(to='web.lisa.api.UserResource', attribute='user')
-    widget = fields.ReferenceField(to='web.interface.api.WidgetResource', attribute='widget')
+    widget = fields.ReferenceField(to='web.interface.api.WidgetResource', attribute='widget', full=True)
 
     class Meta:
         queryset = WidgetUser.objects.all()
@@ -35,7 +35,8 @@ class WidgetByUserResource(mongoresources.MongoEngineResource):
 
 class WorkspaceResource(mongoresources.MongoEngineResource):
     user = fields.ReferenceField(to='web.lisa.api.UserResource', attribute='user')
-    widgets = fields.ReferencedListField(of='web.interface.api.WidgetByUserResource', attribute='widgets', null=True, help_text='List of widgets')
+    widgets = fields.ReferencedListField(of='web.interface.api.WidgetByUserResource', attribute='widgets', full=True,
+                                         null=True, help_text='List of widgets')
 
     class Meta:
         queryset = Workspace.objects.all()
