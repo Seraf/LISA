@@ -21,17 +21,19 @@ class WebSocketProtocol(WebSocketServerProtocol):
         WebSocketServerProtocol.connectionMade(self)
         self.lisaclientfactory = libs.LisaClientFactory(self)
         if self.configuration['enable_secure_mode']:
-             reactor.connectSSL(self.configuration['lisa_url'], self.configuration['lisa_engine_port_ssl'],
+             self.conn = reactor.connectSSL(self.configuration['lisa_url'], self.configuration['lisa_engine_port_ssl'],
                                 self.lisaclientfactory, CtxFactory()
              )
         else:
-            reactor.connectTCP(self.configuration['lisa_url'],
+            self.conn = reactor.connectTCP(self.configuration['lisa_url'],
                                self.configuration['lisa_engine_port'], self.lisaclientfactory)
 
     def onMessage(self, msg, binary):
         self.lisaclientfactory.protocol.sendMessage(json.dumps(
             {"from": "Lisa-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
 
+    def connectionLost(self, reason):
+        self.conn.transport = None
 
 class ClientTLSContext(ssl.ClientContextFactory):
     isClient = 1
