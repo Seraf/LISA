@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+@login_required()
 def dashboard(request):
     return render(request, 'dashboard.html', {
     })
@@ -18,7 +19,7 @@ def login(request):
                 print login(request, user)
                 request.session.set_expiry(60 * 60 * 1) # 1 hour timeout
                 print "return"
-                return redirect('index')
+                return redirect('dashboard')
             else:
                 messages.add_message(request,messages.ERROR,u"Incorrect login name or password !")
         except DoesNotExist:

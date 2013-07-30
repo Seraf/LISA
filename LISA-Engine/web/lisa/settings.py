@@ -94,6 +94,7 @@ SECRET_KEY = '@5dpi3h(s-s$**o9jimdh5@vth4ax5q3+h79rl0b1n(xp9r&amp;f-'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
+    'web.lisa.utils.loaders.AbsolutePath.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
 
