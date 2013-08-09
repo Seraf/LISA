@@ -1,5 +1,6 @@
-import json, re
+import json, re, sys
 from pymongo import MongoClient
+from twisted.python.reflect import namedAny
 
 class RulesEngine():
     def __init__(self, configuration):
@@ -15,11 +16,11 @@ class RulesEngine():
                                     "before": None,
                                     "after": "lisaprotocol.answerToClient(json.dumps(                       \
                                                     {                                                       \
-                                                        'plugin': jsonAnswer['plugin'],                     \
-                                                        'method': jsonAnswer['method'],                     \
-                                                        'body': jsonAnswer['body'],                         \
+                                                        'plugin': jsonOutput['plugin'],                     \
+                                                        'method': jsonOutput['method'],                     \
+                                                        'body': jsonOutput['body'],                         \
                                                         'clients_zone': ['sender'],                         \
-                                                        'from': jsonData['from']                            \
+                                                        'from': jsonOutput['from']                          \
                                                     }))",
                                     "end": True,
                                     "enabled": True
@@ -28,31 +29,21 @@ class RulesEngine():
 
     def Rules(self, jsonData, lisaprotocol):
         rulescollection = self.database.rules
+        pluginscollection = self.database.plugins
 
-        for rule in rulescollection.find({ "enabled": True, "before": {"$ne":None}}).sort([("order", 1)]):
-            #lisaprotocol.bot_library.k.freeze_uservars(user="localuser")
-            reply = lisaprotocol.bot_library.respond_to(user="localuser", text=str(jsonData['body'].encode('utf-8')))
-            last = lisaprotocol.bot_library.k.last_match(user="localuser")
-            info = lisaprotocol.bot_library.k.trigger_info(trigger=last)
-            #lisaprotocol.bot_library.k.thaw_uservars(user="localuser", action="thaw")
-            filename = re.match(r"^.*/Plugins/(\w+)/.*", info[0]['filename']).group(1)
-            try:
-                jsonAnswer = json.loads(reply)
-            except:
-                jsonAnswer = json.loads(json.dumps({"plugin": filename,"method": None,"body": reply}))
+        jsonInput = lisaprotocol.wit.message_send(str(jsonData['body'].encode('utf-8')))
+        jsonInput['from'], jsonInput['type'], jsonInput['zone'] = jsonData['from'], jsonData['type'], jsonData['zone']
+
+        for rule in rulescollection.find({"enabled": True, "before": {"$ne":None}}).sort([("order", 1)]):
             exec(rule['before'])
 
-        #lisaprotocol.bot_library.k.freeze_uservars(user="localuser")
-        reply = lisaprotocol.bot_library.respond_to(user="localuser", text=str(jsonData['body'].encode('utf-8')))
-        last = lisaprotocol.bot_library.k.last_match(user="localuser")
-        info = lisaprotocol.bot_library.k.trigger_info(trigger=last)
-        #lisaprotocol.bot_library.k.thaw_uservars(user="localuser", action="discard")
-        filename = re.match(r"^.*/Plugins/(\w+)/.*", info[0]['filename']).group(1)
-        try:
-            jsonAnswer = json.loads(reply)
-        except:
-            jsonAnswer = json.loads(json.dumps({"plugin": filename,"method": None,"body": reply}))
+        oPlugin = pluginscollection.find_one({"configuration.intents."+jsonInput['outcome']['intent']: {"$exists": True}})
+        plugininstance = namedAny('.'.join((str(oPlugin["name"]),'modules',str(oPlugin["name"]).lower(),str(oPlugin["name"]))))()
+        methodToCall = getattr(plugininstance, oPlugin['configuration']['intents'][jsonInput['outcome']['intent']]['method'])
+        jsonOutput = methodToCall(jsonInput)
+        jsonOutput['from'] = jsonData['from']
 
+        print jsonOutput
         for rule in rulescollection.find({ "enabled": True, "after": {"$ne":None}}).sort([("order", 1)]):
             exec(rule['after'])
             #Problem here : it don't check if the condition of the rule after has matched to end the rules

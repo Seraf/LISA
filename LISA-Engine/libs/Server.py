@@ -26,9 +26,9 @@ class ServerTLSContext(ssl.DefaultOpenSSLContextFactory):
         ssl.DefaultOpenSSLContextFactory.__init__(self, *args, **kw)
 
 class Lisa(Protocol):
-    def __init__(self,factory, bot_library):
+    def __init__(self,factory, wit):
         self.factory = factory
-        self.bot_library = bot_library
+        self.wit = wit
 
     def answerToClient(self, jsondata):
         jsonreturned = json.loads(jsondata)
@@ -65,30 +65,22 @@ class Lisa(Protocol):
 
 class LisaFactory(Factory):
     def __init__(self):
-        try:
-            self.bot_library = libs.RiveScriptBot()
-            log.msg("Successfully loaded bot")
-        except:
-            log.msg("Couldn't load bot")
+        self.wit = libs.Wit(configuration)
         self.clients = []
         self.syspath = sys.path
         mongo = MongoClient(configuration['database']['server'], configuration['database']['port'])
         self.database = mongo.lisa
-        self.build_grammar()
+        self.build_activeplugins()
 
-    def build_grammar(self):
+    def build_activeplugins(self):
         global enabled_plugins
-        self.bot_library.learn(os.path.normpath(dir_path + '/' + 'Configuration/'))
         # Load enabled plugins for the main language
-
         for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
             enabled_plugins.append(str(plugin['name']))
-            self.bot_library.learn(os.path.normpath(dir_path + '/' + 'Plugins/' + plugin['name'] + '/lang/' +
-                                                    configuration['lang'] + '/'))
         sys.path.append(str(os.path.normpath(dir_path + '/Plugins/')))
 
     def buildProtocol(self, addr):
-        self.Lisa = Lisa(self,self.bot_library)
+        self.Lisa = Lisa(self,self.wit)
         return self.Lisa
 
     def LisaReload(self):
@@ -96,7 +88,7 @@ class LisaFactory(Factory):
         log.msg("Reloading L.I.S.A Engine")
         sys.path = self.syspath
         enabled_plugins = []
-        self.build_grammar()
+        self.build_activeplugins()
 
     def SchedReload(self):
         global taskman

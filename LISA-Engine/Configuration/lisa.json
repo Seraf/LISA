@@ -14,5 +14,7 @@
     },
     "debug": false,
     "enable_secure_mode": false,
-    "enable_unsecure_mode": true
+    "enable_unsecure_mode": true,
+    "wit_url": "https://api.wit.ai/",
+    "wit_token": "XXXXXXXXXXXXXXXXXXXXX"
 }

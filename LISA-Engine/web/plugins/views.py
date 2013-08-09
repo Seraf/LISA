@@ -25,8 +25,8 @@ def list(request):
                 item['enabled'] = plugin.enabled
                 if plugin.version < item['version']:
                     item['upgrade'] = True
-            if os.path.exists(LISA_PATH + '/Plugins/' + item['name']):
-                item['installed'] = True
+            #if os.path.exists(LISA_PATH + '/Plugins/' + item['name']):
+            #    item['installed'] = True
             plugins.append(item)
     return render_to_response('list.html', {'Plugins': plugins},
                               context_instance=RequestContext(request))

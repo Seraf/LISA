@@ -1,5 +1,4 @@
 #!/bin/sh
-git submodule update --init
 sudo apt-get install mongodb python-setuptools libxslt1-dev libxslt1.1 libxml2-dev build-essential python-dev
 sudo apt-get install git
 sudo easy_install pip

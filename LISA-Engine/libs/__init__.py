@@ -1,5 +1,5 @@
 try:
-    from RiveScriptBot import RiveScriptBot
+    from Wit import Wit
     from RulesEngine import RulesEngine
     from WebSocket import LisaClientFactory, WebSocketProtocol
     from Web import verifyCallback, Root
