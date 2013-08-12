@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name='LISA',
     version='0.1',
-    packages=['bot','python-rivescript'],
+    packages=[],
     url='',
     license='GPLv3',
     author='Seraf',

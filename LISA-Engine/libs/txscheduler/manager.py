@@ -67,12 +67,12 @@ class ScheduledTaskManager(object):
     def run(self):
         '''Checks for tasks which need to be run and runs them.
         '''
-        if self.configuration['debug'] == True:
+        if self.configuration['debug']['debug_scheduler'] == True:
             log.msg('ScheduledTaskManager: checking for tasks to run...')
             log.msg(self.tasks)
         tasks_to_run = [task for task in self.tasks if
                             task.next_scheduled_runtime < datetime.now()]
-        if self.configuration['debug'] == True:
+        if self.configuration['debug']['debug_scheduler'] == True:
             log.msg('Scheduledtaskmanager: %d tasks found.' % len(tasks_to_run))
         for task in tasks_to_run:
             task.run()

@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-import os,json,sys,uuid
+import os, json, sys, uuid
 import libs
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import ssl
@@ -19,7 +19,6 @@ scheduler = ScheduledTaskService(taskman)
 
 enabled_plugins = []
 
-
 class ServerTLSContext(ssl.DefaultOpenSSLContextFactory):
     def __init__(self, *args, **kw):
         kw['sslmethod'] = SSL.TLSv1_METHOD
@@ -31,6 +30,8 @@ class Lisa(Protocol):
         self.wit = wit
 
     def answerToClient(self, jsondata):
+        if configuration['debug']['debug_output']:
+            print "OUTPUT: " + str(jsondata)
         jsonreturned = json.loads(jsondata)
         for zone in jsonreturned['clients_zone']:
             if zone == 'sender':
@@ -38,6 +39,7 @@ class Lisa(Protocol):
             else:
                 for client in self.factory.clients:
                     if client['zone'] == zone or zone == 'all':
+                        #write a \r or \n to have an endline on client side ? How it will play with twisted ?
                         client['object'].transport.write(jsondata)
 
     def connectionMade(self):
@@ -57,11 +59,17 @@ class Lisa(Protocol):
                 self.factory.clients.remove(client)
 
     def dataReceived(self, data):
-        jsonData = json.loads(data)
-        for client in self.factory.clients:
-            if client['object'] == self and (not client['type'] or not client['zone']):
-                client['type'],client['zone'] = jsonData['type'],jsonData['zone']
-        libs.RulesEngine(configuration).Rules(jsonData=jsonData, lisaprotocol=self)
+        if configuration['debug']['debug_input']:
+            print "INPUT: " + str(data)
+        try:
+            jsonData = json.loads(data)
+        except ValueError, e:
+            self.transport.write("Error : Invalid JSON")
+        else:
+            for client in self.factory.clients:
+                if client['object'] == self and (not client['type'] or not client['zone']):
+                    client['type'], client['zone'] = jsonData['type'], jsonData['zone']
+            libs.RulesEngine(configuration).Rules(jsonData=jsonData, lisaprotocol=self)
 
 class LisaFactory(Factory):
     def __init__(self):

@@ -12,9 +12,18 @@
         "user": "lisa",
         "pass": "lisapowered"
     },
-    "debug": false,
+    "debug": {
+        "debug_input": true,
+        "debug_output": true,
+        "debug_scheduler": false,
+        "debug_wit": false,
+        "debug_before_before_rule": false,
+        "debug_after_before_rule": false,
+        "debug_before_after_rule": false,
+        "debug_after_after_rule": false
+    },
     "enable_secure_mode": false,
     "enable_unsecure_mode": true,
     "wit_url": "https://api.wit.ai/",
-    "wit_token": "XXXXXXXXXXXXXXXXXXXXX"
+    "wit_token": "XXXXXXXXXXXXXXXXXXXXXXXXXX"
 }
