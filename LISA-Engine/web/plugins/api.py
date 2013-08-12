@@ -94,8 +94,8 @@ class PluginResource(resources.MongoEngineResource):
             plugin_url = request.POST.get("url")
             plugin_sha = request.POST.get("sha")
             plugin_name = kwargs['plugin_name']
-            #repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/Plugins/' + plugin_name)
-            #repo.git.checkout(plugin_sha)
+            repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/Plugins/' + plugin_name)
+            repo.git.checkout(plugin_sha)
             metadata = json.load(open(LISA_PATH + '/Plugins/' + plugin_name + '/' + str(plugin_name).lower() + '.json'))
             plugin = Plugin()
             for item in metadata:
@@ -181,7 +181,7 @@ class PluginResource(resources.MongoEngineResource):
 
         try:
             for plugin in Plugin.objects(pk=kwargs['pk']):
-                #rmtree(LISA_PATH + '/Plugins/' + plugin['name'])
+                rmtree(LISA_PATH + '/Plugins/' + plugin['name'])
                 plugin.delete()
         except:
             pass
