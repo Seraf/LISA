@@ -4,7 +4,6 @@ import json
 from libs import LisaInstance, Lisa
 from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
-from tastypie_mongoengine import fields
 from tastypie.utils import trailing_slash
 from mongoengine.django.auth import User
 
@@ -58,6 +57,22 @@ class LisaResource(tastyresources.Resource):
                 }
             },
             {
+                'name': 'speak',
+                'http_method': 'POST',
+                'fields':{
+                    'message': {
+                        'type': 'string',
+                        'required': True,
+                        'description': 'The message to speak'
+                    },
+                    'clients_zone': {
+                        'type': 'list',
+                        'required': True,
+                        'description': "Zone list to speak the sentence. Example : ['all'], ['bedroom','kitchen']"
+                    }
+                }
+            },
+            {
                 'name': 'tts/google',
                 'http_method': 'POST',
                 'fields':{
@@ -72,7 +87,24 @@ class LisaResource(tastyresources.Resource):
                         'description': "Lang of the message"
                     }
                 }
+            },
+            {
+                'name': 'tts/pico',
+                'http_method': 'POST',
+                'fields':{
+                    'message': {
+                        'type': 'string',
+                        'required': True,
+                        'description': 'The message to vocalize'
+                    },
+                    'lang': {
+                        'type': 'string',
+                        'required': True,
+                        'description': "Lang of the message"
+                    }
+                }
             }
+
 
         ]
 
@@ -103,7 +135,7 @@ class LisaResource(tastyresources.Resource):
                                       'clients_zone': clients_zone,
                                       'from': "API"
             })
-        Lisa(LisaInstance, LisaInstance.bot_library).answerToClient(jsondata=jsondata)
+        Lisa(LisaInstance, LisaInstance.wit).answerToClient(jsondata=jsondata)
 
         #except:
         #    pass
@@ -158,6 +190,28 @@ class LisaResource(tastyresources.Resource):
                                  headers=headers)
 
                 combined_sound.append(r.content)
+        except:
+            pass
+            #except FailedException as failure:
+        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+        self.log_throttled_access(request)
+        return HttpResponse(''.join(combined_sound), content_type="audio/mpeg", mimetype="audio/mpeg")
+
+    #TODO
+    def tts_pico(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        from tastypie.http import HttpAccepted, HttpNotModified
+        import re
+        import requests
+        from django.http import HttpResponse
+        from subprocess import call, Popen
+        combined_sound = []
+        try:
+            pass
+            #combined_sound.append(content)
         except:
             pass
             #except FailedException as failure:
