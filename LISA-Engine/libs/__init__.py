@@ -3,6 +3,6 @@ try:
     from RulesEngine import RulesEngine
     from WebSocket import LisaClientFactory, WebSocketProtocol
     from Web import verifyCallback, Root
-    from Server import Lisa, LisaFactory, ServerTLSContext, LisaInstance, taskman, scheduler
+    from Server import Lisa, LisaFactory, ServerTLSContext, LisaInstance, taskman, scheduler, LisaProtocolInstance
 except ImportError:
     print ImportError

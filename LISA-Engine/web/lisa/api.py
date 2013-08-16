@@ -1,7 +1,7 @@
 from tastypie import authorization
 from django.conf.urls.defaults import *
 import json
-from libs import LisaInstance, Lisa
+from libs import LisaInstance, LisaProtocolInstance
 from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
 from tastypie.utils import trailing_slash
@@ -135,7 +135,7 @@ class LisaResource(tastyresources.Resource):
                                       'clients_zone': clients_zone,
                                       'from': "API"
             })
-        Lisa(LisaInstance, LisaInstance.wit).answerToClient(jsondata=jsondata)
+        LisaProtocolInstance.answerToClient(jsondata=jsondata)
 
         #except:
         #    pass

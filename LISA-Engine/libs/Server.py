@@ -105,3 +105,4 @@ class LisaFactory(Factory):
         return self.taskman.reload()
 
 LisaInstance = LisaFactory()
+LisaProtocolInstance = Lisa(LisaInstance, LisaInstance.wit)
