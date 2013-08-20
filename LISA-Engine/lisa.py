@@ -51,11 +51,11 @@ root.putChild("static", staticrsrc)
 
 # Create the websocket
 if configuration['enable_secure_mode']:
-    socketfactory = WebSocketServerFactory("wss://" + configuration['lisa_url'] + ":" +\
-                                       str(configuration['lisa_web_port_ssl']),debug=False)
+    socketfactory = WebSocketServerFactory("wss://" + configuration['lisa_url'] + ":" +
+                                           str(configuration['lisa_web_port_ssl']),debug=False)
 else:
-    socketfactory = WebSocketServerFactory("ws://" + configuration['lisa_url'] + ":" +\
-                                       str(configuration['lisa_web_port']),debug=False)
+    socketfactory = WebSocketServerFactory("ws://" + configuration['lisa_url'] + ":" +
+                                           str(configuration['lisa_web_port']),debug=False)
 
 socketfactory.protocol = libs.WebSocketProtocol
 socketfactory.protocol.configuration, socketfactory.protocol.dir_path = configuration, dir_path

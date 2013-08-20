@@ -16,7 +16,7 @@
         "debug_input": true,
         "debug_output": true,
         "debug_scheduler": false,
-        "debug_wit": false,
+        "debug_wit": true,
         "debug_before_before_rule": false,
         "debug_after_before_rule": false,
         "debug_before_after_rule": false,
@@ -25,5 +25,6 @@
     "enable_secure_mode": false,
     "enable_unsecure_mode": true,
     "wit_url": "https://api.wit.ai/",
-    "wit_token": "XXXXXXXXXXXXXXXXXXXXXXXXXX"
+    "wit_token": "XXXXXXXXXXXXXXXXXXXX",
+    "wit_confidence": 0.800
 }
