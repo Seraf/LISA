@@ -116,6 +116,8 @@ class LisaResource(tastyresources.Resource):
                 self.wrap_view('scheduler_reload'), name="api_lisa_scheduler_reload"),
             url(r"^(?P<resource_name>%s)/tts/google%s" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('tts_google'), name="api_lisa_tts_google"),
+            url(r"^(?P<resource_name>%s)/tts/pico%s" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('tts_pico'), name="api_lisa_tts_pico"),
             url(r"^(?P<resource_name>%s)/speak%s" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('speak'), name="api_lisa_speak"),
         ]
@@ -197,25 +199,32 @@ class LisaResource(tastyresources.Resource):
         self.log_throttled_access(request)
         return HttpResponse(''.join(combined_sound), content_type="audio/mpeg", mimetype="audio/mpeg")
 
-    #TODO
     def tts_pico(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
         self.is_authenticated(request)
         self.throttle_check(request)
+        message = request.POST.get("message")
+        lang = request.POST.getlist("lang")
+
 
         from tastypie.http import HttpAccepted, HttpNotModified
-        import re
-        import requests
         from django.http import HttpResponse
         from subprocess import call, Popen
         combined_sound = []
+        #todo : replace test.wav by a md5
+        temp = LISA_PATH + "/tmp/" + 'test' + ".wav"
+        language = str(lang[0])+'-'+str(lang[0]).upper()
+        command = ['pico2wave', '-w', temp, '-l', language, '--', message]
         try:
-            pass
+            call(command)
             #combined_sound.append(content)
-        except:
-            pass
+        except OSError:
+            print('FIXME: text is too large.\n')
             #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+            #return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+        f = open(temp,"rb")
+        combined_sound.append(f.read())
+        #todo then close the temp file, and delete it as we have it in the buffer
         self.log_throttled_access(request)
         return HttpResponse(''.join(combined_sound), content_type="audio/mpeg", mimetype="audio/mpeg")
 
