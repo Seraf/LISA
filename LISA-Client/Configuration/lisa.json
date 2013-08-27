@@ -1,6 +1,10 @@
 {
-    "lisa_url": "localhost",
+    "lisa_url": "127.0.0.1",
     "lisa_engine_port": 10042,
     "lisa_engine_port_ssl": 10043,
-    "enable_secure_mode": false
+    "enable_secure_mode": false,
+    "debug": {
+        "debug_input": true,
+        "debug_output": true
+    }
 }

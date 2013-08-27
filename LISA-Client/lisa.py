@@ -11,10 +11,9 @@ class LisaClient(Protocol):
     def __init__(self,factory):
         self.factory = factory
 
-
     def sendMessage(self, message):
         self.transport.write(json.dumps(
-            {"from": 'Android',"type": 'Speech', "body": unicode(message), "zone": "Android"})
+            {"from": 'Linux',"type": 'Speech', "body": unicode(message), "zone": "Android"})
         )
 
     def dataReceived(self, data):
