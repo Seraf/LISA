@@ -36,7 +36,6 @@ class RulesEngine():
     def Rules(self, jsonData, lisaprotocol):
         rulescollection = self.database.rules
         pluginscollection = self.database.plugins
-
         jsonInput = lisaprotocol.wit.message_send(str(jsonData['body'].encode('utf-8')))
         jsonInput['from'], jsonInput['type'], jsonInput['zone'] = jsonData['from'], jsonData['type'], jsonData['zone']
 
@@ -63,7 +62,7 @@ class RulesEngine():
             print "Before 'after' rule: " + str(jsonOutput)
         for rule in rulescollection.find({"enabled": True, "after": {"$ne":None}}).sort([("order", 1)]):
             exec(rule['after'])
-            #Problem here : it don't check if the condition of the rule after has matched to end the rules
+            #todo it doesn't check if the condition of the rule after has matched to end the rules
             if rule['end']:
                 break
         if self.configuration['debug']['debug_after_after_rule']:

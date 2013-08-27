@@ -1,6 +1,6 @@
 from tastypie import authorization
 from django.conf.urls.defaults import *
-import json
+import json, os
 from libs import LisaInstance, LisaProtocolInstance
 from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
@@ -200,6 +200,7 @@ class LisaResource(tastyresources.Resource):
         return HttpResponse(''.join(combined_sound), content_type="audio/mpeg", mimetype="audio/mpeg")
 
     def tts_pico(self, request, **kwargs):
+        import uuid
         self.method_check(request, allowed=['post'])
         self.is_authenticated(request)
         self.throttle_check(request)
@@ -211,8 +212,7 @@ class LisaResource(tastyresources.Resource):
         from django.http import HttpResponse
         from subprocess import call, Popen
         combined_sound = []
-        #todo : replace test.wav by a md5
-        temp = LISA_PATH + "/tmp/" + 'test' + ".wav"
+        temp = LISA_PATH + "/tmp/" + str(uuid.uuid4()) + ".wav"
         language = str(lang[0])+'-'+str(lang[0]).upper()
         command = ['pico2wave', '-w', temp, '-l', language, '--', message]
         try:
@@ -224,7 +224,8 @@ class LisaResource(tastyresources.Resource):
             #return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
         f = open(temp,"rb")
         combined_sound.append(f.read())
-        #todo then close the temp file, and delete it as we have it in the buffer
+        f.close()
+        os.remove(temp)
         self.log_throttled_access(request)
         return HttpResponse(''.join(combined_sound), content_type="audio/mpeg", mimetype="audio/mpeg")
 

@@ -33,14 +33,19 @@ class Lisa(Protocol):
         if configuration['debug']['debug_output']:
             print "OUTPUT: " + str(jsondata)
         jsonreturned = json.loads(jsondata)
-        for zone in jsonreturned['clients_zone']:
-            if zone == 'sender':
-                self.transport.write(jsondata)
-            else:
-                for client in self.factory.clients:
-                    if client['zone'] == zone or zone == 'all':
-                        #write a \r or \n to have an endline on client side ? How it will play with twisted ?
-                        client['object'].transport.write(jsondata)
+        if 'all' in jsonreturned['clients_zone']:
+            for client in self.factory.clients:
+                #write a \r or \n to have an endline on client side ? How it will play with twisted ?
+                client['object'].transport.write(jsondata)
+        else:
+            for zone in jsonreturned['clients_zone']:
+                if zone == 'sender':
+                    self.transport.write(jsondata)
+                else:
+                    for client in self.factory.clients:
+                        if client['zone'] == zone:
+                            #write a \r or \n to have an endline on client side ? How it will play with twisted ?
+                            client['object'].transport.write(jsondata)
 
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
