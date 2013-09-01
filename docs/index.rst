@@ -17,6 +17,7 @@ Contents:
    lisa-speech
    lisa-engine
    lisa-plugins
+   lisa-wit
 
 
 Indices and tables

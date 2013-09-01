@@ -1,4 +1,4 @@
-.. _lisa-engine:
+.. _lisa-plugins:
 
 LISA Plugins
 =============
@@ -11,22 +11,20 @@ All plugins have the same structure: ::
     ├── chatterbot.json
     ├── lang
     │   ├── en
-    │   │   ├── chat.rs
     │   │   └── LC_MESSAGES
     │   │       ├── chat.mo
     │   │       └── chat.po
     │   ├── fr
-    │   │   ├── chat.rs
     │   │   └── LC_MESSAGES
     │   │       ├── chat.mo
     │   │       └── chat.po
     │   └── ru
-    │       ├── chat.rs
     │       └── LC_MESSAGES
     │           ├── chat.mo
     │           └── chat.po
     ├── modules
-    │   └── chat.py
+    │   ├── __init__.py
+    │   └── chatterbot.py
     ├── README.rst
     ├── tests
     │   └── chat_test.py
@@ -44,9 +42,10 @@ All plugins have the same structure: ::
 - A README file to explain what the plugin do and how it works
 - A json file used for setup of the plugin, containing cron, rules, and parameters to setup (used only for the install)
 - A lang directory containing all langs available
-- A text file (.rs) containing all sentences and rules to launch a function
 - A module file (.py) containing the class and all the methods called by text file
 - The web directory allow to expose the plugin in the L.I.S.A API and can be used to add widgets on L.I.S.A dashboard
+
+
 Language file
 ^^^^^^^^^^^^^
 The module is generic and should use gettext. The id of the string should be in english.
@@ -58,27 +57,6 @@ This will generate a translation source file. To be used, you need to compile it
 
     msgfmt <domain>.po --output-file <domain>.mo
 
-Text file
-^^^^^^^^^
-The text file is in a Rivescript format. You will get more information about this "language" on
-http://www.rivescript.com .
-
-Example: ::
-
-    + give me the tv guide [*]
-    - <call>getprogrammetv</call>
-
-    > object getprogrammetv python
-        import sys, os, inspect
-        cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split( \
-            inspect.getfile(inspect.currentframe()))[0],os.path.normpath("Plugins/ProgrammeTV/modules/"))))
-        if cmd_subfolder not in sys.path:
-            sys.path.insert(0, cmd_subfolder)
-
-        from programmetv import ProgrammeTV
-        return ProgrammeTV().getProgrammeTV()
-    < object
-
 Module file
 ^^^^^^^^^^^
 Example of plugin : ::
@@ -87,29 +65,36 @@ Example of plugin : ::
     import urllib, json
     import xml.etree.ElementTree as ET
     from datetime import date
-    import os
+    import os, inspect
     from pymongo import MongoClient
-
+    from lisa import configuration
     import gettext
 
     path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
-    inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
+        inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
     _ = translation = gettext.translation(domain='programmetv', localedir=path, languages=[configuration['lang']]).ugettext
 
     class ProgrammeTV:
         def __init__(self):
-            self.configuration_lisa = json.load(open('Configuration/lisa.json'))
+            self.configuration_lisa = configuration
             mongo = MongoClient(self.configuration_lisa['database']['server'],
                                 self.configuration_lisa['database']['port'])
             self.configuration = mongo.lisa.plugins.find_one({"name": "ProgrammeTV"})
 
-        def getProgrammeTV(self):
-            programmetv_str = [...] <<< Here the code to fill a string and return it as an answer
-            return json.dumps({"plugin": "programmetv","method": "getProgrammeTV", "body": programmetv_str})
+        def getProgrammeTV(self, jsonInput):
+            programmetv_str = [...] < Here your code to generate the string
+            return {"plugin": "programmetv",
+                     "method": "getProgrammeTV",
+                     "body": programmetv_str
+            }
 
-There's many possibilities, code is flexible and there's no limit except one : you have to always return a JSON.
+You will always need a jsonInput parameter for your method. It contains some essential data (sent by Wit for example).
+It will contains all parameters you need like date, type of product, etc etc, everything passed by Wit or the rule engine.
 
-The JSON must contain the plugin name, the method called, and the answer in the "body" field.
+There's many possibilities, code is flexible and there's no limit except one : you have to always return a dictionnary,
+interpreted as a JSON by the rule engine.
+
+The dictionnary must contain the plugin name, the method called, and the answer in the "body" field.
 
 You can also return any extra data in the field name of your choice. It can be used by the rule engine to match
 some condition and/or feed other plugins with these data.
@@ -155,3 +140,4 @@ Example of a unit test : ::
                 return self._test(sentence='chat test', expected='chat OK')
             elif configuration['lang'] == 'fr':
                 return self._test(sentence='Bonjour', expected='Bonjour. Comment allez vous ?')
+

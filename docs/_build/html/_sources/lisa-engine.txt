@@ -35,6 +35,16 @@ the port 8000 to avoid conflict with any webserver already installed. If there i
 
 **debug**: Display the debug/verbose mode. The value is false by default.
 
+**enable_secure_mode**: With this value set to True, it will use the SSL to authenticate and secure the connection. The value is false by default.
+
+**enable_unsecure_mode**: This parameter let anyone to connect to the default port without authentication. Should be used in local only. The value is True by default.
+
+**wit_url**: Contains the Wit url to use it online or offline.
+
+**wit_token**: The token to connect on Wit.
+
+**wit_confidence**: Wit will give you suggestions if it don't know exactly how to handle your sentence. Wit will train but it's better to check a minimum of confidence. The default value is 0.800
+
 Rules
 -----
 LISA Engine include a rule engine to allow the user to modify the behavior of a plugin.

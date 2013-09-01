@@ -25,6 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="top" title="L.I.S.A 0.1 documentation" href="index.html" />
+    <link rel="next" title="LISA Plugins" href="lisa-plugins.html" />
     <link rel="prev" title="LISA Speech" href="lisa-speech.html" /> 
   </head>
   <body>
@@ -34,6 +35,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lisa-plugins.html" title="LISA Plugins"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="lisa-speech.html" title="LISA Speech"
              accesskey="P">previous</a> |</li>
@@ -89,6 +93,11 @@ the port 8000 to avoid conflict with any webserver already installed. If there i
 <p><strong>user</strong>: User granted to connect to the lisa database (&#8216;lisa&#8217; by default).</p>
 <p><strong>pass</strong>: Pass of the user granted to connect the lisa database (&#8216;lisapowered&#8217; by default).</p>
 <p><strong>debug</strong>: Display the debug/verbose mode. The value is false by default.</p>
+<p><strong>enable_secure_mode</strong>: With this value set to True, it will use the SSL to authenticate and secure the connection. The value is false by default.</p>
+<p><strong>enable_unsecure_mode</strong>: This parameter let anyone to connect to the default port without authentication. Should be used in local only. The value is True by default.</p>
+<p><strong>wit_url</strong>: Contains the Wit url to use it online or offline.</p>
+<p><strong>wit_token</strong>: The token to connect on Wit.</p>
+<p><strong>wit_confidence</strong>: Wit will give you suggestions if it don&#8217;t know exactly how to handle your sentence. Wit will train but it&#8217;s better to check a minimum of confidence. The default value is 0.800</p>
 </div>
 <div class="section" id="rules">
 <h2>Rules<a class="headerlink" href="#rules" title="Permalink to this headline">¶</a></h2>
@@ -126,6 +135,9 @@ Once you started the server, you can access to the API doc (and test it in live)
   <h4>Previous topic</h4>
   <p class="topless"><a href="lisa-speech.html"
                         title="previous chapter">LISA Speech</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lisa-plugins.html"
+                        title="next chapter">LISA Plugins</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/lisa-engine.txt"
@@ -154,6 +166,9 @@ Once you started the server, you can access to the API doc (and test it in live)
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="lisa-plugins.html" title="LISA Plugins"
+             >next</a> |</li>
         <li class="right" >
           <a href="lisa-speech.html" title="LISA Speech"
              >previous</a> |</li>

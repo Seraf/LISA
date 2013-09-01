@@ -25,6 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="top" title="L.I.S.A 0.1 documentation" href="index.html" />
+    <link rel="next" title="LISA Wit" href="lisa-wit.html" />
     <link rel="prev" title="LISA Engine" href="lisa-engine.html" /> 
   </head>
   <body>
@@ -34,6 +35,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="lisa-wit.html" title="LISA Wit"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="lisa-engine.html" title="LISA Engine"
              accesskey="P">previous</a> |</li>
@@ -47,7 +51,7 @@
           <div class="body">
             
   <div class="section" id="lisa-plugins">
-<span id="lisa-engine"></span><h1>LISA Plugins<a class="headerlink" href="#lisa-plugins" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>LISA Plugins<a class="headerlink" href="#lisa-plugins" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="plugins">
 <h2>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h2>
 <p>All plugins have the same structure:</p>
@@ -55,22 +59,20 @@
 ├── chatterbot.json
 ├── lang
 │   ├── en
-│   │   ├── chat.rs
 │   │   └── LC_MESSAGES
 │   │       ├── chat.mo
 │   │       └── chat.po
 │   ├── fr
-│   │   ├── chat.rs
 │   │   └── LC_MESSAGES
 │   │       ├── chat.mo
 │   │       └── chat.po
 │   └── ru
-│       ├── chat.rs
 │       └── LC_MESSAGES
 │           ├── chat.mo
 │           └── chat.po
 ├── modules
-│   └── chat.py
+│   ├── __init__.py
+│   └── chatterbot.py
 ├── README.rst
 ├── tests
 │   └── chat_test.py
@@ -88,7 +90,6 @@
 <li>A README file to explain what the plugin do and how it works</li>
 <li>A json file used for setup of the plugin, containing cron, rules, and parameters to setup (used only for the install)</li>
 <li>A lang directory containing all langs available</li>
-<li>A text file (.rs) containing all sentences and rules to launch a function</li>
 <li>A module file (.py) containing the class and all the methods called by text file</li>
 <li>The web directory allow to expose the plugin in the L.I.S.A API and can be used to add widgets on L.I.S.A dashboard</li>
 </ul>
@@ -102,26 +103,6 @@ To add a new translation, add a LC_MESSAGE directory, then (replace &lt;domain&g
 <div class="highlight-python"><pre>msgfmt &lt;domain&gt;.po --output-file &lt;domain&gt;.mo</pre>
 </div>
 </div>
-<div class="section" id="text-file">
-<h3>Text file<a class="headerlink" href="#text-file" title="Permalink to this headline">¶</a></h3>
-<p>The text file is in a Rivescript format. You will get more information about this &#8220;language&#8221; on
-<a class="reference external" href="http://www.rivescript.com">http://www.rivescript.com</a> .</p>
-<p>Example:</p>
-<div class="highlight-python"><pre>+ give me the tv guide [*]
-- &lt;call&gt;getprogrammetv&lt;/call&gt;
-
-&gt; object getprogrammetv python
-    import sys, os, inspect
-    cmd_subfolder = os.path.realpath(os.path.abspath(os.path.join(os.path.split( \
-        inspect.getfile(inspect.currentframe()))[0],os.path.normpath("Plugins/ProgrammeTV/modules/"))))
-    if cmd_subfolder not in sys.path:
-        sys.path.insert(0, cmd_subfolder)
-
-    from programmetv import ProgrammeTV
-    return ProgrammeTV().getProgrammeTV()
-&lt; object</pre>
-</div>
-</div>
 <div class="section" id="module-file">
 <h3>Module file<a class="headerlink" href="#module-file" title="Permalink to this headline">¶</a></h3>
 <p>Example of plugin :</p>
@@ -129,28 +110,34 @@ To add a new translation, add a LC_MESSAGE directory, then (replace &lt;domain&g
 import urllib, json
 import xml.etree.ElementTree as ET
 from datetime import date
-import os
+import os, inspect
 from pymongo import MongoClient
-
+from lisa import configuration
 import gettext
 
 path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
-inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
+    inspect.getfile(inspect.currentframe()))[0],os.path.normpath("../lang/"))))
 _ = translation = gettext.translation(domain='programmetv', localedir=path, languages=[configuration['lang']]).ugettext
 
 class ProgrammeTV:
     def __init__(self):
-        self.configuration_lisa = json.load(open('Configuration/lisa.json'))
+        self.configuration_lisa = configuration
         mongo = MongoClient(self.configuration_lisa['database']['server'],
                             self.configuration_lisa['database']['port'])
         self.configuration = mongo.lisa.plugins.find_one({"name": "ProgrammeTV"})
 
-    def getProgrammeTV(self):
-        programmetv_str = [...] &lt;&lt;&lt; Here the code to fill a string and return it as an answer
-        return json.dumps({"plugin": "programmetv","method": "getProgrammeTV", "body": programmetv_str})</pre>
+    def getProgrammeTV(self, jsonInput):
+        programmetv_str = [...] &lt; Here your code to generate the string
+        return {"plugin": "programmetv",
+                 "method": "getProgrammeTV",
+                 "body": programmetv_str
+        }</pre>
 </div>
-<p>There&#8217;s many possibilities, code is flexible and there&#8217;s no limit except one : you have to always return a JSON.</p>
-<p>The JSON must contain the plugin name, the method called, and the answer in the &#8220;body&#8221; field.</p>
+<p>You will always need a jsonInput parameter for your method. It contains some essential data (sent by Wit for example).
+It will contains all parameters you need like date, type of product, etc etc, everything passed by Wit or the rule engine.</p>
+<p>There&#8217;s many possibilities, code is flexible and there&#8217;s no limit except one : you have to always return a dictionnary,
+interpreted as a JSON by the rule engine.</p>
+<p>The dictionnary must contain the plugin name, the method called, and the answer in the &#8220;body&#8221; field.</p>
 <p>You can also return any extra data in the field name of your choice. It can be used by the rule engine to match
 some condition and/or feed other plugins with these data.</p>
 </div>
@@ -209,7 +196,6 @@ they should be OK.</p>
 <li><a class="reference internal" href="#">LISA Plugins</a><ul>
 <li><a class="reference internal" href="#plugins">Plugins</a><ul>
 <li><a class="reference internal" href="#language-file">Language file</a></li>
-<li><a class="reference internal" href="#text-file">Text file</a></li>
 <li><a class="reference internal" href="#module-file">Module file</a></li>
 <li><a class="reference internal" href="#unit-tests">Unit tests</a></li>
 </ul>
@@ -221,6 +207,9 @@ they should be OK.</p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="lisa-engine.html"
                         title="previous chapter">LISA Engine</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lisa-wit.html"
+                        title="next chapter">LISA Wit</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/lisa-plugins.txt"
@@ -249,6 +238,9 @@ they should be OK.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="lisa-wit.html" title="LISA Wit"
+             >next</a> |</li>
         <li class="right" >
           <a href="lisa-engine.html" title="LISA Engine"
              >previous</a> |</li>
