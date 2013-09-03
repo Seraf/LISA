@@ -11,7 +11,7 @@ This tool is used in L.I.S.A to parse the text sent by the client. Wit returns a
 
 Wit installation
 ^^^^^^^^^^^^^^^^
-At this moment Wit is not available in an offline mode. But according to developers, the project will be open source and available offline as soon it's more stable.
+At this moment Wit is not available in an offline mode. The Wit team announced that Wit will be gradually open sourced in the future, and an offline version is on the roadmap.
 
 To use it online : https://www.wit.ai
 
