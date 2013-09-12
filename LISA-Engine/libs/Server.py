@@ -2,6 +2,7 @@
 import os, json, sys, uuid
 import libs
 from twisted.internet.protocol import Factory, Protocol
+from twisted.protocols.basic import Int32StringReceiver
 from twisted.internet import ssl
 from twisted.python import log
 from pymongo import MongoClient
@@ -24,7 +25,7 @@ class ServerTLSContext(ssl.DefaultOpenSSLContextFactory):
         kw['sslmethod'] = SSL.TLSv1_METHOD
         ssl.DefaultOpenSSLContextFactory.__init__(self, *args, **kw)
 
-class Lisa(Protocol):
+class Lisa(Int32StringReceiver):
     def __init__(self,factory, wit):
         self.factory = factory
         self.wit = wit
@@ -36,16 +37,16 @@ class Lisa(Protocol):
         if 'all' in jsonreturned['clients_zone']:
             for client in self.factory.clients:
                 #write a \r or \n to have an endline on client side ? How it will play with twisted ?
-                client['object'].transport.write(jsondata)
+                client['object'].sendString(jsondata)
         else:
             for zone in jsonreturned['clients_zone']:
                 if zone == 'sender':
-                    self.transport.write(jsondata)
+                    self.sendString(jsondata)
                 else:
                     for client in self.factory.clients:
                         if client['zone'] == zone:
                             #write a \r or \n to have an endline on client side ? How it will play with twisted ?
-                            client['object'].transport.write(jsondata)
+                            client['object'].sendString(jsondata)
 
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
@@ -63,7 +64,7 @@ class Lisa(Protocol):
             if client['object'] == self:
                 self.factory.clients.remove(client)
 
-    def dataReceived(self, data):
+    def stringReceived(self, data):
         if configuration['debug']['debug_input']:
             print "INPUT: " + str(data)
         try:

@@ -1,5 +1,6 @@
 from twisted.internet import ssl, reactor
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
+from twisted.protocols.basic import Int32StringReceiver
 import json, os
 from OpenSSL import SSL
 
@@ -7,16 +8,15 @@ path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 configuration = json.load(open(os.path.normpath(dir_path + '/' + 'Configuration/lisa.json')))
 
-class LisaClient(Protocol):
+class LisaClient(Int32StringReceiver):
     def __init__(self,factory):
         self.factory = factory
 
     def sendMessage(self, message):
-        self.transport.write(json.dumps(
+        self.sendString(json.dumps(
             {"from": 'Linux',"type": 'Speech', "body": unicode(message), "zone": "Android"})
         )
-
-    def dataReceived(self, data):
+    def stringReceived(self, data):
         print "data received"
         datajson = json.loads(data)
         print datajson

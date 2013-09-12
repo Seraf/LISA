@@ -47,7 +47,7 @@ class RulesEngine():
             print "After 'before' rule: " + str(jsonInput)
         oPlugin = pluginscollection.find_one({"configuration.intents."+jsonInput['outcome']['intent']: {"$exists": True}})
         if oPlugin and jsonInput['outcome']['confidence'] >= self.configuration['wit_confidence']:
-            plugininstance = namedAny('.'.join((str(oPlugin["name"]),'modules',str(oPlugin["name"]).lower(),str(oPlugin["name"]))))()
+            plugininstance = namedAny('.'.join((str(oPlugin["name"]),'modules',str(oPlugin["name"]).lower(),str(oPlugin["name"]))))(lisa=lisaprotocol)
             methodToCall = getattr(plugininstance, oPlugin['configuration']['intents'][jsonInput['outcome']['intent']]['method'])
             jsonOutput = methodToCall(jsonInput)
         else:
