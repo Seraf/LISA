@@ -2,7 +2,7 @@
 import os, json, sys, uuid
 import libs
 from twisted.internet.protocol import Factory, Protocol
-from twisted.protocols.basic import Int32StringReceiver
+from twisted.protocols.basic import LineReceiver
 from twisted.internet import ssl
 from twisted.python import log
 from pymongo import MongoClient
@@ -25,7 +25,7 @@ class ServerTLSContext(ssl.DefaultOpenSSLContextFactory):
         kw['sslmethod'] = SSL.TLSv1_METHOD
         ssl.DefaultOpenSSLContextFactory.__init__(self, *args, **kw)
 
-class Lisa(Int32StringReceiver):
+class Lisa(LineReceiver):
     def __init__(self,factory, wit):
         self.factory = factory
         self.wit = wit
@@ -37,16 +37,15 @@ class Lisa(Int32StringReceiver):
         if 'all' in jsonreturned['clients_zone']:
             for client in self.factory.clients:
                 #write a \r or \n to have an endline on client side ? How it will play with twisted ?
-                client['object'].sendString(jsondata)
+                client['object'].sendLine(jsondata)
         else:
             for zone in jsonreturned['clients_zone']:
                 if zone == 'sender':
-                    self.sendString(jsondata)
+                    self.sendLine(jsondata)
                 else:
                     for client in self.factory.clients:
                         if client['zone'] == zone:
-                            #write a \r or \n to have an endline on client side ? How it will play with twisted ?
-                            client['object'].sendString(jsondata)
+                            client['object'].sendLine(jsondata)
 
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
@@ -64,13 +63,13 @@ class Lisa(Int32StringReceiver):
             if client['object'] == self:
                 self.factory.clients.remove(client)
 
-    def stringReceived(self, data):
+    def lineReceived(self, data):
         if configuration['debug']['debug_input']:
             print "INPUT: " + str(data)
         try:
             jsonData = json.loads(data)
         except ValueError, e:
-            self.transport.write("Error : Invalid JSON")
+            self.sendLine("Error : Invalid JSON")
         else:
             for client in self.factory.clients:
                 if client['object'] == self and (not client['type'] or not client['zone']):

@@ -1,5 +1,5 @@
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
-from twisted.protocols.basic import Int32StringReceiver
+from twisted.protocols.basic import Int32StringReceiver, LineReceiver
 from OpenSSL import SSL
 import os,libs,json
 from twisted.internet import reactor, ssl
@@ -41,15 +41,15 @@ class ClientTLSContext(ssl.ClientContextFactory):
     def getContext(self):
         return SSL.Context(SSL.TLSv1_METHOD)
 
-class LisaClient(Int32StringReceiver):
+class LisaClient(LineReceiver):
     def __init__(self, WebSocketProtocol,factory):
         self.WebSocketProtocol = WebSocketProtocol
         self.factory = factory
 
     def sendMessage(self, msg):
-        self.sendString(msg)
+        self.sendLine(msg)
 
-    def stringReceived(self, data):
+    def lineReceived(self, data):
         self.WebSocketProtocol.sendMessage(data)
 
     def connectionMade(self):
