@@ -4,7 +4,7 @@
 '''
 
 from datetime import datetime
-
+from twisted.python import log
 from twisted.internet.defer import maybeDeferred
 
 class ScheduledTask(object):
@@ -33,12 +33,12 @@ class ScheduledTask(object):
     def before_execute(self):
         '''Override this method to perform tasks before the callable is executed.
         '''
-        print 'before_execute called'
+        log.msg('before_execute called')
 
     def after_execute(self):
         '''Override this method to perform tasks after the callable is executed.
         '''
-        print 'after_execute called'
+        log.msg('after_execute called')
 
     def _reschedule(self):
         '''Determines the next time that the task should be run.
@@ -61,8 +61,8 @@ class ScheduledTask(object):
     def _execute(self):
         '''Actually runs the task.
         '''
-        print 'self.args: '
-        print self.args
+        log.msg('self.args: ')
+        log.msg(self.args)
         self.last_runtime = datetime.now()
         self.running = True
         # run the callable

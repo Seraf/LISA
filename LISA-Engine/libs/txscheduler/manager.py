@@ -4,19 +4,20 @@ from pymongo import MongoClient
 from tasks import ScheduledTask
 from dateutil.rrule import *
 from twisted.python.reflect import namedAny
+from twisted.python import log
 from sys import path
 
 class TraceTask(ScheduledTask):
 
     def before_execute(self):
-        print 'current time is: %s' % datetime.now()
-        print 'tasks last runtime was: %s' % self.last_runtime
-        print 'tasks next runtime is: %s' % self.next_scheduled_runtime
+        log.msg('current time is: %s' % datetime.now())
+        log.msg('tasks last runtime was: %s' % self.last_runtime)
+        log.msg('tasks next runtime is: %s' % self.next_scheduled_runtime)
 
     def after_execute(self):
-        print 'current time is: %s' % datetime.now()
-        print 'tasks last runtime was: %s' % self.last_runtime
-        print 'tasks next runtime is: %s' % self.next_scheduled_runtime
+        log.msg('current time is: %s' % datetime.now())
+        log.msg('tasks last runtime was: %s' % self.last_runtime)
+        log.msg('tasks next runtime is: %s' % self.next_scheduled_runtime)
 
 class ScheduledTaskManager(object):
     '''Manages a group of tasks.

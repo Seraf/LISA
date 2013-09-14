@@ -1,3 +1,4 @@
+from twisted.python import log
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
 from twisted.protocols.basic import Int32StringReceiver, LineReceiver
 from OpenSSL import SSL
@@ -62,21 +63,21 @@ class LisaClientFactory(ReconnectingClientFactory):
         self.WebSocketProtocol = WebSocketProtocol
 
     def startedConnecting(self, connector):
-        print 'Started to connect.'
+        log.msg('Started to connect.')
 
     def buildProtocol(self, addr):
         self.protocol = LisaClient(self.WebSocketProtocol, factory=self)
-        print 'Connected to Lisa.'
-        print 'Resetting reconnection delay'
+        log.msg('Connected to Lisa.')
+        log.msg('Resetting reconnection delay')
         self.resetDelay()
         return self.protocol
 
     def clientConnectionLost(self, connector, reason):
-        print 'Lost connection.  Reason:', reason
+        log.err('Lost connection.  Reason:', reason)
         ReconnectingClientFactory.clientConnectionLost(self, connector, reason)
 
     def clientConnectionFailed(self, connector, reason):
-        print 'Connection failed. Reason:', reason
+        log.err('Connection failed. Reason:', reason)
         ReconnectingClientFactory.clientConnectionFailed(self, connector, reason)
 
 

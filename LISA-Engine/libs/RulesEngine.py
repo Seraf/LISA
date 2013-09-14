@@ -1,6 +1,7 @@
 import json, re, sys, os, inspect, gettext
 from pymongo import MongoClient
 from twisted.python.reflect import namedAny
+from twisted.python import log
 
 class RulesEngine():
     def __init__(self, configuration):
@@ -40,11 +41,11 @@ class RulesEngine():
         jsonInput['from'], jsonInput['type'], jsonInput['zone'] = jsonData['from'], jsonData['type'], jsonData['zone']
 
         if self.configuration['debug']['debug_before_before_rule']:
-            print "Before 'before' rule: " + str(jsonInput)
+            log.msg("Before 'before' rule: " + str(jsonInput))
         for rule in rulescollection.find({"enabled": True, "before": {"$ne":None}}).sort([("order", 1)]):
             exec(rule['before'])
         if self.configuration['debug']['debug_after_before_rule']:
-            print "After 'before' rule: " + str(jsonInput)
+            log.msg("After 'before' rule: " + str(jsonInput))
         oPlugin = pluginscollection.find_one({"configuration.intents."+jsonInput['outcome']['intent']: {"$exists": True}})
         if oPlugin and jsonInput['outcome']['confidence'] >= self.configuration['wit_confidence']:
             plugininstance = namedAny('.'.join((str(oPlugin["name"]),'modules',str(oPlugin["name"]).lower(),str(oPlugin["name"]))))(lisa=lisaprotocol)
@@ -57,13 +58,13 @@ class RulesEngine():
             jsonOutput['body'] = self._("I have not the right plugin installed to answer you correctly")
         jsonOutput['from'] = jsonData['from']
         if self.configuration['debug']['debug_wit']:
-            print "WIT: " + str(jsonOutput) + str(jsonInput['outcome'])
+            log.msg("WIT: " + str(jsonOutput) + str(jsonInput['outcome']))
         if self.configuration['debug']['debug_before_after_rule']:
-            print "Before 'after' rule: " + str(jsonOutput)
+            log.msg("Before 'after' rule: " + str(jsonOutput))
         for rule in rulescollection.find({"enabled": True, "after": {"$ne":None}}).sort([("order", 1)]):
             exec(rule['after'])
             #todo it doesn't check if the condition of the rule after has matched to end the rules
             if rule['end']:
                 break
         if self.configuration['debug']['debug_after_after_rule']:
-            print "After 'after' rule: " + str(jsonOutput)
+            log.msg("After 'after' rule: " + str(jsonOutput))

@@ -32,7 +32,7 @@ class Lisa(LineReceiver):
 
     def answerToClient(self, jsondata):
         if configuration['debug']['debug_output']:
-            print "OUTPUT: " + str(jsondata)
+            log.msg("OUTPUT: " + str(jsondata))
         jsonreturned = json.loads(jsondata)
         if 'all' in jsonreturned['clients_zone']:
             for client in self.factory.clients:
@@ -58,14 +58,14 @@ class Lisa(LineReceiver):
             self.transport.startTLS(ctx, self.factory)
 
     def connectionLost(self, reason):
-        log.msg('Lost connection.  Reason:', reason)
+        log.err('Lost connection.  Reason:', reason)
         for client in self.factory.clients:
             if client['object'] == self:
                 self.factory.clients.remove(client)
 
     def lineReceived(self, data):
         if configuration['debug']['debug_input']:
-            print "INPUT: " + str(data)
+            log.msg("INPUT: " + str(data))
         try:
             jsonData = json.loads(data)
         except ValueError, e:
