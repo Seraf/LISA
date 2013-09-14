@@ -1,6 +1,7 @@
 from twisted.internet import ssl, reactor
 from twisted.internet.protocol import Protocol, ReconnectingClientFactory
-from twisted.protocols.basic import Int32StringReceiver
+from twisted.protocols.basic import LineReceiver
+from twisted.python import log
 import json, os
 from OpenSSL import SSL
 
@@ -8,41 +9,41 @@ path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 configuration = json.load(open(os.path.normpath(dir_path + '/' + 'Configuration/lisa.json')))
 
-class LisaClient(Int32StringReceiver):
+class LisaClient(LineReceiver):
     def __init__(self,factory):
         self.factory = factory
 
     def sendMessage(self, message):
-        self.sendString(json.dumps(
+        self.sendLine(json.dumps(
             {"from": 'Linux',"type": 'Speech', "body": unicode(message), "zone": "Android"})
         )
-    def stringReceived(self, data):
-        print "data received"
+    def lineReceived(self, data):
+        log.msg("data received")
         datajson = json.loads(data)
-        print datajson
+        log.msg(datajson)
 
     def connectionMade(self):
-        print 'Connected to Lisa.'
+        log.msg('Connected to Lisa.')
         if configuration['enable_secure_mode']:
             ctx = ClientTLSContext()
             self.transport.startTLS(ctx, self.factory)
 
 class LisaClientFactory(ReconnectingClientFactory):
     def startedConnecting(self, connector):
-        print 'Started to connect.'
+        log.msg('Started to connect.')
 
     def buildProtocol(self, addr):
         self.protocol = LisaClient(self)
-        print 'Resetting reconnection delay'
+        log.msg('Resetting reconnection delay')
         self.resetDelay()
         return self.protocol
 
     def clientConnectionLost(self, connector, reason):
-        print 'Lost connection.  Reason:', reason
+        log.err('Lost connection.  Reason:', reason)
         ReconnectingClientFactory.clientConnectionLost(self, connector, reason)
 
     def clientConnectionFailed(self, connector, reason):
-        print 'Connection failed. Reason:', reason
+        log.err('Connection failed. Reason:', reason)
         ReconnectingClientFactory.clientConnectionFailed(self, connector, reason)
 
 class ClientTLSContext(ssl.ClientContextFactory):
