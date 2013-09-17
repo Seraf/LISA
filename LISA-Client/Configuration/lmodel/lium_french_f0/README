@@ -1,0 +1,46 @@
+These acoustic and language models were trained by the speech group at
+LIUM (Universite du Maine, Le Mans, France) from broadcast news.
+
+They are distributed under the license found in the file LICENSE.
+
+The acoustic models found in this package were trained from high
+quality audio data sampled at 16 kHz. The models are continuous, with
+5725 senones, 22 gaussians per state. They can be used with Sphinx-3
+or Sphinx-4.
+
+The acoustic models were trained with the default arguments found in
+the executables bw and wave2feat, namely:
+
+-feat 1s_c_d_dd
+-agc max
+-cmn current
+-varnorm no 
+-samprate 16000
+-lowerf 133.33334
+-upperf 6855.49756
+-nfilt 40
+-nfft 512
+
+The files in this package are:
+
+Language model: 
+./etc/french3g62K.DMP
+
+Dictionary:
+./etc/frenchWords62K.dic
+
+Filler dictionary, containing silence and noise words:
+./etc/frenchFillers.dic
+
+Model files:
+mdef
+means
+mixture_weights
+transition_matrices
+variances
+
+This file:
+./README
+
+The license:
+./LICENSE
