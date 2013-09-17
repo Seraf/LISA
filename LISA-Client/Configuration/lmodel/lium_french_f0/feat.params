@@ -1,9 +1,0 @@
--feat 1s_c_d_dd
--agc max
--cmn current
--varnorm no 
--samprate 16000
--lowerf 133.33334
--upperf 6855.49756
--nfilt 40
--nfft 512
