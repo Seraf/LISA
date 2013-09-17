@@ -1,5 +1,20 @@
-#JSGF V1.0;
-  
-grammar botname;
-   
-public <botname> = LISA;
+#JSGF V1.0;  
+
+grammar botname;  
+
+public <command> = <option_1>;
+
+<option_1> = <keyword>;  
+
+<option_2> = <garbage_loop> <keyword>;  
+
+<option_3> = <keyword> <garbage_loop>;  
+
+<option_4> = <garbage_loop> <keyword> <garbage_loop>;  
+
+<option_5> = <garbage_loop>;  
+
+<keyword> = (LISA);  
+
+<garbage_loop> = (G1 | G2 | G4 | G5 | G6 | G7 | G9 | G10 | G11 | G12 | G13 |
+G14 | G15 | G16 | G18 | G19 | G20 | G21 | G22 | G23 | G25| G26)+ ;
