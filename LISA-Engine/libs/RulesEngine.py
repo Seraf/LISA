@@ -46,6 +46,8 @@ class RulesEngine():
             exec(rule['before'])
         if self.configuration['debug']['debug_after_before_rule']:
             log.msg("After 'before' rule: " + str(jsonInput))
+        if self.configuration['debug']['debug_wit']:
+            log.msg("WIT: " + str(jsonInput['outcome']))
         oPlugin = pluginscollection.find_one({"configuration.intents."+jsonInput['outcome']['intent']: {"$exists": True}})
         if oPlugin and jsonInput['outcome']['confidence'] >= self.configuration['wit_confidence']:
             plugininstance = namedAny('.'.join((str(oPlugin["name"]),'modules',str(oPlugin["name"]).lower(),str(oPlugin["name"]))))(lisa=lisaprotocol)
@@ -57,8 +59,6 @@ class RulesEngine():
             jsonOutput['method'] = "None"
             jsonOutput['body'] = self._("I have not the right plugin installed to answer you correctly")
         jsonOutput['from'] = jsonData['from']
-        if self.configuration['debug']['debug_wit']:
-            log.msg("WIT: " + str(jsonOutput) + str(jsonInput['outcome']))
         if self.configuration['debug']['debug_before_after_rule']:
             log.msg("Before 'after' rule: " + str(jsonOutput))
         for rule in rulescollection.find({"enabled": True, "after": {"$ne":None}}).sort([("order", 1)]):
