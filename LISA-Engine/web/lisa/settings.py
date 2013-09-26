@@ -152,9 +152,9 @@ INSTALLED_APPS = (
     'tastypie_mongoengine',
     'tastypie_swagger',
     'debug_toolbar',
-    'interface',
-    'plugins',
-    'googlespeech',
+    'web.interface',
+    'web.plugins',
+    'web.googlespeech',
 )
 
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
