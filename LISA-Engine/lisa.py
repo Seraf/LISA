@@ -5,6 +5,7 @@ from twisted.internet import reactor, ssl
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static
 from twisted.python import threadpool, log
+os.environ['DJANGO_SETTINGS_MODULE'] = 'web.lisa.settings'
 from django.core.handlers.wsgi import WSGIHandler
 from autobahn.websocket import WebSocketServerFactory
 from autobahn.resource import WebSocketResource
@@ -35,7 +36,6 @@ application = service.Application('LISA')
 # Environment setup for Django project files:
 sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
 sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/lisa")))
-os.environ['DJANGO_SETTINGS_MODULE'] = 'web.lisa.settings'
 
 # Creating MultiService
 multi = service.MultiService()
