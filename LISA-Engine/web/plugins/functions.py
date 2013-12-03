@@ -8,33 +8,42 @@ except ImportError:
     from lisa.settings import LISA_PATH
 
 def install(plugin_url=None, plugin_sha=None, plugin_name=None):
-    #try:
-    if plugin_url and plugin_sha:
-        repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/Plugins/' + plugin_name)
-        repo.git.checkout(plugin_sha)
-    metadata = json.load(open(LISA_PATH + '/Plugins/' + plugin_name + '/' + str(plugin_name).lower() + '.json'))
-    plugin = Plugin()
-    for item in metadata:
-        if item != 'cron' or item != 'rules':
-            setattr(plugin, item, metadata[item])
-    plugin.save(validate=False)
-    for item in metadata:
-        if item == 'rules':
-            for rule_item in metadata['rules']:
-                rule = Rule()
-                for parameter in rule_item:
-                    setattr(rule, parameter, rule_item[parameter])
-                rule.plugin = plugin
-                rule.save(validate=False)
-        if item == 'crons':
-            for cron_item in metadata['crons']:
-                cron = Cron()
-                for parameter in cron_item:
-                    setattr(cron, parameter, cron_item[parameter])
-                cron.plugin = plugin
-                cron.save(validate=False)
-    #except:
-    #    return {'status': 'fail', 'log': 'There was a problem'}
+    try:
+        if plugin_url and plugin_sha:
+            repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/Plugins/' + plugin_name)
+            repo.git.checkout(plugin_sha)
+        metadata = json.load(open(LISA_PATH + '/Plugins/' + plugin_name + '/' + str(plugin_name).lower() + '.json'))
+        plugin = Plugin()
+        description_list = []
+        for item in metadata:
+            if item != 'cron' or item != 'rules':
+                if item == 'description':
+                    for description in metadata[item]:
+                        oDescription = Description()
+                        for k,v in description.iteritems():
+                            setattr(oDescription, k, v)
+                        description_list.append(oDescription)
+                    setattr(plugin, item, description_list)
+                else:
+                    setattr(plugin, item, metadata[item])
+        plugin.save(validate=False)
+        for item in metadata:
+            if item == 'rules':
+                for rule_item in metadata['rules']:
+                    rule = Rule()
+                    for parameter in rule_item:
+                        setattr(rule, parameter, rule_item[parameter])
+                    rule.plugin = plugin
+                    rule.save(validate=False)
+            if item == 'crons':
+                for cron_item in metadata['crons']:
+                    cron = Cron()
+                    for parameter in cron_item:
+                        setattr(cron, parameter, cron_item[parameter])
+                    cron.plugin = plugin
+                    cron.save(validate=False)
+    except:
+        return {'status': 'fail', 'log': 'There was a problem'}
     return {'status': 'success', 'log': 'Plugin Installed'}
 
 """
