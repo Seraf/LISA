@@ -24,9 +24,16 @@ def install(plugin_url=None, plugin_sha=None, plugin_name=None):
                             setattr(oDescription, k, v)
                         description_list.append(oDescription)
                     setattr(plugin, item, description_list)
+                elif item == 'enabled':
+                    if metadata[item] == 1:
+                        setattr(plugin, item, True)
+                    elif metadata[item] == 0:
+                        setattr(plugin, item, False)
+                    else:
+                        setattr(plugin, item, True)
                 else:
                     setattr(plugin, item, metadata[item])
-        plugin.save(validate=False)
+        plugin.save()
         for item in metadata:
             if item == 'rules':
                 for rule_item in metadata['rules']:
@@ -34,14 +41,14 @@ def install(plugin_url=None, plugin_sha=None, plugin_name=None):
                     for parameter in rule_item:
                         setattr(rule, parameter, rule_item[parameter])
                     rule.plugin = plugin
-                    rule.save(validate=False)
+                    rule.save()
             if item == 'crons':
                 for cron_item in metadata['crons']:
                     cron = Cron()
                     for parameter in cron_item:
                         setattr(cron, parameter, cron_item[parameter])
                     cron.plugin = plugin
-                    cron.save(validate=False)
+                    cron.save()
     except:
         return {'status': 'fail', 'log': 'There was a problem'}
     return {'status': 'success', 'log': 'Plugin Installed'}
