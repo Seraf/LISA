@@ -3,6 +3,8 @@ from web.plugins.models import Plugin, Rule, Cron
 from optparse import make_option
 import os, json
 import requests
+from web.plugins.functions import install
+
 try:
     from web.lisa.settings import LISA_PATH
 except ImportError:
@@ -49,9 +51,16 @@ class Command(BaseCommand):
         if args:
             self.arg_pluginName = args[0]
         if options.get('list'):
-            self.list()
+            self.plugin_list()
+        if options.get('install'):
+            self.plugin_install(self.arg_pluginName)
 
-    def list(self):
+    def get_pk(self, name):
+        pluginDB = Plugin.objects(name=name)
+        if pluginDB:
+            return pluginDB['pk']
+
+    def plugin_list(self):
         pluginLocalList = os.listdir(self.pluginPath)
         metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
         if(metareq.ok):
@@ -89,3 +98,20 @@ class Command(BaseCommand):
                 enabled = "["+ self.FAIL + "Not enabled" + self.ENDC + "]"
 
             self.stdout.write("%s => %s %s" % (pluginDict['name'], installed, enabled))
+
+    def plugin_install(self, name):
+        plugin_url = None
+        plugin_sha = None
+        metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
+        if(metareq.ok):
+            for item in json.loads(metareq.text or metareq.content):
+                if item['name'] == name:
+                    plugin_url, plugin_sha = item['url'], item['sha']
+        else:
+            self.stdout.write(self.FAIL + "The plugin list on github seems to no be available" + self.ENDC)
+
+        status = install(plugin_sha=plugin_sha, plugin_url=plugin_url, plugin_name=name)
+        if status['status'] == 'success':
+            self.stdout.write("[" + self.OKGREEN + status['log'] + self.ENDC + "]")
+        else:
+            self.stdout.write("[" + self.FAIL + "FAIL" + self.ENDC + "]" + " " + status['log'])

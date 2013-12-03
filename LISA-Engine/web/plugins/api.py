@@ -2,11 +2,11 @@ from tastypie import authorization
 from tastypie.utils import trailing_slash
 from tastypie_mongoengine import resources, fields
 from models import Plugin, Description, Rule, Cron
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 import json, git
 from libs import LisaInstance, Lisa
 from shutil import rmtree
-
+import functions
 try:
     from web.lisa.settings import LISA_PATH
 except ImportError:
@@ -94,37 +94,14 @@ class PluginResource(resources.MongoEngineResource):
             plugin_url = request.POST.get("url")
             plugin_sha = request.POST.get("sha")
             plugin_name = kwargs['plugin_name']
-            repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/Plugins/' + plugin_name)
-            repo.git.checkout(plugin_sha)
-            metadata = json.load(open(LISA_PATH + '/Plugins/' + plugin_name + '/' + str(plugin_name).lower() + '.json'))
-            plugin = Plugin()
-            for item in metadata:
-                if item != 'cron' or item != 'rules':
-                    setattr(plugin, item, metadata[item])
-            plugin.save(validate=False)
-            for item in metadata:
-                if item == 'rules':
-                    for rule_item in metadata['rules']:
-                        rule = Rule()
-                        for parameter in rule_item:
-                            setattr(rule, parameter, rule_item[parameter])
-                        rule.plugin = plugin
-                        rule.save(validate=False)
-                if item == 'crons':
-                    for cron_item in metadata['crons']:
-                        cron = Cron()
-                        for parameter in cron_item:
-                            setattr(cron, parameter, cron_item[parameter])
-                        cron.plugin = plugin
-                        cron.save(validate=False)
+            status = functions.install(plugin_url=plugin_url,plugin_sha=plugin_sha,plugin_name=plugin_name)
         except:
             pass
-        #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
-        return self.create_response(request, { 'status': 'success', 'log': "Plugin Installed"}, HttpCreated)
+        return self.create_response(request, status, HttpCreated)
+
 
     def enable(self, request, **kwargs):
         self.method_check(request, allowed=['get'])
