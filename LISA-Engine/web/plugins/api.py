@@ -94,7 +94,7 @@ class PluginResource(resources.MongoEngineResource):
             plugin_url = request.POST.get("url")
             plugin_sha = request.POST.get("sha")
             plugin_name = kwargs['plugin_name']
-            status = functions.install(plugin_url=plugin_url,plugin_sha=plugin_sha,plugin_name=plugin_name)
+            status = functions.install(plugin_url=plugin_url, plugin_sha=plugin_sha, plugin_name=plugin_name)
         except:
             pass
         self.log_throttled_access(request)
@@ -111,20 +111,13 @@ class PluginResource(resources.MongoEngineResource):
         from tastypie.http import HttpAccepted, HttpNotModified
 
         try:
-            for plugin in Plugin.objects(pk=kwargs['pk']):
-                plugin.enabled = True
-                plugin.save()
-                for cron in Cron.objects(plugin=plugin):
-                    cron.enabled = True
-                    cron.save()
+            status = functions.enable(plugin_pk=kwargs['pk'])
         except:
             pass
-            #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
-        return self.create_response(request, { 'status': 'success', 'log': "Plugin Enabled"}, HttpAccepted)
+        return self.create_response(request, status, HttpAccepted)
 
     def disable(self, request, **kwargs):
         self.method_check(request, allowed=['get'])
@@ -134,20 +127,14 @@ class PluginResource(resources.MongoEngineResource):
         from tastypie.http import HttpAccepted, HttpNotModified
 
         try:
-            for plugin in Plugin.objects(pk=kwargs['pk']):
-                plugin.enabled = False
-                plugin.save()
-                for cron in Cron.objects(plugin=plugin):
-                    cron.enabled = False
-                    cron.save()
+            status = functions.enable(plugin_pk=kwargs['pk'])
         except:
             pass
-            #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
-        return self.create_response(request, { 'status': 'success', 'log': "Plugin Disabled"}, HttpAccepted)
+
+        return self.create_response(request, status, HttpAccepted)
 
     def uninstall(self, request, **kwargs):
         self.method_check(request, allowed=['get'])
@@ -157,9 +144,7 @@ class PluginResource(resources.MongoEngineResource):
         from tastypie.http import HttpAccepted, HttpNotModified
 
         try:
-            for plugin in Plugin.objects(pk=kwargs['pk']):
-                rmtree(LISA_PATH + '/Plugins/' + plugin['name'])
-                plugin.delete()
+            status = functions.uninstall(plugin_pk=kwargs['pk'])
         except:
             pass
             #except FailedException as failure:
@@ -167,7 +152,7 @@ class PluginResource(resources.MongoEngineResource):
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
-        return self.create_response(request, { 'status': 'success', 'log': "Plugin Deleted"}, HttpAccepted)
+        return self.create_response(request, status, HttpAccepted)
 
 
 class EmbeddedDescriptionResource(resources.MongoEngineResource):

@@ -3,7 +3,7 @@ from web.plugins.models import Plugin, Rule, Cron
 from optparse import make_option
 import os, json
 import requests
-from web.plugins.functions import install
+from web.plugins.functions import install, uninstall, enable, disable
 
 try:
     from web.lisa.settings import LISA_PATH
@@ -50,10 +50,17 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if args:
             self.arg_pluginName = args[0]
+
         if options.get('list'):
             self.plugin_list()
-        if options.get('install'):
-            self.plugin_install(self.arg_pluginName)
+        elif options.get('install'):
+            self.manage(name=self.arg_pluginName, action="install")
+        elif options.get('uninstall'):
+            self.manage(name=self.arg_pluginName, action="uninstall")
+        elif options.get('enable'):
+            self.manage(name=self.arg_pluginName, action="enable")
+        elif options.get('disable'):
+            self.manage(name=self.arg_pluginName, action="disable")
 
     def get_pk(self, name):
         pluginDB = Plugin.objects(name=name)
@@ -99,19 +106,28 @@ class Command(BaseCommand):
 
             self.stdout.write("%s => %s %s" % (pluginDict['name'], installed, enabled))
 
-    def plugin_install(self, name):
-        plugin_url = None
-        plugin_sha = None
-        metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
-        if(metareq.ok):
-            for item in json.loads(metareq.text or metareq.content):
-                if item['name'] == name:
-                    plugin_url, plugin_sha = item['url'], item['sha']
-        else:
-            self.stdout.write(self.FAIL + "The plugin list on github seems to no be available" + self.ENDC)
+    def manage(self, name, action):
+        if action == "install":
+            plugin_url = None
+            plugin_sha = None
+            metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
+            if(metareq.ok):
+                for item in json.loads(metareq.text or metareq.content):
+                    if item['name'] == name:
+                        plugin_url, plugin_sha = item['url'], item['sha']
+            else:
+                self.stdout.write(self.FAIL + "The plugin list on github seems to no be available" + self.ENDC)
 
-        status = install(plugin_sha=plugin_sha, plugin_url=plugin_url, plugin_name=name)
+            status = install(plugin_sha=plugin_sha, plugin_url=plugin_url, plugin_name=name)
+        elif action == "disable":
+            status = disable(plugin_name=name)
+        elif action == "uninstall":
+            status = uninstall(plugin_name=name)
+        elif action == "enable":
+            status = enable(plugin_name=name)
+        else:
+            exit()
         if status['status'] == 'success':
-            self.stdout.write("[" + self.OKGREEN + status['log'] + self.ENDC + "]")
+            self.stdout.write("[" + self.OKGREEN + "OK" + self.ENDC + "]" + " " + status['log'])
         else:
             self.stdout.write("[" + self.FAIL + "FAIL" + self.ENDC + "]" + " " + status['log'])
