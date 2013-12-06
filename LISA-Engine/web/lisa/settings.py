@@ -109,6 +109,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'mongoengine.django.auth.MongoEngineBackend',
+)
+
 ROOT_URLCONF = 'web.lisa.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -160,6 +164,7 @@ INSTALLED_APPS = (
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
 SESSION_ENGINE = 'mongoengine.django.sessions'
+SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
 TASTYPIE_SWAGGER_API_MODULE = 'web.lisa.urls.v1_api'
 
 # A sample logging configuration. The only tangible logging
