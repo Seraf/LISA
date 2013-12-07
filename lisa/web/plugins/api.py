@@ -3,10 +3,9 @@ from tastypie.utils import trailing_slash
 from tastypie_mongoengine import resources, fields
 from models import Plugin, Description, Rule, Cron
 from django.conf.urls import *
-import json, git
 from libs import LisaInstance, Lisa
-from shutil import rmtree
 import functions
+from tastypie.http import HttpAccepted, HttpNotModified, HttpCreated
 try:
     from web.lisa.settings import LISA_PATH
 except ImportError:
@@ -88,15 +87,11 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        from tastypie.http import HttpCreated, HttpNotModified
+        plugin_url = request.POST.get("url")
+        plugin_sha = request.POST.get("sha")
+        plugin_name = kwargs['plugin_name']
+        status = functions.install(plugin_url=plugin_url, plugin_sha=plugin_sha, plugin_name=plugin_name)
 
-        try:
-            plugin_url = request.POST.get("url")
-            plugin_sha = request.POST.get("sha")
-            plugin_name = kwargs['plugin_name']
-            status = functions.install(plugin_url=plugin_url, plugin_sha=plugin_sha, plugin_name=plugin_name)
-        except:
-            pass
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
@@ -108,12 +103,7 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        from tastypie.http import HttpAccepted, HttpNotModified
-
-        try:
-            status = functions.enable(plugin_pk=kwargs['pk'])
-        except:
-            pass
+        status = functions.enable(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
@@ -124,12 +114,7 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        from tastypie.http import HttpAccepted, HttpNotModified
-
-        try:
-            status = functions.enable(plugin_pk=kwargs['pk'])
-        except:
-            pass
+        status = functions.enable(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
@@ -141,14 +126,7 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        from tastypie.http import HttpAccepted, HttpNotModified
-
-        try:
-            status = functions.uninstall(plugin_pk=kwargs['pk'])
-        except:
-            pass
-            #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+        status = functions.uninstall(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
