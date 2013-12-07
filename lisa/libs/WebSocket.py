@@ -32,7 +32,7 @@ class WebSocketProtocol(WebSocketServerProtocol):
 
     def onMessage(self, msg, binary):
         self.lisaclientfactory.protocol.sendMessage(json.dumps(
-            {"from": "Lisa-Web","type": "Chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
+            {"from": "Lisa-Web","type": "chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
 
     def connectionLost(self, reason):
         self.conn.transport = None

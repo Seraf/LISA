@@ -5,7 +5,7 @@ from interface.models import Workspace
 from interface.models import WidgetUser, Widget
 from tastypie_mongoengine import fields
 from tastypie.utils import trailing_slash
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from twisted.python.reflect import namedAny
 
 try:

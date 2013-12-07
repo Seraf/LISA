@@ -4,8 +4,7 @@ python:
     - 2.7
 env:
   - TWISTED=svn+svn://svn.twistedmatrix.com/svn/Twisted/trunk PYOPENSSL=PyOpenSSL
-  - TWISTED=Twisted==13.0.0 PYOPENSSL=PyOpenSSL
-  - TWISTED=Twisted==12.3.0 PYOPENSSL=PyOpenSSL
+  - TWISTED=Twisted==13.2.0 PYOPENSSL=PyOpenSSL
 
 install:
   - pip install $TWISTED --use-mirrors
@@ -13,6 +12,10 @@ install:
   - pip install -r install/requirements.txt --use-mirrors
 
 script:
-  - trial LISA-Engine
-  - trial LISA-Client
-  - trial LISA-Speech
+  - trial lisa
+
+notifications:
+  irc: "irc.oftc.net#lisa"
+branches:
+  only:
+    - master

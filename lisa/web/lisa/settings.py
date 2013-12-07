@@ -104,7 +104,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -155,11 +154,28 @@ INSTALLED_APPS = (
     'tastypie',
     'tastypie_mongoengine',
     'tastypie_swagger',
-    'debug_toolbar',
     'web.interface',
     'web.plugins',
     'web.googlespeech',
 )
+
+# Sequence for each optional app as a dict containing info about the app.
+OPTIONAL_APPS = (
+    {"import": "debug_toolbar", "apps": ("debug_toolbar",),
+        "middleware": ("debug_toolbar.middleware.DebugToolbarMiddleware",)},
+)
+
+# Set up each optional app if available.
+for app in OPTIONAL_APPS:
+    if app.get("condition", True):
+        try:
+            __import__(app["import"])
+        except ImportError:
+            pass
+        else:
+            INSTALLED_APPS += app.get("apps", ())
+            MIDDLEWARE_CLASSES += app.get("middleware", ())
+
 
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'

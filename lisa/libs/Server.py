@@ -36,7 +36,6 @@ class Lisa(LineReceiver):
         jsonreturned = json.loads(jsondata)
         if 'all' in jsonreturned['clients_zone']:
             for client in self.factory.clients:
-                #write a \r or \n to have an endline on client side ? How it will play with twisted ?
                 client['object'].sendLine(jsondata)
         else:
             for zone in jsonreturned['clients_zone']:
@@ -46,6 +45,10 @@ class Lisa(LineReceiver):
                     for client in self.factory.clients:
                         if client['zone'] == zone:
                             client['object'].sendLine(jsondata)
+
+    def askToClient(self, jsondata):
+        jsondata['type'] = 'question'
+        self.answerToClient(jsondata=jsondata)
 
     def connectionMade(self):
         self.client_uuid = str(uuid.uuid1())
@@ -74,7 +77,10 @@ class Lisa(LineReceiver):
             for client in self.factory.clients:
                 if client['object'] == self and (not client['type'] or not client['zone']):
                     client['type'], client['zone'] = jsonData['type'], jsonData['zone']
-            libs.RulesEngine(configuration).Rules(jsonData=jsonData, lisaprotocol=self)
+            if jsonData['type'] == "chat":
+                libs.RulesEngine(configuration).Rules(jsonData=jsonData, lisaprotocol=self)
+            #elif jsonData['type'] == "command":
+            #    libs.Commands(configuration, lisaprotocol=self).parse(jsonData=jsonData)
 
 class LisaFactory(Factory):
     def __init__(self):

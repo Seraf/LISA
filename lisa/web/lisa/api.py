@@ -1,5 +1,5 @@
 from tastypie import authorization
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 import json, os
 from libs import LisaInstance, LisaProtocolInstance
 from tastypie import resources as tastyresources

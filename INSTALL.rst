@@ -1,16 +1,10 @@
 Install
 -------
-The easiest way is to run the installer. As it's open source, you can see it will only install python packages necessary to run J.A.R.V.I.S.
+The easiest way is to run the installer. As it's open source, you can see it will only install python packages necessary to run L.I.S.A.
 You need to be in the top directory (LISA) where there is the README.md file.
 ::
 
   sh install/install.sh
-
-(Actually I use the django toolbar to debug ... so add it with:)
-
-::
-
-  sudo pip -r install/optional.txt
 
 Then, go into LISA-ENGINE and run :
 ::
@@ -20,7 +14,7 @@ Then, go into LISA-ENGINE and run :
 You should now create your first user :
 ::
 
-  cd LISA-Engine/web/
+  cd lisa
   python manage.py createsuperuser
 
 .. warning:: As a new interface is in development, it will quickly change. The interface will use the API
