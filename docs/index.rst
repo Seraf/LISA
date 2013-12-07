@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to L.I.S.A's documentation!
-==================================
+Welcome to L.I.S.A's documentation !
+====================================
 
 Contents:
 
@@ -13,8 +13,6 @@ Contents:
 
    about
    overview
-   lisa-client
-   lisa-speech
    lisa-engine
    lisa-plugins
    lisa-wit

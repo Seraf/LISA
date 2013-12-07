@@ -1,10 +1,9 @@
 .. _lisa-engine:
 
 LISA Engine
-=============
+===========
 
-.. include:: ../LISA-Engine/README.rst
-.. include:: ../LISA-Engine/INSTALL.rst
+.. include:: ../INSTALL.rst
 
 Configuration
 -------------
