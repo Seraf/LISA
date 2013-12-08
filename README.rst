@@ -31,3 +31,9 @@ So the program will be able to answer in the zone where the sound was recorded.
 LISA Engine
 ===========
 .. include:: INSTALL.rst
+
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/Seraf/lisa/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
