@@ -13,9 +13,9 @@ from OpenSSL import SSL
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
-configuration = json.load(open(os.path.normpath(dir_path + '/' + 'Configuration/lisa.json')))
-if not os.path.exists(os.path.normpath(dir_path + '/' + 'Plugins')):
-    os.mkdir(os.path.normpath(dir_path + '/' + 'Plugins'))
+configuration = json.load(open(os.path.normpath(dir_path + '/' + 'configuration/lisa.json')))
+if not os.path.exists(os.path.normpath(dir_path + '/' + 'plugins')):
+    os.mkdir(os.path.normpath(dir_path + '/' + 'plugins'))
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):
@@ -66,12 +66,12 @@ root.putChild("websocket", socketresource)
 if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
     if configuration['enable_secure_mode']:
         SSLContextFactoryEngine = ssl.DefaultOpenSSLContextFactory(
-            os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
-            os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
+            os.path.normpath(dir_path + '/' + 'configuration/ssl/server.key'),
+            os.path.normpath(dir_path + '/' + 'configuration/ssl/server.crt')
         )
         SSLContextFactoryWeb = ssl.DefaultOpenSSLContextFactory(
-            os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.key'),
-            os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.crt')
+            os.path.normpath(dir_path + '/' + 'configuration/ssl/server.key'),
+            os.path.normpath(dir_path + '/' + 'configuration/ssl/server.crt')
         )
         ctx = SSLContextFactoryEngine.getContext()
         ctx.set_verify(
@@ -80,14 +80,14 @@ if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
         )
         # Since we have self-signed certs we have to explicitly
         # tell the server to trust them.
-        with open(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'), 'w') as outfile:
-            for file in os.listdir(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/')):
-                with open(os.path.normpath(dir_path + '/' + 'Configuration/ssl/public/'+file)) as infile:
+        with open(os.path.normpath(dir_path + '/' + 'configuration/ssl/server.pem'), 'w') as outfile:
+            for file in os.listdir(os.path.normpath(dir_path + '/' + 'configuration/ssl/public/')):
+                with open(os.path.normpath(dir_path + '/' + 'configuration/ssl/public/'+file)) as infile:
                     for line in infile:
                         outfile.write(line)
 
 
-        ctx.load_verify_locations(os.path.normpath(dir_path + '/' + 'Configuration/ssl/server.pem'))
+        ctx.load_verify_locations(os.path.normpath(dir_path + '/' + 'configuration/ssl/server.pem'))
 
         internet.SSLServer(configuration['lisa_web_port_ssl'],
                            server.Site(root), SSLContextFactoryWeb).setServiceParent(multi)

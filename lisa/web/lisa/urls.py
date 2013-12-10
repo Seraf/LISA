@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from tastypie.api import Api
-from plugins.api import PluginResource
+from manageplugins.api import PluginResource
 from interface.api import WidgetResource, WorkspaceResource, WidgetByUserResource
 from api import LisaResource, UserResource
 from twisted.python.reflect import namedAny
@@ -14,7 +14,7 @@ v1_api.register(WidgetResource())
 v1_api.register(WidgetByUserResource())
 v1_api.register(LisaResource())
 
-from libs.Server import enabled_plugins
+from libs.server import enabled_plugins
 for plugin in enabled_plugins:
     try:
         metapluginResource = namedAny(plugin+'.web.api.'+plugin+'Resource')
@@ -25,6 +25,6 @@ urlpatterns = patterns('',
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
     url(r'^speech/', include('googlespeech.urls')),
-    url(r'^plugins/', include('plugins.urls')),
+    url(r'^plugins/', include('manageplugins.urls')),
     url(r'', include('interface.urls')),
 )

@@ -12,7 +12,7 @@ from libs.txscheduler.service import ScheduledTaskService
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path) + '/../'
-configuration = json.load(open(os.path.normpath(dir_path + '/' + 'Configuration/lisa.json')))
+configuration = json.load(open(os.path.normpath(dir_path + '/' + 'configuration/lisa.json')))
 
 # Create a task manager to pass it to other services
 taskman = ScheduledTaskManager(configuration)
@@ -96,7 +96,7 @@ class LisaFactory(Factory):
         # Load enabled plugins for the main language
         for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
             enabled_plugins.append(str(plugin['name']))
-        sys.path.append(str(os.path.normpath(dir_path + '/Plugins/')))
+        sys.path.append(str(os.path.normpath(dir_path + '/plugins/')))
 
     def buildProtocol(self, addr):
         self.Lisa = Lisa(self,self.wit)

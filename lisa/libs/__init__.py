@@ -1,9 +1,9 @@
 try:
-    from Wit import Wit
-    from RulesEngine import RulesEngine
-    from Commands import Commands
-    from WebSocket import LisaClientFactory, WebSocketProtocol
-    from Web import verifyCallback, Root
-    from Server import Lisa, LisaFactory, ServerTLSContext, LisaInstance, taskman, scheduler, LisaProtocolInstance
+    from wit import Wit
+    from rulesengine import RulesEngine
+    from commands import Commands
+    from websocket import LisaClientFactory, WebSocketProtocol
+    from web import verifyCallback, Root
+    from server import Lisa, LisaFactory, ServerTLSContext, LisaInstance, taskman, scheduler, LisaProtocolInstance
 except ImportError:
     print ImportError

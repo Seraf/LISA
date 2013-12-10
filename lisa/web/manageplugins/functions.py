@@ -9,9 +9,9 @@ except ImportError:
 
 def install(plugin_url=None, plugin_sha=None, plugin_name=None):
     if plugin_url and plugin_sha:
-        repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/Plugins/' + plugin_name)
+        repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/plugins/' + plugin_name)
         repo.git.checkout(plugin_sha)
-    metadata = json.load(open(LISA_PATH + '/Plugins/' + plugin_name + '/' + str(plugin_name).lower() + '.json'))
+    metadata = json.load(open(LISA_PATH + '/plugins/' + plugin_name + '/' + str(plugin_name).lower() + '.json'))
 
     if Plugin.objects(name=plugin_name):
         return {'status': 'fail', 'log': 'Plugin already installed'}
@@ -94,6 +94,6 @@ def uninstall(plugin_name=None, plugin_pk=None):
         return {'status': 'fail', 'log': 'Plugin not installed'}
     else:
         for plugin in plugin_list:
-            rmtree(LISA_PATH + '/Plugins/' + plugin['name'])
+            rmtree(LISA_PATH + '/plugins/' + plugin['name'])
             plugin.delete()
         return {'status': 'success', 'log': 'Plugin uninstalled'}

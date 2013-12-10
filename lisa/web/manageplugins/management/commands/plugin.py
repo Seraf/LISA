@@ -1,9 +1,9 @@
 from django.core.management.base import BaseCommand, CommandError
-from web.plugins.models import Plugin, Rule, Cron
+from web.manageplugins.models import Plugin, Rule, Cron
 from optparse import make_option
 import os, json
 import requests
-from web.plugins.functions import install, uninstall, enable, disable
+from web.manageplugins.functions import install, uninstall, enable, disable
 
 try:
     from web.lisa.settings import LISA_PATH

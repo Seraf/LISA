@@ -25,6 +25,6 @@
     "enable_secure_mode": false,
     "enable_unsecure_mode": true,
     "wit_url": "https://api.wit.ai/",
-    "wit_token": "XXXXXXXXXXXXXXXXXXXX",
+    "wit_token": "XXXXXXXXXXXXXXXXXXXXXxx",
     "wit_confidence": 0.800
 }

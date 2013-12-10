@@ -4,7 +4,7 @@ APP_DIR = os.path.dirname( globals()['__file__'] )
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 LISA_PATH = os.path.abspath(os.path.dirname(__file__) + '../../../')
 
-configuration = json.load(open(os.path.normpath(LISA_PATH + '/' + 'Configuration/lisa.json')))
+configuration = json.load(open(os.path.normpath(LISA_PATH + '/' + 'configuration/lisa.json')))
 
 DBNAME = 'lisa'
 
@@ -155,7 +155,7 @@ INSTALLED_APPS = (
     'tastypie_mongoengine',
     'tastypie_swagger',
     'web.interface',
-    'web.plugins',
+    'web.manageplugins',
     'web.googlespeech',
 )
 
