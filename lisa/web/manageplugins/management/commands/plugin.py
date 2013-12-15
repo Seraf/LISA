@@ -18,7 +18,7 @@ class Command(BaseCommand):
         self.help = 'Manage the plugins'
 
         self.plugins = []
-        self.pluginPath = LISA_PATH + '/Plugins/'
+        self.pluginPath = LISA_PATH + '/plugins/'
         self.OKGREEN = '\033[92m'
         self.WARNING = '\033[93m'
         self.FAIL = '\033[91m'
