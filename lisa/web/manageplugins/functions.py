@@ -123,5 +123,5 @@ def method_list(plugin_name=None):
         for m in inspect.getmembers(plugininstance, predicate=inspect.ismethod):
             if not "__init__" in m:
                 listmethods.append(m[0])
-        listmethodplugins.append({ 'name': plugin.name, 'methods': listmethods})
+        listmethodplugins.append({ 'plugin': plugin.name, 'methods': listmethods})
     return listmethodplugins
