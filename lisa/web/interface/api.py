@@ -14,7 +14,7 @@ except ImportError:
     from lisa.settings import LISA_PATH
 
 class WidgetResource(mongoresources.MongoEngineResource):
-    plugin = fields.ReferenceField(to='web.plugins.api.PluginResource', attribute='plugin')
+    plugin = fields.ReferenceField(to='web.manageplugins.api.PluginResource', attribute='plugin')
 
     class Meta:
         queryset = Widget.objects.all()

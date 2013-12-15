@@ -21,6 +21,14 @@ class Plugin(DynamicDocument):
         'allow_inheritance': False
     }
 
+class Intents(DynamicDocument):
+    plugin = ReferenceField(Plugin, reverse_delete_rule=CASCADE)
+    name = StringField()
+    meta = {
+        'collection': 'intents',
+        'allow_inheritance': False
+    }
+
 class Rule(DynamicDocument):
     plugin = ReferenceField(Plugin, reverse_delete_rule=CASCADE)
     enabled = BooleanField()
