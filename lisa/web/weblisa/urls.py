@@ -14,17 +14,22 @@ v1_api.register(WidgetResource())
 v1_api.register(WidgetByUserResource())
 v1_api.register(LisaResource())
 
-from libs.server import enabled_plugins
-for plugin in enabled_plugins:
-    try:
-        metapluginResource = namedAny(plugin+'.web.api.'+plugin+'Resource')
-        v1_api.register(metapluginResource())
-    except:
-        pass
 urlpatterns = patterns('',
-    url(r'^api/', include(v1_api.urls)),
-    url(r'^api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
     url(r'^speech/', include('googlespeech.urls')),
     url(r'^plugins/', include('manageplugins.urls')),
     url(r'', include('interface.urls')),
+)
+
+from libs.server import enabled_plugins
+for plugin in enabled_plugins:
+    #try:
+    urlpatterns += patterns('', url(r'^'+ str(plugin.lower()) + r'/', include(str(plugin) + '.web.urls')))
+    v1_api.register(namedAny(plugin + '.web.api.' + plugin + 'Resource')())
+    #except:
+    #    pass
+
+#Register plugin's API
+urlpatterns += patterns('',
+    url(r'^api/', include(v1_api.urls)),
+    url(r'^api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
 )

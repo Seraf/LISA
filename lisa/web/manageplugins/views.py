@@ -5,13 +5,8 @@ from models import Plugin, Rule, Cron
 from django.contrib.auth.decorators import login_required
 import requests, json, git, os
 from shutil import rmtree
-try:
-    from web.lisa.utils import method_restricted_to, is_ajax
-    from web.lisa.settings import LISA_PATH
-except ImportError:
-    from lisa.utils import method_restricted_to, is_ajax
-    from lisa.settings import LISA_PATH
-
+from weblisa.utils import method_restricted_to, is_ajax
+from weblisa.settings import LISA_PATH
 
 @method_restricted_to('GET')
 @login_required()

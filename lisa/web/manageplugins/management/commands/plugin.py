@@ -5,11 +5,7 @@ import os, json
 import requests
 from web.manageplugins.functions import install, uninstall, enable, disable
 
-try:
-    from web.lisa.settings import LISA_PATH
-except ImportError:
-    from lisa.settings import LISA_PATH
-
+from weblisa.settings import LISA_PATH
 
 class Command(BaseCommand):
     def __init__(self):

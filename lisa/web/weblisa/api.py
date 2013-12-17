@@ -7,10 +7,7 @@ from tastypie_mongoengine import resources as mongoresources
 from tastypie.utils import trailing_slash
 from mongoengine.django.auth import User
 
-try:
-    from web.lisa.settings import LISA_PATH
-except ImportError:
-    from lisa.settings import LISA_PATH
+from weblisa.settings import LISA_PATH
 
 class UserResource(mongoresources.MongoEngineResource):
     class Meta:

@@ -1,15 +1,17 @@
 # -*- coding: UTF-8 -*-
-import os,libs,json,sys,uuid
+import os,libs,json,sys,uuid,sys
 from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor, ssl
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static
 from twisted.python import threadpool, log
-os.environ['DJANGO_SETTINGS_MODULE'] = 'web.lisa.settings'
-from django.core.handlers.wsgi import WSGIHandler
 from autobahn.websocket import WebSocketServerFactory
 from autobahn.resource import WebSocketResource
 from OpenSSL import SSL
+
+# Environment setup for Django project files:
+sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
+sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/weblisa")))
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
@@ -29,13 +31,12 @@ class ThreadPoolService(service.Service):
         service.Service.stopService(self)
         self.pool.stop()
 
+os.environ['DJANGO_SETTINGS_MODULE'] = 'weblisa.settings'
+from django.core.handlers.wsgi import WSGIHandler
 
 # Twisted Application Framework setup:
 application = service.Application('LISA')
 
-# Environment setup for Django project files:
-sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
-sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/lisa")))
 
 # Creating MultiService
 multi = service.MultiService()
@@ -46,7 +47,7 @@ tps.setServiceParent(multi)
 # Creating the web stuff
 resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
 root = libs.Root(resource_wsgi)
-staticrsrc = static.File(os.path.normpath(os.path.join(os.path.abspath("."), "web/lisa/static")))
+staticrsrc = static.File(os.path.normpath(os.path.join(os.path.abspath("."), "web/weblisa/static")))
 root.putChild("static", staticrsrc)
 
 # Create the websocket

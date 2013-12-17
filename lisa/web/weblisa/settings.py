@@ -94,7 +94,7 @@ SECRET_KEY = '@5dpi3h(s-s$**o9jimdh5@vth4ax5q3+h79rl0b1n(xp9r&amp;f-'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    'web.lisa.utils.loaders.AbsolutePath.Loader',
+    #'web.lisa.utils.loaders.AbsolutePath.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
 
@@ -112,10 +112,10 @@ AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
 
-ROOT_URLCONF = 'web.lisa.urls'
+ROOT_URLCONF = 'web.weblisa.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'web.lisa.wsgi.application'
+WSGI_APPLICATION = 'web.weblisa.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -181,7 +181,7 @@ AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
 SESSION_ENGINE = 'mongoengine.django.sessions'
 SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
-TASTYPIE_SWAGGER_API_MODULE = 'web.lisa.urls.v1_api'
+TASTYPIE_SWAGGER_API_MODULE = 'web.weblisa.urls.v1_api'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

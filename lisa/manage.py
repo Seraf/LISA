@@ -3,12 +3,13 @@ import os
 import sys
 from os import environ
 from os.path import dirname, abspath
-import sys
 from django.core.management import execute_from_command_line
-from web import lisa, googlespeech, manageplugins, interface
+from web import weblisa, googlespeech, manageplugins, interface
 
 if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "web.lisa.settings")
+    sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
+    sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/weblisa")))
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblisa.settings")
 
     from django.core.management import execute_from_command_line
 

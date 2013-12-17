@@ -6,10 +6,7 @@ from django.conf.urls import *
 from libs import LisaInstance, Lisa
 import functions
 from tastypie.http import HttpAccepted, HttpNotModified, HttpCreated
-try:
-    from web.lisa.settings import LISA_PATH
-except ImportError:
-    from lisa.settings import LISA_PATH
+from weblisa.settings import LISA_PATH
 
 
 class PluginResource(resources.MongoEngineResource):

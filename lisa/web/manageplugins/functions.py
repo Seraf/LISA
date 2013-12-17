@@ -4,10 +4,7 @@ from shutil import rmtree
 from twisted.python.reflect import namedAny
 import inspect
 
-try:
-    from web.lisa.settings import LISA_PATH
-except ImportError:
-    from lisa.settings import LISA_PATH
+from weblisa.settings import LISA_PATH
 
 def install(plugin_url=None, plugin_sha=None, plugin_name=None):
     if plugin_url and plugin_sha:

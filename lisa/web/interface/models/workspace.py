@@ -1,10 +1,7 @@
 from mongoengine import *
 from mongoengine.django.auth import User
 
-try:
-    from web.lisa.settings import DBNAME
-except ImportError:
-    from lisa.settings import DBNAME
+from weblisa.settings import DBNAME
 connect(DBNAME)
 
 class Workspace(DynamicDocument):
