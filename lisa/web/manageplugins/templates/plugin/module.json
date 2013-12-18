@@ -1,0 +1,15 @@
+{
+    "name": "{{ plugin_name }}",
+    "version": "0.1",
+    "author": "{{ author_name }}",
+    "enabled": 1,
+    "description": [
+        {"lang": "en", "description": "Auto-generated plugin"}
+    ],
+    "lang": ["en"],
+    "configuration": {
+        "intents": {
+
+        }
+    }
+}

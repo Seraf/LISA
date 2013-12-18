@@ -3,8 +3,8 @@ from web.manageplugins.models import Plugin, Rule, Cron
 from optparse import make_option
 import os, json
 import requests
-from web.manageplugins.functions import install, uninstall, enable, disable
-
+from web.manageplugins.functions import install, uninstall, enable, disable, create
+from django.utils import six
 from weblisa.settings import LISA_PATH
 
 class Command(BaseCommand):
@@ -57,6 +57,12 @@ class Command(BaseCommand):
             self.manage(name=self.arg_pluginName, action="enable")
         elif options.get('disable'):
             self.manage(name=self.arg_pluginName, action="disable")
+        elif options.get('create'):
+            author_name = six.moves.input("What is your full name ? : ")
+            print
+            author_email = six.moves.input("What is your email ? : ")
+            print
+            self.manage(name=self.arg_pluginName, action="create", author_email=author_email, author_name=author_name)
 
     def get_pk(self, name):
         pluginDB = Plugin.objects(name=name)
@@ -102,7 +108,7 @@ class Command(BaseCommand):
 
             self.stdout.write("%s => %s %s" % (pluginDict['name'], installed, enabled))
 
-    def manage(self, name, action):
+    def manage(self, name, action, author_email=None, author_name=None):
         if action == "install":
             plugin_url = None
             plugin_sha = None
@@ -121,6 +127,8 @@ class Command(BaseCommand):
             status = uninstall(plugin_name=name)
         elif action == "enable":
             status = enable(plugin_name=name)
+        elif action == "create":
+            status = create(plugin_name=name, author_name=author_name, author_email=author_email)
         else:
             exit()
         if status['status'] == 'success':
