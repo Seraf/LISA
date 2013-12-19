@@ -54,22 +54,6 @@ class LisaResource(tastyresources.Resource):
                 }
             },
             {
-                'name': 'speak',
-                'http_method': 'POST',
-                'fields':{
-                    'message': {
-                        'type': 'string',
-                        'required': True,
-                        'description': 'The message to speak'
-                    },
-                    'clients_zone': {
-                        'type': 'list',
-                        'required': True,
-                        'description': "Zone list to speak the sentence. Example : ['all'], ['bedroom','kitchen']"
-                    }
-                }
-            },
-            {
                 'name': 'tts/google',
                 'http_method': 'POST',
                 'fields':{
