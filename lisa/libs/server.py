@@ -79,8 +79,8 @@ class Lisa(LineReceiver):
                     client['type'], client['zone'] = jsonData['type'], jsonData['zone']
             if jsonData['type'] == "chat":
                 libs.RulesEngine(configuration).Rules(jsonData=jsonData, lisaprotocol=self)
-            #elif jsonData['type'] == "command":
-            #    libs.Commands(configuration, lisaprotocol=self).parse(jsonData=jsonData)
+            elif jsonData['type'] == "command":
+                libs.Commands(configuration, lisaprotocol=self).parse(jsonData=jsonData)
 
 class LisaFactory(Factory):
     def __init__(self):

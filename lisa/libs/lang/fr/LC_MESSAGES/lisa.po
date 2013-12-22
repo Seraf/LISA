@@ -11,6 +11,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../RulesEngine.py
+#: ../../rulesEngine.py
 msgid "I have not the right plugin installed to answer you correctly"
 msgstr "Je n'ai pas le plugin adéquat pour répondre à votre demande"
+
+#: ../../commands.py
+msgid "LOGIN"
+msgstr "Le client %s à rejoint la zone %s"

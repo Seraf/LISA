@@ -26,4 +26,14 @@ class Commands():
                             client['object'].sendLine("{'body': 'mute', 'from': 'LISA Server', 'type': 'command'}")
 
     def parse(self, jsonData):
-        pass
+        if jsonData['body'] == 'LOGIN':
+            self.lisaprotocol.answerToClient(json.dumps(
+                {
+                    'body': self._('LOGIN') % (jsonData['from'], jsonData['zone']),
+                    'clients_zone': ['sender'],
+                    'from': jsonData['from'],
+                    'type': 'chat'
+                }
+            ))
+        else:
+            print jsonData

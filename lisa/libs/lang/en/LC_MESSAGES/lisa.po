@@ -14,3 +14,7 @@ msgstr ""
 #: ../../RulesEngine.py
 msgid "I have not the right plugin installed to answer you correctly"
 msgstr "I have not the right plugin installed to answer you correctly"
+
+#: ../../commands.py
+msgid "LOGIN"
+msgstr "The client %s had joined the zone %s"

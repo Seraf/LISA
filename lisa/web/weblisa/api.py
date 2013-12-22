@@ -128,7 +128,7 @@ class LisaResource(tastyresources.Resource):
 
 
     def tts_google(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
+        self.method_check(request, allowed=['post', 'get'])
         self.is_authenticated(request)
         self.throttle_check(request)
 
@@ -181,7 +181,7 @@ class LisaResource(tastyresources.Resource):
 
     def tts_pico(self, request, **kwargs):
         import uuid
-        self.method_check(request, allowed=['post'])
+        self.method_check(request, allowed=['post', 'get'])
         self.is_authenticated(request)
         self.throttle_check(request)
         message = request.POST.get("message")
