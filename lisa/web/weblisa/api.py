@@ -104,15 +104,18 @@ class LisaResource(tastyresources.Resource):
         ]
 
     def speak(self, request, **kwargs):
-        self.method_check(request, allowed=['post'])
+        self.method_check(request, allowed=['post', 'get'])
         self.is_authenticated(request)
         self.throttle_check(request)
 
         from tastypie.http import HttpAccepted, HttpNotModified
 
-        #try:
-        message = request.POST.get("message")
-        clients_zone = request.POST.getlist("clients_zone")
+        if request.POST:
+            message = request.POST.get("message")
+            clients_zone = request.POST.getlist("clients_zone")
+        else:
+            message = request.GET.get("message")
+            clients_zone = request.GET.getlist("clients_zone")
         jsondata = json.dumps({
                                       'body': message,
                                       'clients_zone': clients_zone,
@@ -120,10 +123,6 @@ class LisaResource(tastyresources.Resource):
             })
         LisaProtocolInstance.answerToClient(jsondata=jsondata)
 
-        #except:
-        #    pass
-            #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
         self.log_throttled_access(request)
         return self.create_response(request, { 'status': 'success', 'log': "Message sent"}, HttpAccepted)
 
