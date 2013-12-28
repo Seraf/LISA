@@ -5,7 +5,6 @@
     "lisa_engine_port_ssl": 10043,
     "lisa_web_port": 8000,
     "lisa_web_port_ssl": 8443,
-
     "database": {
         "server": "localhost",
         "port": 27017,
@@ -25,6 +24,7 @@
     "enable_secure_mode": false,
     "enable_unsecure_mode": true,
     "wit_url": "https://api.wit.ai/",
-    "wit_token": "XXXXXXXXXXXXXXXXXXXXXxx",
-    "wit_confidence": 0.800
+    "wit_token": "XXXXXXXXXXXXXXXXXXX",
+    "wit_confidence": 0.800,
+    "bot_name": "lisa"
 }

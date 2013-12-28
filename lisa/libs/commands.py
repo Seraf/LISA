@@ -31,8 +31,9 @@ class Commands():
                 {
                     'body': self._('LOGIN') % (jsonData['from'], jsonData['zone']),
                     'clients_zone': ['sender'],
-                    'from': jsonData['from'],
-                    'type': 'chat'
+                    'from': 'LISA Server',
+                    'type': 'chat',
+                    'bot_name': self.configuration['bot_name']
                 }
             ))
         else:
