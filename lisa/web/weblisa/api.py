@@ -119,7 +119,8 @@ class LisaResource(tastyresources.Resource):
         jsondata = json.dumps({
                                       'body': message,
                                       'clients_zone': clients_zone,
-                                      'from': "API"
+                                      'from': "API",
+                                      'type': "chat"
             })
         LisaProtocolInstance.answerToClient(jsondata=jsondata)
 
