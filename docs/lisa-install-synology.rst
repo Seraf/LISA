@@ -69,7 +69,7 @@ J’ai du corriger quelques droits d’accès qui se sont perdus dans la bataill
 Installation du minimum vital:
 ::
 
-    apt-get install openssh-server htop most uptimed screen irssi
+    apt-get install openssh-server htop most uptimed screen irssi git
     
 Pour que la Debian soit fonctionnelle, il faut maintenant faire tourner un certain nombre de services. Sur une Debian normale, ces services sont lancés par init, mais ce n’est pas notre cas. Il faudra donc les lancer manuellement. Éditez un fichier services.sh que vous placerez dans votre $HOME, et placez y le contenu suivant :
 
@@ -105,4 +105,56 @@ Il faut maintenant rendre ce script executable en lancement la commande:
     
 Et voilà, votre Debian est fonctionnelle ! Vous avez virtuellement deux systèmes qui tournent en parallèle.
 
-Vous pouvez maintenant passer a l'étape d'installation de lisa.
+3) Installation de Lisa:
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Sur votre debian lancer les commandes suivantes:
+
+::
+
+        cd /home/lisa
+        git clone https://github.com/Seraf/LISA.git
+        
+il faut maintenant modifier le fichier install de lisa en remplacant le text par celui-ci:
+
+::
+
+        #!/bin/sh
+        apt-get install mongodb python-setuptools libxslt1-dev libxslt1.1 libxml2-dev build-essential python-dev
+        apt-get install git
+        easy_install pip
+        pip install -r install/requirements.txt
+        if [ "$1" = "optional" ]
+        then
+            pip install -r install/optional.txt
+        fi  
+
+le paquet python-openssl est manquant sur la debian chroot il faut donc l'installer pour que le server lisa puisse fontionner:
+lancer la commande:
+
+::
+
+   apt-get install python-openssl
+
+vous pouvez a present lancer l'installation de lisa:
+
+::
+
+        cd /home/lisa/LISA
+        sh install/install.sh
+        
+créer un utilisateur:
+
+::
+
+        cd lisa
+        python manage.py createsuperuser
+        
+lancer le server lisa:
+
+::
+
+        cd lisa
+        twistd -ny lisa.py
+        
+voila vous devriez pouvoir vous connecter sur la page web http://ipdevotreNAS:8000/web
