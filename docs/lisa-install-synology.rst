@@ -1,8 +1,8 @@
 .. _lisa-install-synology:
 
 LISA Synology
-============= ::
-Mise en place de Debian
+=============
+Mise en place de Debian: ::
 
 Il va nous falloir une Debian qui tourne quelque part pour générer un système de base. Si vous n’en avez pas, vous pouvez l’installer dans une machine virtuelle le temps de faire la manip (Debian net-install et Virtualbox font très bien l’affaire). Un fois ceci fait, on va utiliser debootstrap de nous générer une archive minimale pour notre architecture cible, l’ARM :
 
