@@ -41,7 +41,10 @@ On va utiliser un petit script shell qui va nous permettre de faire les quelques
     
 Executez le en root, et vous serez dans le chroot. Il reste maintenant à finaliser l’installation de Debian :
 
+::
+
 /debootstrap/debootstrap --second-stage
+
 Générez un fichier sources.list correct grâce à http://debgen.simplylinux.ch, et placez le dans /etc/apt/sources.list.
 
 Une petite mise à jour de Debian:
