@@ -54,12 +54,18 @@ Une petite mise à jour de Debian:
     apt-get update
     apt-get upgrade
     
-Ajout d’un compte utilisateur:
+Ajout d’un compte utilisateur et lui donner les droits root:
 
 ::
 
     adduser lisa
     
+éditer le /etc/passwd et mettre 0:0 comme uid et gid, ca devrait donner ca:
+
+:: 
+
+        lisa:x:0:0:,,,:/home/lisa:/bin/bash
+
 J’ai du corriger quelques droits d’accès qui se sont perdus dans la bataille. Il y en a probablement d’autres, à vous de corriger si nécessaire.
 ::
 
