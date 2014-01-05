@@ -80,6 +80,8 @@ Pour que la Debian soit fonctionnelle, il faut maintenant faire tourner un certa
     /etc/init.d/cron start
     /etc/init.d/ssh start
     /etc/init.d/uptimed start
+    /etc/init.d/mongodb start
+    /etc/init.d/lisa_deamon start
 
 
 Il faur maintenant automatiser le lancement de ce script au lancement du NAS, pour ce faire nous allons créer un fichier S99chroot.sh qui sera positionné dans le 
