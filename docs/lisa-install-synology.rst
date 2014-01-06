@@ -164,5 +164,29 @@ lancer le server lisa:
 
         cd lisa
         twistd -ny lisa.py
+		
+Configuration de locales
+
+::
+
+		apt-get install locales
+		dpkg-reconfigure locales
+		dpkg-reconfigure tzdata
+		hwclock --systohc --utc
+		
+Il faut modifier le fichier /etc/default/rcS pour forcer le système à se mettre en heure locale…
+Explications sur le forum.debian-fr.org
+
+::
+
+		nano /etc/default/rcS
+		
+		
+Il faut modifier la ligne utc : UTC=no
+
+::
+
+		apt-get install ntpdate
+		ntpdate fr.pool.ntp.org
         
 voila vous devriez pouvoir vous connecter sur la page web http://ipdevotreNAS:8000/web
