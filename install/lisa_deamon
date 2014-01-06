@@ -1,0 +1,33 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          lisa_server
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop Lisa server
+### END INIT INFO
+
+logger "Lisa Server: Start script executed"
+LISA_SERVER_PATH="/home/lisa/LISA/lisa"
+export PYTHONPATH="$LISA_SERVER_PATH:$PYTHONPATH"
+
+case "$1" in
+  start)
+    logger "Lisa Server: Starting"
+    echo "Starting Lisa Server..."
+ cd "$LISA_SERVER_PATH/"
+ twistd -y lisa.py --logfile="$LISA_SERVER_PATH/lisa.log" --pidfile="$LISA_SERVER_PATH/Lisa_server.pid"
+    ;;
+  stop)
+    logger "Lisa Server: Stopping"
+    echo "Stopping Lisa server..."
+    kill `cat $LISA_SERVER_PATH/Lisa_server.pid`
+    ;;
+  *)
+    logger "Lisa server: Invalid usage"
+    echo "Usage: /etc/init.d/lisa_deamon {start|stop}"
+    exit 1
+    ;;
+esac
+

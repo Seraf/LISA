@@ -7,3 +7,5 @@ if [ "$1" = "optional" ]
 then
 	sudo pip install -r install/optional.txt
 fi
+sudo cp install/lisa_deamon /etc/init.d
+sudo chmod +x /etc/init.d/lisa_deamon
