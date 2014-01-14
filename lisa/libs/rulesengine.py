@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import json, re, sys, os, inspect, gettext
 from pymongo import MongoClient
 from twisted.python.reflect import namedAny
@@ -21,14 +22,14 @@ class RulesEngine():
                                     "name": "DefaultAnwser",
                                     "order": 999,
                                     "before": None,
-                                    "after": "lisaprotocol.answerToClient(json.dumps(                       \
-                                                    {                                                       \
-                                                        'plugin': jsonOutput['plugin'],                     \
-                                                        'method': jsonOutput['method'],                     \
-                                                        'body': jsonOutput['body'],                         \
-                                                        'clients_zone': ['sender'],                         \
-                                                        'from': jsonOutput['from']                          \
-                                                    }))",
+                                    "after": """lisaprotocol.answerToClient(json.dumps(
+                                                    {
+                                                        'plugin': jsonOutput['plugin'],
+                                                        'method': jsonOutput['method'],
+                                                        'body': jsonOutput['body'],
+                                                        'clients_zone': ['sender'],
+                                                        'from': jsonOutput['from']
+                                                    }))""",
                                     "end": True,
                                     "enabled": True
                                 }
@@ -37,7 +38,8 @@ class RulesEngine():
     def Rules(self, jsonData, lisaprotocol):
         rulescollection = self.database.rules
         pluginscollection = self.database.plugins
-        jsonInput = lisaprotocol.wit.message_send(str(jsonData['body'].encode('utf-8')))
+        intentscollection = self.database.intents
+        jsonInput = lisaprotocol.wit.message_send(unicode(jsonData['body']))
         jsonInput['from'], jsonInput['type'], jsonInput['zone'] = jsonData['from'], jsonData['type'], jsonData['zone']
 
         if self.configuration['debug']['debug_before_before_rule']:
@@ -48,10 +50,14 @@ class RulesEngine():
             log.msg("After 'before' rule: " + str(jsonInput))
         if self.configuration['debug']['debug_wit']:
             log.msg("WIT: " + str(jsonInput['outcome']))
-        oPlugin = pluginscollection.find_one({"configuration.intents."+jsonInput['outcome']['intent']: {"$exists": True}})
-        if oPlugin and jsonInput['outcome']['confidence'] >= self.configuration['wit_confidence']:
-            plugininstance = namedAny('.'.join((str(oPlugin["name"]),'modules',str(oPlugin["name"]).lower(),str(oPlugin["name"]))))(lisa=lisaprotocol)
-            methodToCall = getattr(plugininstance, oPlugin['configuration']['intents'][jsonInput['outcome']['intent']]['method'])
+
+
+        #TODO load the intent from intentscollection. It will point on a string on plugin or core
+        oIntent = intentscollection.find_one({"name": jsonInput['outcome']['intent']})
+        print oIntent
+        if oIntent and jsonInput['outcome']['confidence'] >= self.configuration['wit_confidence']:
+            instance = namedAny(str(oIntent["module"]))(lisa=lisaprotocol)
+            methodToCall = getattr(instance, oIntent['function'])
             jsonOutput = methodToCall(jsonInput)
         else:
             jsonOutput = {}

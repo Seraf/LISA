@@ -13,3 +13,8 @@ class Wit():
         if r.ok:
             return r.json()
 
+    def list_intents(self):
+        headers = {'Authorization': 'Bearer ' + self.configuration['wit_token']}
+        r = requests.get(self.configuration['wit_url'] + 'intents', headers=headers)
+        if r.ok:
+            return r.json()

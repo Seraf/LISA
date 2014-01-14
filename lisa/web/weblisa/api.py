@@ -1,7 +1,8 @@
+from twisted.python import log
 from tastypie import authorization
 from django.conf.urls import *
 import json, os
-from libs import LisaInstance, LisaProtocolInstance
+from libs import LisaInstance, LisaProtocolInstance, Wit, configuration
 from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
 from tastypie.utils import trailing_slash
@@ -34,6 +35,11 @@ class LisaResource(tastyresources.Resource):
             },
             {
                 'name': 'scheduler/reload',
+                'http_method': 'GET',
+                'fields': {}
+            },
+            {
+                'name': 'intents',
                 'http_method': 'GET',
                 'fields': {}
             },
@@ -101,6 +107,8 @@ class LisaResource(tastyresources.Resource):
                 self.wrap_view('tts_pico'), name="api_lisa_tts_pico"),
             url(r"^(?P<resource_name>%s)/speak%s" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('speak'), name="api_lisa_speak"),
+            url(r"^(?P<resource_name>%s)/intents%s" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('intents'), name="api_lisa_intents"),
         ]
 
     def speak(self, request, **kwargs):
@@ -174,9 +182,8 @@ class LisaResource(tastyresources.Resource):
 
                 combined_sound.append(r.content)
         except:
-            pass
-            #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+            log.err()
+            return self.create_response(request, { 'status' : 'failure' }, HttpNotModified)
         self.log_throttled_access(request)
         return HttpResponse(''.join(combined_sound), content_type="audio/mpeg", mimetype="audio/mpeg")
 
@@ -200,9 +207,8 @@ class LisaResource(tastyresources.Resource):
             call(command)
             #combined_sound.append(content)
         except OSError:
-            print('FIXME: text is too large.\n')
-            #except FailedException as failure:
-            #return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+            log.err()
+            return self.create_response(request, { 'status' : 'failure' }, HttpNotModified)
         f = open(temp,"rb")
         combined_sound.append(f.read())
         f.close()
@@ -220,11 +226,25 @@ class LisaResource(tastyresources.Resource):
         try:
             LisaInstance.LisaReload()
         except:
-            pass
-            #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+            log.err()
+            return self.create_response(request, { 'status' : 'failure' }, HttpNotModified)
         self.log_throttled_access(request)
         return self.create_response(request, { 'status': 'success', 'log': "L.I.S.A Engine reloaded"}, HttpAccepted)
+
+    def intents(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        from tastypie.http import HttpAccepted, HttpNotModified
+
+        try:
+            intents = Wit(configuration).list_intents()
+        except:
+            log.err()
+            return self.create_response(request, { 'status' : 'failure' }, HttpNotModified)
+        self.log_throttled_access(request)
+        return self.create_response(request, { 'status': 'success', 'intents': intents}, HttpAccepted)
 
     def scheduler_reload(self, request, **kwargs):
         self.method_check(request, allowed=['get'])
@@ -236,9 +256,8 @@ class LisaResource(tastyresources.Resource):
         try:
             LisaInstance.SchedReload()
         except:
-            pass
-            #except FailedException as failure:
-        #    return self.create_response(request, { 'status' : 'failure', 'reason' : failure }, HttpNotModified
+            log.err()
+            return self.create_response(request, { 'status' : 'failure' }, HttpNotModified)
         self.log_throttled_access(request)
         return self.create_response(request, { 'status': 'success', 'log': "L.I.S.A Task Scheduler reloaded"},
                                     HttpAccepted)

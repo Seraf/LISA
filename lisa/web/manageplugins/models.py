@@ -20,7 +20,9 @@ class Plugin(DynamicDocument):
 
 class Intents(DynamicDocument):
     plugin = ReferenceField(Plugin, reverse_delete_rule=CASCADE)
-    name = StringField()
+    name = StringField(required=True)
+    module = StringField(required=True)
+    function = StringField(required=True)
     meta = {
         'collection': 'intents',
         'allow_inheritance': False

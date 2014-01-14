@@ -1,7 +1,7 @@
 from tastypie import authorization
 from tastypie.utils import trailing_slash
 from tastypie_mongoengine import resources, fields
-from models import Plugin, Description, Rule, Cron
+from models import Plugin, Description, Rule, Intents
 from django.conf.urls import *
 from libs import LisaInstance, Lisa
 import functions
@@ -156,4 +156,11 @@ class EmbeddedDescriptionResource(resources.MongoEngineResource):
     class Meta:
         object_class = Description
         allowed_methods = ('get')
+        authorization = authorization.Authorization()
+
+class IntentResource(resources.MongoEngineResource):
+    plugin = fields.ReferenceField(to='web.manageplugins.api.PluginResource', attribute='plugin', null=True)
+
+    class Meta:
+        object_class = Intents
         authorization = authorization.Authorization()

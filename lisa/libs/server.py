@@ -97,6 +97,7 @@ class LisaFactory(Factory):
         for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
             enabled_plugins.append(str(plugin['name']))
         sys.path.append(str(os.path.normpath(dir_path + '/plugins/')))
+        sys.path.append(str(os.path.normpath(dir_path + '/core/')))
 
     def buildProtocol(self, addr):
         self.Lisa = Lisa(self,self.wit)

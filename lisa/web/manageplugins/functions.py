@@ -108,21 +108,33 @@ def uninstall(plugin_name=None, plugin_pk=None):
                 rule.delete()
         return {'status': 'success', 'log': 'Plugin uninstalled'}
 
+#TODO rewrite the method list to include core method. How should I write it ? as a plugin ? independant from plugins ?
 def method_list(plugin_name=None):
     if plugin_name:
         plugin_list = Plugin.objects(name=plugin_name)
     else:
         plugin_list = Plugin.objects.all()
-    listmethodplugins = []
+    listallmethods = []
     for plugin in plugin_list:
         plugininstance = namedAny('.'.join((str(plugin.name), 'modules', str(plugin.name).lower(),
                                             str(plugin.name))))()
-        listmethods = []
+        listpluginmethods = []
         for m in inspect.getmembers(plugininstance, predicate=inspect.ismethod):
             if not "__init__" in m:
-                listmethods.append(m[0])
-        listmethodplugins.append({ 'plugin': plugin.name, 'methods': listmethods})
-    return listmethodplugins
+                listpluginmethods.append(m[0])
+        listallmethods.append({ 'plugin': plugin.name, 'methods': listpluginmethods})
+    for f in os.listdir(os.path.normpath(LISA_PATH + '/core')):
+        fileName, fileExtension = os.path.splitext(f)
+        if os.path.isfile(os.path.join(os.path.normpath(LISA_PATH + '/core'), f)) and not f.startswith('__init__') and fileExtension != '.pyc':
+            coreinstance = namedAny('.'.join(('core', str(fileName).lower(), str(fileName).capitalize())))()
+            listcoremethods = []
+            for m in inspect.getmembers(coreinstance, predicate=inspect.ismethod):
+                #init shouldn't be listed in methods and _ is for translation
+                if not "__init__" in m:
+                    listcoremethods.append(m[0])
+            listallmethods.append({ 'core': fileName, 'methods': listcoremethods})
+    print listallmethods
+    return listallmethods
 
 def _template_to_file(filename, template, context):
     import codecs
