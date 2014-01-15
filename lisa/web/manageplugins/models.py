@@ -20,9 +20,10 @@ class Plugin(DynamicDocument):
 
 class Intents(DynamicDocument):
     plugin = ReferenceField(Plugin, reverse_delete_rule=CASCADE)
-    name = StringField(required=True)
-    module = StringField(required=True)
-    function = StringField(required=True)
+    name = StringField(required=True, help_text="Name of the intent (whitespaces are _ ). Ex: core_intents_list")
+    module = StringField(required=True, help_text="The path to the module including the class name. Ex: core.intents.Intents")
+    function = StringField(required=True, help_text="The function name. Ex: list")
+    enabled = BooleanField(default=False, help_text="Boolean to know if the intent is enabled or not")
     meta = {
         'collection': 'intents',
         'allow_inheritance': False

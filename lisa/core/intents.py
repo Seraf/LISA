@@ -20,11 +20,18 @@ class Intents:
                             port=self.configuration['database']['port'])
 
     def list(self, jsonInput):
+        intentstr = []
         oWit = Wit(self.configuration)
         listintents = oWit.list_intents()
-        for intent in oIntents.objects.all():
-            print intent
+        for oIntent in oIntents.objects(enabled=True):
+            for witintent in listintents:
+                print witintent
+                if witintent["name"] == oIntent.name and witintent['metadata']:
+                    metadata = []
+                    metadata = json.loads(witintent['metadata'])
+                    intentstr.append(metadata['tts'])
+
         return {"plugin": "Intents",
                 "method": "list",
-                "body": str(listintents)
+                "body": unicode(_('I can %s') % ', '.join(intentstr))
         }

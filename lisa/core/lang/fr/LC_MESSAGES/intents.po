@@ -12,5 +12,5 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ../../intents.py
-msgid "Je peux %s"
-msgstr "je peux %s"
+msgid "I can %s"
+msgstr "Je peux %s"

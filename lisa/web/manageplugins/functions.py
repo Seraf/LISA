@@ -1,4 +1,4 @@
-from models import Plugin, Description, Rule, Cron
+from models import Plugin, Description, Rule, Cron, Intents
 import json, git, os, shutil
 from shutil import rmtree
 from twisted.python.reflect import namedAny
@@ -6,6 +6,7 @@ import inspect
 from django.template.loader import render_to_string
 import datetime
 from weblisa.settings import LISA_PATH
+
 
 def install(plugin_url=None, plugin_sha=None, plugin_name=None):
     if plugin_url and plugin_sha:
@@ -35,6 +36,7 @@ def install(plugin_url=None, plugin_sha=None, plugin_name=None):
                 else:
                     setattr(plugin, item, metadata[item])
         plugin.save()
+
         for item in metadata:
             if item == 'rules':
                 for rule_item in metadata['rules']:
@@ -50,7 +52,19 @@ def install(plugin_url=None, plugin_sha=None, plugin_name=None):
                         setattr(cron, parameter, cron_item[parameter])
                     cron.plugin = plugin
                     cron.save()
+
+        oIntent = Intents()
+
+        for intent in metadata['configuration']['intents']:
+            #TODO not sure about this. It should be verified. I need to use the key of the dictionnary to find the intent name
+            oIntent.name = intent.key()
+            oIntent.function = intent['method']
+            oIntent.module = '.'.join(['plugins', plugin_name, 'modules', plugin_name.lower(), plugin_name])
+            oIntent.enabled = True
+            oIntent.plugin = plugin
+
         return {'status': 'success', 'log': 'Plugin installed'}
+
 
 def enable(plugin_name=None, plugin_pk=None):
     if plugin_pk:
@@ -69,6 +83,11 @@ def enable(plugin_name=None, plugin_pk=None):
             for rule in Rule.objects(plugin=plugin):
                 rule.enabled = True
                 rule.save()
+
+            intent_list = Intents.objects(plugin=plugin)
+            for oIntent in intent_list:
+                oIntent.enabled = True
+
             return {'status': 'success', 'log': 'Plugin enabled'}
 
 def disable(plugin_name=None, plugin_pk=None):
@@ -88,6 +107,11 @@ def disable(plugin_name=None, plugin_pk=None):
             for rule in Rule.objects(plugin=plugin):
                 rule.enabled = False
                 rule.save()
+
+            intent_list = Intents.objects(plugin=plugin)
+            for oIntent in intent_list:
+                oIntent.enabled = False
+
             return {'status': 'success', 'log': 'Plugin disabled'}
 
 
@@ -106,9 +130,13 @@ def uninstall(plugin_name=None, plugin_pk=None):
                 cron.delete()
             for rule in Rule.objects(plugin=plugin):
                 rule.delete()
+            intent_list = Intents.objects(plugin=plugin)
+            for oIntent in intent_list:
+                oIntent.delete()
+
         return {'status': 'success', 'log': 'Plugin uninstalled'}
 
-#TODO rewrite the method list to include core method. How should I write it ? as a plugin ? independant from plugins ?
+
 def method_list(plugin_name=None):
     if plugin_name:
         plugin_list = Plugin.objects(name=plugin_name)
@@ -136,9 +164,11 @@ def method_list(plugin_name=None):
     print listallmethods
     return listallmethods
 
+
 def _template_to_file(filename, template, context):
     import codecs
     codecs.open(filename, 'w', 'utf-8').write(render_to_string(template, context))
+
 
 def create(plugin_name, author_name, author_email):
     import requests
