@@ -4,7 +4,7 @@ from twisted.protocols.basic import Int32StringReceiver, LineReceiver
 from OpenSSL import SSL
 import os,libs,json
 from twisted.internet import reactor, ssl
-from autobahn.websocket import WebSocketServerProtocol
+from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
 
 class CtxFactory(ssl.ClientContextFactory):
     def __init__(self, dir_path):

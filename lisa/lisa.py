@@ -5,8 +5,8 @@ from twisted.internet import reactor, ssl
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static
 from twisted.python import threadpool, log
-from autobahn.websocket import WebSocketServerFactory
-from autobahn.resource import WebSocketResource
+from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
+from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
 
 # Environment setup for Django project files:
