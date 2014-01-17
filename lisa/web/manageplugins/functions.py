@@ -87,7 +87,7 @@ def enable(plugin_name=None, plugin_pk=None):
             intent_list = Intent.objects(plugin=plugin)
             for oIntent in intent_list:
                 oIntent.enabled = True
-
+                oIntent.save()
             return {'status': 'success', 'log': 'Plugin enabled'}
 
 def disable(plugin_name=None, plugin_pk=None):
@@ -111,6 +111,7 @@ def disable(plugin_name=None, plugin_pk=None):
             intent_list = Intent.objects(plugin=plugin)
             for oIntent in intent_list:
                 oIntent.enabled = False
+                oIntent.save()
 
             return {'status': 'success', 'log': 'Plugin disabled'}
 
