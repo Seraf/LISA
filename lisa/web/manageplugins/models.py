@@ -7,7 +7,7 @@ class Description(EmbeddedDocument):
     description = StringField()
 
 class Plugin(DynamicDocument):
-    name = StringField(max_length=120, required=True, help_text='Name of the plugin')
+    name = StringField(max_length=120, required=True, help_text='Name of the plugin', unique=True)
     lang = ListField(StringField(max_length=2), help_text="List of supported languages : ['all','WebSocket']")
     enabled = BooleanField(help_text="Boolean to know if the plugin is enabled or not")
     version = StringField(help_text="The version number of the plugin")
@@ -18,9 +18,9 @@ class Plugin(DynamicDocument):
         'allow_inheritance': False
     }
 
-class Intents(DynamicDocument):
+class Intent(DynamicDocument):
     plugin = ReferenceField(Plugin, reverse_delete_rule=CASCADE)
-    name = StringField(required=True, help_text="Name of the intent (whitespaces are _ ). Ex: core_intents_list")
+    name = StringField(required=True, help_text="Name of the intent (whitespaces are _ ). Ex: core_intents_list", unique=True)
     module = StringField(required=True, help_text="The path to the module including the class name. Ex: core.intents.Intents")
     function = StringField(required=True, help_text="The function name. Ex: list")
     enabled = BooleanField(default=False, help_text="Boolean to know if the intent is enabled or not")

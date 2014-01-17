@@ -1,4 +1,4 @@
-from models import Plugin, Description, Rule, Cron, Intents
+from models import Plugin, Description, Rule, Cron, Intent
 import json, git, os, shutil
 from shutil import rmtree
 from twisted.python.reflect import namedAny
@@ -53,15 +53,15 @@ def install(plugin_url=None, plugin_sha=None, plugin_name=None):
                     cron.plugin = plugin
                     cron.save()
 
-        oIntent = Intents()
 
-        for intent in metadata['configuration']['intents']:
-            #TODO not sure about this. It should be verified. I need to use the key of the dictionnary to find the intent name
-            oIntent.name = intent.key()
-            oIntent.function = intent['method']
+        for intent, value in metadata['configuration']['intents'].iteritems():
+            oIntent = Intent()
+            oIntent.name = intent
+            oIntent.function = value['method']
             oIntent.module = '.'.join(['plugins', plugin_name, 'modules', plugin_name.lower(), plugin_name])
             oIntent.enabled = True
             oIntent.plugin = plugin
+            oIntent.save()
 
         return {'status': 'success', 'log': 'Plugin installed'}
 
@@ -84,7 +84,7 @@ def enable(plugin_name=None, plugin_pk=None):
                 rule.enabled = True
                 rule.save()
 
-            intent_list = Intents.objects(plugin=plugin)
+            intent_list = Intent.objects(plugin=plugin)
             for oIntent in intent_list:
                 oIntent.enabled = True
 
@@ -108,7 +108,7 @@ def disable(plugin_name=None, plugin_pk=None):
                 rule.enabled = False
                 rule.save()
 
-            intent_list = Intents.objects(plugin=plugin)
+            intent_list = Intent.objects(plugin=plugin)
             for oIntent in intent_list:
                 oIntent.enabled = False
 
@@ -130,7 +130,7 @@ def uninstall(plugin_name=None, plugin_pk=None):
                 cron.delete()
             for rule in Rule.objects(plugin=plugin):
                 rule.delete()
-            intent_list = Intents.objects(plugin=plugin)
+            intent_list = Intent.objects(plugin=plugin)
             for oIntent in intent_list:
                 oIntent.delete()
 

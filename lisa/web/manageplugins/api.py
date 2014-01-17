@@ -1,7 +1,7 @@
 from tastypie import authorization
 from tastypie.utils import trailing_slash
 from tastypie_mongoengine import resources, fields
-from models import Plugin, Description, Rule, Intents
+from models import Plugin, Description, Rule, Intent
 from django.conf.urls import *
 from libs import LisaInstance, Lisa
 import functions
@@ -162,5 +162,5 @@ class IntentResource(resources.MongoEngineResource):
     plugin = fields.ReferenceField(to='web.manageplugins.api.PluginResource', attribute='plugin', null=True)
 
     class Meta:
-        object_class = Intents
+        object_class = Intent
         authorization = authorization.Authorization()

@@ -103,3 +103,4 @@ else:
     exit(1)
 libs.scheduler.setServiceParent(multi)
 multi.setServiceParent(application)
+libs.Initialize()

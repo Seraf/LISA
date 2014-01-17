@@ -4,7 +4,8 @@ import json, os, inspect
 from pymongo import MongoClient
 from lisa import configuration
 from libs import Wit
-from web.manageplugins.models import Intents as oIntents
+
+from web.manageplugins.models import Intent as oIntents
 
 import gettext
 
@@ -18,6 +19,8 @@ class Intents:
         self.configuration = configuration
         mongo = MongoClient(host=self.configuration['database']['server'],
                             port=self.configuration['database']['port'])
+        self.database = mongo.lisa
+
 
     def list(self, jsonInput):
         intentstr = []
@@ -26,10 +29,11 @@ class Intents:
         for oIntent in oIntents.objects(enabled=True):
             for witintent in listintents:
                 print witintent
-                if witintent["name"] == oIntent.name and witintent['metadata']:
-                    metadata = []
-                    metadata = json.loads(witintent['metadata'])
-                    intentstr.append(metadata['tts'])
+                if witintent["name"] == oIntent.name and 'metadata' in witintent:
+                    if witintent['metadata']:
+                        metadata = {}
+                        metadata = json.loads(witintent['metadata'])
+                        intentstr.append(metadata['tts'])
 
         return {"plugin": "Intents",
                 "method": "list",

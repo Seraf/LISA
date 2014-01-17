@@ -10,9 +10,13 @@ from OpenSSL import SSL
 from libs.txscheduler.manager import ScheduledTaskManager
 from libs.txscheduler.service import ScheduledTaskService
 
+
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path) + '/../'
 configuration = json.load(open(os.path.normpath(dir_path + '/' + 'configuration/lisa.json')))
+
+sys.path.append(str(os.path.normpath(dir_path + '/web/')))
+from web.manageplugins.models import Intent, Rule
 
 # Create a task manager to pass it to other services
 taskman = ScheduledTaskManager(configuration)
@@ -118,3 +122,30 @@ class LisaFactory(Factory):
 
 LisaInstance = LisaFactory()
 LisaProtocolInstance = Lisa(LisaInstance, LisaInstance.wit)
+
+def Initialize():
+    # Create the default core_intents_list intent
+    defaults_intent_list = {'name': "core_intents_list",
+                     'function': "list",
+                     'module': "core.intents.Intents",
+                     'enabled': True
+    }
+
+    intent_list, created = Intent.objects.get_or_create(name='core_intents_list', defaults=defaults_intent_list)
+
+    # Create the default rule of the rule engine
+    defaults_rule = {'name': "DefaultAnwser",
+                     'order': 999,
+                     'before': None,
+                     'after': """lisaprotocol.answerToClient(json.dumps(
+                                                {
+                                                    'plugin': jsonOutput['plugin'],
+                                                    'method': jsonOutput['method'],
+                                                    'body': jsonOutput['body'],
+                                                    'clients_zone': ['sender'],
+                                                    'from': jsonOutput['from']
+                                                }))""",
+                     'end': True,
+                     'enabled': True
+    }
+    default_rule, created = Rule.objects.get_or_create(name='DefaultAnwser', defaults=defaults_rule)
