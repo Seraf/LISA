@@ -65,7 +65,7 @@ if __name__ == '__main__':
         version='0.1.0.10',
         packages = ['lisa', 'lisa.server', 'twisted.plugins'],
         package_data={
-            'twisted': ['plugins/lisa-server_plugin.py'],
+            'twisted': ['plugins/lisaserver_plugin.py'],
         },
         url='http://www.lisa-project.net',
         license='MIT',

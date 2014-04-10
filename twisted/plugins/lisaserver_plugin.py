@@ -6,13 +6,17 @@ from twisted.plugin import IPlugin
 
 from lisa.server import service
 
+class Options(usage.Options):
+    optParameters = []
+
 class ServiceMaker(object):
     implements(IServiceMaker, IPlugin)
-    
+
     tapname = "lisa-server"
     description = "Lisa server."
-    
-    def makeService(self):
-        return service.makeService()
+    options=Options
+
+    def makeService(self, config):
+        return service.makeService(config)
 
 serviceMaker = ServiceMaker()

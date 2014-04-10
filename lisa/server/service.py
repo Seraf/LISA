@@ -45,7 +45,7 @@ from django.core.handlers.wsgi import WSGIHandler
 # Twisted Application Framework setup:
 application = service.Application('LISA')
 
-def makeService():
+def makeService(config):
     # Creating MultiService
     multi = service.MultiService()
     pool = threadpool.ThreadPool()
@@ -111,4 +111,4 @@ def makeService():
     multi.setServiceParent(application)
     libs.Initialize()
     return multi
-makeService()
+makeService(config=[])

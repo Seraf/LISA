@@ -4,5 +4,5 @@ from twisted.internet import interfaces
 from twisted.python import usage
 from lisa.server import service
 
-def makeService():
+def makeService(config):
     return service.makeService()
