@@ -4,7 +4,7 @@ from twisted.python import usage
 from twisted.application.service import IServiceMaker
 from twisted.plugin import IPlugin
 
-from lisaserver import lisa
+from lisa.server import service
 
 class ServiceMaker(object):
     implements(IServiceMaker, IPlugin)
@@ -13,6 +13,6 @@ class ServiceMaker(object):
     description = "Lisa server."
     
     def makeService(self):
-        return lisa.makeService()
+        return service.makeService()
 
 serviceMaker = ServiceMaker()

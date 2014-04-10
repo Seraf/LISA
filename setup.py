@@ -20,25 +20,25 @@ import shutil
 # Package's twistd plugins from twisted/plugins/, since pip also uses
 # Package.egg-info/installed-files.txt to determine what to uninstall,
 # and the paths to the plugin files are indeed listed in installed-files.txt.
-try:
-    from setuptools.command import egg_info
-    egg_info.write_toplevel_names
-except (ImportError, AttributeError):
-    pass
-else:
-    def _top_level_package(name):
-        return name.split('.', 1)[0]
-
-    def _hacked_write_toplevel_names(cmd, basename, filename):
-        pkgs = dict.fromkeys(
-            [_top_level_package(k)
-                for k in cmd.distribution.iter_distribution_names()
-                if _top_level_package(k) != "twisted"
-            ]
-        )
-        cmd.write_file("top-level names", filename, '\n'.join(pkgs) + '\n')
-
-    egg_info.write_toplevel_names = _hacked_write_toplevel_names
+#try:
+#    from setuptools.command import egg_info
+#    egg_info.write_toplevel_names
+#except (ImportError, AttributeError):
+#    pass
+#else:
+#    def _top_level_package(name):
+#        return name.split('.', 1)[0]
+#
+#    def _hacked_write_toplevel_names(cmd, basename, filename):
+#        pkgs = dict.fromkeys(
+#            [_top_level_package(k)
+#                for k in cmd.distribution.iter_distribution_names()
+#                if _top_level_package(k) != "twisted"
+#            ]
+#        )
+#        cmd.write_file("top-level names", filename, '\n'.join(pkgs) + '\n')
+#
+#    egg_info.write_toplevel_names = _hacked_write_toplevel_names
 
 
 class my_install(install_data):
