@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 import os
-from lisa.server import libs
 import json
 import sys
 from twisted.internet.protocol import Factory, Protocol
@@ -24,6 +23,9 @@ else:
     configuration = json.load(open(os.path.normpath(dir_path + '/' + 'configuration/lisa.json')))
 if not os.path.exists(os.path.normpath(dir_path + '/' + 'plugins')):
     os.mkdir(os.path.normpath(dir_path + '/' + 'plugins'))
+
+from lisa.server import libs
+
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):

@@ -4,7 +4,10 @@ APP_DIR = os.path.dirname( globals()['__file__'] )
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 LISA_PATH = os.path.abspath(os.path.dirname(__file__) + '../../../')
 
-from lisa.server.service import configuration
+if os.path.exists('/etc/lisa/server/configuration/lisa.json'):
+    configuration = json.load(open('/etc/lisa/server/configuration/lisa.json'))
+else:
+    configuration = json.load(open(os.path.normpath(LISA_PATH + '/' + 'configuration/lisa.json')))
 
 DBNAME = 'lisa'
 
