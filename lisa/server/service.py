@@ -11,26 +11,9 @@ from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerF
 from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
 
-# Environment setup for Django project files:
-#sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
-#sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/weblisa")))
-
+configuration = None
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
-if os.path.exists('/etc/lisa/server/configuration/lisa.json'):
-    configuration = json.load(open('/etc/lisa/server/configuration/lisa.json'))
-else:
-    configuration = json.load(open(os.path.normpath(dir_path + '/' + 'configuration/lisa.json')))
-
-# Check if plugin directory exists. If not, create it
-if not os.path.exists(os.path.normpath(configuration['plugin_path'])):
-    os.makedirs(os.path.normpath(configuration['plugin_path']))
-if not os.path.exists(os.path.normpath(configuration['plugin_path'] + '/__init__.py')):
-    file(os.path.normpath(configuration['plugin_path'] + '/__init__.py'), 'w').close()
-sys.path.append(os.path.normpath(configuration['plugin_path']))
-
-from lisa.server import libs
-
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):
@@ -44,13 +27,49 @@ class ThreadPoolService(service.Service):
         service.Service.stopService(self)
         self.pool.stop()
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'lisa.server.web.weblisa.settings'
-from django.core.handlers.wsgi import WSGIHandler
 
 # Twisted Application Framework setup:
 application = service.Application('LISA')
 
 def makeService(config):
+    import pkg_resources
+    from django.core.handlers.wsgi import WSGIHandler
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'lisa.server.web.weblisa.settings'
+
+    global configuration
+
+    default_configuration = pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')
+
+    if config['configuration']:
+        configuration = json.load(open(config['configuration']))
+    else:
+        configuration = json.load(open(default_configuration))
+
+    # Check if plugin directory exists. If not, create it
+    try:
+        if not os.path.exists(os.path.normpath(config['plugins'])):
+            os.makedirs(os.path.normpath(config['plugins']))
+        if not os.path.exists(os.path.normpath(config['plugins'] + '/__init__.py')):
+            open(os.path.normpath(config['plugins'] + '/__init__.py'), 'w').close()
+    except:
+        log.err("Directory %s doesn't exist, and it seems impossible to create it" % config['plugins'])
+        pass
+    sys.path.append(os.path.normpath(config['plugins']))
+    configuration['plugins'] = config['plugins']
+
+    try:
+        if not os.path.exists(os.path.normpath(config['static'])):
+            os.makedirs(os.path.normpath(config['static']))
+    except:
+        log.err("Directory %s doesn't exist, and it seems impossible to create it" % config['static'])
+        pass
+    sys.path.append(os.path.normpath(config['static']))
+    configuration['static'] = config['static']
+
+
+
+    from lisa.server import libs
+
     # Creating MultiService
     multi = service.MultiService()
     pool = threadpool.ThreadPool()
@@ -60,7 +79,7 @@ def makeService(config):
     # Creating the web stuff
     resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
     root = libs.Root(resource_wsgi)
-    staticrsrc = static.File(configuration['static_path'])
+    staticrsrc = static.File(config['static'])
     root.putChild("static", staticrsrc)
 
     # Create the websocket
@@ -116,4 +135,3 @@ def makeService(config):
     multi.setServiceParent(application)
     libs.Initialize()
     return multi
-makeService(config=[])

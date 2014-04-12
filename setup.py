@@ -1,5 +1,6 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from pip.req import parse_requirements
+import json
 import pip
 import os
 from distutils.command.install_data import install_data
@@ -12,8 +13,9 @@ from django.core.management import call_command
 # if it use a newer version. So let's upgrade it programmatically
 pip.main(['install', '-r', 'install/requirements.txt'])
 
-VERSION = '0.1.0.13'
+VERSION = '0.1.0.15'
 
+"""
 class my_install(install_data):
     def run(self):
         install_cmd = self.get_finalized_command('install')
@@ -22,24 +24,19 @@ class my_install(install_data):
         else:
             self.install_dir = "/"
         install_data.run(self)
-
-        if not os.path.exists('/var/lib/lisa/plugins'):
-            os.makedirs('/var/lib/lisa/plugins')
-
-        for script in self.get_outputs():
-            if script.endswith("lisa.json.sample") and not os.path.exists(script[:-7]):
-                shutil.move(script, script[:-7])
-
+"""
 
 if __name__ == '__main__':
     setup(
-        cmdclass={"install_data": my_install},
+        #cmdclass={"install_data": my_install},
         version=VERSION,
         name='lisa-server',
-        packages = ['lisa', 'lisa.server', 'twisted.plugins'],
-        package_data={
-            'twisted': ['plugins/lisaserver_plugin.py'],
-        },
+        packages=find_packages() + [
+        "twisted.plugins",
+        ],
+        #package_data={
+        #    'twisted': ['plugins/lisaserver_plugin.py'],
+        #},
         url='http://www.lisa-project.net',
         license='MIT',
         author='Julien Syx',
@@ -48,20 +45,18 @@ if __name__ == '__main__':
         include_package_data=True,
         namespace_packages = ['lisa'],
         scripts = ['lisa/server/lisa-cli'],
-        data_files=[('etc/lisa/server/configuration', ['lisa/server/configuration/lisa.json.sample']),
-                    ('var/log/lisa', ''),
-                    #('etc/init.d', ['lisa-server.init']),
-                    ],
+        #data_files=[('etc/lisa/server/configuration', ['lisa/server/configuration/lisa.json.sample']),
+        #            #('etc/init.d', ['lisa-server.init']),
+        #            ],
         classifiers=[
             'Development Status :: 4 - Beta',
             'Environment :: Console',
-            'Intended Audience :: Advanced End Users',
             'License :: OSI Approved :: MIT License',
             'Operating System :: POSIX',
             'Programming Language :: Python :: 2',
             'Programming Language :: Python :: 2.7',
-            'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.4',
+#            'Programming Language :: Python :: 3',
+#            'Programming Language :: Python :: 3.4',
             'Topic :: Internet :: WWW/HTTP',
             'Topic :: Software Development :: Libraries :: Python Modules',
         ],
@@ -94,7 +89,7 @@ call_command('collectstatic', interactive=False)
 # Package's twistd plugins from twisted/plugins/, since pip also uses
 # Package.egg-info/installed-files.txt to determine what to uninstall,
 # and the paths to the plugin files are indeed listed in installed-files.txt.
-#"""
+"""
 
 try:
     from setuptools.command import egg_info
@@ -115,5 +110,5 @@ else:
         cmd.write_file("top-level names", filename, '\n'.join(pkgs) + '\n')
 
     egg_info.write_toplevel_names = _hacked_write_toplevel_names
-#"""
+"""
 

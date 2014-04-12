@@ -7,15 +7,19 @@ env:
   - TWISTED=Twisted==13.2.0 PYOPENSSL=PyOpenSSL
 
 install:
-  - pip install $TWISTED --use-mirrors
-  - 'test -n "$PYOPENSSL" && pip install $PYOPENSSL --use-mirrors || true'
-  - pip install -r install/requirements.txt --use-mirrors
+  - pip install $TWISTED
+  - 'test -n "$PYOPENSSL" && pip install $PYOPENSSL || true'
+  - pip install -r install/requirements.txt
 
 script:
-  - trial lisa
+  - trial lisa/server
+
+services:
+  - mongodb
 
 notifications:
   irc: "irc.oftc.net#lisa"
+
 branches:
   only:
     - master

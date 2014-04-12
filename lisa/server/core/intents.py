@@ -2,10 +2,10 @@
 from datetime import datetime
 import json, os, inspect
 from pymongo import MongoClient
-from lisaserver.lisa import configuration
-from lisaserver.libs import Wit
+from lisa.server.service import configuration
+from lisa.server.libs import Wit
 
-from lisaserver.web.manageplugins.models import Intent as oIntents
+from lisa.server.web.manageplugins.models import Intent as oIntents
 
 import gettext
 
