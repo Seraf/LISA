@@ -7,9 +7,7 @@ from django.core.management import execute_from_command_line
 from lisa.server.web import weblisa, googlespeech, manageplugins, interface
 
 if __name__ == "__main__":
-    sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
-    sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/weblisa")))
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblisa.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lisa.server.web.weblisa.settings")
 
     from django.core.management import execute_from_command_line
 

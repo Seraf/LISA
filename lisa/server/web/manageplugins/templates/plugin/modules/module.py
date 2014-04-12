@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 import os, inspect
 from pymongo import MongoClient
-from lisa import configuration
+from lisa.server.service import configuration
 
 import gettext
 

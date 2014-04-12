@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 import os,json
 
-from weblisa.utils import method_restricted_to, is_ajax
-from weblisa.settings import LISA_PATH
+from lisa.server.web.weblisa.utils import method_restricted_to, is_ajax
+from lisa.server.web.weblisa.settings import LISA_PATH
 
 from {{ plugin_name }}.modules.{{ plugin_name_lower }} import {{ plugin_name }}
 

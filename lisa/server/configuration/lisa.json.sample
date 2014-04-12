@@ -1,4 +1,6 @@
 {
+    "plugin_path": "/var/lib/lisa/plugins",
+    "static_path": "/var/lib/lisa/static",
     "lang": "fr",
     "lisa_url": "localhost",
     "lisa_engine_port": 10042,

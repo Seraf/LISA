@@ -1,1 +1,1 @@
-from weblisa.settings import DBNAME
+from lisa.server.web.weblisa.settings import DBNAME

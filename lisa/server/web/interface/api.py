@@ -11,7 +11,7 @@ from twisted.python.reflect import namedAny
 from lisa.server.web.weblisa.settings import LISA_PATH
 
 class WidgetResource(mongoresources.MongoEngineResource):
-    plugin = fields.ReferenceField(to='web.manageplugins.api.PluginResource', attribute='plugin')
+    plugin = fields.ReferenceField(to='lisa.server.web.manageplugins.api.PluginResource', attribute='plugin')
 
     class Meta:
         queryset = Widget.objects.all()
@@ -19,8 +19,8 @@ class WidgetResource(mongoresources.MongoEngineResource):
         authorization = authorization.Authorization()
 
 class WidgetByUserResource(mongoresources.MongoEngineResource):
-    user = fields.ReferenceField(to='web.weblisa.api.UserResource', attribute='user')
-    widget = fields.ReferenceField(to='web.interface.api.WidgetResource', attribute='widget', full=True)
+    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.UserResource', attribute='user')
+    widget = fields.ReferenceField(to='lisa.server.web.interface.api.WidgetResource', attribute='widget', full=True)
 
     class Meta:
         queryset = WidgetUser.objects.all()
@@ -34,8 +34,8 @@ class WidgetByUserResource(mongoresources.MongoEngineResource):
         return object_list.filter(user=request.user)
 
 class WorkspaceResource(mongoresources.MongoEngineResource):
-    user = fields.ReferenceField(to='web.weblisa.api.UserResource', attribute='user')
-    widgets = fields.ReferencedListField(of='web.interface.api.WidgetByUserResource', attribute='widgets', full=True,
+    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.UserResource', attribute='user')
+    widgets = fields.ReferencedListField(of='lisa.server.web.interface.api.WidgetByUserResource', attribute='widgets', full=True,
                                          null=True, help_text='List of widgets')
 
     class Meta:

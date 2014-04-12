@@ -5,14 +5,13 @@ from twisted.python.reflect import namedAny
 import inspect
 from django.template.loader import render_to_string
 import datetime
-from lisa.server.web.weblisa.settings import LISA_PATH
-
+from lisa.server.web.weblisa.settings import LISA_PATH, configuration
 
 def install(plugin_url=None, plugin_sha=None, plugin_name=None):
     if plugin_url and plugin_sha:
-        repo = git.Repo.clone_from(plugin_url, LISA_PATH + '/plugins/' + plugin_name)
+        repo = git.Repo.clone_from(plugin_url, configuration['plugin_path'] + '/' + plugin_name)
         repo.git.checkout(plugin_sha)
-    jsonfile = LISA_PATH + '/plugins/' + plugin_name + '/' + str(plugin_name).lower() + '.json'
+    jsonfile = configuration['plugin_path'] + '/' + plugin_name + '/' + str(plugin_name).lower() + '.json'
     metadata = json.load(open(jsonfile))
 
     if Plugin.objects(name=plugin_name):
@@ -59,7 +58,7 @@ def install(plugin_url=None, plugin_sha=None, plugin_name=None):
             oIntent = Intent()
             oIntent.name = intent
             oIntent.function = value['method']
-            oIntent.module = '.'.join(['plugins', plugin_name, 'modules', plugin_name.lower(), plugin_name])
+            oIntent.module = '.'.join([plugin_name, 'modules', plugin_name.lower(), plugin_name])
             oIntent.enabled = True
             oIntent.plugin = plugin
             oIntent.save()
@@ -126,7 +125,7 @@ def uninstall(plugin_name=None, plugin_pk=None):
         return {'status': 'fail', 'log': 'Plugin not installed'}
     else:
         for plugin in plugin_list:
-            rmtree(LISA_PATH + '/plugins/' + plugin['name'])
+            rmtree(configuration['plugin_path'] + '/' + plugin['name'])
             plugin.delete()
             for cron in Cron.objects(plugin=plugin):
                 cron.delete()
@@ -188,60 +187,60 @@ def create(plugin_name, author_name, author_email):
         'author_email': author_email,
         'creation_date': pytz.UTC.localize(datetime.datetime.now()).strftime("%Y-%m-%d %H:%M%z")
     }
-    os.mkdir(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name))
+    os.mkdir(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name))
 
     # Lang stuff
-    os.mkdir(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/lang'))
-    os.mkdir(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/lang/en'))
-    os.mkdir(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/lang/en/LC_MESSAGES'))
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/lang/en/LC_MESSAGES/' +
+    os.mkdir(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/lang'))
+    os.mkdir(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/lang/en'))
+    os.mkdir(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/lang/en/LC_MESSAGES'))
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/lang/en/LC_MESSAGES/' +
                                                 plugin_name.lower() + '.po'),
                       template='plugin/lang/en/LC_MESSAGES/module.po',
                       context=context)
 
     # Module stuff
-    os.mkdir(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/modules'))
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/modules/' +
+    os.mkdir(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/modules'))
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/modules/' +
                                                 plugin_name.lower() + '.py'),
                       template='plugin/modules/module.py',
                       context=context)
-    open(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/modules/__init__.py'), "a")
+    open(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/modules/__init__.py'), "a")
 
     # Web stuff
-    os.mkdir(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web'))
-    os.mkdir(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/templates'))
+    os.mkdir(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web'))
+    os.mkdir(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/templates'))
     shutil.copy(src=os.path.normpath(LISA_PATH + '/web/manageplugins/templates/plugin/web/templates/widget.html'),
-                dst=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/templates/widget.html'))
+                dst=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/templates/widget.html'))
     shutil.copy(src=os.path.normpath(LISA_PATH + '/web/manageplugins/templates/plugin/web/templates/index.html'),
-                dst=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/templates/index.html'))
-    open(os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/__init__.py'), "a")
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/api.py'),
+                dst=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/templates/index.html'))
+    open(os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/__init__.py'), "a")
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/api.py'),
                       template='plugin/web/api.py',
                       context=context)
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/models.py'),
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/models.py'),
                       template='plugin/web/models.py',
                       context=context)
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/tests.py'),
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/tests.py'),
                           template='plugin/web/tests.py',
                           context=context)
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/urls.py'),
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/urls.py'),
                           template='plugin/web/urls.py',
                           context=context)
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/web/views.py'),
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/web/views.py'),
                       template='plugin/web/views.py',
                       context=context)
 
     # Plugin stuff (metadata)
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/__init__.py'),
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/__init__.py'),
                       template='plugin/__init__.py',
                       context=context)
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/README.rst'),
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/README.rst'),
                       template='plugin/README.rst',
                       context=context)
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name + '/.gitignore'),
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name + '/.gitignore'),
                       template='plugin/.gitignore',
                       context=context)
-    _template_to_file(filename=os.path.normpath(LISA_PATH + '/plugins/' + plugin_name +
+    _template_to_file(filename=os.path.normpath(configuration['plugin_path'] + '/' + plugin_name +
                                                 '/' + plugin_name.lower() + '.json'),
                       template='plugin/module.json',
                       context=context)

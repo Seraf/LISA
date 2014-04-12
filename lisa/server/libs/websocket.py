@@ -14,8 +14,8 @@ class CtxFactory(ssl.ClientContextFactory):
     def getContext(self):
         self.method = SSL.SSLv23_METHOD
         ctx = ssl.ClientContextFactory.getContext(self)
-        ctx.use_certificate_file(os.path.normpath(self.dir_path + '/' + 'Configuration/ssl/public/websocket.crt'))
-        ctx.use_privatekey_file(os.path.normpath(self.dir_path + '/' + 'Configuration/ssl/websocket.key'))
+        ctx.use_certificate_file(os.path.normpath(self.dir_path + '/' + 'configuration/ssl/public/websocket.crt'))
+        ctx.use_privatekey_file(os.path.normpath(self.dir_path + '/' + 'configuration/ssl/websocket.key'))
         return ctx
 
 

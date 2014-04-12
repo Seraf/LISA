@@ -12,8 +12,8 @@ from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
 
 # Environment setup for Django project files:
-sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
-sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/weblisa")))
+#sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web")))
+#sys.path.append(os.path.normpath(os.path.join(os.path.abspath("."), "web/weblisa")))
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
@@ -21,8 +21,13 @@ if os.path.exists('/etc/lisa/server/configuration/lisa.json'):
     configuration = json.load(open('/etc/lisa/server/configuration/lisa.json'))
 else:
     configuration = json.load(open(os.path.normpath(dir_path + '/' + 'configuration/lisa.json')))
-if not os.path.exists(os.path.normpath(dir_path + '/' + 'plugins')):
-    os.mkdir(os.path.normpath(dir_path + '/' + 'plugins'))
+
+# Check if plugin directory exists. If not, create it
+if not os.path.exists(os.path.normpath(configuration['plugin_path'])):
+    os.makedirs(os.path.normpath(configuration['plugin_path']))
+if not os.path.exists(os.path.normpath(configuration['plugin_path'] + '/__init__.py')):
+    file(os.path.normpath(configuration['plugin_path'] + '/__init__.py'), 'w').close()
+sys.path.append(os.path.normpath(configuration['plugin_path']))
 
 from lisa.server import libs
 
@@ -39,7 +44,7 @@ class ThreadPoolService(service.Service):
         service.Service.stopService(self)
         self.pool.stop()
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'weblisa.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'lisa.server.web.weblisa.settings'
 from django.core.handlers.wsgi import WSGIHandler
 
 # Twisted Application Framework setup:
@@ -55,7 +60,7 @@ def makeService(config):
     # Creating the web stuff
     resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
     root = libs.Root(resource_wsgi)
-    staticrsrc = static.File(os.path.normpath(os.path.join(os.path.abspath("."), "web/weblisa/static")))
+    staticrsrc = static.File(configuration['static_path'])
     root.putChild("static", staticrsrc)
 
     # Create the websocket

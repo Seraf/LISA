@@ -10,7 +10,7 @@ from lisa.server.web.weblisa.settings import LISA_PATH
 
 
 class PluginResource(resources.MongoEngineResource):
-    description = fields.EmbeddedListField(of='manageplugins.api.EmbeddedDescriptionResource',
+    description = fields.EmbeddedListField(of='lisa.server.web.manageplugins.api.EmbeddedDescriptionResource',
                                            attribute='description', full=True, null=True)
     class Meta:
         queryset = Plugin.objects.all()
@@ -159,7 +159,7 @@ class EmbeddedDescriptionResource(resources.MongoEngineResource):
         authorization = authorization.Authorization()
 
 class IntentResource(resources.MongoEngineResource):
-    plugin = fields.ReferenceField(to='web.manageplugins.api.PluginResource', attribute='plugin', null=True)
+    plugin = fields.ReferenceField(to='lisa.server.web.manageplugins.api.PluginResource', attribute='plugin', null=True)
 
     class Meta:
         object_class = Intent

@@ -70,7 +70,7 @@ MEDIA_URL = '/upload/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
+STATIC_ROOT = configuration['static_path']
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
@@ -115,10 +115,10 @@ AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',
 )
 
-ROOT_URLCONF = 'web.weblisa.urls'
+ROOT_URLCONF = 'lisa.server.web.weblisa.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'web.weblisa.wsgi.application'
+WSGI_APPLICATION = 'lisa.server.web.weblisa.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -157,9 +157,9 @@ INSTALLED_APPS = (
     'tastypie',
     'tastypie_mongoengine',
     'tastypie_swagger',
-    'web.interface',
-    'web.manageplugins',
-    'web.googlespeech',
+    'lisa.server.web.interface',
+    'lisa.server.web.manageplugins',
+    'lisa.server.web.googlespeech',
 )
 
 # Sequence for each optional app as a dict containing info about the app.
@@ -184,7 +184,7 @@ AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
 SESSION_ENGINE = 'mongoengine.django.sessions'
 SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
-TASTYPIE_SWAGGER_API_MODULE = 'web.weblisa.urls.v1_api'
+TASTYPIE_SWAGGER_API_MODULE = 'lisa.server.web.weblisa.urls.v1_api'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

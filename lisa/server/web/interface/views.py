@@ -19,7 +19,6 @@ def login(request):
                 user.backend = 'mongoengine.django.auth.MongoEngineBackend'
                 print login(request, user)
                 request.session.set_expiry(60 * 60 * 1)  # 1 hour timeout
-                print "return"
                 return redirect('dashboard')
             else:
                 messages.add_message(request,messages.ERROR, u"Incorrect login name or password !")

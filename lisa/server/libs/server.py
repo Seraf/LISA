@@ -13,9 +13,12 @@ from lisa.server.libs.txscheduler.service import ScheduledTaskService
 
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path) + '/../'
-configuration = json.load(open(os.path.normpath(dir_path + '/' + 'configuration/lisa.json')))
 
-sys.path.append(str(os.path.normpath(dir_path + '/web/')))
+if os.path.exists('/etc/lisa/server/configuration/lisa.json'):
+    configuration = json.load(open('/etc/lisa/server/configuration/lisa.json'))
+else:
+    configuration = json.load(open(os.path.normpath(dir_path + '/' + 'configuration/lisa.json')))
+
 from lisa.server.web.manageplugins.models import Intent, Rule
 
 # Create a task manager to pass it to other services
@@ -100,7 +103,6 @@ class LisaFactory(Factory):
         # Load enabled plugins for the main language
         for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
             enabled_plugins.append(str(plugin['name']))
-        sys.path.append(str(os.path.normpath(dir_path + '/plugins/')))
         sys.path.append(str(os.path.normpath(dir_path + '/core/')))
 
     def buildProtocol(self, addr):
