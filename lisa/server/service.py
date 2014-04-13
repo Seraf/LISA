@@ -11,7 +11,8 @@ from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerF
 from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
 
-configuration = None
+import pkg_resources
+configuration = pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 
@@ -32,18 +33,13 @@ class ThreadPoolService(service.Service):
 application = service.Application('LISA')
 
 def makeService(config):
-    import pkg_resources
     from django.core.handlers.wsgi import WSGIHandler
     os.environ['DJANGO_SETTINGS_MODULE'] = 'lisa.server.web.weblisa.settings'
 
     global configuration
 
-    default_configuration = pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')
-
     if config['configuration']:
         configuration = json.load(open(config['configuration']))
-    else:
-        configuration = json.load(open(default_configuration))
 
     # Check if plugin directory exists. If not, create it
     try:
