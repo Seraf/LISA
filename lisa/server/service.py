@@ -12,7 +12,7 @@ from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
 
 import pkg_resources
-configuration = pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')
+configuration = json.load(open(pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')))
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
 
