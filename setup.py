@@ -1,36 +1,56 @@
-from setuptools import setup, find_packages
-from setuptools.command.install import install
-import pip
+from setuptools import setup
 import os
-from django.core.management import call_command
 
 # Ugly hack but django-tastypie-mongoengine require mongoengine 0.8.1
 # but this version has some problem with new django versions
 # As there's a bug with something I don't use, it doesn't matters
 # if it use a newer version. So let's upgrade it programmatically
-pip.main(['install', '-r', 'install/requirements.txt'])
+#pip.main(['install', '-r', 'requirements.txt'])
 
-VERSION = '0.1.0.15'
+VERSION = '0.1.1.12'
 
-class LisaPluginInstaller(install):
-    def run(self):
-        install.run(self)
-        # Make sure we refresh the plugin list when installing, so we know
-        # we have enough write permissions.
-        # see http://twistedmatrix.com/documents/current/core/howto/plugin.html
-        # "when installing or removing software which provides Twisted plugins,
-        # the site administrator should be sure the cache is regenerated"
-        from twisted.plugin import IPlugin, getPlugins
+# When pip installs anything from packages, py_modules, or ext_modules that
+# includes a twistd plugin (which are installed to twisted/plugins/),
+# setuptools/distribute writes a Package.egg-info/top_level.txt that includes
+# "twisted".  If you later uninstall Package with `pip uninstall Package`,
+# pip <1.2 removes all of twisted/ instead of just Package's twistd plugins.
+# See https://github.com/pypa/pip/issues/355 (now fixed)
+#
+# To work around this problem, we monkeypatch
+# setuptools.command.egg_info.write_toplevel_names to not write the line
+# "twisted".  This fixes the behavior of `pip uninstall Package`.  Note that
+# even with this workaround, `pip uninstall Package` still correctly uninstalls
+# Package's twistd plugins from twisted/plugins/, since pip also uses
+# Package.egg-info/installed-files.txt to determine what to uninstall,
+# and the paths to the plugin files are indeed listed in installed-files.txt.
+try:
+    from setuptools.command import egg_info
+    egg_info.write_toplevel_names
+except (ImportError, AttributeError):
+    pass
+else:
+    def _top_level_package(name):
+        return name.split('.', 1)[0]
 
-        list(getPlugins(IPlugin))
+    def _hacked_write_toplevel_names(cmd, basename, filename):
+        pkgs = dict.fromkeys(
+            [_top_level_package(k)
+                for k in cmd.distribution.iter_distribution_names()
+                if _top_level_package(k) != "twisted"
+            ]
+        )
+        cmd.write_file("top-level names", filename, '\n'.join(pkgs) + '\n')
+
+    egg_info.write_toplevel_names = _hacked_write_toplevel_names
+
+def listify(filename):
+    return filter(None, open(filename, 'r').read().strip('\n').split('\n'))
 
 if __name__ == '__main__':
     setup(
-        cmdclass={'install': LisaPluginInstaller},
         version=VERSION,
         name='lisa-server',
-        packages=find_packages() + ["twisted.plugins"],
-        #package_data={'twisted.plugins': ['twisted/plugins/lisaserver_plugin.py']},
+        packages=["lisa", "twisted.plugins"],
         url='http://www.lisa-project.net',
         license='MIT',
         author='Julien Syx',
@@ -39,6 +59,7 @@ if __name__ == '__main__':
         include_package_data=True,
         namespace_packages=['lisa'],
         scripts = ['lisa/server/lisa-cli'],
+        install_requires=listify('requirements.txt'),
         classifiers=[
             'Development Status :: 4 - Beta',
             'Environment :: Console',
@@ -52,4 +73,11 @@ if __name__ == '__main__':
     )
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lisa.server.web.weblisa.settings")
-call_command('collectstatic', interactive=False)
+try:
+    from django.core.management import call_command
+    call_command('collectstatic', interactive=False)
+except:
+    print "Unable to collectstatic files as django library can't load"
+
+from twisted.plugin import IPlugin, getPlugins
+list(getPlugins(IPlugin))
