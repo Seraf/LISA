@@ -53,17 +53,6 @@ def makeService(config):
     sys.path.append(os.path.normpath(config['plugins']))
     configuration['plugins'] = config['plugins']
 
-    try:
-        if not os.path.exists(os.path.normpath(config['static'])):
-            os.makedirs(os.path.normpath(config['static']))
-    except:
-        log.err("Directory %s doesn't exist, and it seems impossible to create it" % config['static'])
-        pass
-    sys.path.append(os.path.normpath(config['static']))
-    configuration['static'] = config['static']
-
-
-
     from lisa.server import libs
 
     # Creating MultiService
@@ -75,7 +64,7 @@ def makeService(config):
     # Creating the web stuff
     resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
     root = libs.Root(resource_wsgi)
-    staticrsrc = static.File(config['static'])
+    staticrsrc = static.File('/'.join([dir_path,'web/interface/static']))
     root.putChild("static", staticrsrc)
 
     # Create the websocket

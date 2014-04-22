@@ -69,14 +69,10 @@ MEDIA_URL = '/upload/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-if 'static' in configuration:
-    STATIC_ROOT = configuration['static']
-else:
-    if os.path.exists('/var/lib/lisa/server/static'):
-        STATIC_ROOT = '/var/lib/lisa/server/static'
-    else:
-        os.makedirs('/tmp/lisa_static')
-        STATIC_ROOT = '/tmp/lisa_static'
+
+
+STATIC_ROOT = LISA_PATH + '/web/interface/static'
+
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"

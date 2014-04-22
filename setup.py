@@ -5,9 +5,10 @@ import os
 # but this version has some problem with new django versions
 # As there's a bug with something I don't use, it doesn't matters
 # if it use a newer version. So let's upgrade it programmatically
-#pip.main(['install', '-r', 'requirements.txt'])
+import pip
+pip.main(['install', '-r', 'requirements.txt'])
 
-VERSION = '0.1.1.12'
+VERSION = '0.1.1.13'
 
 # When pip installs anything from packages, py_modules, or ext_modules that
 # includes a twistd plugin (which are installed to twisted/plugins/),
@@ -59,7 +60,7 @@ if __name__ == '__main__':
         include_package_data=True,
         namespace_packages=['lisa'],
         scripts = ['lisa/server/lisa-cli'],
-        install_requires=listify('requirements.txt'),
+        #install_requires=listify('requirements.txt'),
         classifiers=[
             'Development Status :: 4 - Beta',
             'Environment :: Console',
@@ -71,13 +72,6 @@ if __name__ == '__main__':
             'Topic :: Software Development :: Libraries :: Python Modules',
         ],
     )
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lisa.server.web.weblisa.settings")
-try:
-    from django.core.management import call_command
-    call_command('collectstatic', interactive=False)
-except:
-    print "Unable to collectstatic files as django library can't load"
 
 from twisted.plugin import IPlugin, getPlugins
 list(getPlugins(IPlugin))
