@@ -5,10 +5,10 @@ import os
 # but this version has some problem with new django versions
 # As there's a bug with something I don't use, it doesn't matters
 # if it use a newer version. So let's upgrade it programmatically
-import pip
-pip.main(['install', '-r', 'requirements.txt'])
+#import pip
+#pip.main(['install', '-r', 'requirements.txt'])
 
-VERSION = '0.1.1.13'
+VERSION = '0.1.1.14'
 
 # When pip installs anything from packages, py_modules, or ext_modules that
 # includes a twistd plugin (which are installed to twisted/plugins/),
@@ -60,7 +60,7 @@ if __name__ == '__main__':
         include_package_data=True,
         namespace_packages=['lisa'],
         scripts = ['lisa/server/lisa-cli'],
-        #install_requires=listify('requirements.txt'),
+        install_requires=listify('requirements.txt'),
         classifiers=[
             'Development Status :: 4 - Beta',
             'Environment :: Console',
