@@ -1,14 +1,7 @@
 from setuptools import setup
 import os
 
-# Ugly hack but django-tastypie-mongoengine require mongoengine 0.8.1
-# but this version has some problem with new django versions
-# As there's a bug with something I don't use, it doesn't matters
-# if it use a newer version. So let's upgrade it programmatically
-#import pip
-#pip.main(['install', '-r', 'requirements.txt'])
-
-VERSION = '0.1.1.14'
+VERSION = '0.1.1.15'
 
 # When pip installs anything from packages, py_modules, or ext_modules that
 # includes a twistd plugin (which are installed to twisted/plugins/),

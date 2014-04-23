@@ -2,7 +2,7 @@
 import os, json
 from lisa.server.service import configuration
 APP_DIR = os.path.dirname( globals()['__file__'] )
-PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__) + '/../')
 LISA_PATH = os.path.abspath(os.path.dirname(__file__) + '../../../')
 
 if os.path.exists('/etc/lisa/server/configuration/lisa.json'):
@@ -160,9 +160,9 @@ INSTALLED_APPS = (
     'tastypie',
     'tastypie_mongoengine',
     'tastypie_swagger',
-    'lisa.server.web.interface',
-    'lisa.server.web.manageplugins',
-    'lisa.server.web.googlespeech',
+    'interface',
+    'manageplugins',
+    'googlespeech',
 )
 
 # Sequence for each optional app as a dict containing info about the app.
