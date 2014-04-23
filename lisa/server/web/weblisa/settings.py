@@ -1,9 +1,13 @@
 # Django settings for blog project.
-import os, json
+import os
+import json
+import sys
 from lisa.server.service import configuration
 APP_DIR = os.path.dirname( globals()['__file__'] )
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__) + '/../')
 LISA_PATH = os.path.abspath(os.path.dirname(__file__) + '../../../')
+
+sys.path.append(PROJECT_PATH)
 
 if os.path.exists('/etc/lisa/server/configuration/lisa.json'):
     configuration = json.load(open('/etc/lisa/server/configuration/lisa.json'))
