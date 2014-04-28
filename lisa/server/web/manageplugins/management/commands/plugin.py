@@ -3,7 +3,7 @@ from lisa.server.web.manageplugins.models import Plugin, Rule, Cron
 from optparse import make_option
 import os, json
 import requests
-from lisa.server.service import pluginmanager
+from lisa.server.libs.server import pluginmanager
 from django.utils import six
 import lisa.plugins
 from lisa.server.web.weblisa.settings import configuration

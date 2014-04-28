@@ -105,8 +105,13 @@ class LisaFactory(Factory):
         self.taskman = taskman
         return self.taskman.reload()
 
+# Create an instance
 LisaInstance = LisaFactory()
 LisaProtocolInstance = Lisa(LisaInstance, LisaInstance.wit)
+
+# Load the plugins
+pluginmanager = PluginManager()
+pluginmanager.loadPlugins()
 
 def Initialize():
     # Create the default core_intents_list intent

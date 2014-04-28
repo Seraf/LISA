@@ -4,7 +4,7 @@ from tastypie_mongoengine import resources, fields
 from lisa.server.web.manageplugins.models import Plugin, Description, Rule, Intent
 from django.conf.urls import *
 from lisa.server.libs import LisaInstance, Lisa
-from lisa.server.service import pluginmanager
+from lisa.server.libs.server import pluginmanager
 from tastypie.http import HttpAccepted, HttpNotModified, HttpCreated
 
 

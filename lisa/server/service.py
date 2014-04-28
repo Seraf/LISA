@@ -10,7 +10,6 @@ from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
 import lisa
 import pkg_resources
-from lisa.server.plugins import PluginManager
 
 if not os.path.exists('/etc/lisa/server/lisa.json'):
     configuration = json.load(open(pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')))
@@ -18,7 +17,6 @@ else:
     configuration = json.load(open('/etc/lisa/server/lisa.json'))
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
-pluginmanager = PluginManager()
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):
