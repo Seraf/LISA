@@ -21,15 +21,13 @@ urlpatterns = patterns('',
     url(r'', include('lisa.server.web.interface.urls')),
 )
 
-from lisa.server.libs.server import enabled_plugins
-for plugin in enabled_plugins:
-    #try:
-    urlpatterns += patterns('', url(r'^'+ str(plugin.lower()) + r'/', include(str(plugin) + '.web.urls')))
-    v1_api.register(namedAny(plugin + '.web.api.' + plugin + 'Resource')())
-    #except:
-    #    pass
-
 #Register plugin's API
+from lisa.server.service import pluginmanager
+for plugin in pluginmanager.getEnabledPlugins():
+    urlpatterns += patterns('', url(r'^'+ str(plugin.lower()) + r'/', include('lisa.plugins.'+
+                                                                              str(plugin.lower()) + '.web.urls')))
+    v1_api.register(namedAny(plugin + '.web.api.' + plugin + 'Resource')())
+
 urlpatterns += patterns('',
     url(r'^api/', include(v1_api.urls)),
     url(r'^api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),

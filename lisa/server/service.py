@@ -1,20 +1,24 @@
 # -*- coding: UTF-8 -*-
 import os
 import json
-import sys
-from twisted.internet.protocol import Factory, Protocol
 from twisted.internet import reactor, ssl
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static
 from twisted.python import threadpool, log
-from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
+from autobahn.twisted.websocket import WebSocketServerFactory
 from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
-
+import lisa
 import pkg_resources
-configuration = json.load(open(pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')))
+from lisa.server.plugins import PluginManager
+
+if not os.path.exists('/etc/lisa/server/lisa.json'):
+    configuration = json.load(open(pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')))
+else:
+    configuration = json.load(open('/etc/lisa/server/lisa.json'))
 path = os.path.abspath(__file__)
 dir_path = os.path.dirname(path)
+pluginmanager = PluginManager()
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):
@@ -43,15 +47,16 @@ def makeService(config):
 
     # Check if plugin directory exists. If not, create it
     try:
-        if not os.path.exists(os.path.normpath(config['plugins'])):
-            os.makedirs(os.path.normpath(config['plugins']))
-        if not os.path.exists(os.path.normpath(config['plugins'] + '/__init__.py')):
-            open(os.path.normpath(config['plugins'] + '/__init__.py'), 'w').close()
+        if not os.path.exists(os.path.dirname(lisa.__file__)):
+            os.makedirs(os.path.normpath(os.path.dirname(lisa.__file__) + '/plugins'))
+        if not os.path.exists(os.path.dirname(lisa.__file__) + '/plugins/__init__.py'):
+            file = open(os.path.normpath(os.path.dirname(lisa.__file__) + '/plugins/__init__.py'), 'w')
+            file.write("__import__('pkg_resources').declare_namespace(__name__)")
+            file.close()
     except:
-        log.err("Directory %s doesn't exist, and it seems impossible to create it" % config['plugins'])
+        log.err("Directory %s doesn't exist, and it seems impossible to create it" % os.path.normpath(
+            os.path.dirname(lisa.__file__) + '/plugins'))
         pass
-    sys.path.append(os.path.normpath(config['plugins']))
-    configuration['plugins'] = config['plugins']
 
     from lisa.server import libs
 

@@ -4,9 +4,8 @@ from tastypie_mongoengine import resources, fields
 from lisa.server.web.manageplugins.models import Plugin, Description, Rule, Intent
 from django.conf.urls import *
 from lisa.server.libs import LisaInstance, Lisa
-from lisa.server.web.manageplugins import functions
+from lisa.server.service import pluginmanager
 from tastypie.http import HttpAccepted, HttpNotModified, HttpCreated
-from lisa.server.web.weblisa.settings import LISA_PATH
 
 
 class PluginResource(resources.MongoEngineResource):
@@ -31,18 +30,7 @@ class PluginResource(resources.MongoEngineResource):
                       'code': 304
                     }
                 ],
-                'fields':{
-                    'url': {
-                        'type': 'string',
-                        'required': True,
-                        'description': 'The url of the repository'
-                    },
-                    'sha': {
-                        'type': 'string',
-                        'required': True,
-                        'description': "The sha of the plugin (to reference a commit)"
-                    }
-                }
+                'fields':{}
             },
             {
                 'name': 'uninstall',
@@ -93,11 +81,8 @@ class PluginResource(resources.MongoEngineResource):
         self.method_check(request, allowed=['post','get'])
         self.is_authenticated(request)
         self.throttle_check(request)
-
-        plugin_url = request.POST.get("url")
-        plugin_sha = request.POST.get("sha")
         plugin_name = kwargs['plugin_name']
-        status = functions.install(plugin_url=plugin_url, plugin_sha=plugin_sha, plugin_name=plugin_name)
+        status = pluginmanager.installPlugin(plugin_name=plugin_name)
 
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
@@ -110,7 +95,7 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        status = functions.enable(plugin_pk=kwargs['pk'])
+        status = pluginmanager.enablePlugin(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
@@ -121,7 +106,7 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        status = functions.enable(plugin_pk=kwargs['pk'])
+        status = pluginmanager.enablePlugin(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
@@ -133,7 +118,7 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        status = functions.uninstall(plugin_pk=kwargs['pk'])
+        status = pluginmanager.uninstallPlugin(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
         LisaInstance.SchedReload()
         LisaInstance.LisaReload()
@@ -145,9 +130,9 @@ class PluginResource(resources.MongoEngineResource):
         self.throttle_check(request)
 
         if 'plugin_name' in kwargs:
-            methods = functions.method_list(plugin_name=kwargs['plugin_name'])
+            methods = pluginmanager.methodListPlugin(plugin_name=kwargs['plugin_name'])
         else:
-            methods = functions.method_list()
+            methods = pluginmanager.methodListPlugin()
         self.log_throttled_access(request)
         return self.create_response(request, methods, HttpAccepted)
 

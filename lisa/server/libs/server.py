@@ -5,10 +5,10 @@ from twisted.internet.protocol import Factory, Protocol
 from twisted.protocols.basic import LineReceiver
 from twisted.internet import ssl
 from twisted.python import log
-from pymongo import MongoClient
 from OpenSSL import SSL
 from lisa.server.libs.txscheduler.manager import ScheduledTaskManager
 from lisa.server.libs.txscheduler.service import ScheduledTaskService
+from lisa.server.plugins import PluginManager
 
 from lisa.server.service import configuration, dir_path
 from lisa.server.web.manageplugins.models import Intent, Rule
@@ -16,8 +16,6 @@ from lisa.server.web.manageplugins.models import Intent, Rule
 # Create a task manager to pass it to other services
 taskman = ScheduledTaskManager(configuration)
 scheduler = ScheduledTaskService(taskman)
-
-enabled_plugins = []
 
 class ServerTLSContext(ssl.DefaultOpenSSLContextFactory):
     def __init__(self, *args, **kw):
@@ -87,15 +85,8 @@ class LisaFactory(Factory):
         self.wit = Wit(configuration)
         self.clients = []
         self.syspath = sys.path
-        mongo = MongoClient(configuration['database']['server'], configuration['database']['port'])
-        self.database = mongo.lisa
-        self.build_activeplugins()
+        PluginManager.collectPlugins()
 
-    def build_activeplugins(self):
-        global enabled_plugins
-        # Load enabled plugins for the main language
-        for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
-            enabled_plugins.append(str(plugin['name']))
 
     def buildProtocol(self, addr):
         self.Lisa = Lisa(self,self.wit)

@@ -3,9 +3,10 @@ from lisa.server.web.manageplugins.models import Plugin, Rule, Cron
 from optparse import make_option
 import os, json
 import requests
-from lisa.server.web.manageplugins.functions import install, uninstall, enable, disable, create
+from lisa.server.service import pluginmanager
 from django.utils import six
-from lisa.server.web.weblisa.settings import LISA_PATH, configuration
+import lisa.plugins
+from lisa.server.web.weblisa.settings import configuration
 
 class Command(BaseCommand):
     def __init__(self):
@@ -14,7 +15,7 @@ class Command(BaseCommand):
         self.help = 'Manage the plugins'
 
         self.plugins = []
-        self.pluginPath = configuration['plugin_path'] + '/'
+        self.pluginPath = os.path.dirname(lisa.plugins.__file__) + '/'
         self.OKGREEN = '\033[92m'
         self.WARNING = '\033[93m'
         self.FAIL = '\033[91m'
@@ -120,15 +121,15 @@ class Command(BaseCommand):
             else:
                 self.stdout.write(self.FAIL + "The plugin list on github seems to no be available" + self.ENDC)
 
-            status = install(plugin_sha=plugin_sha, plugin_url=plugin_url, plugin_name=name)
+            status = pluginmanager.installPlugin(plugin_name=name)
         elif action == "disable":
-            status = disable(plugin_name=name)
+            status = pluginmanager.disablePlugin(plugin_name=name)
         elif action == "uninstall":
-            status = uninstall(plugin_name=name)
+            status = pluginmanager.uninstallPlugin(plugin_name=name)
         elif action == "enable":
-            status = enable(plugin_name=name)
+            status = pluginmanager.enablePlugin(plugin_name=name)
         elif action == "create":
-            status = create(plugin_name=name, author_name=author_name, author_email=author_email)
+            status = pluginmanager.createPlugin(plugin_name=name, author_name=author_name, author_email=author_email)
         else:
             exit()
         if status['status'] == 'success':

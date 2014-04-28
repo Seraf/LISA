@@ -1,7 +1,7 @@
 from setuptools import setup
 import os
 
-VERSION = '0.1.1.16'
+VERSION = '0.1.1.18'
 
 # When pip installs anything from packages, py_modules, or ext_modules that
 # includes a twistd plugin (which are installed to twisted/plugins/),
@@ -66,5 +66,5 @@ if __name__ == '__main__':
         ],
     )
 
-from twisted.plugin import IPlugin, getPlugins
-list(getPlugins(IPlugin))
+    from twisted.plugin import IPlugin, getPlugins
+    list(getPlugins(IPlugin))

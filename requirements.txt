@@ -6,7 +6,6 @@ autobahn>=0.8.7
 beautifulsoup4>=4.3.2
 pymongo>=2.7
 requests>=2.2.1
-GitPython>=0.3.2.RC1
 django-tastypie>=0.11.0
 django-tastypie-mongoengine>=0.4.5
 django-tastypie-swagger>=0.1.2
