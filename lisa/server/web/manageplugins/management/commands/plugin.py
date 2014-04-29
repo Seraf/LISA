@@ -72,7 +72,7 @@ class Command(BaseCommand):
 
     def plugin_list(self):
         pluginLocalList = os.listdir(self.pluginPath)
-        metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
+        metareq = requests.get('/'.join([configuration['plugin_store'], 'plugins.json']))
         if(metareq.ok):
             for item in json.loads(metareq.text or metareq.content):
                 pluginDB = Plugin.objects(name=item['name'])
@@ -86,7 +86,7 @@ class Command(BaseCommand):
                     if item['name'] in pluginLocalList:
                         pluginLocalList.remove(item['name'])
         else:
-            self.stdout.write(self.FAIL + "The plugin list on github seems to no be available" + self.ENDC)
+            self.stdout.write(self.FAIL + "The plugin list seems to no be available" + self.ENDC)
         for pluginName in pluginLocalList:
             if os.path.isdir(os.path.join(self.pluginPath, pluginName)):
                 pluginDB = Plugin.objects(name=pluginName)
@@ -111,16 +111,6 @@ class Command(BaseCommand):
 
     def manage(self, name, action, author_email=None, author_name=None):
         if action == "install":
-            plugin_url = None
-            plugin_sha = None
-            metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
-            if(metareq.ok):
-                for item in json.loads(metareq.text or metareq.content):
-                    if item['name'] == name:
-                        plugin_url, plugin_sha = item['url'], item['sha']
-            else:
-                self.stdout.write(self.FAIL + "The plugin list on github seems to no be available" + self.ENDC)
-
             status = pluginmanager.installPlugin(plugin_name=name)
         elif action == "disable":
             status = pluginmanager.disablePlugin(plugin_name=name)

@@ -1,5 +1,4 @@
 {
-    "plugin_path": "/var/lib/lisa/server/plugins",
     "lang": "fr",
     "lisa_url": "localhost",
     "lisa_engine_port": 10042,
@@ -27,5 +26,6 @@
     "wit_url": "https://api.wit.ai/",
     "wit_token": "ATSHFOROYVUWQ3HTYBGHJNNYAXD7NTBC",
     "wit_confidence": 0.800,
-    "bot_name": "lisa"
+    "bot_name": "lisa",
+    "plugin_store": "http://plugins.lisa-project.net/"
 }

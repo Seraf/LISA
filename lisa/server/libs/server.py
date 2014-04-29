@@ -8,7 +8,7 @@ from twisted.python import log
 from OpenSSL import SSL
 from lisa.server.libs.txscheduler.manager import ScheduledTaskManager
 from lisa.server.libs.txscheduler.service import ScheduledTaskService
-from lisa.server.plugins import PluginManager
+from lisa.server.plugins.PluginManager import PluginManager
 
 from lisa.server.service import configuration, dir_path
 from lisa.server.web.manageplugins.models import Intent, Rule
@@ -85,8 +85,6 @@ class LisaFactory(Factory):
         self.wit = Wit(configuration)
         self.clients = []
         self.syspath = sys.path
-        PluginManager.collectPlugins()
-
 
     def buildProtocol(self, addr):
         self.Lisa = Lisa(self,self.wit)
