@@ -37,8 +37,8 @@ class PluginManager(object):
         return None
 
     def installPlugin(self, plugin_name=None):
-        pip.main(['install', 'lisa-plugin-' + plugin_name.lower()])
-        jsonfile = self.pkgpath + '/' + plugin_name.lower() + '/' + plugin_name.lower() + '.json'
+        pip.main(['install', 'lisa-plugin-' + plugin_name])
+        jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
         metadata = json.load(open(jsonfile))
 
         if Plugin.objects(name=plugin_name):
@@ -84,7 +84,7 @@ class PluginManager(object):
                 oIntent = Intent()
                 oIntent.name = intent
                 oIntent.function = value['method']
-                oIntent.module = '.'.join(['lisa.plugins.', plugin_name.lower(), 'modules', plugin_name.lower(),
+                oIntent.module = '.'.join(['lisa.plugins', plugin_name, 'modules', plugin_name.lower(),
                                            plugin_name])
                 oIntent.enabled = True
                 oIntent.plugin = plugin
@@ -151,7 +151,7 @@ class PluginManager(object):
             return {'status': 'fail', 'log': 'Plugin not installed'}
         else:
             for plugin in plugin_list:
-                pip.main(['uninstall', 'lisa-plugin-' + plugin_name.lower()])
+                pip.main(['uninstall', 'lisa-plugin-' + plugin_name])
                 plugin.delete()
                 for cron in Cron.objects(plugin=plugin):
                     cron.delete()
@@ -194,14 +194,14 @@ class PluginManager(object):
         import codecs
         codecs.open(filename, 'w', 'utf-8').write(render_to_string(template, context))
 
-    def create(self, plugin_name, author_name, author_email):
+    def createPlugin(self, plugin_name, author_name, author_email):
         import requests
         import pytz
 
-        metareq = requests.get('https://raw.github.com/Seraf/LISA-Plugins/master/plugin_list.json')
+        metareq = requests.get('/'.join([configuration['plugin_store'], 'plugins.json']))
         if(metareq.ok):
             for item in json.loads(metareq.text or metareq.content):
-                if item['name'] == plugin_name:
+                if item['name'].lower() == plugin_name.lower():
                     return {'status': 'fail', 'log': 'Plugin already exist in the store'}
         context = {
             'plugin_name': plugin_name,
@@ -210,60 +210,57 @@ class PluginManager(object):
             'author_email': author_email,
             'creation_date': pytz.UTC.localize(datetime.datetime.now()).strftime("%Y-%m-%d %H:%M%z")
         }
-        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name.lower()))
+        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name))
 
         # Lang stuff
-        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/lang'))
-        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/lang/en'))
-        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/lang/en/LC_MESSAGES'))
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/lang/en/LC_MESSAGES/' +
+        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name + '/lang'))
+        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name + '/lang/en'))
+        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name + '/lang/en/LC_MESSAGES'))
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/lang/en/LC_MESSAGES/' +
                                                     plugin_name.lower() + '.po'),
                           template='plugin/lang/en/LC_MESSAGES/module.po',
                           context=context)
 
         # Module stuff
-        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/modules'))
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/modules/' +
+        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name + '/modules'))
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/modules/' +
                                plugin_name.lower() + '.py'),
                                template='plugin/modules/module.tpl',
                                context=context)
-        open(os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/modules/__init__.py'), "a")
+        open(os.path.normpath(self.pkgpath + '/' + plugin_name + '/modules/__init__.py'), "a")
 
         # Web stuff
-        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web'))
-        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/templates'))
+        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name + '/web'))
+        os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/templates'))
         shutil.copy(src=os.path.normpath(LISA_PATH + '/web/manageplugins/templates/plugin/web/templates/widget.html'),
-                    dst=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/templates/widget.html'))
+                    dst=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/templates/widget.html'))
         shutil.copy(src=os.path.normpath(LISA_PATH + '/web/manageplugins/templates/plugin/web/templates/index.html'),
-                    dst=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/templates/index.html'))
-        open(os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/__init__.py'), "a")
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/api.py'),
+                    dst=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/templates/index.html'))
+        open(os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/__init__.py'), "a")
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/api.py'),
                           template='plugin/web/api.tpl',
                           context=context)
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/models.py'),
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/models.py'),
                           template='plugin/web/models.tpl',
                           context=context)
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/tests.py'),
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/tests.py'),
                               template='plugin/web/tests.tpl',
                               context=context)
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/urls.py'),
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/urls.py'),
                               template='plugin/web/urls.tpl',
                               context=context)
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/web/views.py'),
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/views.py'),
                           template='plugin/web/views.tpl',
                           context=context)
 
         # Plugin stuff (metadata)
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/__init__.py'),
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/__init__.py'),
                           template='plugin/__init__.tpl',
                           context=context)
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/README.rst'),
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/README.rst'),
                           template='plugin/README.rst',
                           context=context)
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() + '/.gitignore'),
-                          template='plugin/.gitignore',
-                          context=context)
-        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name.lower() +
+        self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name +
                                                     '/' + plugin_name.lower() + '.json'),
                           template='plugin/module.json',
                           context=context)

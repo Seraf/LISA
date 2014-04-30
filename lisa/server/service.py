@@ -43,19 +43,6 @@ def makeService(config):
     if config['configuration']:
         configuration = json.load(open(config['configuration']))
 
-    # Check if plugin directory exists. If not, create it
-    try:
-        if not os.path.exists(os.path.dirname(lisa.__file__)):
-            os.makedirs(os.path.normpath(os.path.dirname(lisa.__file__) + '/plugins'))
-        if not os.path.exists(os.path.dirname(lisa.__file__) + '/plugins/__init__.py'):
-            file = open(os.path.normpath(os.path.dirname(lisa.__file__) + '/plugins/__init__.py'), 'w')
-            file.write("__import__('pkg_resources').declare_namespace(__name__)")
-            file.close()
-    except:
-        log.err("Directory %s doesn't exist, and it seems impossible to create it" % os.path.normpath(
-            os.path.dirname(lisa.__file__) + '/plugins'))
-        pass
-
     from lisa.server import libs
 
     # Creating MultiService

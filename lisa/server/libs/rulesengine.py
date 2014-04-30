@@ -29,11 +29,9 @@ class RulesEngine():
         if self.configuration['debug']['debug_wit']:
             log.msg("WIT: " + str(jsonInput['outcome']))
 
-
-        #TODO load the intent from intentscollection. It will point on a string on plugin or core
         oIntent = intentscollection.find_one({"name": jsonInput['outcome']['intent']})
         if oIntent and jsonInput['outcome']['confidence'] >= self.configuration['wit_confidence']:
-            instance = namedAny(str(oIntent["module"]))(lisa=lisaprotocol)
+            instance = namedAny(str(oIntent["module"]))()
             methodToCall = getattr(instance, oIntent['function'])
             jsonOutput = methodToCall(jsonInput)
         else:

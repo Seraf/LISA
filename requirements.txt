@@ -11,3 +11,4 @@ django-tastypie-mongoengine>=0.4.5
 django-tastypie-swagger>=0.1.2
 pytz>=2014.2
 pyOpenSSL==0.13
+lisa-plugin-ChatterBot

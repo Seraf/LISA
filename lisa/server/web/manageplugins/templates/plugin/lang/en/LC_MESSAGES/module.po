@@ -11,6 +11,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../modules/{{ plugin_name }}.py
-msgid "string example"
-msgstr "this is the value of the 'string example' key"
+#: ../../modules/{{ plugin_name_lower }}.py
+msgid "Hello. How are you ?"
+msgstr "Hello. How are you ?"

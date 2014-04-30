@@ -71,32 +71,32 @@ class Command(BaseCommand):
             return pluginDB['pk']
 
     def plugin_list(self):
-        pluginLocalList = os.listdir(self.pluginPath)
         metareq = requests.get('/'.join([configuration['plugin_store'], 'plugins.json']))
+        pluginDB = Plugin.objects()
+        pluginlist_store = []
+        pluginlist_local = []
+        in_store = False
         if(metareq.ok):
-            for item in json.loads(metareq.text or metareq.content):
-                pluginDB = Plugin.objects(name=item['name'])
-                if pluginDB:
-                    for plugin in pluginDB:
-                        self.plugins.append({"name": item['name'], "installed": True, "enabled": plugin['enabled']})
-                        if item['name'] in pluginLocalList:
-                            pluginLocalList.remove(item['name'])
-                else:
-                    self.plugins.append({"name": item['name'], "installed": False, "enabled": False})
-                    if item['name'] in pluginLocalList:
-                        pluginLocalList.remove(item['name'])
+            [pluginlist_store.append(item['name']) for item in json.loads(metareq.text or metareq.content)]
+            [pluginlist_local.append(plugin['name']) for plugin in pluginDB]
+            if pluginDB:
+                for plugin in pluginDB:
+                    for plugin_name in pluginlist_store:
+                        if plugin['name'].lower() == plugin_name.lower():
+                            self.plugins.append({"name": plugin['name'],
+                                                 "installed": True,
+                                                 "enabled": plugin['enabled']})
+                            in_store = True
+                    if not in_store:
+                        self.plugins.append({"name": plugin['name'], "installed": True, "enabled": plugin['enabled']})
+                    else:
+                        in_store = False
+            for plugin_store in pluginlist_store:
+                if not plugin_store in pluginlist_local:
+                    self.plugins.append({"name": plugin_store, "installed": False, "enabled": False})
         else:
             self.stdout.write(self.FAIL + "The plugin list seems to no be available" + self.ENDC)
-        for pluginName in pluginLocalList:
-            if os.path.isdir(os.path.join(self.pluginPath, pluginName)):
-                pluginDB = Plugin.objects(name=pluginName)
-                if pluginDB:
-                    for plugin in pluginDB:
-                        self.plugins.append({"name": plugin['name'], "installed": True, "enabled": plugin['enabled']})
-                        if plugin['name'] in pluginLocalList:
-                            pluginLocalList.remove(plugin['name'])
-                else:
-                    self.plugins.append({"name": pluginName, "installed": False, "enabled": False})
+
         for pluginDict in self.plugins:
             if pluginDict['installed']:
                 installed = "["+ self.OKGREEN + "Installed" + self.ENDC + "]"
