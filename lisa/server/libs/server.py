@@ -1,14 +1,17 @@
 # -*- coding: UTF-8 -*-
-import os, json, sys, uuid
+import os
+import json
+import sys
+import uuid
 from lisa.server.libs import RulesEngine, Commands, Wit
-from twisted.internet.protocol import Factory, Protocol
+from twisted.internet.protocol import Factory
 from twisted.protocols.basic import LineReceiver
 from twisted.internet import ssl
 from twisted.python import log
 from OpenSSL import SSL
 from lisa.server.libs.txscheduler.manager import ScheduledTaskManager
 from lisa.server.libs.txscheduler.service import ScheduledTaskService
-from lisa.server.plugins.PluginManager import PluginManager
+from lisa.server.plugins.PluginManager import PluginManagerSingleton
 
 from lisa.server.service import configuration, dir_path
 from lisa.server.web.manageplugins.models import Intent, Rule
@@ -17,10 +20,12 @@ from lisa.server.web.manageplugins.models import Intent, Rule
 taskman = ScheduledTaskManager(configuration)
 scheduler = ScheduledTaskService(taskman)
 
+
 class ServerTLSContext(ssl.DefaultOpenSSLContextFactory):
     def __init__(self, *args, **kw):
         kw['sslmethod'] = SSL.TLSv1_METHOD
         ssl.DefaultOpenSSLContextFactory.__init__(self, *args, **kw)
+
 
 class Lisa(LineReceiver):
     def __init__(self,factory, wit):
@@ -80,6 +85,7 @@ class Lisa(LineReceiver):
             elif jsonData['type'] == "command":
                 Commands(configuration, lisaprotocol=self).parse(jsonData=jsonData)
 
+
 class LisaFactory(Factory):
     def __init__(self):
         self.wit = Wit(configuration)
@@ -103,13 +109,74 @@ class LisaFactory(Factory):
         self.taskman = taskman
         return self.taskman.reload()
 
-# Create an instance
-LisaInstance = LisaFactory()
-LisaProtocolInstance = Lisa(LisaInstance, LisaInstance.wit)
+
+class LisaProtocolSingleton(object):
+    """
+    Singleton version of the Lisa Protocol.
+
+    Being a singleton, this class should not be initialised explicitly
+    and the ``get`` classmethod must be called instead.
+    """
+
+    __instance = None
+
+    def __init__(self):
+        """
+        Initialisation: this class should not be initialised
+        explicitly and the ``get`` classmethod must be called instead.
+        """
+
+        if self.__instance is not None:
+            raise Exception("Singleton can't be created twice !")
+
+    def get(self):
+        """
+        Actually create an instance
+        """
+        if self.__instance is None:
+            self.__instance = Lisa(LisaFactorySingleton.get(), LisaFactorySingleton.get().wit)
+            log.msg("LisaProtocol initialised")
+        return self.__instance
+    get = classmethod(get)
+
+
+class LisaFactorySingleton(object):
+    """
+    Singleton version of the Lisa Factory.
+
+    Being a singleton, this class should not be initialised explicitly
+    and the ``get`` classmethod must be called instead.
+    """
+
+    __instance = None
+
+    def __init__(self):
+        """
+        Initialisation: this class should not be initialised
+        explicitly and the ``get`` classmethod must be called instead.
+        """
+
+        if self.__instance is not None:
+            raise Exception("Singleton can't be created twice !")
+
+    def get(self):
+        """
+        Actually create an instance
+        """
+        if self.__instance is None:
+            self.__instance = LisaFactory()
+            log.msg("LisaFactory initialised")
+        return self.__instance
+    get = classmethod(get)
+
+
+# Create an instance of factory, then create a protocol instance to import it everywhere
+LisaFactorySingleton.get()
+LisaProtocolSingleton.get()
 
 # Load the plugins
-pluginmanager = PluginManager()
-pluginmanager.loadPlugins()
+PluginManagerSingleton.get().loadPlugins()
+
 
 def Initialize():
     # Create the default core_intents_list intent

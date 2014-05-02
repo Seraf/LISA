@@ -22,10 +22,10 @@ urlpatterns = patterns('',
 )
 
 #Register plugin's API
-from lisa.server.libs.server import pluginmanager
-for plugin in pluginmanager.getEnabledPlugins():
-    urlpatterns += patterns('', url(r'^'+ str(plugin) + r'/', include('lisa.plugins.'+
-                                                                              str(plugin) + '.web.urls')))
+from lisa.server.plugins.PluginManager import PluginManagerSingleton
+for plugin in PluginManagerSingleton.get().getEnabledPlugins():
+    urlpatterns += patterns('', url(r'^' + str(plugin) + r'/', include('lisa.plugins.' +
+                                                                       str(plugin) + '.web.urls')))
     v1_api.register(namedAny('lisa.plugins.' + plugin + '.web.api.' + plugin + 'Resource')())
 
 urlpatterns += patterns('',

@@ -3,13 +3,14 @@ import pip
 import shutil
 import inspect
 from lisa.server.web.manageplugins.models import Plugin, Description, Rule, Cron, Intent
-import json, os
-from twisted.python import log
+import json
+import os
 from twisted.python.reflect import namedAny
 from django.template.loader import render_to_string
 import datetime
 from lisa.server.web.weblisa.settings import LISA_PATH, configuration
 from pymongo import MongoClient
+from twisted.python import log
 
 class PluginManager(object):
     """
@@ -266,3 +267,37 @@ class PluginManager(object):
                           context=context)
 
         return {'status': 'success', 'log': 'Plugin created'}
+
+
+class PluginManagerSingleton(object):
+    """
+    Singleton version of the plugin manager.
+
+    Being a singleton, this class should not be initialised explicitly
+    and the ``get`` classmethod must be called instead.
+
+    To call one of this class's methods you have to use the ``get``
+    method in the following way:
+    ``PluginManagerSingleton.get().themethodname(theargs)``
+    """
+
+    __instance = None
+
+    def __init__(self):
+        """
+        Initialisation: this class should not be initialised
+        explicitly and the ``get`` classmethod must be called instead.
+        """
+
+        if self.__instance is not None:
+            raise Exception("Singleton can't be created twice !")
+
+    def get(self):
+        """
+        Actually create an instance
+        """
+        if self.__instance is None:
+            self.__instance = PluginManager()
+            log.msg("PluginManagerSingleton initialised")
+        return self.__instance
+    get = classmethod(get)

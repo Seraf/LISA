@@ -3,8 +3,8 @@ from tastypie.utils import trailing_slash
 from tastypie_mongoengine import resources, fields
 from lisa.server.web.manageplugins.models import Plugin, Description, Rule, Intent
 from django.conf.urls import *
-from lisa.server.libs import LisaInstance, Lisa
-from lisa.server.libs.server import pluginmanager
+from lisa.server.libs import LisaFactorySingleton
+from lisa.server.plugins.PluginManager import PluginManagerSingleton
 from tastypie.http import HttpAccepted, HttpNotModified, HttpCreated
 
 
@@ -82,11 +82,11 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
         plugin_name = kwargs['plugin_name']
-        status = pluginmanager.installPlugin(plugin_name=plugin_name)
+        status = PluginManagerSingleton.get().installPlugin(plugin_name=plugin_name)
 
         self.log_throttled_access(request)
-        LisaInstance.SchedReload()
-        LisaInstance.LisaReload()
+        LisaFactorySingleton.get().SchedReload()
+        LisaFactorySingleton.get().LisaReload()
         return self.create_response(request, status, HttpCreated)
 
 
@@ -95,10 +95,10 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        status = pluginmanager.enablePlugin(plugin_pk=kwargs['pk'])
+        status = PluginManagerSingleton.get().enablePlugin(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
-        LisaInstance.SchedReload()
-        LisaInstance.LisaReload()
+        LisaFactorySingleton.get().SchedReload()
+        LisaFactorySingleton.get().LisaReload()
         return self.create_response(request, status, HttpAccepted)
 
     def disable(self, request, **kwargs):
@@ -106,10 +106,10 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        status = pluginmanager.enablePlugin(plugin_pk=kwargs['pk'])
+        status = PluginManagerSingleton.get().enablePlugin(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
-        LisaInstance.SchedReload()
-        LisaInstance.LisaReload()
+        LisaFactorySingleton.get().SchedReload()
+        LisaFactorySingleton.get().LisaReload()
 
         return self.create_response(request, status, HttpAccepted)
 
@@ -118,10 +118,10 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        status = pluginmanager.uninstallPlugin(plugin_pk=kwargs['pk'])
+        status = PluginManagerSingleton.get().uninstallPlugin(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
-        LisaInstance.SchedReload()
-        LisaInstance.LisaReload()
+        LisaFactorySingleton.get().SchedReload()
+        LisaFactorySingleton.get().LisaReload()
         return self.create_response(request, status, HttpAccepted)
 
     def methodslist(self, request, **kwargs):
@@ -130,9 +130,9 @@ class PluginResource(resources.MongoEngineResource):
         self.throttle_check(request)
 
         if 'plugin_name' in kwargs:
-            methods = pluginmanager.methodListPlugin(plugin_name=kwargs['plugin_name'])
+            methods = PluginManagerSingleton.get().methodListPlugin(plugin_name=kwargs['plugin_name'])
         else:
-            methods = pluginmanager.methodListPlugin()
+            methods = PluginManagerSingleton.get().methodListPlugin()
         self.log_throttled_access(request)
         return self.create_response(request, methods, HttpAccepted)
 

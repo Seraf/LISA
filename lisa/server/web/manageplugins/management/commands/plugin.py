@@ -3,7 +3,7 @@ from lisa.server.web.manageplugins.models import Plugin, Rule, Cron
 from optparse import make_option
 import os, json
 import requests
-from lisa.server.libs.server import pluginmanager
+from lisa.server.plugins.PluginManager import PluginManagerSingleton
 from django.utils import six
 import lisa.plugins
 from lisa.server.web.weblisa.settings import configuration
@@ -111,15 +111,15 @@ class Command(BaseCommand):
 
     def manage(self, name, action, author_email=None, author_name=None):
         if action == "install":
-            status = pluginmanager.installPlugin(plugin_name=name)
+            status = PluginManagerSingleton.get().installPlugin(plugin_name=name)
         elif action == "disable":
-            status = pluginmanager.disablePlugin(plugin_name=name)
+            status = PluginManagerSingleton.get().disablePlugin(plugin_name=name)
         elif action == "uninstall":
-            status = pluginmanager.uninstallPlugin(plugin_name=name)
+            status = PluginManagerSingleton.get().uninstallPlugin(plugin_name=name)
         elif action == "enable":
-            status = pluginmanager.enablePlugin(plugin_name=name)
+            status = PluginManagerSingleton.get().enablePlugin(plugin_name=name)
         elif action == "create":
-            status = pluginmanager.createPlugin(plugin_name=name, author_name=author_name, author_email=author_email)
+            status = PluginManagerSingleton.get().createPlugin(plugin_name=name, author_name=author_name, author_email=author_email)
         else:
             exit()
         if status['status'] == 'success':

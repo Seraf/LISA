@@ -1,6 +1,8 @@
 from setuptools import setup
+import os
+from django.core.management import call_command
 
-VERSION = '0.1.1.31'
+VERSION = '0.1.1.33'
 
 # When pip installs anything from packages, py_modules, or ext_modules that
 # includes a twistd plugin (which are installed to twisted/plugins/),
@@ -67,3 +69,6 @@ if __name__ == '__main__':
 
     from twisted.plugin import IPlugin, getPlugins
     list(getPlugins(IPlugin))
+
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lisa.server.web.weblisa.settings")
+    call_command('collectstatic', interactive=False)

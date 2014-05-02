@@ -8,7 +8,6 @@ from twisted.python import threadpool, log
 from autobahn.twisted.websocket import WebSocketServerFactory
 from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
-import lisa
 import pkg_resources
 
 if not os.path.exists('/etc/lisa/server/lisa.json'):
@@ -98,11 +97,11 @@ def makeService(config):
             internet.SSLServer(configuration['lisa_web_port_ssl'],
                                server.Site(root), SSLContextFactoryWeb).setServiceParent(multi)
             internet.SSLServer(configuration['lisa_engine_port_ssl'],
-                               libs.LisaInstance, SSLContextFactoryEngine).setServiceParent(multi)
+                               libs.LisaFactorySingleton.get(), SSLContextFactoryEngine).setServiceParent(multi)
         if configuration['enable_unsecure_mode']:
             # Serve it up:
             internet.TCPServer(configuration['lisa_web_port'], server.Site(root)).setServiceParent(multi)
-            internet.TCPServer(configuration['lisa_engine_port'], libs.LisaInstance).setServiceParent(multi)
+            internet.TCPServer(configuration['lisa_engine_port'], libs.LisaFactorySingleton.get()).setServiceParent(multi)
 
     else:
         exit(1)

@@ -2,7 +2,7 @@ from twisted.python import log
 from tastypie import authorization
 from django.conf.urls import *
 import json, os
-from lisa.server.libs import LisaInstance, LisaProtocolInstance, Wit, configuration
+from lisa.server.libs import LisaFactorySingleton, LisaProtocolSingleton, Wit, configuration
 from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
 from tastypie.utils import trailing_slash
@@ -130,11 +130,10 @@ class LisaResource(tastyresources.Resource):
                                       'from': "API",
                                       'type': "chat"
             })
-        LisaProtocolInstance.answerToClient(jsondata=jsondata)
+        LisaProtocolSingleton.get().answerToClient(jsondata=jsondata)
 
         self.log_throttled_access(request)
         return self.create_response(request, { 'status': 'success', 'log': "Message sent"}, HttpAccepted)
-
 
     def tts_google(self, request, **kwargs):
         self.method_check(request, allowed=['post', 'get'])
@@ -224,7 +223,7 @@ class LisaResource(tastyresources.Resource):
         from tastypie.http import HttpAccepted, HttpNotModified
 
         try:
-            LisaInstance.LisaReload()
+            LisaFactorySingleton.get().LisaReload()
         except:
             log.err()
             return self.create_response(request, { 'status' : 'failure' }, HttpNotModified)
@@ -254,7 +253,7 @@ class LisaResource(tastyresources.Resource):
         from tastypie.http import HttpAccepted, HttpNotModified
 
         try:
-            LisaInstance.SchedReload()
+            LisaFactorySingleton.get().SchedReload()
         except:
             log.err()
             return self.create_response(request, { 'status' : 'failure' }, HttpNotModified)
