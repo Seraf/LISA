@@ -1,6 +1,4 @@
-.. image:: https://badge.waffle.io/seraf/lisa.png?label=ready&title=Ready 
- :target: https://waffle.io/seraf/lisa
- :alt: 'Stories in Ready'
+
 About
 #####
 
@@ -13,9 +11,13 @@ L.I.S.A will assist me like a Digital Like Assistant. It will give me usefull in
 State of the project : 
 
 .. image:: https://travis-ci.org/Seraf/LISA.png
-
+.. image:: https://badge.waffle.io/seraf/lisa.png?label=ready&title=Ready 
+ :target: https://waffle.io/seraf/lisa
+ :alt: 'Stories in Ready'
+ 
 Documentation
 #############
+
 You will find all documentation needed on https://lisa-project.readthedocs.org/en/latest/index.html
 
 Overview
