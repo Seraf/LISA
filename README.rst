@@ -1,3 +1,6 @@
+.. image:: https://badge.waffle.io/seraf/lisa.png?label=ready&title=Ready 
+ :target: https://waffle.io/seraf/lisa
+ :alt: 'Stories in Ready'
 About
 #####
 
