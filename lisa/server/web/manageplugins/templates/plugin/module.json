@@ -3,6 +3,8 @@
     "version": "0.1",
     "author": "{{ author_name }}",
     "enabled": 1,
+    "pypi-url": "https://pypi.python.org/pypi/lisa-plugin-{{ plugin_name }}",
+    "github-url": "https://raw.githubusercontent.com/{{ author_name }}/LISA-PLUGINS-{{ plugin_name }}/master/lisa/plugins/{{ plugin_name }}/{{ plugin_name_lower }}.json",
     "description": [
         {"lang": "en", "description": "Auto-generated plugin"}
     ],

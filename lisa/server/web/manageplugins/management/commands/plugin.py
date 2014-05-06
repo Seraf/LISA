@@ -97,6 +97,7 @@ class Command(BaseCommand):
         else:
             self.stdout.write(self.FAIL + "The plugin list seems to no be available" + self.ENDC)
 
+
         for pluginDict in self.plugins:
             if pluginDict['installed']:
                 installed = "["+ self.OKGREEN + "Installed" + self.ENDC + "]"

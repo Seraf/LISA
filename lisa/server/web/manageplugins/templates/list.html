@@ -7,8 +7,6 @@
         var install = function(name,url,sha) {
             $.ajax({type:'POST', url:'/api/v1/plugin/'+name+'/install/', async:true,
                 data:{
-                    url:url,
-                    sha:sha,
                     csrfmiddlewaretoken:csrf
                 },
                 success: function(data, status, xhr) {
