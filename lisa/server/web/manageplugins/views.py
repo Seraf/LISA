@@ -3,8 +3,7 @@ from django.template import RequestContext
 from django.http import HttpResponse
 from models import Plugin, Rule, Cron
 from django.contrib.auth.decorators import login_required
-import requests, json, git, os
-from shutil import rmtree
+import requests, json
 from lisa.server.web.weblisa.utils import method_restricted_to, is_ajax
 from lisa.server.web.weblisa.settings import LISA_PATH
 
