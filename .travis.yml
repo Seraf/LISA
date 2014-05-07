@@ -14,7 +14,7 @@ install:
   - pip install coveralls
 
 script:
-  - coverage run `which trial` ./lisa/server
+  - coverage run `which trial` lisa.server
 
 after_success:
   - coveralls
