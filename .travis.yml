@@ -10,16 +10,21 @@ install:
   - pip install $TWISTED
   - 'test -n "$PYOPENSSL" && pip install $PYOPENSSL || true'
   - pip install -r requirements.txt
+  - pip install .
+  - pip install coveralls
 
 script:
-  - trial lisa/server
+  - coverage run `which trial` lisa/server
+
+after_success:
+  - coveralls
 
 services:
   - mongodb
 
 notifications:
-  irc: "irc.oftc.net#lisa"
-
+  irc: "irc.freenode.net#lisa-project"
+  
 branches:
   only:
     - master
