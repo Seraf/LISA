@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = lisa
+omit =
+    lisa/server/tests/*
+    lisa/server/tmp/*
+    lisa/server/configuration/*
