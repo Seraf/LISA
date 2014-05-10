@@ -3,7 +3,7 @@ import os
 import json
 import sys
 import uuid
-from lisa.server.libs import RulesEngine, Commands, Wit
+from lisa.server.libs import RulesEngine, Commands
 from twisted.internet.protocol import Factory
 from twisted.protocols.basic import LineReceiver
 from twisted.internet import ssl
@@ -28,9 +28,8 @@ class ServerTLSContext(ssl.DefaultOpenSSLContextFactory):
 
 
 class Lisa(LineReceiver):
-    def __init__(self,factory, wit):
+    def __init__(self,factory):
         self.factory = factory
-        self.wit = wit
 
     def answerToClient(self, jsondata):
         if configuration['debug']['debug_output']:
@@ -88,12 +87,11 @@ class Lisa(LineReceiver):
 
 class LisaFactory(Factory):
     def __init__(self):
-        self.wit = Wit(configuration)
         self.clients = []
         self.syspath = sys.path
 
     def buildProtocol(self, addr):
-        self.Lisa = Lisa(self,self.wit)
+        self.Lisa = Lisa(self)
         return self.Lisa
 
     def LisaReload(self):
@@ -134,7 +132,7 @@ class LisaProtocolSingleton(object):
         Actually create an instance
         """
         if self.__instance is None:
-            self.__instance = Lisa(LisaFactorySingleton.get(), LisaFactorySingleton.get().wit)
+            self.__instance = Lisa(LisaFactorySingleton.get())
             log.msg("LisaProtocol initialised")
         return self.__instance
     get = classmethod(get)
@@ -182,7 +180,7 @@ def Initialize():
     # Create the default core_intents_list intent
     defaults_intent_list = {'name': "core_intents_list",
                      'function': "list",
-                     'module': "core.intents.Intents",
+                     'module': "lisa.server.core.intents.Intents",
                      'enabled': True
     }
 

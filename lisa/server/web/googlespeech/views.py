@@ -9,5 +9,8 @@ def index(request):
         websocket = 'wss'
     else:
         websocket = 'ws'
-    context = {'websocket': websocket}
+    context = {
+        'websocket': websocket,
+        'lang': configuration['lang']
+    }
     return render(request, 'googlespeech/index.html', context)

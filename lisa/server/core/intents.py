@@ -3,8 +3,7 @@ from datetime import datetime
 import json, os, inspect
 from pymongo import MongoClient
 from lisa.server.service import configuration
-from lisa.server.libs import Wit
-
+from wit import Wit
 from lisa.server.web.manageplugins.models import Intent as oIntents
 
 import gettext
@@ -20,12 +19,12 @@ class Intents:
         mongo = MongoClient(host=self.configuration['database']['server'],
                             port=self.configuration['database']['port'])
         self.database = mongo.lisa
+        self.wit = Wit(self.configuration['wit_token'])
 
 
     def list(self, jsonInput):
         intentstr = []
-        oWit = Wit(self.configuration)
-        listintents = oWit.list_intents()
+        listintents = self.wit.get_intents()
         for oIntent in oIntents.objects(enabled=True):
             for witintent in listintents:
                 print witintent

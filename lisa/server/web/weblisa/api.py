@@ -2,12 +2,12 @@ from twisted.python import log
 from tastypie import authorization
 from django.conf.urls import *
 import json, os
-from lisa.server.libs import LisaFactorySingleton, LisaProtocolSingleton, Wit, configuration
+from lisa.server.libs import LisaFactorySingleton, LisaProtocolSingleton, configuration
 from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
 from tastypie.utils import trailing_slash
 from mongoengine.django.auth import User
-
+from wit import Wit
 from lisa.server.web.weblisa.settings import LISA_PATH
 
 class UserResource(mongoresources.MongoEngineResource):
@@ -234,11 +234,12 @@ class LisaResource(tastyresources.Resource):
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
+        self.wit = Wit(self.configuration['wit_token'])
 
         from tastypie.http import HttpAccepted, HttpNotModified
 
         try:
-            intents = Wit(configuration).list_intents()
+            intents = self.wit.get_intents()
         except:
             log.err()
             return self.create_response(request, { 'status' : 'failure' }, HttpNotModified)

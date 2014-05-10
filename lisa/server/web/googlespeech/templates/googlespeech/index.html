@@ -34,7 +34,7 @@
             };
             var data = new FormData();
             data.append('message', message);
-            data.append('lang', 'fr');
+            data.append('lang', '{{ lang }}');
             request.send(data);
         }
 
