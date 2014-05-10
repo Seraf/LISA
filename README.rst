@@ -10,11 +10,20 @@ L.I.S.A will assist me like a Digital Like Assistant. It will give me usefull in
 
 State of the project : 
 
-.. image:: https://travis-ci.org/Seraf/LISA.png
+.. image:: https://travis-ci.org/Seraf/LISA.png?branch=master
+    :target: https://travis-ci.org/Seraf/LISA
+
+.. image:: https://coveralls.io/repos/Seraf/LISA/badge.png?branch=master
+    :target: https://coveralls.io/r/Seraf/LISA?branch=master
+
 .. image:: https://badge.waffle.io/seraf/lisa.png?label=ready&title=Ready 
- :target: https://waffle.io/seraf/lisa
- :alt: 'Stories in Ready'
- 
+    :target: https://waffle.io/seraf/lisa
+    :alt: 'Stories in Ready'
+
+.. image:: https://pypip.in/v/lisa-server/badge.png
+    :target: https://pypi.python.org/pypi/lisa-server
+
+
 Documentation
 #############
 
@@ -36,9 +45,3 @@ So the program will be able to answer in the zone where the sound was recorded.
 LISA Engine
 ===========
 .. include:: INSTALL.rst
-
-
-.. image:: https://d2weczhvl823v0.cloudfront.net/Seraf/lisa/trend.png
-   :alt: Bitdeli badge
-   :target: https://bitdeli.com/free
-
