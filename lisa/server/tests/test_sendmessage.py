@@ -1,14 +1,12 @@
-from lisa.server.libs.server import LisaFactory
+from lisa.server.libs.server import LisaFactorySingleton
 from twisted.trial import unittest
 from twisted.test import proto_helpers
 
 import json
-import platform
-
 
 class LisaClientTestCase(unittest.TestCase):
     def setUp(self):
-        factory = LisaFactory()
+        factory = LisaFactorySingleton.get()
         self.proto = factory.buildProtocol(('127.0.0.1', 0))
         self.tr = proto_helpers.StringTransport()
         self.proto.makeConnection(self.tr)

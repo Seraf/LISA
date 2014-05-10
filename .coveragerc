@@ -1,7 +1,7 @@
 [run]
 branch = True
-source = lisa
+source = lisa/server
 omit =
-    lisa/server/tests/*
     lisa/server/tmp/*
+    lisa/server/tests/*
     lisa/server/configuration/*
