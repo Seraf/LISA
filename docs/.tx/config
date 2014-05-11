@@ -2,11 +2,6 @@
 host = https://www.transifex.com
 type = PO
 
-[lisa.docs-contents]
-file_filter = locale/<lang>/LC_MESSAGES/contents.po
-source_file = _build/locale/contents.pot
-source_lang = en
-
 [lisa.docs-faq]
 file_filter = locale/<lang>/LC_MESSAGES/faq.po
 source_file = _build/locale/faq.pot

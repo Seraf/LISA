@@ -1,20 +1,21 @@
-:orphan:
+======================
+LISA Table of Contents
+======================
 
-.. LISA documentation master file, created by
-   sphinx-quickstart on Sun Jun 16 10:21:52 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. toctree::
+    :maxdepth: 2
+    :glob:
+    :numbered:
 
-.. _contents:
-
-Welcome to L.I.S.A's documentation !
-====================================
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+    topics/index
+    topics/about
+    topics/installation/index
+    topics/tutorials/index
+    topics/core/index
+    topics/plugins/index
+    topics/wit/index
+    topics/troubleshooting/index
+    topics/development/index
+    topics/releases/index
+    topics/documentation/index
+    faq
