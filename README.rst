@@ -27,7 +27,7 @@ State of the project :
 Documentation
 #############
 
-You will find all documentation needed on https://lisa-project.readthedocs.org/en/latest/index.html
+You will find all documentation needed on https://lisa.readthedocs.org/en/latest/index.html
 
 Overview
 ########
