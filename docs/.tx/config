@@ -1,0 +1,184 @@
+[main]
+host = https://www.transifex.com
+type = PO
+
+[lisa.docs-contents]
+file_filter = locale/<lang>/LC_MESSAGES/contents.po
+source_file = _build/locale/contents.pot
+source_lang = en
+
+[lisa.docs-faq]
+file_filter = locale/<lang>/LC_MESSAGES/faq.po
+source_file = _build/locale/faq.pot
+source_lang = en
+
+[lisa.docs-index]
+file_filter = locale/<lang>/LC_MESSAGES/index.po
+source_file = _build/locale/index.pot
+source_lang = en
+
+[lisa.docs-topics--about]
+file_filter = locale/<lang>/LC_MESSAGES/topics/about.po
+source_file = _build/locale/topics/about.pot
+source_lang = en
+
+[lisa.docs-topics--core--engine]
+file_filter = locale/<lang>/LC_MESSAGES/topics/core/engine.po
+source_file = _build/locale/topics/core/engine.pot
+source_lang = en
+
+[lisa.docs-topics--core--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/core/index.po
+source_file = _build/locale/topics/core/index.pot
+source_lang = en
+
+[lisa.docs-topics--development--contributing]
+file_filter = locale/<lang>/LC_MESSAGES/topics/development/contributing.po
+source_file = _build/locale/topics/development/contributing.pot
+source_lang = en
+
+[lisa.docs-topics--development--conventions--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/development/conventions/index.po
+source_file = _build/locale/topics/development/conventions/index.pot
+source_lang = en
+
+[lisa.docs-topics--development--git--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/development/git/index.po
+source_file = _build/locale/topics/development/git/index.pot
+source_lang = en
+
+[lisa.docs-topics--development--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/development/index.po
+source_file = _build/locale/topics/development/index.pot
+source_lang = en
+
+[lisa.docs-topics--development--tests--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/development/tests/index.po
+source_file = _build/locale/topics/development/tests/index.pot
+source_lang = en
+
+[lisa.docs-topics--documentation--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/documentation/index.po
+source_file = _build/locale/topics/documentation/index.pot
+source_lang = en
+
+[lisa.docs-topics--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/index.po
+source_file = _build/locale/topics/index.pot
+source_lang = en
+
+[lisa.docs-topics--installation--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/index.po
+source_file = _build/locale/topics/installation/index.pot
+source_lang = en
+
+[lisa.docs-topics--plugins--create]
+file_filter = locale/<lang>/LC_MESSAGES/topics/plugins/create.po
+source_file = _build/locale/topics/plugins/create.pot
+source_lang = en
+
+[lisa.docs-topics--plugins--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/plugins/index.po
+source_file = _build/locale/topics/plugins/index.pot
+source_lang = en
+
+[lisa.docs-topics--plugins--management]
+file_filter = locale/<lang>/LC_MESSAGES/topics/plugins/management.po
+source_file = _build/locale/topics/plugins/management.pot
+source_lang = en
+
+[lisa.docs-topics--plugins--structure]
+file_filter = locale/<lang>/LC_MESSAGES/topics/plugins/structure.po
+source_file = _build/locale/topics/plugins/structure.pot
+source_lang = en
+
+[lisa.docs-topics--releases--1_0]
+file_filter = locale/<lang>/LC_MESSAGES/topics/releases/1.0.po
+source_file = _build/locale/topics/releases/1.0.pot
+source_lang = en
+
+[lisa.docs-topics--releases--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/releases/index.po
+source_file = _build/locale/topics/releases/index.pot
+source_lang = en
+
+[lisa.docs-topics--troubleshooting--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/troubleshooting/index.po
+source_file = _build/locale/topics/troubleshooting/index.pot
+source_lang = en
+
+[lisa.docs-topics--troubleshooting--server]
+file_filter = locale/<lang>/LC_MESSAGES/topics/troubleshooting/server.po
+source_file = _build/locale/topics/troubleshooting/server.pot
+source_lang = en
+
+[lisa.docs-topics--tutorials--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/tutorials/index.po
+source_file = _build/locale/topics/tutorials/index.pot
+source_lang = en
+
+[lisa.docs-topics--wit--index]
+file_filter = locale/<lang>/LC_MESSAGES/topics/wit/index.po
+source_file = _build/locale/topics/wit/index.pot
+source_lang = en
+
+[lisa.docs-topics--development--hacking]
+file_filter = locale/<lang>/LC_MESSAGES/topics/development/hacking.po
+source_file = _build/locale/topics/development/hacking.pot
+source_lang = en
+
+[lisa.docs-topics--installation--arch]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/arch.po
+source_file = _build/locale/topics/installation/arch.pot
+source_lang = en
+
+[lisa.docs-topics--installation--debian]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/debian.po
+source_file = _build/locale/topics/installation/debian.pot
+source_lang = en
+
+[lisa.docs-topics--installation--fedora]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/fedora.po
+source_file = _build/locale/topics/installation/fedora.pot
+source_lang = en
+
+[lisa.docs-topics--installation--freebsd]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/freebsd.po
+source_file = _build/locale/topics/installation/freebsd.pot
+source_lang = en
+
+[lisa.docs-topics--installation--gentoo]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/gentoo.po
+source_file = _build/locale/topics/installation/gentoo.pot
+source_lang = en
+
+[lisa.docs-topics--installation--osx]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/osx.po
+source_file = _build/locale/topics/installation/osx.pot
+source_lang = en
+
+[lisa.docs-topics--installation--solaris]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/solaris.po
+source_file = _build/locale/topics/installation/solaris.pot
+source_lang = en
+
+[lisa.docs-topics--installation--suse]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/suse.po
+source_file = _build/locale/topics/installation/suse.pot
+source_lang = en
+
+[lisa.docs-topics--installation--rhel]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/rhel.po
+source_file = _build/locale/topics/installation/rhel.pot
+source_lang = en
+
+[lisa.docs-topics--installation--synology]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/synology.po
+source_file = _build/locale/topics/installation/synology.pot
+source_lang = en
+
+[lisa.docs-topics--installation--windows]
+file_filter = locale/<lang>/LC_MESSAGES/topics/installation/windows.po
+source_file = _build/locale/topics/installation/windows.pot
+source_lang = en
+

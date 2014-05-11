@@ -36,5 +36,5 @@ class Intents:
 
         return {"plugin": "Intents",
                 "method": "list",
-                "body": unicode(_('I can %s') % ', '.join(intentstr))
+                "body": unicode(_('I can %(intentslist)s')) % {'intentslist': ', '.join(intentstr)}
         }

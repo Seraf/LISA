@@ -39,7 +39,8 @@ class Commands():
         if jsonData['body'] == 'LOGIN':
             self.lisaprotocol.answerToClient(json.dumps(
                 {
-                    'body': self._('LOGIN') % (jsonData['from'], jsonData['zone']),
+                    'body': self._('The client %(from)s has joined the zone %(zone)s') %
+                            {'from': jsonData['from'], 'zone': jsonData['zone']},
                     'command': 'LOGIN',
                     'clients_zone': ['sender'],
                     'from': 'LISA Server',

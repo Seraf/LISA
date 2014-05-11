@@ -1,20 +1,28 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Seraf42 <nephilim.seraphin@gmail.com>, 2014
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.1\n"
-"Report-Msgid-Bugs-To: Julien Syx\n"
-"POT-Creation-Date: 2013-08-20 07:27+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Julien SYX <julien.syx@lisa-project.net>\n"
-"Language-Team: FR <julien.syx@lisa-project.net>\n"
-"Language: fr\n"
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-11 10:48+0200\n"
+"PO-Revision-Date: 2014-05-11 09:01+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../../rulesEngine.py
+#: ../commands.py:42
+#, python-format
+msgid "The client %(from)s has joined the zone %(zone)s"
+msgstr "Le client %(from)s a rejoint la zone %(zone)s"
+
+#: ../rulesengine.py:42
 msgid "I have not the right plugin installed to answer you correctly"
 msgstr "Je n'ai pas le plugin adéquat pour répondre à votre demande"
-
-#: ../../commands.py
-msgid "LOGIN"
-msgstr "Le client %s à rejoint la zone %s"

@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-11 11:30+0200\n"
+"PO-Revision-Date: 2014-05-11 09:31+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# b277d331432e4c51b4c9b60742fffe3e
+#: ../../topics/installation/index.rst:5
+msgid "Installation"
+msgstr ""
+
+# 99718f93483c4c39a6b9272543081724
+#: ../../topics/installation/index.rst:8
+msgid ":doc:`Contributing to L.I.S.A </topics/development/contributing>`"
+msgstr ""
+
+# 8de9ce9551e0450db8dc50eebd85c5af
+#: ../../topics/installation/index.rst:11
+msgid "Quick Install"
+msgstr ""
+
+# d5244ea1cf7e4c80ab1785871c38d9b9
+#: ../../topics/installation/index.rst:41
+msgid "Platform-specific Installation Instructions"
+msgstr ""
+
+# 98ef3773b0bd44459f0cb2f4d4bf8d39
+#: ../../topics/installation/index.rst:43
+msgid ""
+"These guides go into detail how to install L.I.S.A on a given platform."
+msgstr ""
+
+# a58357e95027488c9733df995075efb6
+#: ../../topics/installation/index.rst:62
+msgid "Dependencies"
+msgstr ""
+
+# 907a6fb3c7b94fd995d980402c411ff3
+#: ../../topics/installation/index.rst:64
+msgid ""
+"L.I.S.A should run on any Unix-like platform so long as the dependencies are"
+" met."
+msgstr ""
+
+# 7490a144f06a4714a79beab3d46a80ac
+#: ../../topics/installation/index.rst:66
+msgid ""
+"mongoengine >= 0.8.7 Django >= 1.6.2 Sphinx >= 1.2.2 Twisted >= 13.2.0 "
+"autobahn >= 0.8.7 pymongo >= 2.7 requests >= 2.2.1 django-tastypie >= 0.11.0"
+" django-tastypie-mongoengine >= 0.4.5 django-tastypie-swagger >= 0.1.2 pytz "
+">= 2014.2 pyOpenSSL == 0.13 lisa-plugin-ChatterBot PyWit >= 0.2.0"
+msgstr ""
+
+# 9b19deb2741e455db6d54299fd33df5e
+#: ../../topics/installation/index.rst:83
+msgid "Upgrading L.I.S.A"
+msgstr ""
+
+# d03f7762dd3a4113a56ae0b3e8880124
+#: ../../topics/installation/index.rst:85
+msgid ""
+"To upgrade L.I.S.A manually, you can upgrade the python package (in the "
+"virtualenv):"
+msgstr ""

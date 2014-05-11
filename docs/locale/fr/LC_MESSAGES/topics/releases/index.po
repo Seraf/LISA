@@ -1,0 +1,29 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+# Seraf42 <nephilim.seraphin@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-11 11:13+0200\n"
+"PO-Revision-Date: 2014-05-11 09:08+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# 330115fca0fc46bf9da50752d4907cd8
+#: ../../topics/releases/index.rst:3
+msgid "Release notes"
+msgstr "Notes de sortie"
+
+# 161108e315764a7a880f959b28010e73
+#: ../../topics/releases/index.rst:10
+msgid "Archive"
+msgstr "Archive"

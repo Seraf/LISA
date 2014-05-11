@@ -1,0 +1,10 @@
+=========================
+L.I.S.A 1.0 Release Notes
+=========================
+
+:release: 2014-09-02
+
+1.0 has arrived! This release is the first stable release.
+
+Major Features
+==============

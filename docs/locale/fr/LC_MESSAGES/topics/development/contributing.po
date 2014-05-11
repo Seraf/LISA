@@ -1,0 +1,204 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+# Seraf42 <nephilim.seraphin@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-11 11:13+0200\n"
+"PO-Revision-Date: 2014-05-11 09:03+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# 89364860df034b86819f2e7a3b35eb66
+#: ../../topics/development/contributing.rst:2
+msgid "Contributing"
+msgstr "Contribuer"
+
+# cc7c444195284cfda714cd425a888da3
+#: ../../topics/development/contributing.rst:4
+msgid ""
+"There is a great need for contributions to L.I.S.A and patches are welcome! "
+"The goal here is to make contributions clear, make sure there is a trail for"
+" where the code has come from, and most importantly, to give credit where "
+"credit is due!"
+msgstr ""
+
+# 587a0563aac44e248f510e7acedebee2
+#: ../../topics/development/contributing.rst:8
+msgid "There are a number of ways to contribute to L.I.S.A development."
+msgstr ""
+
+# 80ba4984f12b472382525fc670e95e53
+#: ../../topics/development/contributing.rst:12
+msgid "Sending a GitHub pull request"
+msgstr ""
+
+# 6c0544ed533e45dbbcc2023e069ec71d
+#: ../../topics/development/contributing.rst:14
+msgid ""
+"This is the preferred method for contributions. Simply create a GitHub fork,"
+" commit changes to the fork, and then open up a pull request."
+msgstr ""
+
+# 886b52f95894464ab33495a87e2f83be
+#: ../../topics/development/contributing.rst:17
+msgid ""
+"The following is an example (from `Open Comparison Contributing Docs`_ ) of "
+"an efficient workflow for forking, cloning, branching, committing, and "
+"sending a pull request for a GitHub repository."
+msgstr ""
+
+# 47afa3c28c78426e9ee9259c099e3a06
+#: ../../topics/development/contributing.rst:21
+msgid ""
+"First, make a local clone of your GitHub fork of the L.I.S.A GitHub repo and"
+" make edits and changes locally."
+msgstr ""
+
+# ab675fd07b864d2a8170d8a656410343
+#: ../../topics/development/contributing.rst:24
+msgid ""
+"Then, create a new branch on your clone by entering the following commands:"
+msgstr ""
+
+# 0687f227b83c4a01b417bc63b2b7ddd2
+#: ../../topics/development/contributing.rst:32
+msgid "Choose a name for your branch that describes its purpose."
+msgstr ""
+
+# 78e9827e7b3248799eb63696616ae8e3
+#: ../../topics/development/contributing.rst:34
+msgid "Now commit your changes to this new branch with the following command:"
+msgstr ""
+
+# e1a6ddec4a24499c89d6a33ceb741aca
+#: ../../topics/development/contributing.rst:42
+msgid ""
+"Using ``git commit -am``, followed by a quoted string, both stages and "
+"commits all modified files in a single command. Depending on the nature of "
+"your changes, you may wish to stage and commit them separately. Also, note "
+"that if you wish to add newly-tracked files as part of your commit, they "
+"will not be caught using ``git commit -am`` and will need to be added using "
+"``git add`` before committing."
+msgstr ""
+
+# 5b92977566d74ffebfd29c3189ba5a95
+#: ../../topics/development/contributing.rst:49
+msgid "Push your locally-committed changes back up to GitHub:"
+msgstr ""
+
+# 7b21f53dd87243d895dc1fc1b7921014
+#: ../../topics/development/contributing.rst:55
+msgid ""
+"Now go look at your fork of the L.I.S.A repo on the GitHub website. The new "
+"branch will now be listed under the \"Source\" tab where it says \"Switch "
+"Branches\". Select the new branch from this list, and then click the \"Pull "
+"request\" button."
+msgstr ""
+
+# e8db24ea4bc14a0595aa27f2fe3f2b14
+#: ../../topics/development/contributing.rst:59
+msgid ""
+"Put in a descriptive comment, and include links to any project issues "
+"related to the pull request."
+msgstr ""
+
+# 7f17f4663bfd48f088e4f41cb2ff3508
+#: ../../topics/development/contributing.rst:62
+msgid ""
+"The repo managers will be notified of your pull request and it will be "
+"reviewed. If a reviewer asks for changes, just make the changes locally in "
+"the same local feature branch, push them to GitHub, then add a comment to "
+"the discussion section of the pull request."
+msgstr ""
+
+# ae55e2d93eb34571861df1de6692ed32
+#: ../../topics/development/contributing.rst:67
+msgid "Travis"
+msgstr ""
+
+# 4baede8e88db48be97a9cccd63c97274
+#: ../../topics/development/contributing.rst:69
+msgid ""
+"Whenever you make a pull request against the main L.I.S.A repository your "
+"changes will be tested. On average these tests take few minutes to run and "
+"once they are complete a PASS/FAIL message will be added to your pull "
+"request. This message contains a link to https://www.travis-ci.org where you"
+" can review the test results. This message will also generate an email which"
+" will be sent to the email address associated with your GitHub account "
+"informing you of these results. It should be noted that a test failure does "
+"not necessarily mean there is an issue in the associated pull request as the"
+" entire development branch is tested."
+msgstr ""
+
+# a682f062fb5047e599a03d94e8a5731b
+#: ../../topics/development/contributing.rst:79
+msgid "Minor releases"
+msgstr ""
+
+# 77313a4c814b4f63a755e1b0e46d7e5e
+#: ../../topics/development/contributing.rst:81
+msgid "Minor releases normally contain bug fixes."
+msgstr ""
+
+# 8068d361f53a40bfb637c37b8c3ade7f
+#: ../../topics/development/contributing.rst:83
+msgid ""
+"When submitting a pull-request which should be considered for a minor "
+"release, please note in the comments that it should be reviewed for "
+"inclusion."
+msgstr ""
+
+# ada77cefc9a54939a6ba57df368f317a
+#: ../../topics/development/contributing.rst:87
+msgid ""
+"Pull requests that are accepted to L.I.S.A but not merged into a minor "
+"release will always be available in the next major release."
+msgstr ""
+
+# 7dd297c60c37490b84010e9ad0950b03
+#: ../../topics/development/contributing.rst:91
+msgid "Keeping L.I.S.A Forks in Sync"
+msgstr ""
+
+# 218f2c6867b2401eb0fe7f807c72f73a
+#: ../../topics/development/contributing.rst:93
+msgid ""
+"L.I.S.A is advancing quickly. It is therefore critical to pull upstream "
+"changes from master into forks on a regular basis. Nothing is worse than "
+"putting in a days of hard work into a pull request only to have it rejected "
+"because it has diverged too far from master."
+msgstr ""
+
+# 1fa4cceb8ca545979b1f1278d31a4429
+#: ../../topics/development/contributing.rst:98
+msgid "To pull in upstream changes:"
+msgstr ""
+
+# 76ec46413860417eaab35da3405126b8
+#: ../../topics/development/contributing.rst:111
+msgid ""
+"To check the log to be sure that you actually want the changes, run the "
+"following before merging:"
+msgstr ""
+
+# 350eff97fde14b47903e8cbbb4c74286
+#: ../../topics/development/contributing.rst:118
+msgid "Then to accept the changes and merge into the current branch:"
+msgstr ""
+
+# d2a34692f25a4b5e99da0d68266252c1
+#: ../../topics/development/contributing.rst:124
+msgid ""
+"For more info, see `GitHub Fork a Repo Guide`_ or `Open Comparison "
+"Contributing Docs`_"
+msgstr ""
