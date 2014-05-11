@@ -1,5 +1,5 @@
 ===============   
-L.I.S.A Plugins
+Plugins
 ===============   
 
 .. toctree::

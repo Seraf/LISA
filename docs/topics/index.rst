@@ -12,16 +12,21 @@ L.I.S.A is:
 * a framework to connect objects between them and expose a HTTP API
 
 It was developed in order to have a "J.A.R.V.I.S" like interface (Iron Man).
+
 The name come from "Weird Science" TV Show. Two nerds try to create the perfect
 woman on their computer and one night she come to life. In France, this TV show
-is named "Code LISA". That's why this project has this name.
+is named "Code LISA".
+
+That's why this project has this name.
 
 Building on proven technology
 =============================
 
 L.I.S.A takes advantage of a number of technologies and techniques. The
 networking layer is built with the excellent `Twisted`_ networking
-library. L.I.S.A uses public keys for authentication to identify clients
+library.
+
+L.I.S.A uses public keys for authentication to identify clients
 allowed to connect.
 
 The Web interface is built on top of `Django`_ which is a web framework
@@ -68,6 +73,14 @@ is happening in L.I.S.A development:
 
 - `L.I.S.A Server. <http://www.github.com/Seraf/L.I.S.A>`_
 
+You can follow the roadmap on Waffle :
+
+- `L.I.S.A Backlog. <https://waffle.io/seraf/lisa>`_
+
+And check the build status on Travis :
+
+- `L.I.S.A Build. <https://travis-ci.org/Seraf/LISA>`_
+
 
 Other community links
 =====================
@@ -81,6 +94,3 @@ Hack the Source
 If you want to get involved with the development of source code or the
 documentation efforts, please review the :doc:`hacking section
 <development/hacking>`!
-
-
-.. _`Apache 2.0 license`: http://www.apache.org/licenses/LICENSE-2.0.html

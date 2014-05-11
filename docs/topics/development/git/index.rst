@@ -1,6 +1,6 @@
-==================
-L.I.S.A Git Policy
-==================
+==========
+Git Policy
+==========
 
 The L.I.S.A team follows a git policy to maintain stability and consistency
 with the repository.

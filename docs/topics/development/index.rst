@@ -1,6 +1,6 @@
-==================
-Developing L.I.S.A
-==================
+==========
+Developing
+==========
 
 .. toctree::
     :maxdepth: 2

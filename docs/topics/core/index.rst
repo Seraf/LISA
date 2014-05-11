@@ -1,6 +1,6 @@
-============
-L.I.S.A Core
-============
+====
+Core
+====
 
 .. toctree::
     :maxdepth: 2

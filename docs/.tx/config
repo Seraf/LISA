@@ -177,3 +177,13 @@ file_filter = locale/<lang>/LC_MESSAGES/topics/installation/windows.po
 source_file = _build/locale/topics/installation/windows.pot
 source_lang = en
 
+[lisa.docs-topics--core--webserver]
+file_filter = locale/<lang>/LC_MESSAGES/topics/core/webserver.po
+source_file = _build/locale/topics/core/webserver.pot
+source_lang = en
+
+[lisa.docs-topics--plugins--distribute]
+file_filter = locale/<lang>/LC_MESSAGES/topics/plugins/distribute.po
+source_file = _build/locale/topics/plugins/distribute.pot
+source_lang = en
+

@@ -18,9 +18,9 @@ Quick Install
     # Installing tools to create a python virtual environment
     sudo pip install virtualenv virtualenvwrapper
     # Create the lisa user (you can choose another username)
-    sudo useradd -s /bin/bash -m lisa
+    sudo useradd -s /bin/bash -m alivelisa
     # Login with this user
-    sudo su - lisa
+    sudo su - alivelisa
     # Set environment variable to use correctly the new virtual environment
     export WORKON_HOME=$HOME/.virtualenvs
     echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
@@ -63,20 +63,22 @@ Dependencies
 
 L.I.S.A should run on any Unix-like platform so long as the dependencies are met.
 
-mongoengine >= 0.8.7
-Django >= 1.6.2
-Sphinx >= 1.2.2
-Twisted >= 13.2.0
-autobahn >= 0.8.7
-pymongo >= 2.7
-requests >= 2.2.1
-django-tastypie >= 0.11.0
-django-tastypie-mongoengine >= 0.4.5
-django-tastypie-swagger >= 0.1.2
-pytz >= 2014.2
-pyOpenSSL == 0.13
-lisa-plugin-ChatterBot
-PyWit >= 0.2.0
+.. code-block:: none
+
+    mongoengine >= 0.8.7
+    Django >= 1.6.2
+    Sphinx >= 1.2.2
+    Twisted >= 13.2.0
+    autobahn >= 0.8.7
+    pymongo >= 2.7
+    requests >= 2.2.1
+    django-tastypie >= 0.11.0
+    django-tastypie-mongoengine >= 0.4.5
+    django-tastypie-swagger >= 0.1.2
+    pytz >= 2014.2
+    pyOpenSSL == 0.13
+    lisa-plugin-ChatterBot
+    PyWit >= 0.2.0
 
 
 Upgrading L.I.S.A
@@ -84,6 +86,6 @@ Upgrading L.I.S.A
 
 To upgrade L.I.S.A manually, you can upgrade the python package (in the virtualenv):
 
-.. code-block:: bash
+.. code-block:: console
 
     pip install --upgrade lisa-server

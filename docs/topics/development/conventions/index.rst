@@ -1,6 +1,6 @@
-===================
-L.I.S.A Conventions
-===================
+===========
+Conventions
+===========
 
 .. toctree::
     :maxdepth: 1
