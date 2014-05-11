@@ -5,6 +5,7 @@ Create a plugin for L.I.S.A
 Creating a plugin is very easy, thanks to the cli tool.
 
 To create your plugin, type (in the virtualenv):
+
 .. code-block:: console
 
     lisa-cli plugin PLUGINNAME --create
