@@ -187,3 +187,8 @@ file_filter = locale/<lang>/LC_MESSAGES/topics/plugins/distribute.po
 source_file = _build/locale/topics/plugins/distribute.pot
 source_lang = en
 
+[lisa.docs-topics--core--pluginmanager]
+file_filter = locale/<lang>/LC_MESSAGES/topics/core/pluginmanager.po
+source_file = _build/locale/topics/core/pluginmanager.pot
+source_lang = en
+

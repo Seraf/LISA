@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 11:30+0200\n"
-"PO-Revision-Date: 2014-05-11 09:31+0000\n"
+"POT-Creation-Date: 2014-05-11 19:23+0200\n"
+"PO-Revision-Date: 2014-05-11 17:12+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -17,60 +17,51 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# b277d331432e4c51b4c9b60742fffe3e
+# 6df0136ccaf9434988fe8b39afe15ca4
 #: ../../topics/installation/index.rst:5
 msgid "Installation"
 msgstr ""
 
-# 99718f93483c4c39a6b9272543081724
+# ded0e366a8fe4f0f86a3ab3a6138b2fc
 #: ../../topics/installation/index.rst:8
 msgid ":doc:`Contributing to L.I.S.A </topics/development/contributing>`"
 msgstr ""
 
-# 8de9ce9551e0450db8dc50eebd85c5af
+# d9e194ae79984568a3077f444ee54749
 #: ../../topics/installation/index.rst:11
 msgid "Quick Install"
 msgstr ""
 
-# d5244ea1cf7e4c80ab1785871c38d9b9
+# 72a8ab78a1cb4c379d574487929a6d52
 #: ../../topics/installation/index.rst:41
 msgid "Platform-specific Installation Instructions"
 msgstr ""
 
-# 98ef3773b0bd44459f0cb2f4d4bf8d39
+# 7d63ca88d29945c6b893984dbf742e1b
 #: ../../topics/installation/index.rst:43
 msgid ""
 "These guides go into detail how to install L.I.S.A on a given platform."
 msgstr ""
 
-# a58357e95027488c9733df995075efb6
+# c5eb372b46014a6d8b7fc9bc15bbfd90
 #: ../../topics/installation/index.rst:62
 msgid "Dependencies"
 msgstr ""
 
-# 907a6fb3c7b94fd995d980402c411ff3
+# f3a03ac53ba346bdabaf2ecb183f71cc
 #: ../../topics/installation/index.rst:64
 msgid ""
 "L.I.S.A should run on any Unix-like platform so long as the dependencies are"
 " met."
 msgstr ""
 
-# 7490a144f06a4714a79beab3d46a80ac
-#: ../../topics/installation/index.rst:66
-msgid ""
-"mongoengine >= 0.8.7 Django >= 1.6.2 Sphinx >= 1.2.2 Twisted >= 13.2.0 "
-"autobahn >= 0.8.7 pymongo >= 2.7 requests >= 2.2.1 django-tastypie >= 0.11.0"
-" django-tastypie-mongoengine >= 0.4.5 django-tastypie-swagger >= 0.1.2 pytz "
-">= 2014.2 pyOpenSSL == 0.13 lisa-plugin-ChatterBot PyWit >= 0.2.0"
-msgstr ""
-
-# 9b19deb2741e455db6d54299fd33df5e
-#: ../../topics/installation/index.rst:83
+# 189d3ae846624c859f275833117589a7
+#: ../../topics/installation/index.rst:85
 msgid "Upgrading L.I.S.A"
 msgstr ""
 
-# d03f7762dd3a4113a56ae0b3e8880124
-#: ../../topics/installation/index.rst:85
+# 9180655425c34cff95ed9ab47840928e
+#: ../../topics/installation/index.rst:87
 msgid ""
 "To upgrade L.I.S.A manually, you can upgrade the python package (in the "
 "virtualenv):"

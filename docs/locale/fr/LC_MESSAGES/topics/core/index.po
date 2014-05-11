@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 11:13+0200\n"
-"PO-Revision-Date: 2014-05-11 09:06+0000\n"
+"POT-Creation-Date: 2014-05-11 19:23+0200\n"
+"PO-Revision-Date: 2014-05-11 10:58+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# 238b8bc6461b4188a542dc54828d0d02
+# 8dd77550b0594eb1b553356d6a50b51d
 #: ../../topics/core/index.rst:3
-msgid "L.I.S.A Core"
-msgstr "Noyau de L.I.S.A"
+msgid "Core"
+msgstr ""

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 11:13+0200\n"
-"PO-Revision-Date: 2014-05-11 06:34+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-05-11 19:23+0200\n"
+"PO-Revision-Date: 2014-05-11 10:59+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,19 +17,19 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# 2e824975b2374836b8423bf8f0f9ac7a
+# 4840bab17ebc4815a298ef9a6bab9bc0
 #: ../../topics/development/git/index.rst:3
-msgid "L.I.S.A Git Policy"
+msgid "Git Policy"
 msgstr ""
 
-# 6fcc35cc8eba459ebadf56d18a7a2453
+# 33e76bbe2d04475798d32cf7b4bf2e1e
 #: ../../topics/development/git/index.rst:5
 msgid ""
 "The L.I.S.A team follows a git policy to maintain stability and consistency "
 "with the repository."
 msgstr ""
 
-# b82be48a527848d1945e6d3c7e9c5250
+# dc57e3107a9a4bd2bec02a9baed6aef6
 #: ../../topics/development/git/index.rst:8
 msgid ""
 "The git policy has been developed to encourage contributions and make "
@@ -39,7 +39,7 @@ msgid ""
 "contributors to give us code."
 msgstr ""
 
-# fe03330c637b4ac681fe4dc886ac01f3
+# 86080463bae041b28a6d6c438a792f00
 #: ../../topics/development/git/index.rst:13
 msgid ""
 "The primary rule of git management in L.I.S.A is to make life easy on "

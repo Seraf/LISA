@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 11:13+0200\n"
-"PO-Revision-Date: 2014-05-11 09:02+0000\n"
+"POT-Creation-Date: 2014-05-11 19:23+0200\n"
+"PO-Revision-Date: 2014-05-11 17:12+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,33 +18,82 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# 76d1e5c7858a4fb0b51a2afc72658355
+# ec2dbf2a705d41bca46894e35fdce4c2
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
 msgstr "Foire Aux Questions"
 
-# ead2a256393b45e984d0647093fcc006
+# dde38f43f4554f7c83ac1418a80d05f2
 #: ../../faq.rst:0
 msgid "FAQ"
 msgstr "FAQ"
 
-# 8d384e77b087497cac8d4326dadaa6e0
+# 45dcd948141f4a44aa478d01234d7bb1
 #: ../../faq.rst:7
 msgid "Is LISA open-source ?"
 msgstr "Est ce que LISA est open-source ?"
 
-# c9b434c8680f432d8e54dabc58939fbd
+# 8d89da8e6b4a427a9253ab9d74cc8b4a
 #: ../../faq.rst:9
 msgid "Yes. LISA is 100% open-source, including all APIs."
 msgstr "Oui. LISA est 100% opensource, idem pour toutes les API."
 
-# 8c964e914e5e42e490721af0d0765d91
+# e25b75250eeb41e294ce302c8655ed8b
 #: ../../faq.rst:12
+msgid "Is LISA full local mode or does it need an Internet connection ?"
+msgstr ""
+
+# 0de648f124624732bd94edff1b113e4d
+#: ../../faq.rst:14
+msgid ""
+"LISA is actually needing an Internet connection. I work on it to have "
+"something fully working even if your connection is broken."
+msgstr ""
+
+# 235e5245eda1400987590a54fd1f7171
+#: ../../faq.rst:17
+msgid ""
+"LISA need internet at least for his client (because speech recognition is "
+"online) and to use Wit Engine on the server side. Wit is also working on a "
+"local server for Wit. Once it will be available, it will be backported in "
+"LISA as soon as possible."
+msgstr ""
+
+# 83a89dd799ea4ac599da24d572ddb16d
+#: ../../faq.rst:22
+msgid "Why LISA use mongodb as database ?"
+msgstr ""
+
+# f9e5e21fcc89420686a20cb72fad2cef
+#: ../../faq.rst:24
+msgid ""
+"I am a DevOps, then when I code, I always think about how will it work in "
+"production. Is it scalable ? Mongodb let LISA to scale and support loss of a"
+" server. The database can be distribued accross your clients for example. "
+"The NoSQL technology allow developers to build plugins easily."
+msgstr ""
+
+# cf5e1c7e205443389cdd84d416fecbfc
+#: ../../faq.rst:28
+msgid ""
+"As plugins and configuration are stored in the mongodb database, you can "
+"scale the LISA server with a load balancer."
+msgstr ""
+
+# b47d1c1184e04446aa16b269055ac22b
+#: ../../faq.rst:31
+msgid ""
+"The only problem is a lack of support for ARM. But there's a ticket opened "
+"on their JIRA issue tracker."
+msgstr ""
+
+# d61384bcc9364be9a62f33810e510560
+#: ../../faq.rst:34
 msgid "What ports should I open on my firewall ?"
 msgstr "Quels ports dois-je ouvrir sur mon pare-feu ?"
 
-# 5e93bc5f95c042ec9c574a8433dcf2d2
-#: ../../faq.rst:14
+# e2e9cdee20f8477ca7ac4e445a6020d1
+#: ../../faq.rst:36
 msgid ""
 "LISA use by default the port 10042 to communicate between client and server,"
 " and port 8000 for the webserver."
