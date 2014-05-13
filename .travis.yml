@@ -8,9 +8,9 @@ install:
   - pip install coveralls
   - pip install .
   - touch /home/travis/virtualenv/python2.7.6/lib/python2.7/site-packages/lisa/__init__.py #trial bug with namespaces ticket #5318
-  - cd lisa/server
+
 script:
-  - coverage run `which trial` tests
+  - coverage run `which trial` lisa.server
 
 after_success:
   - coveralls
