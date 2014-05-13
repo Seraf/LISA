@@ -3,7 +3,6 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
-# Seraf42 <nephilim.seraphin@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
@@ -11,32 +10,32 @@ msgstr ""
 "POT-Creation-Date: 2014-05-13 18:05+0200\n"
 "PO-Revision-Date: 2014-05-13 16:05+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/lisa/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 # ec2dbf2a705d41bca46894e35fdce4c2
 #: ../../faq.rst:2
 msgid "Frequently Asked Questions"
-msgstr "Foire Aux Questions"
+msgstr ""
 
 # dde38f43f4554f7c83ac1418a80d05f2
 #: ../../faq.rst:0
 msgid "FAQ"
-msgstr "FAQ"
+msgstr ""
 
 # 45dcd948141f4a44aa478d01234d7bb1
 #: ../../faq.rst:7
 msgid "Is LISA open-source ?"
-msgstr "Est ce que LISA est open-source ?"
+msgstr ""
 
 # 8d89da8e6b4a427a9253ab9d74cc8b4a
 #: ../../faq.rst:9
 msgid "Yes. LISA is 100% open-source, including all APIs."
-msgstr "Oui. LISA est 100% opensource, idem pour toutes les API."
+msgstr ""
 
 # 9efe0302ef1e40e2a724bd8c635f58a6
 #: ../../faq.rst:11
@@ -150,11 +149,11 @@ msgstr ""
 # d61384bcc9364be9a62f33810e510560
 #: ../../faq.rst:61
 msgid "What ports should I open on my firewall ?"
-msgstr "Quels ports dois-je ouvrir sur mon pare-feu ?"
+msgstr ""
 
 # e2e9cdee20f8477ca7ac4e445a6020d1
 #: ../../faq.rst:63
 msgid ""
 "LISA use by default the port 10042 to communicate between client and server,"
 " and port 8000 for the webserver."
-msgstr "LISA utilise par défaut le port 10042 pour communiquer entre le client et le seveur, et le port 8000 pour le serveur web."
+msgstr ""

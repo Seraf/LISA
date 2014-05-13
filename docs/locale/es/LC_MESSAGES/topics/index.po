@@ -1,0 +1,203 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-13 18:05+0200\n"
+"PO-Revision-Date: 2014-05-11 19:04+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/lisa/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# 546e5deeeb124dd0b2dd0cd990b4d812
+#: ../../topics/index.rst:3
+msgid "Introduction to L.I.S.A"
+msgstr ""
+
+# 66f6d668bdee4c80aa719e517a9db0d3
+#: ../../topics/index.rst:6
+msgid "The 30 second summary"
+msgstr ""
+
+# 3e63e2bcff26426b8d42c0d076d6d979
+#: ../../topics/index.rst:8
+msgid "L.I.S.A is:"
+msgstr ""
+
+# 17cf68b460494e7a987ae66439737fad
+#: ../../topics/index.rst:10
+msgid "an intelligent system to help you in your daily life"
+msgstr ""
+
+# 507a2cc80ad4461b870dd398641feeed
+#: ../../topics/index.rst:12
+msgid "a framework to connect objects between them and expose a HTTP API"
+msgstr ""
+
+# ecbc5b44b6784967bba45ced3849276a
+#: ../../topics/index.rst:14
+msgid ""
+"It was developed in order to have a \"J.A.R.V.I.S\" like interface (Iron "
+"Man)."
+msgstr ""
+
+# 0a0f41d61f7e4aceafefec6d674411b6
+#: ../../topics/index.rst:16
+msgid ""
+"The name come from \"Weird Science\" TV Show. Two nerds try to create the "
+"perfect woman on their computer and one night she come to life. In France, "
+"this TV show is named \"Code LISA\"."
+msgstr ""
+
+# b779cce9936540a09b06d04c5ecde46f
+#: ../../topics/index.rst:20
+msgid "That's why this project has this name."
+msgstr ""
+
+# a7b344dce73f4f279319782b1dcd6fb8
+#: ../../topics/index.rst:23
+msgid "Building on proven technology"
+msgstr ""
+
+# 8c95f932cd034822ac63f71b50184fcf
+#: ../../topics/index.rst:25
+msgid ""
+"L.I.S.A takes advantage of a number of technologies and techniques. The "
+"networking layer is built with the excellent `Twisted`_ networking library."
+msgstr ""
+
+# 8c95f932cd034822ac63f71b50184fcf
+#: ../../topics/index.rst:29
+msgid ""
+"L.I.S.A uses public keys for authentication to identify clients allowed to "
+"connect."
+msgstr ""
+
+# bbdf30557f534bb6979af8493bc242e0
+#: ../../topics/index.rst:32
+msgid ""
+"The Web interface is built on top of `Django`_ which is a web framework for "
+"python."
+msgstr ""
+
+# f260f85f0da1495d8bc37c07986a3936
+#: ../../topics/index.rst:41
+msgid "L.I.S.A Community"
+msgstr ""
+
+# 9d487405196b4df7962d9d2d7e8e94e1
+#: ../../topics/index.rst:43
+msgid "Join L.I.S.A !"
+msgstr ""
+
+# 08f0370783874d5d9f46a7d03d29c4c8
+#: ../../topics/index.rst:45
+msgid ""
+"There are many ways to participate in and communicate with the L.I.S.A "
+"community."
+msgstr ""
+
+# 92761bb2926a408796dbf07500f93549
+#: ../../topics/index.rst:47
+msgid "L.I.S.A has an active IRC channel and a forum."
+msgstr ""
+
+# 253500f7f653421d9597c9d3bc09f454
+#: ../../topics/index.rst:50
+msgid "Forum"
+msgstr ""
+
+# f54436a912a54e7988eca5f394025cc9
+#: ../../topics/index.rst:52
+msgid ""
+"Join the `L.I.S.A forum`_. It is the best place to ask questions about "
+"L.I.S.A and see whats going on with L.I.S.A development! It is open to new "
+"members."
+msgstr ""
+
+# 325e57bd14504ed49c00e581146c4b68
+#: ../../topics/index.rst:59
+msgid "IRC"
+msgstr ""
+
+# c59508d84b904072b16e0210b162d378
+#: ../../topics/index.rst:61
+msgid ""
+"The ``#lisa-project`` IRC channel is hosted on the popular `Freenode`__ "
+"network. You can use the `Freenode webchat client`__ right from your "
+"browser."
+msgstr ""
+
+# d2fd315787dc448ba72110892bd360ae
+#: ../../topics/index.rst:69
+msgid "Follow on Github"
+msgstr ""
+
+# 4c72bb6f60aa4c41b13ee859f6c583f3
+#: ../../topics/index.rst:71
+msgid ""
+"The L.I.S.A code is developed via Github. Follow L.I.S.A for constant "
+"updates on what is happening in L.I.S.A development:"
+msgstr ""
+
+# 675ff3f961c041bbab484a99a8991d51
+#: ../../topics/index.rst:74
+msgid "`L.I.S.A Server. <http://www.github.com/Seraf/L.I.S.A>`_"
+msgstr ""
+
+# 9940876fddf94c988a744eb569a57c1a
+#: ../../topics/index.rst:76
+msgid "You can follow the roadmap on Waffle :"
+msgstr ""
+
+# 675ff3f961c041bbab484a99a8991d51
+#: ../../topics/index.rst:78
+msgid "`L.I.S.A Backlog. <https://waffle.io/seraf/lisa>`_"
+msgstr ""
+
+# 926acc1b980e48459953eabe42473308
+#: ../../topics/index.rst:80
+msgid "And check the build status on Travis :"
+msgstr ""
+
+# b9d20e8f96184cde8b65b4a52b4fbab2
+#: ../../topics/index.rst:82
+msgid "`L.I.S.A Build. <https://travis-ci.org/Seraf/LISA>`_"
+msgstr ""
+
+# c76ed49eb4c34795ba7326bbb89df82e
+#: ../../topics/index.rst:86
+msgid "Other community links"
+msgstr ""
+
+# 071d80b4ee7b4b86a3b581b2c65f4d58
+#: ../../topics/index.rst:88
+msgid "`L.I.S.A Project. <http://www.lisa-project.net>`_"
+msgstr ""
+
+# 7fa72e3571474496bf65a91154bc2025
+#: ../../topics/index.rst:89
+msgid ""
+"`Google+ <https://plus.google.com/u/0/communities/109665724480163795371>`_"
+msgstr ""
+
+# 3288eacf8f404e06b23302b75f27fe08
+#: ../../topics/index.rst:92
+msgid "Hack the Source"
+msgstr ""
+
+# 68c9b0e1f5274eada1f15891bd62a905
+#: ../../topics/index.rst:94
+msgid ""
+"If you want to get involved with the development of source code or the "
+"documentation efforts, please review the :doc:`hacking section "
+"<development/hacking>`!"
+msgstr ""

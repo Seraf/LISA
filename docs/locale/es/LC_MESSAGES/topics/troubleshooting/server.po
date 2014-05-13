@@ -1,0 +1,45 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-13 18:05+0200\n"
+"PO-Revision-Date: 2014-05-11 19:04+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/lisa/language/es/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# 326ed062e42245d38ef0df465e077b28
+#: ../../topics/troubleshooting/server.rst:3
+msgid "Server Troubleshooting"
+msgstr ""
+
+# 46ff394678e744daa6d3f61e831f8631
+#: ../../topics/troubleshooting/server.rst:5
+msgid ""
+"If your server is having issues such as server not returning data, slow "
+"execution times, or a variety of other issues the :doc:`Server "
+"troubleshooting page </topics/troubleshooting/server>` contains details on "
+"troubleshooting the most common issues encountered."
+msgstr ""
+
+# e422f6941d2446bb9fda5fb522d13289
+#: ../../topics/troubleshooting/server.rst:13
+msgid "Running in the Foreground"
+msgstr ""
+
+# 3987546ce5ba4b6ab649498148118bf7
+#: ../../topics/troubleshooting/server.rst:15
+msgid ""
+"A great deal of information is available via the debug logging system, if "
+"you are having issues is to run the server in the foreground to display logs"
+" in the console:"
+msgstr ""

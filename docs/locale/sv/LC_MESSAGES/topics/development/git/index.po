@@ -1,0 +1,47 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-13 18:05+0200\n"
+"PO-Revision-Date: 2014-05-11 19:04+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/lisa/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# 4840bab17ebc4815a298ef9a6bab9bc0
+#: ../../topics/development/git/index.rst:3
+msgid "Git Policy"
+msgstr ""
+
+# 33e76bbe2d04475798d32cf7b4bf2e1e
+#: ../../topics/development/git/index.rst:5
+msgid ""
+"The L.I.S.A team follows a git policy to maintain stability and consistency "
+"with the repository."
+msgstr ""
+
+# dc57e3107a9a4bd2bec02a9baed6aef6
+#: ../../topics/development/git/index.rst:8
+msgid ""
+"The git policy has been developed to encourage contributions and make "
+"contributing to L.I.S.A as easy as possible. Code contributors to L.I.S.A "
+"projects DO NOT NEED TO READ THIS DOCUMENT, because all contributions come "
+"into L.I.S.A via a single gateway to make it as easy as possible for "
+"contributors to give us code."
+msgstr ""
+
+# 86080463bae041b28a6d6c438a792f00
+#: ../../topics/development/git/index.rst:13
+msgid ""
+"The primary rule of git management in L.I.S.A is to make life easy on "
+"contributors and developers to send in code. Simplicity is always a goal!"
+msgstr ""

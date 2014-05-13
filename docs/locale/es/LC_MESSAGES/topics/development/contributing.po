@@ -3,25 +3,24 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
-# Seraf42 <nephilim.seraphin@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-05-13 18:05+0200\n"
-"PO-Revision-Date: 2014-05-11 18:40+0000\n"
+"PO-Revision-Date: 2014-05-11 19:04+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
+"Language-Team: Spanish (http://www.transifex.com/projects/p/lisa/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 # 1a2ecc8f6c454f169c23ba60252e7e4b
 #: ../../topics/development/contributing.rst:2
 msgid "Contributing"
-msgstr "Contribuer"
+msgstr ""
 
 # f265cc0026ec460a84b2a88933f64b51
 #: ../../topics/development/contributing.rst:4
@@ -35,7 +34,7 @@ msgstr ""
 # ba44a96ab9cb47cc9b95725d4ba6bfa2
 #: ../../topics/development/contributing.rst:8
 msgid "There are a number of ways to contribute to L.I.S.A development."
-msgstr "Il y a plusieurs façons de contribuer à L.I.S.A"
+msgstr ""
 
 # 6fe787b86da548e8a4febb84934d906c
 #: ../../topics/development/contributing.rst:12
