@@ -10,10 +10,10 @@ LISA Table of Contents
     topics/index
     topics/about
     topics/installation/index
-    topics/tutorials/index
     topics/core/index
     topics/plugins/index
     topics/wit/index
+    topics/tutorials/index
     topics/troubleshooting/index
     topics/development/index
     topics/releases/index
