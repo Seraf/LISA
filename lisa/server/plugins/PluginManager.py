@@ -11,6 +11,7 @@ import datetime
 from lisa.server.web.weblisa.settings import LISA_PATH, configuration
 from pymongo import MongoClient
 from twisted.python import log
+import os
 
 class PluginManager(object):
     """
@@ -37,8 +38,12 @@ class PluginManager(object):
         """
         return None
 
-    def installPlugin(self, plugin_name=None):
-        pip.main(['install', 'lisa-plugin-' + plugin_name])
+    def installPlugin(self, plugin_name=None, test_mode=False):
+        if test_mode:
+            pip.main(['install', '--install-option=--install-platlib=' + os.getcwd() + '/../',
+                      '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' + plugin_name])
+        else:
+            pip.main(['install', 'lisa-plugin-' + plugin_name])
         jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
         metadata = json.load(open(jsonfile))
 

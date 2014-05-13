@@ -9,7 +9,7 @@ install:
   - touch /home/travis/virtualenv/python2.7.6/lib/python2.7/site-packages/lisa/__init__.py #trial bug with namespaces ticket #5318
 
 script:
-  - env PYTHONPATH=. coverage run --source=lisa.server `which trial` lisa.server
+  - `which yes` | env PYTHONPATH=. coverage run --source=lisa `which trial` lisa.server
 
 after_success:
   - coveralls
