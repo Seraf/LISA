@@ -39,65 +39,64 @@ class PluginManager(object):
         return None
 
     def installPlugin(self, plugin_name=None, test_mode=False):
+        if Plugin.objects(name=plugin_name):
+            return {'status': 'fail', 'log': 'Plugin already installed'}
+
         if test_mode:
-            pip.main(['install', '--install-option=--install-platlib=' + os.getcwd() + '/../',
+            pip.main(['install', '--quiet', '--install-option=--install-platlib=' + os.getcwd() + '/../',
                       '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' + plugin_name])
         else:
             pip.main(['install', 'lisa-plugin-' + plugin_name])
         jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
         metadata = json.load(open(jsonfile))
 
-        if Plugin.objects(name=plugin_name):
-            return {'status': 'fail', 'log': 'Plugin already installed'}
-        else:
-            plugin = Plugin()
-            description_list = []
-            for item in metadata:
-                if item != 'cron' or item != 'rules':
-                    if item == 'description':
-                        for description in metadata[item]:
-                            oDescription = Description()
-                            for k,v in description.iteritems():
-                                setattr(oDescription, k, v)
-                            description_list.append(oDescription)
-                        setattr(plugin, item, description_list)
-                    elif item == 'enabled':
-                        if metadata[item] == 0:
-                            setattr(plugin, item, False)
-                        else:
-                            setattr(plugin, item, True)
+        plugin = Plugin()
+        description_list = []
+        for item in metadata:
+            if item != 'cron' or item != 'rules':
+                if item == 'description':
+                    for description in metadata[item]:
+                        oDescription = Description()
+                        for k,v in description.iteritems():
+                            setattr(oDescription, k, v)
+                        description_list.append(oDescription)
+                    setattr(plugin, item, description_list)
+                elif item == 'enabled':
+                    if metadata[item] == 0:
+                        setattr(plugin, item, False)
                     else:
-                        setattr(plugin, item, metadata[item])
-            plugin.save()
+                        setattr(plugin, item, True)
+                else:
+                    setattr(plugin, item, metadata[item])
+        plugin.save()
 
-            for item in metadata:
-                if item == 'rules':
-                    for rule_item in metadata['rules']:
-                        rule = Rule()
-                        for parameter in rule_item:
-                            setattr(rule, parameter, rule_item[parameter])
-                        rule.plugin = plugin
-                        rule.save()
-                if item == 'crons':
-                    for cron_item in metadata['crons']:
-                        cron = Cron()
-                        for parameter in cron_item:
-                            setattr(cron, parameter, cron_item[parameter])
-                        cron.plugin = plugin
-                        cron.save()
+        for item in metadata:
+            if item == 'rules':
+                for rule_item in metadata['rules']:
+                    rule = Rule()
+                    for parameter in rule_item:
+                        setattr(rule, parameter, rule_item[parameter])
+                    rule.plugin = plugin
+                    rule.save()
+            if item == 'crons':
+                for cron_item in metadata['crons']:
+                    cron = Cron()
+                    for parameter in cron_item:
+                        setattr(cron, parameter, cron_item[parameter])
+                    cron.plugin = plugin
+                    cron.save()
 
-            for intent, value in metadata['configuration']['intents'].iteritems():
-                oIntent = Intent()
-                oIntent.name = intent
-                oIntent.function = value['method']
-                oIntent.module = '.'.join(['lisa.plugins', plugin_name, 'modules', plugin_name.lower(),
-                                           plugin_name])
-                oIntent.enabled = True
-                oIntent.plugin = plugin
-                oIntent.save()
-            os.remove(jsonfile)
-            return {'status': 'success', 'log': 'Plugin installed'}
-
+        for intent, value in metadata['configuration']['intents'].iteritems():
+            oIntent = Intent()
+            oIntent.name = intent
+            oIntent.function = value['method']
+            oIntent.module = '.'.join(['lisa.plugins', plugin_name, 'modules', plugin_name.lower(),
+                                       plugin_name])
+            oIntent.enabled = True
+            oIntent.plugin = plugin
+            oIntent.save()
+        os.remove(jsonfile)
+        return {'status': 'success', 'log': 'Plugin installed'}
 
     def enablePlugin(self, plugin_name=None, plugin_pk=None):
         if plugin_pk:
