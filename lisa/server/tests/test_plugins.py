@@ -11,7 +11,7 @@ class LisaPluginTestCase(unittest.TestCase):
         answer = self.pluginManager.installPlugin(plugin_name="UnitTest", test_mode=True)
         self.assertEqual(answer['status'], "success")
 
-    def test_a_install_plugin_fail(self):
+    def test_aa_install_plugin_fail(self):
         answer = self.pluginManager.installPlugin(plugin_name="UnitTest", test_mode=True)
         self.assertEqual(answer['status'], "fail")
 
