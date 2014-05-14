@@ -3,22 +3,46 @@ from twisted.trial import unittest
 
 import json
 
-class LisaClientTestCase_Plugin(unittest.TestCase):
+class LisaPluginTestCase(unittest.TestCase):
     def setUp(self):
         self.pluginManager = PluginManagerSingleton.get()
 
-    def test_a_install_plugin(self):
+    def test_a_install_plugin_ok(self):
         answer = self.pluginManager.installPlugin(plugin_name="UnitTest", test_mode=True)
         self.assertEqual(answer['status'], "success")
 
-    def test_b_disable_plugin(self):
+    def test_a_install_plugin_fail(self):
+        answer = self.pluginManager.installPlugin(plugin_name="UnitTest", test_mode=True)
+        self.assertEqual(answer['status'], "fail")
+
+    def test_b_disable_plugin_ok(self):
         answer = self.pluginManager.disablePlugin(plugin_name="UnitTest")
         self.assertEqual(answer['status'], "success")
 
-    def test_c_enable_plugin(self):
+    def test_bb_disable_plugin_fail(self):
+        answer = self.pluginManager.disablePlugin(plugin_name="UnitTest")
+        self.assertEqual(answer['status'], "fail")
+
+    def test_c_enable_plugin_ok(self):
         answer = self.pluginManager.enablePlugin(plugin_name="UnitTest")
         self.assertEqual(answer['status'], "success")
 
-    def test_d_uninstall_plugin(self):
+    def test_cc_enable_plugin_fail(self):
+        answer = self.pluginManager.enablePlugin(plugin_name="UnitTest")
+        self.assertEqual(answer['status'], "fail")
+
+    #def test_d_load_plugin(self):
+    #    answer = self.pluginManager.loadPlugins()
+    #    self.assertEqual(answer['status'], "fail")
+
+    #def test_e_methodList_plugin(self):
+    #    answer = self.pluginManager.methodListPlugin()
+    #    self.assertEqual(answer['status'], "fail")
+
+    def test_f_uninstall_plugin(self):
         answer = self.pluginManager.uninstallPlugin(plugin_name="UnitTest")
         self.assertEqual(answer['status'], "success")
+
+    def test_ff_uninstall_plugin(self):
+        answer = self.pluginManager.uninstallPlugin(plugin_name="UnitTest")
+        self.assertEqual(answer['status'], "fail")
