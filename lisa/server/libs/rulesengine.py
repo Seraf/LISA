@@ -12,7 +12,8 @@ class RulesEngine():
         self.database = client.lisa
         path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
         inspect.getfile(inspect.currentframe()))[0],os.path.normpath("lang/"))))
-        self._ = translation = gettext.translation(domain='lisa', localedir=path, languages=[self.configuration['lang']]).ugettext
+        self._ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
+                                                   languages=[self.configuration['lang']]).ugettext
         self.wit = Wit(self.configuration['wit_token'])
 
     def Rules(self, jsonData, lisaprotocol):
