@@ -46,3 +46,9 @@ class LisaPluginTestCase(unittest.TestCase):
     def test_ff_uninstall_plugin(self):
         answer = self.pluginManager.uninstallPlugin(plugin_name="UnitTest")
         self.assertEqual(answer['status'], "fail")
+
+    def test_g_create_plugin(self):
+        answer = self.pluginManager.createPlugin(plugin_name="TestPlugin", author_name="TestAuthor",
+                                                 author_email="test@test.com")
+        self.assertEqual(answer['status'], "fail")
+

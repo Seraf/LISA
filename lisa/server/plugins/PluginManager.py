@@ -75,14 +75,26 @@ class PluginManager(object):
                 for rule_item in metadata['rules']:
                     rule = Rule()
                     for parameter in rule_item:
-                        setattr(rule, parameter, rule_item[parameter])
+                        if parameter == 'enabled':
+                            if rule_item[parameter] == 0:
+                                setattr(rule, parameter, False)
+                            else:
+                                setattr(rule, parameter, True)
+                        else:
+                            setattr(rule, parameter, rule_item[parameter])
                     rule.plugin = plugin
                     rule.save()
             if item == 'crons':
                 for cron_item in metadata['crons']:
                     cron = Cron()
                     for parameter in cron_item:
-                        setattr(cron, parameter, cron_item[parameter])
+                        if parameter == 'enabled':
+                            if cron_item[parameter] == 0:
+                                setattr(cron, parameter, False)
+                            else:
+                                setattr(cron, parameter, True)
+                        else:
+                            setattr(cron, parameter, cron_item[parameter])
                     cron.plugin = plugin
                     cron.save()
 
