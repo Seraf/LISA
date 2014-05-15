@@ -168,7 +168,7 @@ class PluginManager(object):
             return {'status': 'fail', 'log': 'Plugin not installed'}
         else:
             for plugin in plugin_list:
-                pip.main(['uninstall', 'lisa-plugin-' + plugin_name])
+                pip.main(['uninstall', '--quiet', 'lisa-plugin-' + plugin_name])
                 plugin.delete()
                 for cron in Cron.objects(plugin=plugin):
                     cron.delete()

@@ -1,6 +1,6 @@
 from lisa.server.plugins.PluginManager import PluginManagerSingleton
 from twisted.trial import unittest
-
+import os
 import json
 
 class LisaPluginTestCase(unittest.TestCase):
@@ -39,16 +39,16 @@ class LisaPluginTestCase(unittest.TestCase):
     #    answer = self.pluginManager.methodListPlugin()
     #    self.assertEqual(answer['status'], "fail")
 
-    def test_f_uninstall_plugin(self):
+    def test_f_create_plugin(self):
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lisa.server.web.weblisa.settings")
+        answer = self.pluginManager.createPlugin(plugin_name="TestPlugin", author_name="TestAuthor",
+                                                 author_email="test@test.com")
+        self.assertEqual(answer['status'], "success")
+
+    def test_g_uninstall_plugin(self):
         answer = self.pluginManager.uninstallPlugin(plugin_name="UnitTest")
         self.assertEqual(answer['status'], "success")
 
-    def test_ff_uninstall_plugin(self):
+    def test_gg_uninstall_plugin(self):
         answer = self.pluginManager.uninstallPlugin(plugin_name="UnitTest")
         self.assertEqual(answer['status'], "fail")
-
-    def test_g_create_plugin(self):
-        answer = self.pluginManager.createPlugin(plugin_name="TestPlugin", author_name="TestAuthor",
-                                                 author_email="test@test.com")
-        self.assertEqual(answer['status'], "fail")
-
