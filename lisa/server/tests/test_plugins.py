@@ -31,13 +31,15 @@ class LisaPluginTestCase(unittest.TestCase):
         answer = self.pluginManager.enablePlugin(plugin_name="UnitTest")
         self.assertEqual(answer['status'], "fail")
 
-    #def test_d_load_plugin(self):
-    #    answer = self.pluginManager.loadPlugins()
-    #    self.assertEqual(answer['status'], "fail")
+    def test_d_load_plugin(self):
+        answer = self.pluginManager.loadPlugins()
+        test_list = ['UnitTest']
+        self.assertListEqual(answer, test_list)
 
-    #def test_e_methodList_plugin(self):
-    #    answer = self.pluginManager.methodListPlugin()
-    #    self.assertEqual(answer['status'], "fail")
+    def test_e_methodList_plugin(self):
+        answer = self.pluginManager.methodListPlugin()
+        methodlist = [{'methods': ['test'], 'plugin': u'UnitTest'}, {'core': 'intents', 'methods': ['list']}]
+        self.assertListEqual(answer, methodlist)
 
     def test_f_create_plugin(self):
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lisa.server.web.weblisa.settings")

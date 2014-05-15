@@ -53,7 +53,7 @@ class PluginManager(object):
         plugin = Plugin()
         description_list = []
         for item in metadata:
-            if item != 'cron' or item != 'rules':
+            if item != 'crons' and item != 'rules':
                 if item == 'description':
                     for description in metadata[item]:
                         oDescription = Description()
@@ -180,24 +180,23 @@ class PluginManager(object):
 
             return {'status': 'success', 'log': 'Plugin uninstalled'}
 
-    def methodListPlugin(plugin_name=None):
+    def methodListPlugin(self, plugin_name=None):
         if plugin_name:
             plugin_list = Plugin.objects(name=plugin_name)
         else:
-            plugin_list = Plugin.objects.all()
+            plugin_list = Plugin.objects
         listallmethods = []
         for plugin in plugin_list:
-            plugininstance = namedAny('.'.join(('lisa.plugins',str(plugin.name).lower(), 'modules', str(plugin.name).lower(),
-                                                str(plugin.name))))()
+            plugininstance = namedAny('.'.join(('lisa.plugins',str(plugin.name), 'modules', str(plugin.name).lower(), str(plugin.name))))()
             listpluginmethods = []
             for m in inspect.getmembers(plugininstance, predicate=inspect.ismethod):
-                if not "__init__" in m:
+                if not "__init__" in m and not "_" in m:
                     listpluginmethods.append(m[0])
             listallmethods.append({ 'plugin': plugin.name, 'methods': listpluginmethods})
         for f in os.listdir(os.path.normpath(LISA_PATH + '/core')):
             fileName, fileExtension = os.path.splitext(f)
             if os.path.isfile(os.path.join(os.path.normpath(LISA_PATH + '/core'), f)) and not f.startswith('__init__') and fileExtension != '.pyc':
-                coreinstance = namedAny('.'.join(('core', str(fileName).lower(), str(fileName).capitalize())))()
+                coreinstance = namedAny('.'.join(('lisa.server.core', str(fileName).lower(), str(fileName).capitalize())))()
                 listcoremethods = []
                 for m in inspect.getmembers(coreinstance, predicate=inspect.ismethod):
                     #init shouldn't be listed in methods and _ is for translation
