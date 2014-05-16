@@ -100,7 +100,9 @@
             document.getElementById('sendit').send();
 
         }
-	event.preventDefault(); //Prevent page reload
+
+        event.preventDefault(); // Prevent page reload
+        $('#message').val(''); // Clear field
     };
 
 </script>
