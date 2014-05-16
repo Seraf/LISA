@@ -1,19 +1,21 @@
 # -*- coding: UTF-8 -*-
-import json, re, sys, os, inspect, gettext
+import json, os, gettext
 from pymongo import MongoClient
 from twisted.python.reflect import namedAny
 from twisted.python import log
 from wit import Wit
+import lisa.server
+
 
 class RulesEngine():
     def __init__(self, configuration):
         self.configuration = configuration
         client = MongoClient(self.configuration['database']['server'], self.configuration['database']['port'])
         self.database = client.lisa
-        path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
-        inspect.getfile(inspect.currentframe()))[0],os.path.normpath("lang/"))))
-        self._ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
-                                                   languages=[self.configuration['lang']]).ugettext
+
+        path = os.path.normpath(str(lisa.server.__path__[0]) + "/lang")
+        _ = translation = gettext.translation(domain='intents', localedir=path, fallback=True,
+                                              languages=[self.configuration['lang']]).ugettext
         self.wit = Wit(self.configuration['wit_token'])
 
     def Rules(self, jsonData, lisaprotocol):

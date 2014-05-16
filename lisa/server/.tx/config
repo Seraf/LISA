@@ -2,13 +2,13 @@
 host = https://www.transifex.com
 type = PO
 
-[lisa.lisa-libs]
-file_filter = libs/lang/<lang>/LC_MESSAGES/lisa.po
-source_file = libs/lang/lisa.pot
+[lisa.lisa-server]
+file_filter = lang/<lang>/LC_MESSAGES/lisa.po
+source_file = lang/lisa.pot
 source_lang = en
 
-[lisa.lisa-core]
-file_filter = core/lang/<lang>/LC_MESSAGES/intents.po
-source_file = core/lang/intents.pot
+[lisa.lisa-intents]
+file_filter = lang/<lang>/LC_MESSAGES/intents.po
+source_file = lang/intents.pot
 source_lang = en
 

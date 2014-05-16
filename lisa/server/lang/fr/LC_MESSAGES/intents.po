@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 10:48+0200\n"
-"PO-Revision-Date: 2014-05-11 09:01+0000\n"
+"POT-Creation-Date: 2014-05-16 09:06+0200\n"
+"PO-Revision-Date: 2014-05-16 07:30+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,11 +18,7 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ../commands.py:42
+#: ../core/intents.py:38
 #, python-format
-msgid "The client %(from)s has joined the zone %(zone)s"
-msgstr "Le client %(from)s a rejoint la zone %(zone)s"
-
-#: ../rulesengine.py:42
-msgid "I have not the right plugin installed to answer you correctly"
-msgstr "Je n'ai pas le plugin adéquat pour répondre à votre demande"
+msgid "I can %(intentslist)s"
+msgstr "Je peux %(intentslist)s"
