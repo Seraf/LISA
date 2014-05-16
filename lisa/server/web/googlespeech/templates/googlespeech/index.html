@@ -100,6 +100,7 @@
             document.getElementById('sendit').send();
 
         }
+	event.preventDefault(); //Prevent page reload
     };
 
 </script>
@@ -112,11 +113,13 @@
         <ul id="chat">
         </ul>
     </div>
-    <p>
-        Message:
-        <input id="message" type="text" value="Hello, world!" lang="fr-FR"  x-webkit-speech  speech  onwebkitspeechchange="send();">
-    </p>
-    <button id="sendit" onclick='send();'>Send Message</button>
+    <form id="actionForm" onsubmit="send()">
+        <p>
+            Message:
+            <input id="message" type="text" value="Hello, world!" lang="fr-FR"  x-webkit-speech  speech  onwebkitspeechchange="send();">
+        </p>
+        <Input type="submit" id="sendit" value="Send Message">
+    </form>
     <div class="alert alert-info alert-block">
         <h4>Sorry for english users !</h4>
         I'm sorry for english users, I know a demo should be written in english, but as the project isn't well known
