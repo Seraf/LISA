@@ -14,7 +14,7 @@ class RulesEngine():
         self.database = client.lisa
 
         path = os.path.normpath(str(lisa.server.__path__[0]) + "/lang")
-        _ = translation = gettext.translation(domain='intents', localedir=path, fallback=True,
+        self._ = translation = gettext.translation(domain='intents', localedir=path, fallback=True,
                                               languages=[self.configuration['lang']]).ugettext
         self.wit = Wit(self.configuration['wit_token'])
 
