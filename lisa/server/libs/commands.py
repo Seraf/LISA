@@ -1,7 +1,6 @@
-import json, re, sys, os, inspect, gettext
+import json, os, gettext
 from pymongo import MongoClient
-from twisted.python.reflect import namedAny
-from twisted.python import log
+import lisa.server
 
 class Commands():
     """
@@ -18,9 +17,10 @@ class Commands():
         self.configuration = configuration
         client = MongoClient(configuration['database']['server'], configuration['database']['port'])
         self.database = client.lisa
-        path = os.path.realpath(os.path.abspath(os.path.join(os.path.split(
-        inspect.getfile(inspect.currentframe()))[0],os.path.normpath("lang/"))))
-        self._ = translation = gettext.translation(domain='lisa', localedir=path, languages=[self.configuration['lang']]).ugettext
+
+        path = os.path.normpath(str(lisa.server.__path__[0]) + "/lang")
+        self._ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
+                                              languages=[self.configuration['lang']]).ugettext
         self.lisaprotocol = lisaprotocol
 
     def mute(self, clientList):
