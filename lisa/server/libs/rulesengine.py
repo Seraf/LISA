@@ -14,14 +14,18 @@ class RulesEngine():
         self.database = client.lisa
 
         path = os.path.normpath(str(lisa.server.__path__[0]) + "/lang")
-        self._ = translation = gettext.translation(domain='intents', localedir=path, fallback=True,
+        self._ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
                                               languages=[self.configuration['lang']]).ugettext
         self.wit = Wit(self.configuration['wit_token'])
 
     def Rules(self, jsonData, lisaprotocol):
         rulescollection = self.database.rules
         intentscollection = self.database.intents
-        jsonInput = self.wit.get_message(unicode(jsonData['body']))
+        if "outcome" in jsonData.keys():
+            jsonInput = {}
+            jsonInput['outcome'] = jsonData['outcome']
+        else:
+            jsonInput = self.wit.get_message(unicode(jsonData['body']))
         jsonInput['from'], jsonInput['type'], jsonInput['zone'] = jsonData['from'], jsonData['type'], jsonData['zone']
 
         if self.configuration['debug']['debug_before_before_rule']:
