@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 import os
-import json
 from twisted.internet import reactor, ssl
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static
@@ -8,14 +7,7 @@ from twisted.python import threadpool, log
 from autobahn.twisted.websocket import WebSocketServerFactory
 from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
-import pkg_resources
-
-if not os.path.exists('/etc/lisa/server/lisa.json'):
-    configuration = json.load(open(pkg_resources.resource_filename(__name__, 'configuration/lisa.json.sample')))
-else:
-    configuration = json.load(open('/etc/lisa/server/lisa.json'))
-path = os.path.abspath(__file__)
-dir_path = os.path.dirname(path)
+from lisa.server.ConfigManager import ConfigManagerSingleton
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):
@@ -37,10 +29,12 @@ def makeService(config):
     from django.core.handlers.wsgi import WSGIHandler
     os.environ['DJANGO_SETTINGS_MODULE'] = 'lisa.server.web.weblisa.settings'
 
-    global configuration
 
     if config['configuration']:
-        configuration = json.load(open(config['configuration']))
+        ConfigManagerSingleton.get().setConfiguration(config['configuration'])
+
+    configuration = ConfigManagerSingleton.get().getConfiguration()
+    dir_path = ConfigManagerSingleton.get().getPath()
 
     from lisa.server import libs
 

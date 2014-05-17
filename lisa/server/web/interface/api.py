@@ -1,14 +1,8 @@
 from tastypie import authorization
-from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
 from lisa.server.web.interface.models import Workspace
 from models import WidgetUser, Widget
 from tastypie_mongoengine import fields
-from tastypie.utils import trailing_slash
-from django.conf.urls import *
-from twisted.python.reflect import namedAny
-
-from lisa.server.web.weblisa.settings import LISA_PATH
 
 class WidgetResource(mongoresources.MongoEngineResource):
     plugin = fields.ReferenceField(to='lisa.server.web.manageplugins.api.PluginResource', attribute='plugin')

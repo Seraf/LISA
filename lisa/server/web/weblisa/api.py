@@ -2,13 +2,18 @@ from twisted.python import log
 from tastypie import authorization
 from django.conf.urls import *
 import json, os
-from lisa.server.libs import LisaFactorySingleton, LisaProtocolSingleton, configuration
+from lisa.server.libs import LisaFactorySingleton, LisaProtocolSingleton
 from tastypie import resources as tastyresources
 from tastypie_mongoengine import resources as mongoresources
 from tastypie.utils import trailing_slash
 from mongoengine.django.auth import User
 from wit import Wit
-from lisa.server.web.weblisa.settings import LISA_PATH
+
+from lisa.server.ConfigManager import ConfigManagerSingleton
+
+configuration = ConfigManagerSingleton.get().getConfiguration()
+dir_path = ConfigManagerSingleton.get().getPath()
+
 
 class UserResource(mongoresources.MongoEngineResource):
     class Meta:
@@ -199,7 +204,7 @@ class LisaResource(tastyresources.Resource):
         from django.http import HttpResponse
         from subprocess import call, Popen
         combined_sound = []
-        temp = LISA_PATH + "/tmp/" + str(uuid.uuid4()) + ".wav"
+        temp = dir_path + "/tmp/" + str(uuid.uuid4()) + ".wav"
         language = str(lang[0])+'-'+str(lang[0]).upper()
         command = ['pico2wave', '-w', temp, '-l', language, '--', message]
         try:

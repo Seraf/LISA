@@ -1,15 +1,17 @@
 # -*- coding: UTF-8 -*-
 import json, os
 from pymongo import MongoClient
-from lisa.server.service import configuration
 from wit import Wit
 from lisa.server.web.manageplugins.models import Intent as oIntents
 import gettext
 import lisa.server
 
-path = os.path.normpath(str(lisa.server.__path__[0]) + "/lang/")
+from lisa.server.ConfigManager import ConfigManagerSingleton
+
+configuration = ConfigManagerSingleton.get().getConfiguration()
+path = '/'.join([ConfigManagerSingleton.get().getPath(), 'lang'])
 _ = translation = gettext.translation(domain='intents', localedir=path, fallback=True,
-                                      languages=[configuration['lang']]).ugettext
+                                              languages=[configuration['lang']]).ugettext
 
 class Intents:
     def __init__(self, lisa=None):
@@ -33,5 +35,5 @@ class Intents:
 
         return {"plugin": "Intents",
                 "method": "list",
-                "body": unicode(_('I can %(intentslist)s')) % {'intentslist': ', '.join(intentstr)}
+                "body": unicode(_('I can %(intentslist)s' % {'intentslist': ', '.join(intentstr)}))
         }

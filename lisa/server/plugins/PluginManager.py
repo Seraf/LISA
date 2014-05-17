@@ -8,10 +8,15 @@ import os
 from twisted.python.reflect import namedAny
 from django.template.loader import render_to_string
 import datetime
-from lisa.server.web.weblisa.settings import LISA_PATH, configuration
 from pymongo import MongoClient
 from twisted.python import log
 import os
+
+from lisa.server.ConfigManager import ConfigManagerSingleton
+
+configuration = ConfigManagerSingleton.get().getConfiguration()
+dir_path = ConfigManagerSingleton.get().getPath()
+
 
 class PluginManager(object):
     """
@@ -193,9 +198,9 @@ class PluginManager(object):
                 if not "__init__" in m and not "_" in m:
                     listpluginmethods.append(m[0])
             listallmethods.append({ 'plugin': plugin.name, 'methods': listpluginmethods})
-        for f in os.listdir(os.path.normpath(LISA_PATH + '/core')):
+        for f in os.listdir(os.path.normpath(dir_path + '/core')):
             fileName, fileExtension = os.path.splitext(f)
-            if os.path.isfile(os.path.join(os.path.normpath(LISA_PATH + '/core'), f)) and not f.startswith('__init__') and fileExtension != '.pyc':
+            if os.path.isfile(os.path.join(os.path.normpath(dir_path + '/core'), f)) and not f.startswith('__init__') and fileExtension != '.pyc':
                 coreinstance = namedAny('.'.join(('lisa.server.core', str(fileName).lower(), str(fileName).capitalize())))()
                 listcoremethods = []
                 for m in inspect.getmembers(coreinstance, predicate=inspect.ismethod):
@@ -248,9 +253,9 @@ class PluginManager(object):
         # Web stuff
         os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name + '/web'))
         os.mkdir(os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/templates'))
-        shutil.copy(src=os.path.normpath(LISA_PATH + '/web/manageplugins/templates/plugin/web/templates/widget.html'),
+        shutil.copy(src=os.path.normpath(dir_path + '/web/manageplugins/templates/plugin/web/templates/widget.html'),
                     dst=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/templates/widget.html'))
-        shutil.copy(src=os.path.normpath(LISA_PATH + '/web/manageplugins/templates/plugin/web/templates/index.html'),
+        shutil.copy(src=os.path.normpath(dir_path + '/web/manageplugins/templates/plugin/web/templates/index.html'),
                     dst=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/templates/index.html'))
         open(os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/__init__.py'), "a")
         self._template_to_file(filename=os.path.normpath(self.pkgpath + '/' + plugin_name + '/web/api.py'),

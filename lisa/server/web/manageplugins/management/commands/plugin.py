@@ -6,7 +6,10 @@ import requests
 from lisa.server.plugins.PluginManager import PluginManagerSingleton
 from django.utils import six
 import lisa.plugins
-from lisa.server.web.weblisa.settings import configuration
+
+from lisa.server.ConfigManager import ConfigManagerSingleton
+
+configuration = ConfigManagerSingleton.get().getConfiguration()
 
 class Command(BaseCommand):
     def __init__(self):

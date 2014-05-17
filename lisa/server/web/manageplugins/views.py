@@ -1,11 +1,9 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.http import HttpResponse
-from models import Plugin, Rule, Cron
+from models import Plugin
 from django.contrib.auth.decorators import login_required
 import requests, json
-from lisa.server.web.weblisa.utils import method_restricted_to, is_ajax
-from lisa.server.web.weblisa.settings import LISA_PATH
+from lisa.server.web.weblisa.utils import method_restricted_to
 
 @method_restricted_to('GET')
 @login_required()

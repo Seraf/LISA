@@ -1,11 +1,18 @@
 from twisted.python import log
-from twisted.internet.protocol import Protocol, ReconnectingClientFactory
-from twisted.protocols.basic import Int32StringReceiver, LineReceiver
+from twisted.internet.protocol import ReconnectingClientFactory
+from twisted.protocols.basic import LineReceiver
 from OpenSSL import SSL
 import os
 import json
 from twisted.internet import reactor, ssl
-from autobahn.twisted.websocket import WebSocketServerProtocol, WebSocketServerFactory
+from autobahn.twisted.websocket import WebSocketServerProtocol
+import gettext
+from lisa.server.ConfigManager import ConfigManagerSingleton
+
+configuration = ConfigManagerSingleton.get().getConfiguration()
+path = ''.join([ConfigManagerSingleton.get().getPath(), '/lang/'])
+_ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
+                                              languages=[configuration['lang']]).ugettext
 
 class CtxFactory(ssl.ClientContextFactory):
     def __init__(self, dir_path):
@@ -67,21 +74,21 @@ class LisaClientFactory(ReconnectingClientFactory):
         self.WebSocketProtocol = WebSocketProtocol
 
     def startedConnecting(self, connector):
-        log.msg('Started to connect.')
+        log.msg(_('Started to connect.'))
 
     def buildProtocol(self, addr):
         self.protocol = LisaClient(self.WebSocketProtocol, factory=self)
-        log.msg('Connected to Lisa.')
-        log.msg('Resetting reconnection delay')
+        log.msg(_('Connected to Lisa.'))
+        log.msg(_('Resetting reconnection delay'))
         self.resetDelay()
         return self.protocol
 
     def clientConnectionLost(self, connector, reason):
-        log.err('Lost connection.  Reason:', reason)
+        log.err(unicode(_("Lost connection.  Reason: %(reason)s" % {'reason': str(reason)})))
         ReconnectingClientFactory.clientConnectionLost(self, connector, reason)
 
     def clientConnectionFailed(self, connector, reason):
-        log.err('Connection failed. Reason:', reason)
+        log.err(unicode(_("Connection failed. Reason: %(reason)s" % {'reason': str(reason)})))
         ReconnectingClientFactory.clientConnectionFailed(self, connector, reason)
 
 

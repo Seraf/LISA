@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 import os,json
 
 from lisa.server.web.weblisa.utils import method_restricted_to, is_ajax
-from lisa.server.web.weblisa.settings import LISA_PATH
 
 from lisa.plugins.{{ plugin_name }}.modules.{{ plugin_name_lower }} import {{ plugin_name }}
 

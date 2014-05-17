@@ -12,11 +12,18 @@ from OpenSSL import SSL
 from lisa.server.libs.txscheduler.manager import ScheduledTaskManager
 from lisa.server.libs.txscheduler.service import ScheduledTaskService
 from lisa.server.plugins.PluginManager import PluginManagerSingleton
-
-from lisa.server.service import configuration, dir_path
+import gettext
+from lisa.server.ConfigManager import ConfigManagerSingleton
 from lisa.server.web.manageplugins.models import Intent, Rule
 
 # Create a task manager to pass it to other services
+
+configuration = ConfigManagerSingleton.get().getConfiguration()
+dir_path = ConfigManagerSingleton.get().getPath()
+path = '/'.join([ConfigManagerSingleton.get().getPath(), 'lang'])
+_ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
+                                              languages=[configuration['lang']]).ugettext
+
 taskman = ScheduledTaskManager(configuration)
 scheduler = ScheduledTaskService(taskman)
 
@@ -63,7 +70,7 @@ class Lisa(LineReceiver):
             pass
 
     def connectionLost(self, reason):
-        log.err('Lost connection.  Reason:', reason)
+        log.err(unicode(_("Lost connection.  Reason: %(reason)s" % {'reason': str(reason)})))
         for client in self.factory.clients:
             if client['object'] == self:
                 self.factory.clients.remove(client)
@@ -74,13 +81,13 @@ class Lisa(LineReceiver):
         try:
             jsonData = json.loads(data)
         except ValueError, e:
-            self.sendLine("Error : Invalid JSON")
+            self.sendLine(str(_("Error : Invalid JSON")))
         else:
             for client in self.factory.clients:
                 if client['object'] == self and (not client['type'] or not client['zone']):
                     client['type'], client['zone'] = jsonData['type'], jsonData['zone']
             if jsonData['type'] == "chat":
-                RulesEngine(configuration).Rules(jsonData=jsonData, lisaprotocol=self)
+                RulesEngine().Rules(jsonData=jsonData, lisaprotocol=self)
             elif jsonData['type'] == "command":
                 Commands(configuration, lisaprotocol=self).parse(jsonData=jsonData)
 
@@ -96,14 +103,15 @@ class LisaFactory(Factory):
 
     def LisaReload(self):
         global enabled_plugins
-        log.msg("Reloading L.I.S.A Engine")
+
+        log.msg(unicode(_('Reloading L.I.S.A Engine')))
         sys.path = self.syspath
         enabled_plugins = []
         self.build_activeplugins()
 
     def SchedReload(self):
         global taskman
-        log.msg("Reloading Task Scheduler")
+        log.msg(unicode(_("Reloading Task Scheduler")))
         self.taskman = taskman
         return self.taskman.reload()
 

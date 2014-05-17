@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-16 09:06+0200\n"
-"PO-Revision-Date: 2014-05-16 07:28+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-05-17 19:30+0200\n"
+"PO-Revision-Date: 2014-05-17 17:31+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/lisa/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,6 +22,60 @@ msgstr ""
 msgid "The client %(from)s has joined the zone %(zone)s"
 msgstr ""
 
-#: ../libs/rulesengine.py:45
+#: ../libs/rulesengine.py:35
+#, python-format
+msgid "Before 'before' rule: %(jsonInput)s"
+msgstr ""
+
+#: ../libs/rulesengine.py:39
+#, python-format
+msgid "After 'before' rule: %(jsonInput)s"
+msgstr ""
+
+#: ../libs/rulesengine.py:52
 msgid "I have not the right plugin installed to answer you correctly"
+msgstr ""
+
+#: ../libs/rulesengine.py:55
+#, python-format
+msgid "Before 'after' rule: %(jsonOutput)s"
+msgstr ""
+
+#: ../libs/rulesengine.py:62
+#, python-format
+msgid "After 'after' rule: %(jsonOutput)s"
+msgstr ""
+
+#: ../libs/server.py:73 ../libs/websocket.py:87
+#, python-format
+msgid "Lost connection.  Reason: %(reason)s"
+msgstr ""
+
+#: ../libs/server.py:84
+msgid "Error : Invalid JSON"
+msgstr ""
+
+#: ../libs/server.py:107
+msgid "Reloading L.I.S.A Engine"
+msgstr ""
+
+#: ../libs/server.py:114
+msgid "Reloading Task Scheduler"
+msgstr ""
+
+#: ../libs/websocket.py:77
+msgid "Started to connect."
+msgstr ""
+
+#: ../libs/websocket.py:81
+msgid "Connected to Lisa."
+msgstr ""
+
+#: ../libs/websocket.py:82
+msgid "Resetting reconnection delay"
+msgstr ""
+
+#: ../libs/websocket.py:91
+#, python-format
+msgid "Connection failed. Reason: %(reason)s"
 msgstr ""

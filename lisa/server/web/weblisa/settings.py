@@ -2,15 +2,15 @@
 import os
 import json
 import sys
-from lisa.server.service import configuration
+from lisa.server.ConfigManager import ConfigManagerSingleton
+
+configuration = ConfigManagerSingleton.get().getConfiguration()
+dir_path = ConfigManagerSingleton.get().getPath()
+
 APP_DIR = os.path.dirname( globals()['__file__'] )
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__) + '/../')
-LISA_PATH = os.path.abspath(os.path.dirname(__file__) + '../../../')
 
 sys.path.append(PROJECT_PATH)
-
-if os.path.exists('/etc/lisa/server/configuration/lisa.json'):
-    configuration = json.load(open('/etc/lisa/server/configuration/lisa.json'))
 
 DBNAME = 'lisa'
 
@@ -75,7 +75,7 @@ MEDIA_URL = '/upload/'
 # Example: "/home/media/media.lawrence.com/static/"
 
 
-STATIC_ROOT = LISA_PATH + '/web/interface/static'
+STATIC_ROOT = dir_path + '/web/interface/static'
 
 
 # URL prefix for static files.
