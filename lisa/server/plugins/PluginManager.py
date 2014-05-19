@@ -4,7 +4,6 @@ import shutil
 import inspect
 from lisa.server.web.manageplugins.models import Plugin, Description, Rule, Cron, Intent
 import json
-import os
 from twisted.python.reflect import namedAny
 from django.template.loader import render_to_string
 import datetime
@@ -43,15 +42,16 @@ class PluginManager(object):
         """
         return None
 
-    def installPlugin(self, plugin_name=None, test_mode=False):
+    def installPlugin(self, plugin_name=None, test_mode=False, dev_mode=False):
         if Plugin.objects(name=plugin_name):
             return {'status': 'fail', 'log': 'Plugin already installed'}
 
-        if test_mode:
-            pip.main(['install', '--quiet', '--install-option=--install-platlib=' + os.getcwd() + '/../',
-                      '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' + plugin_name])
-        else:
-            pip.main(['install', 'lisa-plugin-' + plugin_name])
+        if not dev_mode:
+            if test_mode:
+                pip.main(['install', '--quiet', '--install-option=--install-platlib=' + os.getcwd() + '/../',
+                          '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' + plugin_name])
+            else:
+                pip.main(['install', 'lisa-plugin-' + plugin_name])
         jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
         metadata = json.load(open(jsonfile))
 
@@ -112,7 +112,8 @@ class PluginManager(object):
             oIntent.enabled = True
             oIntent.plugin = plugin
             oIntent.save()
-        os.remove(jsonfile)
+        if not dev_mode:
+            os.remove(jsonfile)
         return {'status': 'success', 'log': 'Plugin installed'}
 
     def enablePlugin(self, plugin_name=None, plugin_pk=None):
@@ -164,7 +165,7 @@ class PluginManager(object):
 
                 return {'status': 'success', 'log': 'Plugin disabled'}
 
-    def uninstallPlugin(self, plugin_name=None, plugin_pk=None):
+    def uninstallPlugin(self, plugin_name=None, plugin_pk=None, dev_mode=False):
         if plugin_pk:
             plugin_list = Plugin.objects(pk=plugin_pk)
         else:
@@ -173,7 +174,8 @@ class PluginManager(object):
             return {'status': 'fail', 'log': 'Plugin not installed'}
         else:
             for plugin in plugin_list:
-                pip.main(['uninstall', '--quiet', 'lisa-plugin-' + plugin_name])
+                if not dev_mode:
+                    pip.main(['uninstall', '--quiet', 'lisa-plugin-' + plugin_name])
                 plugin.delete()
                 for cron in Cron.objects(plugin=plugin):
                     cron.delete()

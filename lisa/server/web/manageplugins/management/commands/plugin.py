@@ -39,6 +39,9 @@ class Command(BaseCommand):
             make_option('--install',
                 action = 'store_true',
                 help = 'Install a plugin'),
+            make_option('--dev',
+                action = 'store_true',
+                help = 'Dev mode'),
             make_option('--uninstall',
                 action = 'store_true',
                 help = 'Uninstall a plugin'),
@@ -51,12 +54,17 @@ class Command(BaseCommand):
         if args:
             self.arg_pluginName = args[0]
 
+        if options.get('dev'):
+            dev_mode = True
+        else:
+            dev_mode = False
+
         if options.get('list'):
             self.plugin_list()
         elif options.get('install'):
-            self.manage(name=self.arg_pluginName, action="install")
+            self.manage(name=self.arg_pluginName, action="install", dev_mode=dev_mode)
         elif options.get('uninstall'):
-            self.manage(name=self.arg_pluginName, action="uninstall")
+            self.manage(name=self.arg_pluginName, action="uninstall", dev_mode=dev_mode)
         elif options.get('enable'):
             self.manage(name=self.arg_pluginName, action="enable")
         elif options.get('disable'):
@@ -113,13 +121,13 @@ class Command(BaseCommand):
 
             self.stdout.write("%s => %s %s" % (pluginDict['name'], installed, enabled))
 
-    def manage(self, name, action, author_email=None, author_name=None):
+    def manage(self, name, action, author_email=None, author_name=None, dev_mode=False):
         if action == "install":
-            status = PluginManagerSingleton.get().installPlugin(plugin_name=name)
+            status = PluginManagerSingleton.get().installPlugin(plugin_name=name, dev_mode=dev_mode)
         elif action == "disable":
             status = PluginManagerSingleton.get().disablePlugin(plugin_name=name)
         elif action == "uninstall":
-            status = PluginManagerSingleton.get().uninstallPlugin(plugin_name=name)
+            status = PluginManagerSingleton.get().uninstallPlugin(plugin_name=name, dev_mode=dev_mode)
         elif action == "enable":
             status = PluginManagerSingleton.get().enablePlugin(plugin_name=name)
         elif action == "create":
