@@ -5,6 +5,8 @@ from lisa.server.ConfigManager import ConfigManagerSingleton
 
 configuration = ConfigManagerSingleton.get().getConfiguration()
 
+from pkg_resources import get_distribution
+
 @login_required()
 def index(request):
     if configuration['enable_secure_mode']:
@@ -13,6 +15,7 @@ def index(request):
         websocket = 'ws'
     context = {
         'websocket': websocket,
-        'lang': configuration['lang']
+        'lang': configuration['lang'],
+        'server_version': get_distribution('lisa-server').version
     }
     return render(request, 'googlespeech/index.html', context)

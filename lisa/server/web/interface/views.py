@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
+from pkg_resources import get_distribution
+
 @login_required()
 def dashboard(request):
-    return render(request, 'dashboard.html', {
+    return render(request, 'dashboard.html', { 'server_version': get_distribution('lisa-server').version
     })
 
 
