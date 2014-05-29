@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 11:13+0200\n"
-"PO-Revision-Date: 2014-05-11 09:09+0000\n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-23 15:44+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# 7a648324c2ec41bdb4e8d9bcdd8de314
+# 6c6e1bd25bfd4c269dfcd4ca763cfbfd
 #: ../../topics/troubleshooting/index.rst:3
 msgid "Troubleshooting"
 msgstr "Résolution de problèmes"
 
-# 9a92af15ef7e48fdb18126c0cf786060
+# 3752eb1f84434fddb35bedddb38c0fe8
 #: ../../topics/troubleshooting/index.rst:5
 msgid ""
 "The intent of the troubleshooting section is to introduce solutions to a "
@@ -31,12 +31,12 @@ msgid ""
 "available to aid debug the code."
 msgstr ""
 
-# e17470e2c5434bf0b507c8ca468b1181
+# 2c1f721bcb354720992872b439d48982
 #: ../../topics/troubleshooting/index.rst:16
 msgid "What Ports do the Master and Minion Need Open?"
 msgstr ""
 
-# 7d1d6afeecc0453aa95cfa7cf0647b29
+# 99aa09aab8a445a18aebb0c0977bfc83
 #: ../../topics/troubleshooting/index.rst:18
 msgid ""
 "No ports need to be opened up on clients. For the server, TCP ports 10042, "
@@ -44,7 +44,7 @@ msgid ""
 "and can't access the web interface, it could be a firewall problem."
 msgstr ""
 
-# efc925e20cfd45a8b62f2309552c7399
+# c55e805a3bcb4a70aafcd6636a442302
 #: ../../topics/troubleshooting/index.rst:22
 msgid "You can check port connectivity with the nc command:"
 msgstr "Vous pouvez vérifier que le port est bien ouvert avec la commande nc:"

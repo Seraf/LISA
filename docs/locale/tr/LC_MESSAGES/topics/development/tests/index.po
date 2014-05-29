@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-11 06:34+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/lisa/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# 9220b9e5cff045c29e7ae1edf018f3e1
+#: ../../topics/development/tests/index.rst:3
+msgid "Running The Tests"
+msgstr ""
+
+# e6873ab418f9471194689bf3ca5fae7b
+#: ../../topics/development/tests/index.rst:5
+msgid ""
+"As L.I.S.A is written with `Twisted`_ it uses the integrated test system "
+"named \"trial\". To launch it :"
+msgstr ""
+
+# 249c3b1746eb4b288d89c50394533828
+#: ../../topics/development/tests/index.rst:16
+msgid "Writing Tests"
+msgstr ""

@@ -1,0 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-11 07:07+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/lisa/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# 322dfac243154b2d80d2820e3a5fee04
+#: ../../topics/plugins/create.rst:3
+msgid "Create a plugin for L.I.S.A"
+msgstr ""
+
+# 76695487b4ef41ed9110d71960b8c07f
+#: ../../topics/plugins/create.rst:5
+msgid "Creating a plugin is very easy, thanks to the cli tool."
+msgstr ""
+
+# 3239a1a3816046e6b248fac8eff1ef12
+#: ../../topics/plugins/create.rst:7
+msgid "To create your plugin, type (in the virtualenv):"
+msgstr ""
+
+# f1276a346c3f4e2bb0c874f36d9b7673
+#: ../../topics/plugins/create.rst:13
+msgid ""
+"Then, answer the questions, and you will find the plugin in your virtualenv."
+msgstr ""
+
+# df783d5a1b52468785f5f77001753def
+#: ../../topics/plugins/create.rst:21
+msgid ":doc:`Distribute your Plugin </topics/plugins/distribute>`"
+msgstr ""

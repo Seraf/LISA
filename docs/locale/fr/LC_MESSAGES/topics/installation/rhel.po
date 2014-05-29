@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 11:13+0200\n"
-"PO-Revision-Date: 2014-05-11 09:05+0000\n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-23 15:44+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# 4bd066c2ebda431297ea52c79ed9c81d
+# 57f5bfb2a09140e5945362f8e6793713
 #: ../../topics/installation/rhel.rst:3
 msgid "Installation on RedHat Linux"
 msgstr "Installation sur RedHat Linux"

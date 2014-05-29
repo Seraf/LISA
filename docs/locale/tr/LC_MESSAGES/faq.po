@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-29 10:32+0000\n"
+"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/lisa/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# ec2dbf2a705d41bca46894e35fdce4c2
+#: ../../faq.rst:2
+msgid "Frequently Asked Questions"
+msgstr ""
+
+# dde38f43f4554f7c83ac1418a80d05f2
+#: ../../faq.rst:0
+msgid "FAQ"
+msgstr ""
+
+# 45dcd948141f4a44aa478d01234d7bb1
+#: ../../faq.rst:7
+msgid "Is LISA open-source ?"
+msgstr ""
+
+# 8d89da8e6b4a427a9253ab9d74cc8b4a
+#: ../../faq.rst:9
+msgid "Yes. LISA is 100% open-source, including all APIs."
+msgstr ""
+
+# 9efe0302ef1e40e2a724bd8c635f58a6
+#: ../../faq.rst:11
+msgid ""
+"And in the future, even if I create an enterprise with LISA, it will stay "
+"opensource and free."
+msgstr ""
+
+# 56bfd091b701483ca4124388e0948c68
+#: ../../faq.rst:14
+msgid "Can I fork it ?"
+msgstr ""
+
+# e3c03b4539394f3b9345fcf0aac35c8e
+#: ../../faq.rst:16
+msgid ""
+"Yes you can fork it if you want. Everything will be opensourced, even the "
+"\"appstore\". But of course, I encourage everyone to contribute instead of "
+"spreading smart people."
+msgstr ""
+
+# e25b75250eeb41e294ce302c8655ed8b
+#: ../../faq.rst:20
+msgid "Is LISA full local mode or does it need an Internet connection ?"
+msgstr ""
+
+# 0de648f124624732bd94edff1b113e4d
+#: ../../faq.rst:22
+msgid ""
+"LISA is actually needing an Internet connection. I work on it to have "
+"something fully working even if your connection is broken."
+msgstr ""
+
+# 235e5245eda1400987590a54fd1f7171
+#: ../../faq.rst:25
+msgid ""
+"LISA need internet at least for his client (because speech recognition is "
+"online) and to use Wit Engine on the server side. Wit is also working on a "
+"local server for Wit. Once it will be available, it will be backported in "
+"LISA as soon as possible."
+msgstr ""
+
+# 83a89dd799ea4ac599da24d572ddb16d
+#: ../../faq.rst:30
+msgid "Which Speech Engine do you use ?"
+msgstr ""
+
+# 56467f20580f413682a72786b04b3367
+#: ../../faq.rst:31
+msgid ""
+"Even if it is one of the most important part of the project, I don't want to"
+" focus on it. The actual Linux Client use pocketsphinx to detect a keyword "
+"(the name of the bot). It's a trigger to launch the speech recognition by "
+"voice. LISA will listen and stream each chunk to Wit Speech API. It's a "
+"online webservice and they use many speech engine in backend to do the "
+"speech recognition. They plan to create free accoustic models and use (in "
+"the future) only opensource speech engine. They are partner of CMUSphinx."
+msgstr ""
+
+# 2a769e85e61148698cc14195957b5a13
+#: ../../faq.rst:38
+msgid "Not convinced ? Don't want to see your voice go outside your home ?"
+msgstr ""
+
+# 859f0908cba7438b858e4a5f293da1fe
+#: ../../faq.rst:40
+msgid ""
+"Well, LISA was built to let the user choose his speech engine. You can "
+"create an irc bot client, a hangout bot, a jabber bot, a voice client which "
+"use Dragon Natural Speech, Windows Grammar, Android Speech Engine or "
+"whatever. The choice is yours, just send a sentence to LISA."
+msgstr ""
+
+# e322d3caefcd49108a5316cdc0cdf09a
+#: ../../faq.rst:44
+msgid ""
+"Don't forget that smaller is the device where is hosted the client, less "
+"will be the computing capacity to do speech recognition in local mode. But "
+"don't be worry, I want for myself something in local and working without "
+"internet connection."
+msgstr ""
+
+# 83a89dd799ea4ac599da24d572ddb16d
+#: ../../faq.rst:49
+msgid "Why LISA use mongodb as database ?"
+msgstr ""
+
+# f9e5e21fcc89420686a20cb72fad2cef
+#: ../../faq.rst:51
+msgid ""
+"I am a DevOps, then when I code, I always think about how will it work in "
+"production. Is it scalable ? Mongodb let LISA to scale and support loss of a"
+" server. The database can be distribued accross your clients for example. "
+"The NoSQL technology allow developers to build plugins easily."
+msgstr ""
+
+# cf5e1c7e205443389cdd84d416fecbfc
+#: ../../faq.rst:55
+msgid ""
+"As plugins and configuration are stored in the mongodb database, you can "
+"scale the LISA server with a load balancer."
+msgstr ""
+
+# b47d1c1184e04446aa16b269055ac22b
+#: ../../faq.rst:58
+msgid ""
+"The only problem is a lack of support for ARM. But there's a ticket opened "
+"on their JIRA issue tracker."
+msgstr ""
+
+# d61384bcc9364be9a62f33810e510560
+#: ../../faq.rst:61
+msgid "What ports should I open on my firewall ?"
+msgstr ""
+
+# e2e9cdee20f8477ca7ac4e445a6020d1
+#: ../../faq.rst:63
+msgid ""
+"LISA use by default the port 10042 to communicate between client and server,"
+" and port 8000 for the webserver."
+msgstr ""
+
+# 7978aa3992954284b0090a8bfb73f781
+#: ../../faq.rst:66
+msgid "Can I do Home Automation with this project ?"
+msgstr ""
+
+# 0f63dc325edd41d1a9abdd2e7d70841c
+#: ../../faq.rst:67
+msgid ""
+"Short answer : No. LISA allow you to create a bridge between your connected "
+"objects and your home automation box. LISA can also handle some "
+"\"intelligency\" to execute orders on your home automation box, but it won't"
+" replace an automation box."
+msgstr ""
+
+# 83a89dd799ea4ac599da24d572ddb16d
+#: ../../faq.rst:72
+msgid "Why LISA is written in Python ?"
+msgstr ""
+
+# 4bd7735a3f0f47b38799ff8093f40707
+#: ../../faq.rst:73
+msgid ""
+"Firstly, I wanted to learn this language since a long. The code may be not "
+"perfect so don't hesit to send a patch. I love Python because there's a lot "
+"of API written in Python language and as LISA is a built to connect API "
+"between them it was logic to use a language easy to learn and easy to use."
+msgstr ""

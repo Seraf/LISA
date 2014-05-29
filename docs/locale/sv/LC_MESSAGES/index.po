@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
+# acruxx <chsnot@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-13 18:05+0200\n"
-"PO-Revision-Date: 2014-05-11 19:04+0000\n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-23 15:44+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/lisa/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -20,4 +21,4 @@ msgstr ""
 # 185b614c346341e299b10de047d08ef1
 #: ../../index.rst:3
 msgid "LISA Table of Contents"
-msgstr ""
+msgstr "LISA innehållsförteckning "

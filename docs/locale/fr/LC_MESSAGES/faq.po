@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-13 18:05+0200\n"
-"PO-Revision-Date: 2014-05-13 16:05+0000\n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-29 10:32+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -158,3 +158,31 @@ msgid ""
 "LISA use by default the port 10042 to communicate between client and server,"
 " and port 8000 for the webserver."
 msgstr "LISA utilise par défaut le port 10042 pour communiquer entre le client et le seveur, et le port 8000 pour le serveur web."
+
+# 7978aa3992954284b0090a8bfb73f781
+#: ../../faq.rst:66
+msgid "Can I do Home Automation with this project ?"
+msgstr ""
+
+# 0f63dc325edd41d1a9abdd2e7d70841c
+#: ../../faq.rst:67
+msgid ""
+"Short answer : No. LISA allow you to create a bridge between your connected "
+"objects and your home automation box. LISA can also handle some "
+"\"intelligency\" to execute orders on your home automation box, but it won't"
+" replace an automation box."
+msgstr ""
+
+# 83a89dd799ea4ac599da24d572ddb16d
+#: ../../faq.rst:72
+msgid "Why LISA is written in Python ?"
+msgstr ""
+
+# 4bd7735a3f0f47b38799ff8093f40707
+#: ../../faq.rst:73
+msgid ""
+"Firstly, I wanted to learn this language since a long. The code may be not "
+"perfect so don't hesit to send a patch. I love Python because there's a lot "
+"of API written in Python language and as LISA is a built to connect API "
+"between them it was logic to use a language easy to learn and easy to use."
+msgstr ""

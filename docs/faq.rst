@@ -62,3 +62,14 @@ What ports should I open on my firewall ?
 
 LISA use by default the port 10042 to communicate between client and server, and port 8000 for the webserver.
 
+Can I do Home Automation with this project ?
+--------------------------------------------
+Short answer : No. LISA allow you to create a bridge between your connected objects and your home automation box.
+LISA can also handle some "intelligency" to execute orders on your home automation box, but it won't replace
+an automation box.
+
+Why LISA is written in Python ?
+-------------------------------
+Firstly, I wanted to learn this language since a long. The code may be not perfect so don't hesit to send a patch.
+I love Python because there's a lot of API written in Python language and as LISA is a built to connect API between them
+it was logic to use a language easy to learn and easy to use.

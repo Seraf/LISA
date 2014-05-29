@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 11:13+0200\n"
-"PO-Revision-Date: 2014-05-11 09:07+0000\n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-23 15:44+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# ba2f8b1473da46fd9ee98adc4c87fdf1
+# 326ed062e42245d38ef0df465e077b28
 #: ../../topics/troubleshooting/server.rst:3
 msgid "Server Troubleshooting"
 msgstr "Résolution de problèmes sur le Serveur"
 
-# b14d206b110e4e508f881ef3cf14c2b2
+# 46ff394678e744daa6d3f61e831f8631
 #: ../../topics/troubleshooting/server.rst:5
 msgid ""
 "If your server is having issues such as server not returning data, slow "
@@ -32,12 +32,12 @@ msgid ""
 "troubleshooting the most common issues encountered."
 msgstr ""
 
-# 6479508cb0b84bb5adf231ac3b99d790
+# e422f6941d2446bb9fda5fb522d13289
 #: ../../topics/troubleshooting/server.rst:13
 msgid "Running in the Foreground"
 msgstr ""
 
-# e641e9b77f8c469cba5b9928e55c3b72
+# 3987546ce5ba4b6ab649498148118bf7
 #: ../../topics/troubleshooting/server.rst:15
 msgid ""
 "A great deal of information is available via the debug logging system, if "

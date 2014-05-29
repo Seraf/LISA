@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-11 11:13+0200\n"
-"PO-Revision-Date: 2014-05-11 09:04+0000\n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-29 10:33+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,176 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-# 3669feaecd7349e99656ca215a6c3115
+# 3b1eeebbe3c04ac09b697dcb8ff09683
 #: ../../topics/plugins/management.rst:3
 msgid "Plugin Management"
 msgstr "Gestion des Plugins"
+
+# 12efcc6585ad43c7b1bf0e50e6aa378a
+#: ../../topics/plugins/management.rst:5
+msgid ""
+"The plugin management is usefull to quickly manage plugins from Command Line"
+" Interface. It uses the same function than the web interface so it has the "
+"same behavior."
+msgstr ""
+
+# 91b51b010681494da2f6e2b8742016c8
+#: ../../topics/plugins/management.rst:8
+msgid "To list the functionnalities .. code-block:: console"
+msgstr ""
+
+# 8fb11a0655ff4307838aa3add9f0b84b
+#: ../../topics/plugins/management.rst:11
+msgid "lisa-cli plugin --help"
+msgstr ""
+
+# 03225e9233534873b5a41f434eb098a7
+#: ../../topics/plugins/management.rst:13
+msgid ""
+"Usage: /home/lisa/.virtualenvs/lisa/bin/lisa-cli plugin [options] "
+"<plugin_name>"
+msgstr ""
+
+# c9c444f226ce4ca9bf6875ab6b93f327
+#: ../../topics/plugins/management.rst:15
+msgid "Manage the plugins"
+msgstr ""
+
+# 7dcc349333ce4de1aaf78a92baeb6d9b
+#: ../../topics/plugins/management.rst:26
+msgid "Options:"
+msgstr ""
+
+# d3265d0be69349059de2c2734e2bb0d8
+#: ../../topics/plugins/management.rst:18
+msgid "List all plugins and show their status"
+msgstr ""
+
+# f03a28a132274296981a9f76ccc221d2
+#: ../../topics/plugins/management.rst:19
+msgid "Create a template plugin with a given name"
+msgstr ""
+
+# 22c64a4949c349a782161aaebad945b8
+#: ../../topics/plugins/management.rst:20
+msgid "Enable a plugin"
+msgstr ""
+
+# 4308e3ebddef4b77968b775b3827a059
+#: ../../topics/plugins/management.rst:21
+msgid "Disable a plugin"
+msgstr ""
+
+# 76fb4e2eb39a4df19ec6a05d77f9a5e2
+#: ../../topics/plugins/management.rst:22
+msgid "Install a plugin"
+msgstr ""
+
+# 1715bef6532b426ab482b446f3911ffe
+#: ../../topics/plugins/management.rst:23
+msgid "Dev mode"
+msgstr ""
+
+# 5d9854252fbc4b54a097f3c6ec8613e1
+#: ../../topics/plugins/management.rst:24
+msgid "Uninstall a plugin"
+msgstr ""
+
+# 8dd65cec7b40491d81fd8f1969142b92
+#: ../../topics/plugins/management.rst:25
+msgid "Upgrade a plugin"
+msgstr ""
+
+# 9b36e344958746ee8982f3c72afed242
+#: ../../topics/plugins/management.rst:26
+msgid "show this help message and exit"
+msgstr ""
+
+# 7495dbe3012a422a8e113febfc3310be
+#: ../../topics/plugins/management.rst:28
+msgid "This option does not need to be called with a plugin name."
+msgstr ""
+
+# 435d6f22e6b8420abc9c78df6be861b4
+# b64bad7985bc43ad8bc9e849bbcafde2
+# eb4c610112e640d6863a53e5b0eb3309
+# c1695eb4eda1411e8fa1574eb5c8eda9
+# 6361e428423f411fbc9672ff8561f247
+# f7b82edb518e4ad7ab312350b2c25908
+# 687eab7500b64233b22d370c2cffe76c
+#: ../../topics/plugins/management.rst:34
+#: ../../topics/plugins/management.rst:55
+#: ../../topics/plugins/management.rst:73
+#: ../../topics/plugins/management.rst:82
+#: ../../topics/plugins/management.rst:99
+#: ../../topics/plugins/management.rst:111
+#: ../../topics/plugins/management.rst:122
+msgid "Will output :"
+msgstr ""
+
+# a31ad3696c9d41c390d3d22e40cec63c
+#: ../../topics/plugins/management.rst:48
+msgid ""
+"This option will create a plugin in your plugins directory. It will ask some"
+" questions to auto-configure the plugin."
+msgstr ""
+
+# 37398df4907744c2a60b8a8df6294eae
+#: ../../topics/plugins/management.rst:66
+msgid ""
+"This option will enable or disable a plugin. That means the plugin the "
+"plugin still exists in database"
+msgstr ""
+
+# 948bd957a7584e518fb90714e2da9ceb
+#: ../../topics/plugins/management.rst:67
+msgid "and on filesystem but will not be loaded by the plugin manager."
+msgstr ""
+
+# 94b5b8018468442e8a33c3ca51e78c9f
+#: ../../topics/plugins/management.rst:87
+msgid ""
+"This option allow you to specify that you are writing a plugin. It will not "
+"download it on Python Package Index"
+msgstr ""
+
+# 2f861f1da3794a9c9d031137449c32a6
+#: ../../topics/plugins/management.rst:88
+msgid ""
+"but use the local plugin instead. It will not do anything on the filesystem "
+"but only on database. It is mainly used for install and uninstall function. "
+"When used with install, it will update all fields in database according your"
+" local plugin files. If you use uninstall with the dev mode, it will not "
+"delete the json file, only records in the database."
+msgstr ""
+
+# 5de6e30194de4742ae458df6b538ede5
+#: ../../topics/plugins/management.rst:92
+msgid ""
+"This option will install a plugin. By default it download the package from "
+"Python Package Index then read the"
+msgstr ""
+
+# 1f6972429fa64b6cb618276281f1e439
+#: ../../topics/plugins/management.rst:93
+msgid ""
+"json file and install all components (rules, crons, intents, plugin "
+"configuration) in the database."
+msgstr ""
+
+# 70ae2a82e65443efa2c309a9ded4b4a3
+#: ../../topics/plugins/management.rst:104
+msgid ""
+"This option will uninstall a plugin. By default it will remove the package "
+"and all the files related to the"
+msgstr ""
+
+# 63d5ef40c6f94ff49ec3af8fb9602581
+#: ../../topics/plugins/management.rst:105
+msgid "plugin and remove entries related to the plugin in database."
+msgstr ""
+
+# 854a4f68bde7400386b28147ce4cea64
+#: ../../topics/plugins/management.rst:116
+msgid "This option is not implemented yet."
+msgstr ""

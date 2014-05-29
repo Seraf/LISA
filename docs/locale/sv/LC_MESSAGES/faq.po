@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-13 18:05+0200\n"
-"PO-Revision-Date: 2014-05-13 16:05+0000\n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-29 10:32+0000\n"
 "Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/lisa/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -43,12 +43,12 @@ msgstr "Ja, LISA samt alla APIer är baserade på öppen källkod till 100%."
 msgid ""
 "And in the future, even if I create an enterprise with LISA, it will stay "
 "opensource and free."
-msgstr ""
+msgstr "LISA kommer att förbli öppet och gratis även om det utvecklas till ett företag."
 
 # 56bfd091b701483ca4124388e0948c68
 #: ../../faq.rst:14
 msgid "Can I fork it ?"
-msgstr ""
+msgstr "Kan jag skapa en fork av LISA?"
 
 # e3c03b4539394f3b9345fcf0aac35c8e
 #: ../../faq.rst:16
@@ -158,3 +158,31 @@ msgid ""
 "LISA use by default the port 10042 to communicate between client and server,"
 " and port 8000 for the webserver."
 msgstr "LISA använder port 10042 för att kommunicera mellan klient och server och port 8000 for webbservern. "
+
+# 7978aa3992954284b0090a8bfb73f781
+#: ../../faq.rst:66
+msgid "Can I do Home Automation with this project ?"
+msgstr ""
+
+# 0f63dc325edd41d1a9abdd2e7d70841c
+#: ../../faq.rst:67
+msgid ""
+"Short answer : No. LISA allow you to create a bridge between your connected "
+"objects and your home automation box. LISA can also handle some "
+"\"intelligency\" to execute orders on your home automation box, but it won't"
+" replace an automation box."
+msgstr ""
+
+# 83a89dd799ea4ac599da24d572ddb16d
+#: ../../faq.rst:72
+msgid "Why LISA is written in Python ?"
+msgstr ""
+
+# 4bd7735a3f0f47b38799ff8093f40707
+#: ../../faq.rst:73
+msgid ""
+"Firstly, I wanted to learn this language since a long. The code may be not "
+"perfect so don't hesit to send a patch. I love Python because there's a lot "
+"of API written in Python language and as LISA is a built to connect API "
+"between them it was logic to use a language easy to learn and easy to use."
+msgstr ""

@@ -1,0 +1,49 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-11 06:36+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/lisa/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# 6c6e1bd25bfd4c269dfcd4ca763cfbfd
+#: ../../topics/troubleshooting/index.rst:3
+msgid "Troubleshooting"
+msgstr ""
+
+# 3752eb1f84434fddb35bedddb38c0fe8
+#: ../../topics/troubleshooting/index.rst:5
+msgid ""
+"The intent of the troubleshooting section is to introduce solutions to a "
+"number of common issues encountered by users and the tools that are "
+"available to aid debug the code."
+msgstr ""
+
+# 2c1f721bcb354720992872b439d48982
+#: ../../topics/troubleshooting/index.rst:16
+msgid "What Ports do the Master and Minion Need Open?"
+msgstr ""
+
+# 99aa09aab8a445a18aebb0c0977bfc83
+#: ../../topics/troubleshooting/index.rst:18
+msgid ""
+"No ports need to be opened up on clients. For the server, TCP ports 10042, "
+"10043 and 8000 (or 80) need to be open. If you can't connect on you server, "
+"and can't access the web interface, it could be a firewall problem."
+msgstr ""
+
+# c55e805a3bcb4a70aafcd6636a442302
+#: ../../topics/troubleshooting/index.rst:22
+msgid "You can check port connectivity with the nc command:"
+msgstr ""

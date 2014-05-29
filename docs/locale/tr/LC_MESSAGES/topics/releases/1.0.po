@@ -1,0 +1,38 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013, Julien Syx
+# This file is distributed under the same license as the L.I.S.A package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: LISA\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-05-29 12:32+0200\n"
+"PO-Revision-Date: 2014-05-11 06:35+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/lisa/language/tr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# 89c3fe2654ff452da87d02117907b0be
+#: ../../topics/releases/1.0.rst:3
+msgid "L.I.S.A 1.0 Release Notes"
+msgstr ""
+
+# 0a8b8be60b8e463ea1a88d8e8e7c3524
+#: ../../topics/releases/1.0.rst:5
+msgid "2014-09-02"
+msgstr ""
+
+# 5b64e93aefe84bde8364ecc5d75b61de
+#: ../../topics/releases/1.0.rst:7
+msgid "1.0 has arrived! This release is the first stable release."
+msgstr ""
+
+# 20d3ffac05d943129386c158eca909bc
+#: ../../topics/releases/1.0.rst:10
+msgid "Major Features"
+msgstr ""
