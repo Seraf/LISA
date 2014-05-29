@@ -6,11 +6,11 @@ The plugin management is usefull to quickly manage plugins from Command Line Int
 It uses the same function than the web interface so it has the same behavior.
 
 To list the functionnalities
+
 .. code-block:: console
 
-    lisa-cli plugin --help
-
-    Usage: /home/lisa/.virtualenvs/lisa/bin/lisa-cli plugin [options] <plugin_name>
+    $ lisa-cli plugin --help
+    Usage: /home/alivelisa/.virtualenvs/lisa/bin/lisa-cli plugin [options] <plugin_name>
 
     Manage the plugins
 
@@ -29,12 +29,7 @@ To list the functionnalities
 
 .. code-block:: console
 
-    lisa-cli plugin --list
-
-Will output :
-
-.. code-block:: console
-
+    $ lisa-cli plugin --list
     ChatterBot => [Installed] [Enabled]
     BBox => [Installed] [Enabled]
     ProgrammeTV => [Installed] [Enabled]
@@ -45,81 +40,47 @@ Will output :
     Wifiledlamps => [Not installed] [Not enabled]
 
 
-:create: This option will create a plugin in your plugins directory.
-    It will ask some questions to auto-configure the plugin.
+:create: This option will create a plugin in your plugins directory. It will ask some questions to auto-configure the plugin.
 
 .. code-block:: console
 
-    lisa-cli plugin --create PLUGINNAME
-
-Will output :
-
-.. code-block:: console
-
+    $ lisa-cli plugin --create PLUGINNAME
     What is your full name ? : Lisa
-
     What is your email ? : lisa@lisa-project.net
-
     [OK] Plugin created
 
 
-:enable / disable: This option will enable or disable a plugin. That means the plugin the plugin still exists in database
-and on filesystem but will not be loaded by the plugin manager.
+:enable / disable: This option will enable or disable a plugin. That means the plugin the plugin still exists in database and on filesystem but will not be loaded by the plugin manager.
 
 .. code-block:: console
 
-    lisa-cli plugin --enable PLUGINNAME
-
-Will output :
-
-.. code-block:: console
+    $ lisa-cli plugin --enable PLUGINNAME
     [OK] Plugin enabled
 
 .. code-block:: console
 
-    lisa-cli plugin --disable PLUGINNAME
-
-Will output :
-
-.. code-block:: console
+    $ lisa-cli plugin --disable PLUGINNAME
     [OK] Plugin disabled
 
-:dev: This option allow you to specify that you are writing a plugin. It will not download it on Python Package Index
-but use the local plugin instead. It will not do anything on the filesystem but only on database. It is mainly used
-for install and uninstall function. When used with install, it will update all fields in database according your local
-plugin files. If you use uninstall with the dev mode, it will not delete the json file, only records in the database.
+:dev: This option allow you to specify that you are writing a plugin. It will not download it on Python Package Index but use the local plugin instead. It will not do anything on the filesystem but only on database. It is mainly used for install and uninstall function. When used with install, it will update all fields in database according your local plugin files. If you use uninstall with the dev mode, it will not delete the json file, only records in the database.
 
-:install: This option will install a plugin. By default it download the package from Python Package Index then read the
-json file and install all components (rules, crons, intents, plugin configuration) in the database.
+:install: This option will install a plugin. By default it download the package from Python Package Index then read the json file and install all components (rules, crons, intents, plugin configuration) in the database.
 
 .. code-block:: console
 
-    lisa-cli plugin --install PLUGINNAME
-
-Will output :
-
-.. code-block:: console
+    $ lisa-cli plugin --install PLUGINNAME
     [OK] Plugin installed
 
-:uninstall: This option will uninstall a plugin. By default it will remove the package and all the files related to the
-plugin and remove entries related to the plugin in database.
+:uninstall: This option will uninstall a plugin. By default it will remove the package and all the files related to the plugin and remove entries related to the plugin in database.
 
 .. code-block:: console
 
-    lisa-cli plugin --uninstall PLUGINNAME
-
-Will output :
-
-.. code-block:: console
+    $ lisa-cli plugin --uninstall PLUGINNAME
     [OK] Plugin uninstalled
 
 :upgrade: This option is not implemented yet.
 
 .. code-block:: console
 
-    lisa-cli plugin --upgrade PLUGINNAME
-
-Will output :
-
-.. code-block:: console
+    $ lisa-cli plugin --upgrade PLUGINNAME
     [OK] Plugin upgraded
