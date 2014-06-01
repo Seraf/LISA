@@ -24,11 +24,14 @@ urlpatterns = patterns('',
 #Register plugin's API
 from lisa.server.plugins.PluginManager import PluginManagerSingleton
 for plugin in PluginManagerSingleton.get().getEnabledPlugins():
-    urlpatterns += patterns('', url(r'^' + str(plugin) + r'/', include('lisa.plugins.' +
-                                                                       str(plugin) + '.web.urls')))
+    urlpatterns += patterns('', url(r'^' + str(plugin) + r'/', include('lisa.plugins.' + str(plugin) + '.web.urls')))
     v1_api.register(namedAny('lisa.plugins.' + plugin + '.web.api.' + plugin + 'Resource')())
 
 urlpatterns += patterns('',
     url(r'^api/', include(v1_api.urls)),
-    url(r'^api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
+    url(r'^api/docs/',
+      include('tastypie_swagger.urls', namespace='tastypie_swagger'),
+      kwargs={"tastypie_api_module":'lisa.server.web.weblisa.urls.v1_api', "namespace":"tastypie_swagger"}
+    ),
 )
+
