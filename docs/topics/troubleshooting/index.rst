@@ -12,8 +12,8 @@ to aid debug the code.
 
     *
 
-What Ports do the Master and Minion Need Open?
-==============================================
+What Ports do the Server and Clients Need Open?
+===============================================
 
 No ports need to be opened up on clients. For the server, TCP ports 10042,
 10043 and 8000 (or 80) need to be open. If you can't connect on you server,

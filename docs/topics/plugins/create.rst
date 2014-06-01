@@ -16,6 +16,9 @@ Then, answer the questions, and you will find the plugin in your virtualenv.
 
     /home/alivelisa/.virtualenvs/lisa/local/lib/python2.7/site-packages/lisa/plugins/PLUGINNAME
 
+By creating a new plugin you don't install it automatically. So write the code you want in the plugin, then install it
+in order to use the plugin. Don't forget to install it in dev mode (by using --dev)
+
 .. seealso::
 
     :doc:`Distribute your Plugin </topics/plugins/distribute>`
