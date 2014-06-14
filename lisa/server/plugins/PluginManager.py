@@ -50,7 +50,13 @@ class PluginManager(object):
         if version:
             version_str = ''.join(["==", version])
         if not dev_mode:
-            pip.main(['install', 'lisa-plugin-' + plugin_name + version_str])
+            # This test mode is here only for travis to allow installing plugin in a readable directory
+            if test_mode:
+                pip.main(['install', '--quiet', '--install-option=--install-platlib=' + os.getcwd() + '/../',
+                          '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' +
+                                                                                        plugin_name + version_str])
+            else:
+                pip.main(['install', 'lisa-plugin-' + plugin_name + version_str])
         jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
         metadata = json.load(open(jsonfile))
 
@@ -290,8 +296,14 @@ class PluginManager(object):
         return {'status': 'success', 'log': 'Plugin created'}
 
     def upgradePlugin(self, plugin_name=None, plugin_pk=None, dev_mode=False):
-        print plugin_name
-        print dev_mode
+        Plugin.objects(name=plugin_name)
+        if not Plugin.objects(name=plugin_name):
+            return {'status': 'fail', 'log': 'Plugin not installed'}
+
+        pip.main(['install', 'lisa-plugin-' + plugin_name, '--upgrade'])
+        jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
+        metadata = json.load(open(jsonfile))
+
         if plugin_pk:
             plugin_list = Plugin.objects(pk=plugin_pk)
         else:
