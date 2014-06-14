@@ -42,16 +42,15 @@ class PluginManager(object):
         """
         return None
 
-    def installPlugin(self, plugin_name=None, test_mode=False, dev_mode=False):
+    def installPlugin(self, plugin_name=None, test_mode=False, dev_mode=False, version=None):
+        version_str = ""
         if Plugin.objects(name=plugin_name):
             return {'status': 'fail', 'log': 'Plugin already installed'}
 
+        if version:
+            version_str = ''.join(["==", version])
         if not dev_mode:
-            if test_mode:
-                pip.main(['install', '--quiet', '--install-option=--install-platlib=' + os.getcwd() + '/../',
-                          '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' + plugin_name])
-            else:
-                pip.main(['install', 'lisa-plugin-' + plugin_name])
+            pip.main(['install', 'lisa-plugin-' + plugin_name + version_str])
         jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
         metadata = json.load(open(jsonfile))
 
@@ -290,6 +289,16 @@ class PluginManager(object):
 
         return {'status': 'success', 'log': 'Plugin created'}
 
+    def upgradePlugin(self, plugin_name=None, plugin_pk=None, dev_mode=False):
+        print plugin_name
+        print dev_mode
+        if plugin_pk:
+            plugin_list = Plugin.objects(pk=plugin_pk)
+        else:
+            plugin_list = Plugin.objects(name=plugin_name)
+        for plugin in plugin_list:
+            print plugin.name
+        return {'status': 'success', 'log': 'Plugin upgraded'}
 
 class PluginManagerSingleton(object):
     """

@@ -42,6 +42,8 @@ class Command(BaseCommand):
             make_option('--dev',
                 action = 'store_true',
                 help = 'Dev mode'),
+            make_option('--pluginversion',
+                help = 'Version to install'),
             make_option('--uninstall',
                 action = 'store_true',
                 help = 'Uninstall a plugin'),
@@ -62,13 +64,16 @@ class Command(BaseCommand):
         if options.get('list'):
             self.plugin_list()
         elif options.get('install'):
-            self.manage(name=self.arg_pluginName, action="install", dev_mode=dev_mode)
+            self.manage(name=self.arg_pluginName, action="install", dev_mode=dev_mode,
+                        version=options.get('pluginversion'))
         elif options.get('uninstall'):
             self.manage(name=self.arg_pluginName, action="uninstall", dev_mode=dev_mode)
         elif options.get('enable'):
             self.manage(name=self.arg_pluginName, action="enable")
         elif options.get('disable'):
             self.manage(name=self.arg_pluginName, action="disable")
+        elif options.get('upgrade'):
+            self.manage(name=self.arg_pluginName, action="upgrade", dev_mode=dev_mode)
         elif options.get('create'):
             author_name = six.moves.input("What is your full name ? : ")
             print
@@ -121,15 +126,18 @@ class Command(BaseCommand):
 
             self.stdout.write("%s => %s %s" % (pluginDict['name'], installed, enabled))
 
-    def manage(self, name, action, author_email=None, author_name=None, dev_mode=False):
+    def manage(self, name, action, author_email=None, author_name=None, dev_mode=False, version=None):
+        status = {'status': None}
         if action == "install":
-            status = PluginManagerSingleton.get().installPlugin(plugin_name=name, dev_mode=dev_mode)
+            status = PluginManagerSingleton.get().installPlugin(plugin_name=name, dev_mode=dev_mode, version=version)
         elif action == "disable":
             status = PluginManagerSingleton.get().disablePlugin(plugin_name=name)
         elif action == "uninstall":
             status = PluginManagerSingleton.get().uninstallPlugin(plugin_name=name, dev_mode=dev_mode)
         elif action == "enable":
             status = PluginManagerSingleton.get().enablePlugin(plugin_name=name)
+        elif action == "upgrade":
+            status = PluginManagerSingleton.get().upgradePlugin(plugin_name=name, dev_mode=dev_mode)
         elif action == "create":
             status = PluginManagerSingleton.get().createPlugin(plugin_name=name, author_name=author_name, author_email=author_email)
         else:
