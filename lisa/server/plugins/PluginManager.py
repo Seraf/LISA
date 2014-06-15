@@ -229,6 +229,10 @@ class PluginManager(object):
         import requests
         import pytz
 
+        pypireq = requests.get('-'.join(['https://pypi.python.org/pypi/lisa-plugin', plugin_name]))
+        if(pypireq.ok):
+            return {'status': 'fail', 'log': 'Plugin already exist on Pypi'}
+
         metareq = requests.get('/'.join([configuration['plugin_store'], 'plugins.json']))
         if(metareq.ok):
             for item in json.loads(metareq.text or metareq.content):
@@ -329,6 +333,10 @@ class PluginManager(object):
                     if item != 'crons' and item != 'rules':
                         if item == 'description':
                             # Does we really need to update description object ?
+                            pass
+                        elif item == 'configuration':
+                            #TODO Shouldn't override the configuration of the user
+                            # But we should add only the missing entries (only adding)
                             pass
                         elif item == 'enabled':
                             # Shouldn't override the choice of the user
