@@ -307,13 +307,14 @@ class PluginManager(object):
         if not plugin_list:
             return {'status': 'fail', 'log': 'Plugin not installed'}
 
-
-        if test_mode:
-            pip.main(['install', '--quiet', '--install-option=--install-platlib=' + os.getcwd() + '/../',
-                          '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' +
-                                                                                        plugin_name, '--upgrade'])
-        else:
-            pip.main(['install', 'lisa-plugin-' + plugin_name, '--upgrade'])
+        if not dev_mode:
+            # This test mode is here only for travis to allow installing plugin in a readable directory
+            if test_mode:
+                pip.main(['install', '--quiet', '--install-option=--install-platlib=' + os.getcwd() + '/../',
+                              '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' +
+                                                                                            plugin_name, '--upgrade'])
+            else:
+                pip.main(['install', 'lisa-plugin-' + plugin_name, '--upgrade'])
 
         jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
         try:
