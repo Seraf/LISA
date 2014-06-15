@@ -10,7 +10,7 @@ import datetime
 from pymongo import MongoClient
 from twisted.python import log
 import os
-
+import re
 from lisa.server.ConfigManager import ConfigManagerSingleton
 
 configuration = ConfigManagerSingleton.get().getConfiguration()
@@ -26,6 +26,11 @@ class PluginManager(object):
         self.enabled_plugins = []
         mongo = MongoClient(configuration['database']['server'], configuration['database']['port'])
         self.database = mongo.lisa
+
+    def versioncompare(self, version1, version2):
+        def normalize(v):
+            return [int(x) for x in re.sub(r'(\.0+)*$', '', v).split(".")]
+        return cmp(normalize(version1), normalize(version2))
 
     def getEnabledPlugins(self):
         return self.enabled_plugins
@@ -117,8 +122,6 @@ class PluginManager(object):
             oIntent.enabled = True
             oIntent.plugin = plugin
             oIntent.save()
-        if not dev_mode:
-            os.remove(jsonfile)
         return {'status': 'success', 'log': 'Plugin installed'}
 
     def enablePlugin(self, plugin_name=None, plugin_pk=None):
@@ -296,20 +299,77 @@ class PluginManager(object):
         return {'status': 'success', 'log': 'Plugin created'}
 
     def upgradePlugin(self, plugin_name=None, plugin_pk=None, dev_mode=False):
-        Plugin.objects(name=plugin_name)
-        if not Plugin.objects(name=plugin_name):
-            return {'status': 'fail', 'log': 'Plugin not installed'}
-
-        pip.main(['install', 'lisa-plugin-' + plugin_name, '--upgrade'])
-        jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
-        metadata = json.load(open(jsonfile))
-
         if plugin_pk:
             plugin_list = Plugin.objects(pk=plugin_pk)
         else:
             plugin_list = Plugin.objects(name=plugin_name)
+
+        if not plugin_list:
+            return {'status': 'fail', 'log': 'Plugin not installed'}
+
+        pip.main(['install', 'lisa-plugin-' + plugin_name, '--upgrade'])
+        jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
+        try:
+            metadata = json.load(open(jsonfile))
+        except:
+            return {'status': 'fail', 'log': "The json of the plugin can't be loaded"}
+
         for plugin in plugin_list:
-            print plugin.name
+            if self.versioncompare(version1=metadata['version'], version2=plugin.version) > 0:
+                description_list = []
+                for item in metadata:
+                    if item != 'crons' and item != 'rules':
+                        if item == 'description':
+                            # Does we really need to update description object ?
+                            pass
+                        elif item == 'enabled':
+                            # Shouldn't override the choice of the user
+                            pass
+                        else:
+                            setattr(plugin, item, metadata[item])
+                plugin.save()
+
+                for item in metadata:
+                    if item == 'rules':
+                        for rule_item in metadata['rules']:
+                            oRule_list = Rule.objects(name=rule_item['name'])
+                            for rule in oRule_list:
+                                for parameter in rule_item:
+                                    if parameter == 'enabled':
+                                        if rule_item[parameter] == 0:
+                                            setattr(rule, parameter, False)
+                                        else:
+                                            setattr(rule, parameter, True)
+                                    else:
+                                        setattr(rule, parameter, rule_item[parameter])
+                                rule.plugin = plugin
+                                rule.save()
+
+                    if item == 'crons':
+                        for cron_item in metadata['crons']:
+                            oCron_list = Cron.objects(name=cron_item['name'])
+                            for cron in oCron_list:
+                                for parameter in cron_item:
+                                    if parameter == 'enabled':
+                                        if cron_item[parameter] == 0:
+                                            setattr(cron, parameter, False)
+                                        else:
+                                            setattr(cron, parameter, True)
+                                    else:
+                                        setattr(cron, parameter, cron_item[parameter])
+                                cron.plugin = plugin
+                                cron.save()
+
+                for intent, value in metadata['configuration']['intents'].iteritems():
+                    oIntent_list = Intent.objects(name=intent)
+                    for oIntent in oIntent_list:
+                        oIntent.name = intent
+                        oIntent.function = value['method']
+                        oIntent.module = '.'.join(['lisa.plugins', plugin_name, 'modules', plugin_name.lower(),
+                                                   plugin_name])
+                        oIntent.enabled = True
+                        oIntent.plugin = plugin
+                        oIntent.save()
         return {'status': 'success', 'log': 'Plugin upgraded'}
 
 class PluginManagerSingleton(object):
