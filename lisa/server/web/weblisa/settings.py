@@ -17,6 +17,8 @@ DBNAME = 'lisa'
 from mongoengine import connect
 connect(DBNAME, host=configuration['database']['server'], port=configuration['database']['port'])
 
+#FORCE_SCRIPT_NAME = "/backend"
+
 LOGIN_REDIRECT_URL='/'
 LOGIN_URL='login'
 LOGOUT_URL='logout'
@@ -47,7 +49,7 @@ TIME_ZONE = 'Europe/Paris'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
+#SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -156,7 +158,7 @@ INSTALLED_APPS = (
     'mongoengine.django.mongo_auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+#    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',

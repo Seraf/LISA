@@ -15,11 +15,7 @@ v1_api.register(WidgetResource())
 v1_api.register(WidgetByUserResource())
 v1_api.register(LisaResource())
 
-urlpatterns = patterns('',
-    url(r'^speech/', include('lisa.server.web.googlespeech.urls')),
-    url(r'^plugins/', include('lisa.server.web.manageplugins.urls')),
-    url(r'', include('lisa.server.web.interface.urls')),
-)
+urlpatterns = patterns('')
 
 #Register plugin's API
 from lisa.server.plugins.PluginManager import PluginManagerSingleton

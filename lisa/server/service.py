@@ -46,8 +46,10 @@ def makeService(config):
 
     # Creating the web stuff
     resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
-    root = libs.Root(resource_wsgi)
-    staticrsrc = static.File('/'.join([dir_path,'web/interface/static']))
+    root = static.File('/'.join([dir_path, 'web/frontend/app']))
+    backendsrc = libs.Root(resource_wsgi)
+    root.putChild("backend", backendsrc)
+    staticrsrc = static.File('/'.join([dir_path, 'web/interface/static']))
     root.putChild("static", staticrsrc)
 
     # Create the websocket
