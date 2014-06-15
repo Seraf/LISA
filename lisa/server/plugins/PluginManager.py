@@ -298,7 +298,7 @@ class PluginManager(object):
 
         return {'status': 'success', 'log': 'Plugin created'}
 
-    def upgradePlugin(self, plugin_name=None, plugin_pk=None, dev_mode=False):
+    def upgradePlugin(self, plugin_name=None, plugin_pk=None, test_mode=False, dev_mode=False):
         if plugin_pk:
             plugin_list = Plugin.objects(pk=plugin_pk)
         else:
@@ -307,7 +307,14 @@ class PluginManager(object):
         if not plugin_list:
             return {'status': 'fail', 'log': 'Plugin not installed'}
 
-        pip.main(['install', 'lisa-plugin-' + plugin_name, '--upgrade'])
+
+        if test_mode:
+            pip.main(['install', '--quiet', '--install-option=--install-platlib=' + os.getcwd() + '/../',
+                          '--install-option=--install-purelib=' + os.getcwd() + '/../', 'lisa-plugin-' +
+                                                                                        plugin_name, '--upgrade'])
+        else:
+            pip.main(['install', 'lisa-plugin-' + plugin_name, '--upgrade'])
+
         jsonfile = self.pkgpath + '/' + plugin_name + '/' + plugin_name.lower() + '.json'
         try:
             metadata = json.load(open(jsonfile))
@@ -370,6 +377,8 @@ class PluginManager(object):
                         oIntent.enabled = True
                         oIntent.plugin = plugin
                         oIntent.save()
+            else:
+                return {'status': 'fail', 'log': 'Plugin already up to date'}
         return {'status': 'success', 'log': 'Plugin upgraded'}
 
 class PluginManagerSingleton(object):
