@@ -13,3 +13,6 @@ pyOpenSSL==0.13
 lisa-plugin-ChatterBot
 PyWit>=0.2.0
 service_identity
+django-guardian
+django-waffle
+surlex

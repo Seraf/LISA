@@ -2,7 +2,8 @@ from django.conf.urls import patterns, include, url
 from tastypie.api import Api
 from lisa.server.web.manageplugins.api import PluginResource, IntentResource
 from lisa.server.web.interface.api import WidgetResource, WorkspaceResource, WidgetByUserResource
-from api import LisaResource, UserResource
+from api.accounts import UserResource
+from api.lisa import LisaResource
 from twisted.python.reflect import namedAny
 import tastypie_swagger
 
