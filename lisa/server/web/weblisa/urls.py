@@ -15,16 +15,17 @@ v1_api.register(WidgetResource())
 v1_api.register(WidgetByUserResource())
 v1_api.register(LisaResource())
 
-urlpatterns = patterns('')
+urlpatterns = []
 
 #Register plugin's API
 from lisa.server.plugins.PluginManager import PluginManagerSingleton
 for plugin in PluginManagerSingleton.get().getEnabledPlugins():
-    urlpatterns += patterns('', url(r'^' + str(plugin) + r'/', include('lisa.plugins.' +
+    urlpatterns += patterns('', url(r'^backend/' + str(plugin) + r'/', include('lisa.plugins.' +
                                                                        str(plugin) + '.web.urls')))
     v1_api.register(namedAny('lisa.plugins.' + plugin + '.web.api.' + plugin + 'Resource')())
 
-urlpatterns += patterns('',
-    url(r'^api/', include(v1_api.urls)),
-    url(r'^api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
+apipatterns = patterns('',
+    url(r'api/', include(v1_api.urls)),
+    url(r'api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
 )
+urlpatterns += patterns('', (r'^backend/', include(apipatterns)))
