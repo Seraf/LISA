@@ -1,3 +1,0 @@
-[submodule "lisa/server/web/frontend"]
-	path = lisa/server/web/frontend
-	url = https://github.com/Seraf/LISA-WEB-Frontend.git
