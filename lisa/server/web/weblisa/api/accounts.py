@@ -1,39 +1,42 @@
-from django.contrib.auth.models import User, Permission
+from mongoengine.django.auth import User as BaseUser
 from django.contrib.auth import login, logout, authenticate
 from django.db.models import Q
-
+from tastypie_mongoengine import resources as mongoresources
 from tastypie.http import HttpUnauthorized, HttpForbidden
-from tastypie.resources import ModelResource
 from tastypie import fields
 from tastypie.utils import trailing_slash
-from tastypie.authentication import MultiAuthentication, ApiKeyAuthentication, SessionAuthentication
+from tastypie.authentication import MultiAuthentication, SessionAuthentication
 from surlex.dj import surl
 from waffle import sample_is_active
 from waffle.models import Flag, Switch, Sample
 from guardian.models import UserObjectPermission
-# from base.api.cache import RedisCache
+
+import uuid
+import hashlib
+import hmac
+import datetime
 
 from .authorizations import UserOnlyAuthorization
-from .mixins import PublicEndpointResourceMixin
+from .mixins import PublicEndpointResourceMixin, CustomApiKeyAuthentication
 
 
-class ProfileResource(ModelResource):
+class ProfileResource(mongoresources.MongoEngineResource):
 
     class Meta:
         queryset = User.objects.all()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
         allowed_methods = ['get', ]
         resource_name = 'profile'
 
 
-class UserResource(PublicEndpointResourceMixin, ModelResource):
+class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResource):
     features = fields.DictField(blank=True, null=True, readonly=True)
     apikey = fields.CharField(blank=True, null=True, readonly=True)
     user_permissions = fields.ListField(blank=True, null=True, readonly=True)
 
     class Meta:
         queryset = User.objects.all()
-        authentication = MultiAuthentication(ApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
         authorization = UserOnlyAuthorization()
         fields = ['pk', 'username', 'first_name', 'last_name', 'email', ]
         allowed_methods = ['get', 'post']
@@ -135,3 +138,33 @@ EnabledResources = (
     UserResource,
     ProfileResource
 )
+
+#######################
+# Define the user class
+#######################
+class User(BaseUser):
+    """
+    Subclass of mongoengine.django.auth.User with email as username
+    and API key for authentication.
+    """
+
+    api_key = fields.CharField(default='')
+    api_key_created = fields.DateTimeField(help_text='Created')
+
+    def save(self, *args, **kwargs):
+        if not self.api_key:
+            self.set_api_key()
+
+        return super(User, self).save(*args, **kwargs)
+
+    def set_api_key(self):
+        self.api_key = self.generate_key()
+        self.api_key_created = datetime.datetime.now()
+
+    def generate_key(self):
+        new_uuid = uuid.uuid4()
+        return hmac.new(str(new_uuid), digestmod=hashlib.sha1).hexdigest()
+
+from mongoengine import signals
+from tastypie.models import create_api_key
+signals.post_save.connect(create_api_key, sender=User)

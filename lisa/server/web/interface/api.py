@@ -13,7 +13,7 @@ class WidgetResource(mongoresources.MongoEngineResource):
         authorization = authorization.Authorization()
 
 class WidgetByUserResource(mongoresources.MongoEngineResource):
-    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.UserResource', attribute='user')
+    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.accounts.UserResource', attribute='user')
     widget = fields.ReferenceField(to='lisa.server.web.interface.api.WidgetResource', attribute='widget', full=True)
 
     class Meta:
@@ -28,7 +28,7 @@ class WidgetByUserResource(mongoresources.MongoEngineResource):
         return object_list.filter(user=request.user)
 
 class WorkspaceResource(mongoresources.MongoEngineResource):
-    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.UserResource', attribute='user')
+    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.accounts.UserResource', attribute='user')
     widgets = fields.ReferencedListField(of='lisa.server.web.interface.api.WidgetByUserResource', attribute='widgets', full=True,
                                          null=True, help_text='List of widgets')
 

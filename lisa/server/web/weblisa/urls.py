@@ -3,7 +3,7 @@ from tastypie.api import Api
 from lisa.server.web.manageplugins.api import PluginResource, IntentResource
 from lisa.server.web.interface.api import WidgetResource, WorkspaceResource, WidgetByUserResource
 from api.accounts import UserResource
-from api.lisa import LisaResource
+from api.apilisa import LisaResource
 from twisted.python.reflect import namedAny
 import tastypie_swagger
 

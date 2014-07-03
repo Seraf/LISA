@@ -12,17 +12,6 @@ PROJECT_PATH = os.path.abspath(os.path.dirname(__file__) + '/../')
 
 sys.path.append(PROJECT_PATH)
 
-DBNAME = 'lisa'
-
-from mongoengine import connect
-connect(DBNAME, host=configuration['database']['server'], port=configuration['database']['port'])
-
-#FORCE_SCRIPT_NAME = "/backend"
-
-LOGIN_REDIRECT_URL='/'
-LOGIN_URL='login'
-LOGOUT_URL='logout'
-
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -120,10 +109,6 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-AUTHENTICATION_BACKENDS = (
-    'mongoengine.django.auth.MongoEngineBackend',
-)
-
 ROOT_URLCONF = 'lisa.server.web.weblisa.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -135,24 +120,10 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
+ANONYMOUS_USER_ID = -1
+
 INTERNAL_IPS = ('127.0.0.1',)
 
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-    'debug_toolbar.panels.headers.HeaderDebugPanel',
-    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-    'debug_toolbar.panels.template.TemplateDebugPanel',
-    'debug_toolbar.panels.sql.SQLDebugPanel',
-    'debug_toolbar.panels.signals.SignalDebugPanel',
-    'debug_toolbar.panels.logger.LoggingPanel',
-)
-
-DEBUG_TOOLBAR_CONFIG = {
-    'INTERCEPT_REDIRECTS': False,
-    'ENABLE_STACKTRACES' : True,
-    }
 INSTALLED_APPS = (
     'django.contrib.auth',
     'mongoengine.django.mongo_auth',
@@ -169,30 +140,24 @@ INSTALLED_APPS = (
     'interface',
     'manageplugins',
     'googlespeech',
+    'guardian'
 )
 
-# Sequence for each optional app as a dict containing info about the app.
-OPTIONAL_APPS = (
-    {"import": "debug_toolbar", "apps": ("debug_toolbar",),
-        "middleware": ("debug_toolbar.middleware.DebugToolbarMiddleware",)},
+########## MONGO CONFIG ##########
+AUTHENTICATION_BACKENDS = (
+'mongoengine.django.auth.MongoEngineBackend',
+'guardian.backends.ObjectPermissionBackend'
 )
-
-# Set up each optional app if available.
-for app in OPTIONAL_APPS:
-    if app.get("condition", True):
-        try:
-            __import__(app["import"])
-        except ImportError:
-            pass
-        else:
-            INSTALLED_APPS += app.get("apps", ())
-            MIDDLEWARE_CLASSES += app.get("middleware", ())
-
-
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
-MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
+#MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
+MONGOENGINE_USER_DOCUMENT = 'lisa.server.web.weblisa.api.accounts.User'
 SESSION_ENGINE = 'mongoengine.django.sessions'
 SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
+from mongoengine import connect
+DBNAME = 'lisa'
+connect(DBNAME, host=configuration['database']['server'], port=configuration['database']['port'])
+#########END MONGO CONFIG#######
+
 TASTYPIE_SWAGGER_API_MODULE = 'lisa.server.web.weblisa.urls.v1_api'
 
 # A sample logging configuration. The only tangible logging
