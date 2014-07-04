@@ -1,12 +1,13 @@
-from mongoengine.django.auth import User as BaseUser
+from ...interface.user import User
 from django.contrib.auth import login, logout, authenticate
+from mongoengine.queryset import DoesNotExist
 from django.db.models import Q
 from tastypie_mongoengine import resources as mongoresources
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie import fields
 from tastypie.utils import trailing_slash
 from tastypie.authentication import MultiAuthentication, SessionAuthentication
-from surlex.dj import surl
+from django.conf.urls import *
 from waffle import sample_is_active
 from waffle.models import Flag, Switch, Sample
 from guardian.models import UserObjectPermission
@@ -37,12 +38,23 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
     class Meta:
         queryset = User.objects.all()
         authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
-        authorization = UserOnlyAuthorization()
+        #authorization = UserOnlyAuthorization()
         fields = ['pk', 'username', 'first_name', 'last_name', 'email', ]
         allowed_methods = ['get', 'post']
         login_allowed_methods = ['post', ]
         resource_name = 'user'
-        urlargs = {"name": resource_name, "slash": trailing_slash()}
+        extra_actions = [
+            {
+                'name': 'login',
+                'http_method': 'POST',
+                'fields': {}
+            },
+            {
+                'name': 'logout',
+                'http_method': 'POST',
+                'fields': {}
+            },
+        ]
 
     def dehydrate_user_permissions(self, bundle):
         user = bundle.obj
@@ -86,8 +98,8 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
 
     def prepend_urls(self):
         return [
-            surl(r"^<resource_name={name}>/login{slash}$".format(**self._meta.urlargs), self.wrap_view('dispatch_login'), name='api_user_login'),
-            surl(r"^<resource_name={name}>/logout{slash}$".format(**self._meta.urlargs), self.wrap_view('dispatch_logout'), name='api_user_logout'),
+            url(r"^(?P<resource_name>%s)/login%s" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_login'), name='api_user_login'),
+            url(r"^(?P<resource_name>%s)/logout%s" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_logout'), name='api_user_logout'),
         ]
 
     def dispatch_login(self, request, **kwargs):
@@ -100,21 +112,32 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
         return self.dispatch_public('login', request, **kwargs)
 
     def post_login(self, request, **kwargs):
-        data = self.deserialize(request, request.raw_post_data, format=request.META.get('CONTENT_TYPE', 'application/json'))
+        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
         username = data.get('username', '')
         password = data.get('password', '')
-        user = authenticate(username=username, password=password)
+        from twisted.python import log
 
-        if user:
-            if user.is_active:
-                login(request, user)
+        log.msg("===============")
+        for user in User.objects.all():
+            log.msg("debug: %s" % user)
+        log.msg("===============")
+        log.msg(username)
+        log.msg(password)
+
+
+        try:
+            user = User.objects.get(username=username)
+            user.backend = 'mongoengine.django.auth.MongoEngineBackend'
+            log.msg(user)
+            if user.check_password(password):
+                print login(request, user)
+                request.session.set_expiry(60 * 60 * 1)  # 1 hour timeout
                 return self.get_detail(request, pk=user.id)
             else:
-                # Inactive User
                 return self.create_response(request, {'success': False, 'reason': 'disabled', }, HttpForbidden)
-        else:
-            # Incorrect Login
+        except DoesNotExist:
             return self.create_response(request, {'success': False, 'reason': 'incorrect'}, HttpUnauthorized)
+
 
     def dispatch_logout(self, request, **kwargs):
         """
@@ -138,33 +161,3 @@ EnabledResources = (
     UserResource,
     ProfileResource
 )
-
-#######################
-# Define the user class
-#######################
-class User(BaseUser):
-    """
-    Subclass of mongoengine.django.auth.User with email as username
-    and API key for authentication.
-    """
-
-    api_key = fields.CharField(default='')
-    api_key_created = fields.DateTimeField(help_text='Created')
-
-    def save(self, *args, **kwargs):
-        if not self.api_key:
-            self.set_api_key()
-
-        return super(User, self).save(*args, **kwargs)
-
-    def set_api_key(self):
-        self.api_key = self.generate_key()
-        self.api_key_created = datetime.datetime.now()
-
-    def generate_key(self):
-        new_uuid = uuid.uuid4()
-        return hmac.new(str(new_uuid), digestmod=hashlib.sha1).hexdigest()
-
-from mongoengine import signals
-from tastypie.models import create_api_key
-signals.post_save.connect(create_api_key, sender=User)

@@ -3,6 +3,7 @@ import os
 import json
 import sys
 from lisa.server.ConfigManager import ConfigManagerSingleton
+DBNAME = 'lisa'
 
 configuration = ConfigManagerSingleton.get().getConfiguration()
 dir_path = ConfigManagerSingleton.get().getPath()
@@ -142,23 +143,24 @@ INSTALLED_APPS = (
     'googlespeech',
     'guardian'
 )
+TASTYPIE_SWAGGER_API_MODULE = 'lisa.server.web.weblisa.urls.v1_api'
 
 ########## MONGO CONFIG ##########
 AUTHENTICATION_BACKENDS = (
 'mongoengine.django.auth.MongoEngineBackend',
 'guardian.backends.ObjectPermissionBackend'
 )
-AUTH_USER_MODEL = 'mongo_auth.MongoUser'
+
+from ..interface.user import User
+AUTH_USER_MODEL = 'interface.User'
 #MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
-MONGOENGINE_USER_DOCUMENT = 'lisa.server.web.weblisa.api.accounts.User'
+MONGOENGINE_USER_DOCUMENT = 'lisa.server.web.interface.user.User'
 SESSION_ENGINE = 'mongoengine.django.sessions'
 SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
 from mongoengine import connect
-DBNAME = 'lisa'
 connect(DBNAME, host=configuration['database']['server'], port=configuration['database']['port'])
 #########END MONGO CONFIG#######
 
-TASTYPIE_SWAGGER_API_MODULE = 'lisa.server.web.weblisa.urls.v1_api'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

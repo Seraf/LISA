@@ -5,17 +5,8 @@ import json, os
 from ....libs import LisaFactorySingleton, LisaProtocolSingleton
 from ....ConfigManager import ConfigManagerSingleton
 from tastypie import resources as tastyresources
-from tastypie_mongoengine import resources as mongoresources
 from tastypie.utils import trailing_slash
-from mongoengine.django.auth import User
 from wit import Wit
-
-
-from django.contrib.auth.models import User
-from django.db import models
-from tastypie.models import create_api_key
-
-models.signals.post_save.connect(create_api_key, sender=User)
 
 configuration = ConfigManagerSingleton.get().getConfiguration()
 dir_path = ConfigManagerSingleton.get().getPath()
