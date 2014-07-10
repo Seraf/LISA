@@ -4,7 +4,7 @@ from tastypie import http
 from tastypie.exceptions import ImmediateHttpResponse
 from tastypie.resources import convert_post_to_put
 
-from accounts import User
+from ...interface.models import LisaUser
 from tastypie.authentication import MultiAuthentication, ApiKeyAuthentication, SessionAuthentication
 
 

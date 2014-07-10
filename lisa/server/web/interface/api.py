@@ -18,7 +18,7 @@ class WidgetByUserResource(mongoresources.MongoEngineResource):
 
     class Meta:
         queryset = WidgetUser.objects.all()
-        allowed_methods = ('get','post','put','patch')
+        allowed_methods = ('get','post','put','patch','delete')
         authorization = authorization.Authorization()
 
     def obj_create(self, bundle, **kwargs):
@@ -34,5 +34,5 @@ class WorkspaceResource(mongoresources.MongoEngineResource):
 
     class Meta:
         queryset = Workspace.objects.all()
-        allowed_methods = ('get','post','put','patch')
+        allowed_methods = ('get','post','put','patch','delete')
         authorization = authorization.Authorization()

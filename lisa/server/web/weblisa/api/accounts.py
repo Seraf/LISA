@@ -1,4 +1,4 @@
-from ...interface.user import User
+from ...interface.models import LisaUser
 from django.contrib.auth import login, logout, authenticate
 from mongoengine.queryset import DoesNotExist
 from django.db.models import Q
@@ -12,19 +12,13 @@ from waffle import sample_is_active
 from waffle.models import Flag, Switch, Sample
 from guardian.models import UserObjectPermission
 
-import uuid
-import hashlib
-import hmac
-import datetime
-
-from .authorizations import UserOnlyAuthorization
 from .mixins import PublicEndpointResourceMixin, CustomApiKeyAuthentication
 
 
 class ProfileResource(mongoresources.MongoEngineResource):
 
     class Meta:
-        queryset = User.objects.all()
+        queryset = LisaUser.objects.all()
         authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
         allowed_methods = ['get', ]
         resource_name = 'profile'
@@ -36,7 +30,7 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
     user_permissions = fields.ListField(blank=True, null=True, readonly=True)
 
     class Meta:
-        queryset = User.objects.all()
+        queryset = LisaUser.objects.all()
         authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
         #authorization = UserOnlyAuthorization()
         fields = ['pk', 'username', 'first_name', 'last_name', 'email', ]
@@ -47,52 +41,38 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
             {
                 'name': 'login',
                 'http_method': 'POST',
-                'fields': {}
+                'resource_type': 'list',
+                'fields': {
+                    'username': {
+                        'type': 'string',
+                        'required': True,
+                        'description':'Unique username required.'
+                        },
+                    'password': {
+                        'type': 'string',
+                        'required': True,
+                        'description': 'password required'
+                    }
+                }
             },
             {
                 'name': 'logout',
                 'http_method': 'POST',
+                'resource_type': 'list',
                 'fields': {}
-            },
+            }
         ]
 
     def dehydrate_user_permissions(self, bundle):
         user = bundle.obj
-        user_app_permissions = user.user_permissions.all()
-        user_object_permissions = UserObjectPermission.objects.filter(user=user).distinct()
-        return list(user_app_permissions.values_list('codename', flat=True)) + list(user_object_permissions.values_list('permission__codename', flat=True))
-
-    def dehydrate_features(self, bundle):
-        user = bundle.obj
-        users_groups = user.groups.all()
-
-        find_everyone_flags = Q(everyone=True)
-        find_rollout_flags = Q(rollout=True)
-        find_authenticated_flags = Q(authenticated=True)
-        find_user_flags = Q(users__in=[user.id])
-        find_group_flags = Q(groups__in=users_groups)
-
-        enabled_flags = Flag.objects.filter(find_everyone_flags | find_rollout_flags | find_authenticated_flags | find_user_flags | find_group_flags)
-        enabled_switches = Switch.objects.filter(active=True)
-        enabled_samples = []
-        for sample in Sample.objects.all():
-            if sample_is_active(sample):
-                enabled_samples.append(sample.name)
-
-        flags = list(set(enabled_flags.values_list('name', flat=True)))
-        switches = list(set(enabled_switches.values_list('name', flat=True)))
-        samples = list(set(enabled_samples))
-        return {
-            "flags": flags,
-            "switches": switches,
-            "samples": samples,
-            "all": " ".join(flags + switches + samples)
-        }
+        #user_app_permissions = user.user_permissions.all()
+        #user_object_permissions = UserObjectPermission.objects.filter(user=user).distinct()
+        #return list(user_app_permissions.values_list('codename', flat=True)) + list(user_object_permissions.values_list('permission__codename', flat=True))
 
     def dehydrate_apikey(self, bundle):
         user = bundle.obj
-        if hasattr(user, 'api_key') and user.api_key.key:
-            return user.api_key.key
+        if hasattr(user, 'api_key') and user.api_key:
+            return user.api_key
 
         return None
 
@@ -115,22 +95,14 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
         data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
         username = data.get('username', '')
         password = data.get('password', '')
-        from twisted.python import log
-
-        log.msg("===============")
-        for user in User.objects.all():
-            log.msg("debug: %s" % user)
-        log.msg("===============")
-        log.msg(username)
-        log.msg(password)
-
 
         try:
-            user = User.objects.get(username=username)
+            user = LisaUser.objects.get(username=username)
+            print username
+            print password
             user.backend = 'mongoengine.django.auth.MongoEngineBackend'
-            log.msg(user)
             if user.check_password(password):
-                print login(request, user)
+                login(request, user)
                 request.session.set_expiry(60 * 60 * 1)  # 1 hour timeout
                 return self.get_detail(request, pk=user.id)
             else:

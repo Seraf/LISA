@@ -126,6 +126,7 @@ ANONYMOUS_USER_ID = -1
 INTERNAL_IPS = ('127.0.0.1',)
 
 INSTALLED_APPS = (
+    'interface',
     'django.contrib.auth',
     'mongoengine.django.mongo_auth',
     'django.contrib.contenttypes',
@@ -138,23 +139,20 @@ INSTALLED_APPS = (
     'tastypie',
     'tastypie_mongoengine',
     'tastypie_swagger',
-    'interface',
     'manageplugins',
-    'googlespeech',
-    'guardian'
+    'googlespeech'
 )
 TASTYPIE_SWAGGER_API_MODULE = 'lisa.server.web.weblisa.urls.v1_api'
 
 ########## MONGO CONFIG ##########
 AUTHENTICATION_BACKENDS = (
 'mongoengine.django.auth.MongoEngineBackend',
-'guardian.backends.ObjectPermissionBackend'
 )
 
-from ..interface.user import User
-AUTH_USER_MODEL = 'interface.User'
+#AUTH_USER_MODEL = 'interface.LisaUser'
+AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 #MONGOENGINE_USER_DOCUMENT = 'mongoengine.django.auth.User'
-MONGOENGINE_USER_DOCUMENT = 'lisa.server.web.interface.user.User'
+MONGOENGINE_USER_DOCUMENT = 'lisa.server.web.interface.models.LisaUser'
 SESSION_ENGINE = 'mongoengine.django.sessions'
 SESSION_SERIALIZER = 'mongoengine.django.sessions.BSONSerializer'
 from mongoengine import connect

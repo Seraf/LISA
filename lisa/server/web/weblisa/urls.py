@@ -27,6 +27,12 @@ for plugin in PluginManagerSingleton.get().getEnabledPlugins():
 
 apipatterns = patterns('',
     url(r'api/', include(v1_api.urls)),
-    url(r'api/docs/', include('tastypie_swagger.urls', namespace='tastypie_swagger')),
+    url(r'^api/docs/',
+      include('tastypie_swagger.urls', namespace='tastypie_swagger'),
+      kwargs={"tastypie_api_module":'lisa.server.web.weblisa.urls.v1_api', "namespace":"tastypie_swagger"}
+    ),
+
 )
 urlpatterns += patterns('', (r'^backend/', include(apipatterns)))
+
+

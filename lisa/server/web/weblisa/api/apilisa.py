@@ -25,21 +25,25 @@ class LisaResource(tastyresources.Resource):
             {
                 'name': 'engine/reload',
                 'http_method': 'GET',
+                'resource_type': 'list',
                 'fields': {}
             },
             {
                 'name': 'scheduler/reload',
                 'http_method': 'GET',
+                'resource_type': 'list',
                 'fields': {}
             },
             {
                 'name': 'intents',
                 'http_method': 'GET',
+                'resource_type': 'list',
                 'fields': {}
             },
             {
                 'name': 'speak',
                 'http_method': 'POST',
+                'resource_type': 'list',
                 'fields':{
                     'message': {
                         'type': 'string',
@@ -56,6 +60,7 @@ class LisaResource(tastyresources.Resource):
             {
                 'name': 'tts/google',
                 'http_method': 'POST',
+                'resource_type': 'list',
                 'fields':{
                     'message': {
                         'type': 'string',
@@ -72,6 +77,7 @@ class LisaResource(tastyresources.Resource):
             {
                 'name': 'tts/pico',
                 'http_method': 'POST',
+                'resource_type': 'list',
                 'fields':{
                     'message': {
                         'type': 'string',
