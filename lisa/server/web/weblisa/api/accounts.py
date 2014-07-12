@@ -97,8 +97,6 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
 
         try:
             user = LisaUser.objects.get(username=username)
-            print username
-            print password
             user.backend = 'mongoengine.django.auth.MongoEngineBackend'
             if user.check_password(password):
                 login(request, user)

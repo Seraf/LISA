@@ -56,7 +56,6 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
         ApiKey here is not a class (as it is realized in ORM approach),
         but a field MongoUser class.
         """
-        print "=================YAHOOOO============="
         username, api_key = super(CustomApiKeyAuthentication,
                                   self).extract_credentials(request)
         try:
