@@ -143,7 +143,7 @@ INSTALLED_APPS = (
     'googlespeech'
 )
 TASTYPIE_SWAGGER_API_MODULE = 'lisa.server.web.weblisa.urls.v1_api'
-
+TASTYPIE_ABSTRACT_APIKEY = True
 ########## MONGO CONFIG ##########
 AUTHENTICATION_BACKENDS = (
 'mongoengine.django.auth.MongoEngineBackend',

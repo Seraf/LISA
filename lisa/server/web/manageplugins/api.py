@@ -7,6 +7,9 @@ from lisa.server.libs import LisaFactorySingleton
 from lisa.server.plugins.PluginManager import PluginManagerSingleton
 from tastypie.http import HttpAccepted, HttpNotModified, HttpCreated
 
+from ..weblisa.api.mixins import CustomApiKeyAuthentication
+from tastypie.authentication import MultiAuthentication, SessionAuthentication
+
 
 class PluginResource(resources.MongoEngineResource):
     description = fields.EmbeddedListField(of='lisa.server.web.manageplugins.api.EmbeddedDescriptionResource',
@@ -15,6 +18,7 @@ class PluginResource(resources.MongoEngineResource):
         queryset = Plugin.objects.all()
         allowed_methods = ('get','post')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
         extra_actions = [
             {
                 'name': 'install',
@@ -142,6 +146,8 @@ class EmbeddedDescriptionResource(resources.MongoEngineResource):
         object_class = Description
         allowed_methods = ('get')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+
 
 class IntentResource(resources.MongoEngineResource):
     plugin = fields.ReferenceField(to='lisa.server.web.manageplugins.api.PluginResource', attribute='plugin', null=True)
@@ -149,3 +155,4 @@ class IntentResource(resources.MongoEngineResource):
     class Meta:
         object_class = Intent
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())

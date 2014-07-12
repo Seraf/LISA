@@ -4,6 +4,10 @@ from lisa.server.web.interface.models import Workspace
 from models import WidgetUser, Widget
 from tastypie_mongoengine import fields
 
+from ..weblisa.api.mixins import CustomApiKeyAuthentication
+from tastypie.authentication import MultiAuthentication, SessionAuthentication
+
+
 class WidgetResource(mongoresources.MongoEngineResource):
     plugin = fields.ReferenceField(to='lisa.server.web.manageplugins.api.PluginResource', attribute='plugin')
 
@@ -11,6 +15,7 @@ class WidgetResource(mongoresources.MongoEngineResource):
         queryset = Widget.objects.all()
         allowed_methods = ('get','post')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
 
 class WidgetByUserResource(mongoresources.MongoEngineResource):
     user = fields.ReferenceField(to='lisa.server.web.weblisa.api.accounts.UserResource', attribute='user')
@@ -20,6 +25,7 @@ class WidgetByUserResource(mongoresources.MongoEngineResource):
         queryset = WidgetUser.objects.all()
         allowed_methods = ('get','post','put','patch','delete')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
 
     def obj_create(self, bundle, **kwargs):
         return super(WidgetByUserResource, self).obj_create(bundle, user=bundle.request.user)
@@ -36,3 +42,4 @@ class WorkspaceResource(mongoresources.MongoEngineResource):
         queryset = Workspace.objects.all()
         allowed_methods = ('get','post','put','patch','delete')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())

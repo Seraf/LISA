@@ -56,10 +56,11 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
         ApiKey here is not a class (as it is realized in ORM approach),
         but a field MongoUser class.
         """
+        print "=================YAHOOOO============="
         username, api_key = super(CustomApiKeyAuthentication,
                                   self).extract_credentials(request)
         try:
-            User.objects.get(username=username, api_key=api_key)
+            LisaUser.objects.get(api_key=api_key)
         except:
             return False
 
@@ -70,14 +71,6 @@ class CustomApiKeyAuthentication(ApiKeyAuthentication):
         Custom solution for `is_authenticated` function: MongoUsers has got
         authenticated through custom api_key check.
         """
-        if request.method == 'GET':
-            return True
-        try:
-            is_authenticated = super(CustomApiKeyAuthentication,
-                                     self).is_authenticated(request, **kwargs)
-        except TypeError as e:
-            if "User" in str(e):
-                is_authenticated = self.is_mongouser_authenticated(request)
-            else:
-                is_authenticated = False
-        return is_authenticated
+        #if request.method == 'GET':
+        #    return True
+        return self.is_mongouser_authenticated(request)

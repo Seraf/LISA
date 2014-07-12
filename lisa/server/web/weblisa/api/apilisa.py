@@ -11,6 +11,10 @@ from wit import Wit
 configuration = ConfigManagerSingleton.get().getConfiguration()
 dir_path = ConfigManagerSingleton.get().getPath()
 
+from .mixins import CustomApiKeyAuthentication
+from tastypie.authentication import MultiAuthentication, SessionAuthentication
+
+
 class Lisa(object):
     def __init__(self):
         return None
@@ -21,6 +25,7 @@ class LisaResource(tastyresources.Resource):
         allowed_methods = ()
         authorization = authorization.Authorization()
         object_class = Lisa
+        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
         extra_actions = [
             {
                 'name': 'engine/reload',

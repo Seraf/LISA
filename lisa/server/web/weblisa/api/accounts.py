@@ -14,7 +14,6 @@ from guardian.models import UserObjectPermission
 
 from .mixins import PublicEndpointResourceMixin, CustomApiKeyAuthentication
 
-
 class ProfileResource(mongoresources.MongoEngineResource):
 
     class Meta:
