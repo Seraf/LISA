@@ -31,7 +31,7 @@ class LisaUser(BaseUser):
     def set_api_key(self):
         self.api_key = self.generate_key()
         self.api_key_created = datetime.datetime.now()
-        
+
     def generate_key(self):
         new_uuid = uuid.uuid4()
         return hmac.new(str(new_uuid), digestmod=hashlib.sha1).hexdigest()

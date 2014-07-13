@@ -40,7 +40,7 @@ class LisaResource(tastyresources.Resource):
                 'fields': {}
             },
             {
-                'name': 'intents',
+                'name': 'witintents',
                 'http_method': 'GET',
                 'resource_type': 'list',
                 'fields': {}
@@ -112,8 +112,8 @@ class LisaResource(tastyresources.Resource):
                 self.wrap_view('tts_pico'), name="api_lisa_tts_pico"),
             url(r"^(?P<resource_name>%s)/speak%s" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('speak'), name="api_lisa_speak"),
-            url(r"^(?P<resource_name>%s)/intents%s" % (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('intents'), name="api_lisa_intents"),
+            url(r"^(?P<resource_name>%s)/witintents%s" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('witintents'), name="api_lisa_witintents"),
         ]
 
     def speak(self, request, **kwargs):
@@ -235,11 +235,11 @@ class LisaResource(tastyresources.Resource):
         self.log_throttled_access(request)
         return self.create_response(request, { 'status': 'success', 'log': "L.I.S.A Engine reloaded"}, HttpAccepted)
 
-    def intents(self, request, **kwargs):
+    def witintents(self, request, **kwargs):
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
-        self.wit = Wit(self.configuration['wit_token'])
+        self.wit = Wit(configuration['wit_token'])
 
         from tastypie.http import HttpAccepted, HttpNotModified
 
