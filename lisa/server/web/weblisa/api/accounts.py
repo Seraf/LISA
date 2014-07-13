@@ -18,7 +18,7 @@ class ProfileResource(mongoresources.MongoEngineResource):
 
     class Meta:
         queryset = LisaUser.objects.all()
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
         allowed_methods = ['get', ]
         resource_name = 'profile'
 
@@ -30,7 +30,7 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
 
     class Meta:
         queryset = LisaUser.objects.all()
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
         #authorization = UserOnlyAuthorization()
         fields = ['id', 'username', 'first_name', 'last_name', 'email', ]
         allowed_methods = ['get', 'post']

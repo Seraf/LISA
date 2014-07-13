@@ -25,7 +25,7 @@ class LisaResource(tastyresources.Resource):
         allowed_methods = ()
         authorization = authorization.Authorization()
         object_class = Lisa
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
         extra_actions = [
             {
                 'name': 'engine/reload',

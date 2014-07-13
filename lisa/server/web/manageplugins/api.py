@@ -18,7 +18,7 @@ class PluginResource(resources.MongoEngineResource):
         queryset = Plugin.objects.all()
         allowed_methods = ('get','post')
         authorization = authorization.Authorization()
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
         extra_actions = [
             {
                 'name': 'install',
@@ -146,7 +146,7 @@ class EmbeddedDescriptionResource(resources.MongoEngineResource):
         object_class = Description
         allowed_methods = ('get')
         authorization = authorization.Authorization()
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
 
 
 class IntentResource(resources.MongoEngineResource):
@@ -155,4 +155,4 @@ class IntentResource(resources.MongoEngineResource):
     class Meta:
         object_class = Intent
         authorization = authorization.Authorization()
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())

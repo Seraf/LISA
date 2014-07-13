@@ -15,7 +15,7 @@ class WidgetResource(mongoresources.MongoEngineResource):
         queryset = Widget.objects.all()
         allowed_methods = ('get','post')
         authorization = authorization.Authorization()
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
 
 class WidgetByUserResource(mongoresources.MongoEngineResource):
     user = fields.ReferenceField(to='lisa.server.web.weblisa.api.accounts.UserResource', attribute='user')
@@ -25,7 +25,7 @@ class WidgetByUserResource(mongoresources.MongoEngineResource):
         queryset = WidgetUser.objects.all()
         allowed_methods = ('get','post','put','patch','delete')
         authorization = authorization.Authorization()
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
 
     def obj_create(self, bundle, **kwargs):
         return super(WidgetByUserResource, self).obj_create(bundle, user=bundle.request.user)
@@ -42,4 +42,4 @@ class WorkspaceResource(mongoresources.MongoEngineResource):
         queryset = Workspace.objects.all()
         allowed_methods = ('get','post','put','patch','delete')
         authorization = authorization.Authorization()
-        authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
