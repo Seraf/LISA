@@ -32,7 +32,7 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
         queryset = LisaUser.objects.all()
         authentication = MultiAuthentication(CustomApiKeyAuthentication(), SessionAuthentication())
         #authorization = UserOnlyAuthorization()
-        fields = ['pk', 'username', 'first_name', 'last_name', 'email', ]
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', ]
         allowed_methods = ['get', 'post']
         login_allowed_methods = ['post', ]
         resource_name = 'user'
