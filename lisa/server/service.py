@@ -9,6 +9,8 @@ from autobahn.twisted.resource import WebSocketResource
 from OpenSSL import SSL
 from lisa.server.ConfigManager import ConfigManagerSingleton
 
+from twisted.protocols import portforward
+
 class ThreadPoolService(service.Service):
     def __init__(self, pool):
         self.pool = pool
@@ -24,6 +26,13 @@ class ThreadPoolService(service.Service):
 
 # Twisted Application Framework setup:
 application = service.Application('LISA')
+
+def server_dataReceived(self, data):
+    portforward.Proxy.dataReceived(self, data)
+
+def client_dataReceived(self, data):
+    portforward.Proxy.dataReceived(self, data)
+
 
 def makeService(config):
     from django.core.handlers.wsgi import WSGIHandler
@@ -98,6 +107,12 @@ def makeService(config):
             # Serve it up:
             internet.TCPServer(configuration['lisa_web_port'], server.Site(root)).setServiceParent(multi)
             internet.TCPServer(configuration['lisa_engine_port'], libs.LisaFactorySingleton.get()).setServiceParent(multi)
+
+        configuration['enable_cloud_mode'] = True
+        #if configuration['enable_cloud_mode']:
+        #    portforward.ProxyClient.dataReceived = client_dataReceived
+        #    portforward.ProxyServer.dataReceived = server_dataReceived
+        #    reactor.listenTCP(1080, portforward.ProxyFactory('localhost', 8000))
 
     else:
         exit(1)
