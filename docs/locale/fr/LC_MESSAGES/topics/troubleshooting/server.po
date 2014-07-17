@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
-# Seraf42 <nephilim.seraphin@gmail.com>, 2014
+# dudumomo <dudumomo@gmail.com>, 2014
+# Julien Syx <nephilim.seraphin@gmail.com>, 2014
+# Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:32+0200\n"
-"PO-Revision-Date: 2014-05-23 15:44+0000\n"
-"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-07-05 13:38+0000\n"
+"Last-Translator: Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,12 +32,12 @@ msgid ""
 "execution times, or a variety of other issues the :doc:`Server "
 "troubleshooting page </topics/troubleshooting/server>` contains details on "
 "troubleshooting the most common issues encountered."
-msgstr ""
+msgstr "Si votre serveur rencontre des problèmes tels que le non retournement de données, faible rapidité d'exécution, ou autres : :doc:'Résolution des problèmes serveurs </topics/troubleshooting/server>'"
 
 # e422f6941d2446bb9fda5fb522d13289
 #: ../../topics/troubleshooting/server.rst:13
 msgid "Running in the Foreground"
-msgstr ""
+msgstr "Exécution au premier plan"
 
 # 3987546ce5ba4b6ab649498148118bf7
 #: ../../topics/troubleshooting/server.rst:15
@@ -43,4 +45,4 @@ msgid ""
 "A great deal of information is available via the debug logging system, if "
 "you are having issues is to run the server in the foreground to display logs"
 " in the console:"
-msgstr ""
+msgstr "Un grand nombre d'informations sont disponibles via le journal d'activités du débogage, si vous rencontrez des problèmes, il suffit de démarrer le serveur au premier plan afin d'afficher les activités dans la console : "

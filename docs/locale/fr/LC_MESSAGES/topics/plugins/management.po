@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
-# Seraf42 <nephilim.seraphin@gmail.com>, 2014
+# dudumomo <dudumomo@gmail.com>, 2014
+# Julien Syx <nephilim.seraphin@gmail.com>, 2014
+# Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:43+0200\n"
-"PO-Revision-Date: 2014-05-29 10:43+0000\n"
-"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-07-05 13:55+0000\n"
+"Last-Translator: Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,24 +31,24 @@ msgid ""
 "The plugin management is usefull to quickly manage plugins from Command Line"
 " Interface. It uses the same function than the web interface so it has the "
 "same behavior."
-msgstr ""
+msgstr "La gestion de plugins est utile afin de gérer rapidement les plugins à partir de l\"interface en ligne de commande. Cela utilise la même fonction que l'interface web est à donc le même comportement."
 
 # 91b51b010681494da2f6e2b8742016c8
 #: ../../topics/plugins/management.rst:8
 msgid "To list the functionnalities"
-msgstr ""
+msgstr "Lister les fonctionnalités"
 
 # 7495dbe3012a422a8e113febfc3310be
 #: ../../topics/plugins/management.rst:28
 msgid "This option does not need to be called with a plugin name."
-msgstr ""
+msgstr "Cette option n'a pas besoin d'être appellé par un nom de plugin."
 
 # a31ad3696c9d41c390d3d22e40cec63c
 #: ../../topics/plugins/management.rst:43
 msgid ""
 "This option will create a plugin in your plugins directory. It will ask some"
 " questions to auto-configure the plugin."
-msgstr ""
+msgstr "Cette option va créer un plugin dans votre répertoire des plugins. Quelques questions vous seront demandés afin de configurer automatiquement le plugin."
 
 # 37398df4907744c2a60b8a8df6294eae
 #: ../../topics/plugins/management.rst:53
@@ -54,7 +56,7 @@ msgid ""
 "This option will enable or disable a plugin. That means the plugin the "
 "plugin still exists in database and on filesystem but will not be loaded by "
 "the plugin manager."
-msgstr ""
+msgstr "Cette option va activé ou désactivé un plugin. Cela signifie que le plugin est toujours présent dans la base de donnée and sur le système de fichier mais ne sera pas chargé par le gestionnaire de plugin."
 
 # 2f861f1da3794a9c9d031137449c32a6
 #: ../../topics/plugins/management.rst:65
@@ -66,7 +68,7 @@ msgid ""
 "update all fields in database according your local plugin files. If you use "
 "uninstall with the dev mode, it will not delete the json file, only records "
 "in the database."
-msgstr ""
+msgstr "Cette option vous permet de spécifier ce que vous écrivez dans l'extension. Cela ne le télécharge pas dans Python Package Index mais utilise plutôt l'extension local. Elle ne fait rien dans les fichiers système mais essentiellement dans la base de données. Utilisée principalement pour installer et désinstaller une fonction. Quand elle est utilisée pour l'installation, elle actualise tout les champs dans la base de données selon vos fichiers d'extension local. Si vous l'utilisez afin de désinstaller avec le mode développeur, elle ne désinstalle pas le fichier json, mais seulement les enregistrements de votre base de données."
 
 # d1e58aeea4774e05a740452b8974ef3f
 #: ../../topics/plugins/management.rst:67
@@ -74,7 +76,7 @@ msgid ""
 "This option will install a plugin. By default it download the package from "
 "Python Package Index then read the json file and install all components "
 "(rules, crons, intents, plugin configuration) in the database."
-msgstr ""
+msgstr "Cette option installe l'extension. Par défaut elle télécharge le paquet depuis Python Package Index puis lis le fichier json et installe tout les composants (règles, crons, intension, configuration de l'extension) dans la base de données."
 
 # 70ae2a82e65443efa2c309a9ded4b4a3
 #: ../../topics/plugins/management.rst:74
@@ -82,9 +84,9 @@ msgid ""
 "This option will uninstall a plugin. By default it will remove the package "
 "and all the files related to the plugin and remove entries related to the "
 "plugin in database."
-msgstr ""
+msgstr "Cette option désinstalle l'extension. Par défaut cela supprime le paquet et tout les fichiers relatif à l'extension et supprime les entrées relatif à l'extension dans la base de données."
 
 # 854a4f68bde7400386b28147ce4cea64
 #: ../../topics/plugins/management.rst:81
 msgid "This option is not implemented yet."
-msgstr ""
+msgstr "Cette option n'est pas encore implémentée."

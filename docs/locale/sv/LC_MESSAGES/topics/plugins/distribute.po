@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:32+0200\n"
-"PO-Revision-Date: 2014-05-29 10:33+0000\n"
-"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-06-01 06:28+0000\n"
+"Last-Translator: Julien Syx <nephilim.seraphin@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/lisa/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,13 +43,23 @@ msgstr ""
 # 0baceadcdded44c28a02f457e1fff1cc
 #: ../../topics/plugins/distribute.rst:12
 msgid ""
-"The `create </topics/plugins/create>` option does not create the structure "
-"to deploy it."
+"The :doc:`create option </topics/plugins/create>` does not create the "
+"structure to deploy it."
 msgstr ""
 
 # 0d05325c142a46a28d96cd5fb8f1aff4
 #: ../../topics/plugins/distribute.rst:14
 msgid ""
-"To create the structure, you can check how plugins are actually done : "
-"`ChatterBot Plugin`_"
+"To create the setup structure, you can check how plugins are actually done :"
+" `ChatterBot Plugin`_"
+msgstr ""
+
+# fd89e029e430498e93c475053a010608
+#: ../../topics/plugins/distribute.rst:19
+msgid "Register it on the Plugin Store"
+msgstr ""
+
+# 71fc42f21b6b4c79841537e5857a5f1e
+#: ../../topics/plugins/distribute.rst:20
+msgid "Not released yet. Contact me to add it on the list of plugins"
 msgstr ""

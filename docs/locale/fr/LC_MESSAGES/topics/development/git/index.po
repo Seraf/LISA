@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
+# dudumomo <dudumomo@gmail.com>, 2014
+# Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:32+0200\n"
-"PO-Revision-Date: 2014-05-23 15:44+0000\n"
-"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-07-05 13:28+0000\n"
+"Last-Translator: Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,14 +22,14 @@ msgstr ""
 # 4840bab17ebc4815a298ef9a6bab9bc0
 #: ../../topics/development/git/index.rst:3
 msgid "Git Policy"
-msgstr ""
+msgstr "Politique de git"
 
 # 33e76bbe2d04475798d32cf7b4bf2e1e
 #: ../../topics/development/git/index.rst:5
 msgid ""
 "The L.I.S.A team follows a git policy to maintain stability and consistency "
 "with the repository."
-msgstr ""
+msgstr "L'équipe de L.I.S.A suit la politique de git afin de maintenir la stabilité et la cohérence avec le référentiel. "
 
 # dc57e3107a9a4bd2bec02a9baed6aef6
 #: ../../topics/development/git/index.rst:8
@@ -37,11 +39,11 @@ msgid ""
 "projects DO NOT NEED TO READ THIS DOCUMENT, because all contributions come "
 "into L.I.S.A via a single gateway to make it as easy as possible for "
 "contributors to give us code."
-msgstr ""
+msgstr "La politique de git à été développé afin d'encourager les contributions et vous faciliter dans votre contribution à L.I.S.A. Les contributeurs du projet L.I.S.A N'ONT PAS BESOIN DE LIRE CE DOCUMENT, car tous proviennent d'une voie unique."
 
 # 86080463bae041b28a6d6c438a792f00
 #: ../../topics/development/git/index.rst:13
 msgid ""
 "The primary rule of git management in L.I.S.A is to make life easy on "
 "contributors and developers to send in code. Simplicity is always a goal!"
-msgstr ""
+msgstr "La première règle du management de git pour L.I.S.A est de faciliter les contributeurs et développeurs pour l'envoie de code. La simplicité est toujours notre but !"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
-# Seraf42 <nephilim.seraphin@gmail.com>, 2014
+# Julien Syx <nephilim.seraphin@gmail.com>, 2014
+# Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:32+0200\n"
-"PO-Revision-Date: 2014-05-23 15:44+0000\n"
-"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-07-04 15:30+0000\n"
+"Last-Translator: Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,20 +27,28 @@ msgstr "Créer un plugin pour L.I.S.A"
 # 76695487b4ef41ed9110d71960b8c07f
 #: ../../topics/plugins/create.rst:5
 msgid "Creating a plugin is very easy, thanks to the cli tool."
-msgstr ""
+msgstr "Créer un plugin est très facile, merci à l'outil cli."
 
 # 3239a1a3816046e6b248fac8eff1ef12
 #: ../../topics/plugins/create.rst:7
 msgid "To create your plugin, type (in the virtualenv):"
-msgstr ""
+msgstr "Pour créer votre plugin, type (dans votre environnement virtuel):"
 
 # f1276a346c3f4e2bb0c874f36d9b7673
 #: ../../topics/plugins/create.rst:13
 msgid ""
 "Then, answer the questions, and you will find the plugin in your virtualenv."
-msgstr ""
+msgstr "Ensuite, répondez aux questions, et vous trouverez le plugin dans votre environnement virtuel."
 
-# df783d5a1b52468785f5f77001753def
-#: ../../topics/plugins/create.rst:21
+# dbbc26a3a1c547c1a026ad36031535c3
+#: ../../topics/plugins/create.rst:19
+msgid ""
+"By creating a new plugin you don't install it automatically. So write the "
+"code you want in the plugin, then install it in order to use the plugin. "
+"Don't forget to install it in dev mode (by using --dev)"
+msgstr "Pour créer un nouveau plugin vous ne devez pas l'installer c'est automatique. Ecrivez juste le code que vous voulez dans le plugin, puis l'installer afin de l'utiliser. N'oubliez pas de l'installer en mode développeur (en utilisant --dev)"
+
+# 0b1220c4463d4d9bb3901035df1bdc8f
+#: ../../topics/plugins/create.rst:24
 msgid ":doc:`Distribute your Plugin </topics/plugins/distribute>`"
-msgstr ""
+msgstr ":doc:'Distribuez votre plugin </topics/plugins/distribute>'"

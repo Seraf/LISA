@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
-# Seraf42 <nephilim.seraphin@gmail.com>, 2014
+# dudumomo <dudumomo@gmail.com>, 2014
+# Julien Syx <nephilim.seraphin@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:32+0200\n"
-"PO-Revision-Date: 2014-05-23 15:44+0000\n"
-"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-06-08 12:38+0000\n"
+"Last-Translator: dudumomo <dudumomo@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,12 +30,12 @@ msgid ""
 "The intent of the troubleshooting section is to introduce solutions to a "
 "number of common issues encountered by users and the tools that are "
 "available to aid debug the code."
-msgstr ""
+msgstr "L'objectif de la section résolution de problèmes est de présenter les solutions aux problèmes fréquemment rencontrés pour les utilisateurs ainsi que les outils disponible pour aider le debug du code."
 
 # 2c1f721bcb354720992872b439d48982
 #: ../../topics/troubleshooting/index.rst:16
-msgid "What Ports do the Master and Minion Need Open?"
-msgstr ""
+msgid "What Ports do the Server and Clients Need Open?"
+msgstr "Quels ports doivent être ouverts sur le Serveur et les Clients?"
 
 # 99aa09aab8a445a18aebb0c0977bfc83
 #: ../../topics/troubleshooting/index.rst:18
@@ -42,7 +43,7 @@ msgid ""
 "No ports need to be opened up on clients. For the server, TCP ports 10042, "
 "10043 and 8000 (or 80) need to be open. If you can't connect on you server, "
 "and can't access the web interface, it could be a firewall problem."
-msgstr ""
+msgstr "Aucun port ne doit être ouvert du coté des clients. Pour la partie serveur, les ports TCP 10042, 10043 et 8000 (ou 80) doivent être ouverts. Si vous ne pouvez accédez à votre serveur ainsi qu'à l'interface web, cela peut être un problème de parefeu."
 
 # c55e805a3bcb4a70aafcd6636a442302
 #: ../../topics/troubleshooting/index.rst:22

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:32+0200\n"
-"PO-Revision-Date: 2014-05-11 07:07+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-06-01 06:28+0000\n"
+"Last-Translator: Julien Syx <nephilim.seraphin@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/lisa/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,7 +38,15 @@ msgid ""
 "Then, answer the questions, and you will find the plugin in your virtualenv."
 msgstr ""
 
-# df783d5a1b52468785f5f77001753def
-#: ../../topics/plugins/create.rst:21
+# dbbc26a3a1c547c1a026ad36031535c3
+#: ../../topics/plugins/create.rst:19
+msgid ""
+"By creating a new plugin you don't install it automatically. So write the "
+"code you want in the plugin, then install it in order to use the plugin. "
+"Don't forget to install it in dev mode (by using --dev)"
+msgstr ""
+
+# 0b1220c4463d4d9bb3901035df1bdc8f
+#: ../../topics/plugins/create.rst:24
 msgid ":doc:`Distribute your Plugin </topics/plugins/distribute>`"
 msgstr ""

@@ -3,14 +3,17 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
-# Seraf42 <nephilim.seraphin@gmail.com>, 2014
+# dudumomo <dudumomo@gmail.com>, 2014
+# Julien Syx <nephilim.seraphin@gmail.com>, 2014
+# Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>, 2014
+# Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:32+0200\n"
-"PO-Revision-Date: 2014-05-29 10:32+0000\n"
-"Last-Translator: Seraf42 <nephilim.seraphin@gmail.com>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-07-07 08:23+0000\n"
+"Last-Translator: Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +34,7 @@ msgstr "FAQ"
 # 45dcd948141f4a44aa478d01234d7bb1
 #: ../../faq.rst:7
 msgid "Is LISA open-source ?"
-msgstr "Est ce que LISA est open-source ?"
+msgstr "Est-ce que LISA est open-source ?"
 
 # 8d89da8e6b4a427a9253ab9d74cc8b4a
 #: ../../faq.rst:9
@@ -43,12 +46,12 @@ msgstr "Oui. LISA est 100% opensource, idem pour toutes les API."
 msgid ""
 "And in the future, even if I create an enterprise with LISA, it will stay "
 "opensource and free."
-msgstr ""
+msgstr "Et à l'avenir, mais si je crée une entreprise avec LISA, le projet restera à code ouvert et libre."
 
 # 56bfd091b701483ca4124388e0948c68
 #: ../../faq.rst:14
 msgid "Can I fork it ?"
-msgstr ""
+msgstr "Puis je en faire un fork ?"
 
 # e3c03b4539394f3b9345fcf0aac35c8e
 #: ../../faq.rst:16
@@ -56,19 +59,19 @@ msgid ""
 "Yes you can fork it if you want. Everything will be opensourced, even the "
 "\"appstore\". But of course, I encourage everyone to contribute instead of "
 "spreading smart people."
-msgstr ""
+msgstr "Oui vous pouvez en faire un fork si vous voulez. Tout sera à code ouvert, même le \"appstore\". Mais évidemment j'encourage tout le monde à contribuer au projet au lieu de diluer nos talents."
 
 # e25b75250eeb41e294ce302c8655ed8b
 #: ../../faq.rst:20
 msgid "Is LISA full local mode or does it need an Internet connection ?"
-msgstr ""
+msgstr "C'est LISA est en mode local ou faut-il une connexion internet ?"
 
 # 0de648f124624732bd94edff1b113e4d
 #: ../../faq.rst:22
 msgid ""
 "LISA is actually needing an Internet connection. I work on it to have "
 "something fully working even if your connection is broken."
-msgstr ""
+msgstr "LISA à actuellement besoin d'une connexion internet cependant je travaille dessus afin de fournir quelque chose qui fonctionne même quand la connexion se coupe."
 
 # 235e5245eda1400987590a54fd1f7171
 #: ../../faq.rst:25
@@ -77,12 +80,12 @@ msgid ""
 "online) and to use Wit Engine on the server side. Wit is also working on a "
 "local server for Wit. Once it will be available, it will be backported in "
 "LISA as soon as possible."
-msgstr ""
+msgstr "LISA à au moins besoin d'internet pour son client (puisque la reconnaissance vocale est en ligne) et pour le moteur Wit sur la partie serveur. Wit fonctionne également sur un serveur local pour Wit. Une fois disponible, il sera retro-porté sur LISA le plus rapidement possible."
 
 # 83a89dd799ea4ac599da24d572ddb16d
 #: ../../faq.rst:30
 msgid "Which Speech Engine do you use ?"
-msgstr ""
+msgstr "Quel moteur de synthèse vocal utilisez vous ?"
 
 # 56467f20580f413682a72786b04b3367
 #: ../../faq.rst:31
@@ -94,12 +97,12 @@ msgid ""
 "online webservice and they use many speech engine in backend to do the "
 "speech recognition. They plan to create free accoustic models and use (in "
 "the future) only opensource speech engine. They are partner of CMUSphinx."
-msgstr ""
+msgstr "Même si elle une partie les plus importante du projet, je n'ai pas envie de me focaliser dessus. Le client Linux actuel utilise pocketsphinx afin de détecter keyword (le nom du robot). C'est le déclencheur pour lancer la reconnaissance vocale par voix. LISA écouter et diffuse chaque fragment sonore vers l'API Wit Speech. C'est un service web en ligne et ils utilisent plusieurs moteurs vocaux pour la reconnaissance vocale. Ils ont l'intention de créer des modèles acoustiques gratuits et utiliser (dans le futur) essentiellement un moteur vocal opensource. Ils sont partenaire de CMUSphinx."
 
 # 2a769e85e61148698cc14195957b5a13
 #: ../../faq.rst:38
 msgid "Not convinced ? Don't want to see your voice go outside your home ?"
-msgstr ""
+msgstr "Pas convaincu ? Vous ne voulez pas voir votre voix aller en dehors de votre maison ?"
 
 # 859f0908cba7438b858e4a5f293da1fe
 #: ../../faq.rst:40
@@ -108,7 +111,7 @@ msgid ""
 "create an irc bot client, a hangout bot, a jabber bot, a voice client which "
 "use Dragon Natural Speech, Windows Grammar, Android Speech Engine or "
 "whatever. The choice is yours, just send a sentence to LISA."
-msgstr ""
+msgstr "Eh bien, LISA a été construit afin que l'utilisateur puisse choisir son moteur de reconnaissance vocale. Vous pouvez créer un robot client sur irc, un robot hangout, et jabber, le client voix peut utiliser Dragon Natural Speech, Windows Grammar, Android Speech Engine ou autres. C'est vous qui décider, il suffit d'envoyer son choix à LISA."
 
 # e322d3caefcd49108a5316cdc0cdf09a
 #: ../../faq.rst:44
@@ -117,12 +120,12 @@ msgid ""
 "will be the computing capacity to do speech recognition in local mode. But "
 "don't be worry, I want for myself something in local and working without "
 "internet connection."
-msgstr ""
+msgstr "N'oubliez pas que le plus petit est le périphérique sur lequel est hébergé le client, Moins il y aura de capacité de calcul pour la reconnaissance en mode local. Mais pas de panique, je souhaite pour moi quelque chose en local et fonctionnent sans connexion internet."
 
 # 83a89dd799ea4ac599da24d572ddb16d
 #: ../../faq.rst:49
 msgid "Why LISA use mongodb as database ?"
-msgstr ""
+msgstr "Pourquoi LISA utilise mongodb comme base de données?"
 
 # f9e5e21fcc89420686a20cb72fad2cef
 #: ../../faq.rst:51
@@ -131,21 +134,21 @@ msgid ""
 "production. Is it scalable ? Mongodb let LISA to scale and support loss of a"
 " server. The database can be distribued accross your clients for example. "
 "The NoSQL technology allow developers to build plugins easily."
-msgstr ""
+msgstr "Je suis un DevOps, donc quand je code, je reflechi toujours à comment mon code va fonctionner en production. Est il évolutif ? Mongodb permet à LISA d'être compatible et de s'adapter à la perte d'un serveur. La base de données peut être distribué à travers les clients par example. La technologie NoSQL permet aux développeurs de créer facilement des plugins.  "
 
 # cf5e1c7e205443389cdd84d416fecbfc
 #: ../../faq.rst:55
 msgid ""
 "As plugins and configuration are stored in the mongodb database, you can "
 "scale the LISA server with a load balancer."
-msgstr ""
+msgstr "Vu que les plugins et la configuration est stocké dans la base mongodb, vous pouvez facilement mêttre à échelles le serveur LISA avec une répartition de charge."
 
 # b47d1c1184e04446aa16b269055ac22b
 #: ../../faq.rst:58
 msgid ""
 "The only problem is a lack of support for ARM. But there's a ticket opened "
 "on their JIRA issue tracker."
-msgstr ""
+msgstr "Le seul problème est le manque de support de la plateforme ARM. Mais il y à un ticket d'ouvert sur leur traqeur de bogues JIRA."
 
 # d61384bcc9364be9a62f33810e510560
 #: ../../faq.rst:61
@@ -157,12 +160,12 @@ msgstr "Quels ports dois-je ouvrir sur mon pare-feu ?"
 msgid ""
 "LISA use by default the port 10042 to communicate between client and server,"
 " and port 8000 for the webserver."
-msgstr "LISA utilise par défaut le port 10042 pour communiquer entre le client et le seveur, et le port 8000 pour le serveur web."
+msgstr "LISA utilise par défaut le port 10042 pour communiquer entre le client et le serveur, et le port 8000 pour le serveur web."
 
 # 7978aa3992954284b0090a8bfb73f781
 #: ../../faq.rst:66
 msgid "Can I do Home Automation with this project ?"
-msgstr ""
+msgstr "Puis je faire de la domotique avec ce projet ?"
 
 # 0f63dc325edd41d1a9abdd2e7d70841c
 #: ../../faq.rst:67
@@ -171,12 +174,12 @@ msgid ""
 "objects and your home automation box. LISA can also handle some "
 "\"intelligency\" to execute orders on your home automation box, but it won't"
 " replace an automation box."
-msgstr ""
+msgstr "Réponse rapide: Non. LISA vous permet de créer un pont entre vos objets connectés et votre boitier domotique. LISA peut également gérer quelques \"intelligence\" à exécuter des ordres sur votre boite, mais cela ne replacera pas un boitier domotique."
 
 # 83a89dd799ea4ac599da24d572ddb16d
 #: ../../faq.rst:72
 msgid "Why LISA is written in Python ?"
-msgstr ""
+msgstr "Pourquoi LISA est écrit en Python ?"
 
 # 4bd7735a3f0f47b38799ff8093f40707
 #: ../../faq.rst:73
@@ -185,4 +188,4 @@ msgid ""
 "perfect so don't hesit to send a patch. I love Python because there's a lot "
 "of API written in Python language and as LISA is a built to connect API "
 "between them it was logic to use a language easy to learn and easy to use."
-msgstr ""
+msgstr "Premièrement, je cherche à apprendre ce langage depuis longtemps. Le code peut ne pas être parfait alors n'hésitez pas à envoyer un correctif. J'aime Python car beaucoup d'API sont écrit avec ce langage et comme LISA est construit afin de d'interconnecter les API, c'est donc logique langage facile d'apprentissage et facile à utiliser."

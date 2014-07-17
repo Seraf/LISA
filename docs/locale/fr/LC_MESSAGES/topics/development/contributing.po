@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the L.I.S.A package.
 # 
 # Translators:
-# Seraf42 <nephilim.seraphin@gmail.com>, 2014
-# MohamedZ <m-boumediene@live.fr>, 2014
+# dudumomo <dudumomo@gmail.com>, 2014
+# Julien Syx <nephilim.seraphin@gmail.com>, 2014
+# Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: LISA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-29 12:32+0200\n"
-"PO-Revision-Date: 2014-05-26 07:43+0000\n"
-"Last-Translator: MohamedZ <m-boumediene@live.fr>\n"
+"POT-Creation-Date: 2014-06-01 08:27+0200\n"
+"PO-Revision-Date: 2014-07-05 14:17+0000\n"
+"Last-Translator: Mohamed-Younès BOUMEDIENE <m-boumediene@live.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/lisa/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,17 +70,17 @@ msgstr ""
 #: ../../topics/development/contributing.rst:24
 msgid ""
 "Then, create a new branch on your clone by entering the following commands:"
-msgstr ""
+msgstr "Ensuite, créer une nouvelle branche sur votre clone en entrant les commandes suivantes : "
 
 # 517d9117ea8546e5880324045bdbf03e
 #: ../../topics/development/contributing.rst:32
 msgid "Choose a name for your branch that describes its purpose."
-msgstr ""
+msgstr "Choisissez un nom à votre branche qui décrit son but."
 
 # 7f9b94a70b7049d192bf4177dd3acecd
 #: ../../topics/development/contributing.rst:34
 msgid "Now commit your changes to this new branch with the following command:"
-msgstr ""
+msgstr "Maintenant commentez vos changements sur cette branche avec la commande suivante :  "
 
 # d85d2dc44cf54dc5b2013d6f5bec843b
 #: ../../topics/development/contributing.rst:42
@@ -95,7 +96,7 @@ msgstr ""
 # 29db9a4ffda8464a87c663ab7dcb57fb
 #: ../../topics/development/contributing.rst:49
 msgid "Push your locally-committed changes back up to GitHub:"
-msgstr ""
+msgstr "Poussez vos changement fait en local vers GitHub : "
 
 # 6025bf1a08d043e09149ad7605f9efba
 #: ../../topics/development/contributing.rst:55
@@ -125,7 +126,7 @@ msgstr ""
 # 656bbb7ec43f43cebde8b23628e09979
 #: ../../topics/development/contributing.rst:67
 msgid "Travis"
-msgstr ""
+msgstr "Travis"
 
 # 05ec3c32e27a451e9154cb415a7b66b6
 #: ../../topics/development/contributing.rst:69
@@ -144,7 +145,7 @@ msgstr ""
 # 52a6b20576454a21bdc1e983cbb7db75
 #: ../../topics/development/contributing.rst:79
 msgid "Minor releases"
-msgstr ""
+msgstr "Versions mineures"
 
 # 949b80caa97348208df0dd41599414ec
 #: ../../topics/development/contributing.rst:81
@@ -169,7 +170,7 @@ msgstr ""
 # a304ae90b2a2408d85160a558a249dc6
 #: ../../topics/development/contributing.rst:91
 msgid "Keeping L.I.S.A Forks in Sync"
-msgstr ""
+msgstr "Maintenir votre Fork de L.I.S.A en synchronisation"
 
 # 724a0ab83969486d9b44fdf68ac23f71
 #: ../../topics/development/contributing.rst:93
@@ -183,7 +184,7 @@ msgstr ""
 # f084bc329eb945d2922bdd03f4e4b5ba
 #: ../../topics/development/contributing.rst:98
 msgid "To pull in upstream changes:"
-msgstr ""
+msgstr "Pour enlever les modifications en amont : "
 
 # 596226000e9643a3af0b313cd4caa23b
 #: ../../topics/development/contributing.rst:111
@@ -195,11 +196,31 @@ msgstr ""
 # 5d99f53055c149b68fed911f1a94279b
 #: ../../topics/development/contributing.rst:118
 msgid "Then to accept the changes and merge into the current branch:"
-msgstr ""
+msgstr "Ensuite, pour accepter les modifications et fusionner avec la branche actuelle : "
 
 # 6aab551b19a34022840327fc53c3f623
 #: ../../topics/development/contributing.rst:124
 msgid ""
 "For more info, see `GitHub Fork a Repo Guide`_ or `Open Comparison "
 "Contributing Docs`_"
+msgstr "Pour plus d'informations, voir 'Guide de dépôt Fork sur GitHub' ou 'Ouvrir le document de comparaison des contributions' "
+
+# 044550b7aef1434fbac149b18b070da8
+#: ../../topics/development/contributing.rst:132
+msgid "Sign off your pull request"
+msgstr "Approuver votre demande de sondage"
+
+# 0b846856d3fe4b539fae9b80784e3013
+#: ../../topics/development/contributing.rst:133
+msgid ""
+"When making pull requests, please sign-off the pull request in a pull "
+"request comment. You can simply make a comment something like::"
+msgstr ""
+
+# c4205f5003ba4883a50213a38c91706b
+#: ../../topics/development/contributing.rst:138
+msgid ""
+"By signing-off you indicate that you are accepting the Developer Certificate"
+" Of Origin. For now, we are using them same DCO as `Linux kernel developers "
+"are using`_."
 msgstr ""
