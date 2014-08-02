@@ -12,6 +12,7 @@
 # serve to show the default.
 
 import sys, os
+from sphinx.directives import TocTree
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -250,6 +251,19 @@ texinfo_documents = [
 locale_dirs = ['locale']   # path is example but recommended.
 gettext_compact = False     # optional.
 
+def skip_mod_init_member(app, what, name, obj, skip, options):
+    if name.startswith('_'):
+        return True
+    if isinstance(obj, types.FunctionType) and obj.__name__ == 'mod_init':
+        return True
+    return False
+
+
+def _normalize_version(args):
+    _, path = args
+    return '.'.join([x.zfill(4) for x in (path.split('/')[-1].split('.'))])
+
+
 class ReleasesTree(TocTree):
     option_spec = dict(TocTree.option_spec)
 
@@ -259,3 +273,8 @@ class ReleasesTree(TocTree):
         entries.sort(key=_normalize_version, reverse=True)
         rst[0][0]['entries'][:] = entries
         return rst
+
+
+def setup(app):
+    app.add_directive('releasestree', ReleasesTree)
+    app.connect('autodoc-skip-member', skip_mod_init_member)
