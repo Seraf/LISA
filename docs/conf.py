@@ -249,3 +249,13 @@ texinfo_documents = [
 
 locale_dirs = ['locale']   # path is example but recommended.
 gettext_compact = False     # optional.
+
+class ReleasesTree(TocTree):
+    option_spec = dict(TocTree.option_spec)
+
+    def run(self):
+        rst = super(ReleasesTree, self).run()
+        entries = rst[0][0]['entries'][:]
+        entries.sort(key=_normalize_version, reverse=True)
+        rst[0][0]['entries'][:] = entries
+        return rst
