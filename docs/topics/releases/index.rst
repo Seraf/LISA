@@ -4,6 +4,7 @@ Release notes
 
 .. releasestree::
     :maxdepth: 1
+    
     1.0
 
 Archive
