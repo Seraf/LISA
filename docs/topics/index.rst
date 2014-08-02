@@ -38,7 +38,7 @@ for python.
 .. _lisa-community:
 
 L.I.S.A Community
-==============
+=================
 
 Join L.I.S.A !
 
