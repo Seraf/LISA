@@ -82,7 +82,7 @@ L.I.S.A should run on any Unix-like platform so long as the dependencies are met
 
 
 Upgrading L.I.S.A
---------------
+-----------------
 
 To upgrade L.I.S.A manually, you can upgrade the python package (in the virtualenv):
 
