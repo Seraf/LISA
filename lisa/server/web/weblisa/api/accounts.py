@@ -8,9 +8,6 @@ from tastypie import fields
 from tastypie.utils import trailing_slash
 from tastypie.authentication import MultiAuthentication, SessionAuthentication
 from django.conf.urls import *
-from waffle import sample_is_active
-from waffle.models import Flag, Switch, Sample
-from guardian.models import UserObjectPermission
 
 from .mixins import PublicEndpointResourceMixin, CustomApiKeyAuthentication
 

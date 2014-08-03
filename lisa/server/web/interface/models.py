@@ -23,14 +23,14 @@ class LisaUser(BaseUser):
 
     def save(self, *args, **kwargs):
         if not self.api_key:
-            print "not self apikey :("
-            self.set_api_key()
+            print "Your api key is : %s" % self.set_api_key()
 
         return super(LisaUser, self).save(*args, **kwargs)
 
     def set_api_key(self):
         self.api_key = self.generate_key()
         self.api_key_created = datetime.datetime.now()
+        return self.api_key
 
     def generate_key(self):
         new_uuid = uuid.uuid4()

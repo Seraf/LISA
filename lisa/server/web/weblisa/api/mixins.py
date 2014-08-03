@@ -45,6 +45,7 @@ class PublicEndpointResourceMixin(object):
  
         return response
 
+
 class CustomApiKeyAuthentication(ApiKeyAuthentication):
     """
     Authenticates everyone if the request is GET otherwise performs
