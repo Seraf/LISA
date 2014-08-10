@@ -110,11 +110,10 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        status = PluginManagerSingleton.get().enablePlugin(plugin_pk=kwargs['pk'])
+        status = PluginManagerSingleton.get().disablePlugin(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
         LisaFactorySingleton.get().SchedReload()
         LisaFactorySingleton.get().LisaReload()
-
         return self.create_response(request, status, HttpAccepted)
 
     def uninstall(self, request, **kwargs):

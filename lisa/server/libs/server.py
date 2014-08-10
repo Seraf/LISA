@@ -102,12 +102,8 @@ class LisaFactory(Factory):
         return self.Lisa
 
     def LisaReload(self):
-        global enabled_plugins
-
         log.msg(unicode(_('Reloading L.I.S.A Engine')))
         sys.path = self.syspath
-        enabled_plugins = []
-        self.build_activeplugins()
 
     def SchedReload(self):
         global taskman
