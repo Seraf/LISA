@@ -28,6 +28,12 @@ class LisaResource(tastyresources.Resource):
         authentication = MultiAuthentication(CustomApiKeyAuthentication())
         extra_actions = [
             {
+                'name': 'configuration',
+                'http_method': 'GET',
+                'resource_type': 'list',
+                'fields': {}
+            },
+            {
                 'name': 'engine/reload',
                 'http_method': 'GET',
                 'resource_type': 'list',
@@ -102,6 +108,8 @@ class LisaResource(tastyresources.Resource):
 
     def prepend_urls(self):
         return [
+            url(r"^(?P<resource_name>%s)/configuration%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('configuration'), name="api_lisa_configuration"),
             url(r"^(?P<resource_name>%s)/engine/reload%s$" % (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('engine_reload'), name="api_lisa_engine_reload"),
             url(r"^(?P<resource_name>%s)/scheduler/reload%s" % (self._meta.resource_name, trailing_slash()),
@@ -266,6 +274,18 @@ class LisaResource(tastyresources.Resource):
         self.log_throttled_access(request)
         return self.create_response(request, { 'status': 'success', 'log': "L.I.S.A Task Scheduler reloaded"},
                                     HttpAccepted)
+
+    def configuration(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+
+        from tastypie.http import HttpAccepted, HttpNotModified
+
+        self.log_throttled_access(request)
+        copyconfiguration = configuration
+        copyconfiguration['database'] = None
+        return self.create_response(request, {'configuration': configuration}, HttpAccepted)
 
     def get_object_list(self, request):
         return [Lisa()]

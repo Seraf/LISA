@@ -93,7 +93,6 @@ class PluginResource(resources.MongoEngineResource):
         LisaFactorySingleton.get().LisaReload()
         return self.create_response(request, status, HttpCreated)
 
-
     def enable(self, request, **kwargs):
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
