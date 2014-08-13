@@ -4,11 +4,10 @@ from twisted.internet import reactor, ssl
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static
 from twisted.python import threadpool, log
-from autobahn.twisted.websocket import WebSocketServerFactory
-from autobahn.twisted.resource import WebSocketResource
+from txsockjs.factory import SockJSFactory
+from twisted.internet.protocol import Factory
 from OpenSSL import SSL
 from lisa.server.ConfigManager import ConfigManagerSingleton
-
 from twisted.protocols import portforward
 
 
@@ -63,17 +62,8 @@ def makeService(config):
     staticrsrc = static.File('/'.join([dir_path, 'web/interface/static']))
     root.putChild("static", staticrsrc)
 
-    # Create the websocket
-    if configuration['enable_secure_mode']:
-        socketfactory = WebSocketServerFactory("wss://" + configuration['lisa_url'] + ":" +
-                                               str(configuration['lisa_web_port_ssl']),debug=False)
-    else:
-        socketfactory = WebSocketServerFactory("ws://" + configuration['lisa_url'] + ":" +
-                                               str(configuration['lisa_web_port']),debug=False)
-    socketfactory.protocol = libs.WebSocketProtocol
-    socketfactory.protocol.configuration, socketfactory.protocol.dir_path = configuration, dir_path
-    socketresource = WebSocketResource(socketfactory)
-    root.putChild("websocket", socketresource)
+    socketfactory = SockJSFactory(Factory.forProtocol(libs.WebSocketProtocol))
+    root.putChild("websocket", socketfactory)
 
     # Configuring servers to launch
     if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
