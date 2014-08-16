@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lisa 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-17 19:30+0200\n"
+"POT-Creation-Date: 2014-08-15 08:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr ""
 msgid "After 'after' rule: %(jsonOutput)s"
 msgstr ""
 
-#: ../libs/server.py:73 ../libs/websocket.py:87
+#: ../libs/server.py:73 ../libs/websocket.py:88
 #, python-format
 msgid "Lost connection.  Reason: %(reason)s"
 msgstr ""
@@ -55,27 +55,87 @@ msgstr ""
 msgid "Error : Invalid JSON"
 msgstr ""
 
-#: ../libs/server.py:107
+#: ../libs/server.py:105
 msgid "Reloading L.I.S.A Engine"
 msgstr ""
 
-#: ../libs/server.py:114
+#: ../libs/server.py:110
 msgid "Reloading Task Scheduler"
 msgstr ""
 
-#: ../libs/websocket.py:77
+#: ../libs/websocket.py:78
 msgid "Started to connect."
 msgstr ""
 
-#: ../libs/websocket.py:81
+#: ../libs/websocket.py:82
 msgid "Connected to Lisa."
 msgstr ""
 
-#: ../libs/websocket.py:82
+#: ../libs/websocket.py:83
 msgid "Resetting reconnection delay"
 msgstr ""
 
-#: ../libs/websocket.py:91
+#: ../libs/websocket.py:92
 #, python-format
 msgid "Connection failed. Reason: %(reason)s"
+msgstr ""
+
+#: ../plugins/PluginManager.py:57
+msgid "Plugin already installed"
+msgstr ""
+
+#: ../plugins/PluginManager.py:129
+msgid "Plugin installed"
+msgstr ""
+
+#: ../plugins/PluginManager.py:138
+msgid "Plugin already enabled"
+msgstr ""
+
+#: ../plugins/PluginManager.py:153
+msgid "Plugin enabled"
+msgstr ""
+
+#: ../plugins/PluginManager.py:162
+msgid "Plugin already disabled"
+msgstr ""
+
+#: ../plugins/PluginManager.py:178
+msgid "Plugin disabled"
+msgstr ""
+
+#: ../plugins/PluginManager.py:186 ../plugins/PluginManager.py:316
+msgid "Plugin not installed"
+msgstr ""
+
+#: ../plugins/PluginManager.py:200
+msgid "Plugin uninstalled"
+msgstr ""
+
+#: ../plugins/PluginManager.py:238
+msgid "Plugin already exist on Pypi"
+msgstr ""
+
+#: ../plugins/PluginManager.py:244
+msgid "Plugin already exist in the store"
+msgstr ""
+
+#: ../plugins/PluginManager.py:307
+msgid "Plugin created"
+msgstr ""
+
+#: ../plugins/PluginManager.py:331
+msgid "The json of the plugin can't be loaded"
+msgstr ""
+
+#: ../plugins/PluginManager.py:394
+msgid "Plugin already up to date"
+msgstr ""
+
+#: ../plugins/PluginManager.py:395
+msgid "Plugin upgraded"
+msgstr ""
+
+#: ../plugins/PluginManager.py:418
+msgid "Singleton can't be created twice !"
 msgstr ""

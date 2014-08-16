@@ -16,7 +16,7 @@ class PluginResource(resources.MongoEngineResource):
                                            attribute='description', full=True, null=True)
     class Meta:
         queryset = Plugin.objects.all()
-        allowed_methods = ('get','post')
+        allowed_methods = ('get', 'post', 'put', 'delete')
         authorization = authorization.Authorization()
         authentication = MultiAuthentication(CustomApiKeyAuthentication())
         extra_actions = [
@@ -34,31 +34,31 @@ class PluginResource(resources.MongoEngineResource):
                       'code': 304
                     }
                 ],
-                'fields':{}
+                'fields': {}
             },
             {
                 'name': 'uninstall',
-                'summary':'Uninstall a plugin',
+                'summary': 'Uninstall a plugin',
                 'http_method': 'GET',
-                'fields':{}
+                'fields': {}
             },
             {
                 'name': 'enable',
-                'summary':'Enable a plugin',
+                'summary': 'Enable a plugin',
                 'http_method': 'GET',
-                'fields':{}
+                'fields': {}
             },
             {
                 'name': 'disable',
-                'summary':'Disable a plugin',
+                'summary': 'Disable a plugin',
                 'http_method': 'GET',
-                'fields':{}
+                'fields': {}
             },
             {
                 'name': 'methodslist',
-                'summary':'List the method of all (or the plugin name in parameter) plugins installed',
+                'summary': 'List the method of all (or the plugin name in parameter) plugins installed',
                 'http_method': 'GET',
-                'fields':{}
+                'fields': {}
             },
         ]
 

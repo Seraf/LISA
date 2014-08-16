@@ -11,10 +11,14 @@ from pymongo import MongoClient
 from twisted.python import log
 import os
 import re
+import gettext
 from lisa.server.ConfigManager import ConfigManagerSingleton
 
 configuration = ConfigManagerSingleton.get().getConfiguration()
 dir_path = ConfigManagerSingleton.get().getPath()
+path = '/'.join([ConfigManagerSingleton.get().getPath(), 'lang'])
+_ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
+                                              languages=[configuration['lang']]).ugettext
 
 
 class PluginManager(object):
@@ -36,7 +40,7 @@ class PluginManager(object):
         return self.enabled_plugins
 
     def loadPlugins(self):
-        for plugin in self.database.plugins.find( { "enabled": True, "lang": configuration['lang'] } ):
+        for plugin in self.database.plugins.find({"enabled": True, "lang": configuration['lang']}):
             self.enabled_plugins.append(str(plugin['name']))
 
         return self.enabled_plugins
@@ -50,7 +54,7 @@ class PluginManager(object):
     def installPlugin(self, plugin_name=None, test_mode=False, dev_mode=False, version=None):
         version_str = ""
         if Plugin.objects(name=plugin_name):
-            return {'status': 'fail', 'log': 'Plugin already installed'}
+            return {'status': 'fail', 'log': unicode(_('Plugin already installed'))}
 
         if version:
             version_str = ''.join(["==", version])
@@ -122,7 +126,7 @@ class PluginManager(object):
             oIntent.enabled = True
             oIntent.plugin = plugin
             oIntent.save()
-        return {'status': 'success', 'log': 'Plugin installed'}
+        return {'status': 'success', 'log': unicode(_('Plugin installed'))}
 
     def enablePlugin(self, plugin_name=None, plugin_pk=None):
         if plugin_pk:
@@ -131,7 +135,7 @@ class PluginManager(object):
             plugin_list = Plugin.objects(name=plugin_name)
         for plugin in plugin_list:
             if plugin.enabled:
-                return {'status': 'fail', 'log': 'Plugin already enabled'}
+                return {'status': 'fail', 'log': unicode(_('Plugin already enabled'))}
             else:
                 plugin.enabled = True
                 plugin.save()
@@ -146,7 +150,7 @@ class PluginManager(object):
                 for oIntent in intent_list:
                     oIntent.enabled = True
                     oIntent.save()
-                return {'status': 'success', 'log': 'Plugin enabled'}
+                return {'status': 'success', 'log': unicode(_('Plugin enabled'))}
 
     def disablePlugin(self, plugin_name=None, plugin_pk=None):
         if plugin_pk:
@@ -155,7 +159,7 @@ class PluginManager(object):
             plugin_list = Plugin.objects(name=plugin_name)
         for plugin in plugin_list:
             if not plugin.enabled:
-                return {'status': 'fail', 'log': 'Plugin already disabled'}
+                return {'status': 'fail', 'log': unicode(_('Plugin already disabled'))}
             else:
                 plugin.enabled = False
                 plugin.save()
@@ -171,7 +175,7 @@ class PluginManager(object):
                     oIntent.enabled = False
                     oIntent.save()
 
-                return {'status': 'success', 'log': 'Plugin disabled'}
+                return {'status': 'success', 'log': unicode(_('Plugin disabled'))}
 
     def uninstallPlugin(self, plugin_name=None, plugin_pk=None, dev_mode=False):
         if plugin_pk:
@@ -179,7 +183,7 @@ class PluginManager(object):
         else:
             plugin_list = Plugin.objects(name=plugin_name)
         if not plugin_list:
-            return {'status': 'fail', 'log': 'Plugin not installed'}
+            return {'status': 'fail', 'log': unicode(_('Plugin not installed'))}
         else:
             for plugin in plugin_list:
                 if not dev_mode:
@@ -193,7 +197,7 @@ class PluginManager(object):
                 for oIntent in intent_list:
                     oIntent.delete()
 
-            return {'status': 'success', 'log': 'Plugin uninstalled'}
+            return {'status': 'success', 'log': unicode(_('Plugin uninstalled'))}
 
     def methodListPlugin(self, plugin_name=None):
         if plugin_name:
@@ -217,7 +221,7 @@ class PluginManager(object):
                     #init shouldn't be listed in methods and _ is for translation
                     if not "__init__" in m:
                         listcoremethods.append(m[0])
-                listallmethods.append({ 'core': fileName, 'methods': listcoremethods})
+                listallmethods.append({'core': fileName, 'methods': listcoremethods})
         log.msg(listallmethods)
         return listallmethods
 
@@ -231,13 +235,13 @@ class PluginManager(object):
 
         pypireq = requests.get('-'.join(['https://pypi.python.org/pypi/lisa-plugin', plugin_name]))
         if(pypireq.ok):
-            return {'status': 'fail', 'log': 'Plugin already exist on Pypi'}
+            return {'status': 'fail', 'log': unicode(_('Plugin already exist on Pypi'))}
 
         metareq = requests.get('/'.join([configuration['plugin_store'], 'plugins.json']))
         if(metareq.ok):
             for item in json.loads(metareq.text or metareq.content):
                 if item['name'].lower() == plugin_name.lower():
-                    return {'status': 'fail', 'log': 'Plugin already exist in the store'}
+                    return {'status': 'fail', 'log': unicode(_('Plugin already exist in the store'))}
         context = {
             'plugin_name': plugin_name,
             'plugin_name_lower': plugin_name.lower(),
@@ -300,7 +304,7 @@ class PluginManager(object):
                           template='plugin/module.json',
                           context=context)
 
-        return {'status': 'success', 'log': 'Plugin created'}
+        return {'status': 'success', 'log': unicode(_('Plugin created'))}
 
     def upgradePlugin(self, plugin_name=None, plugin_pk=None, test_mode=False, dev_mode=False):
         if plugin_pk:
@@ -309,7 +313,7 @@ class PluginManager(object):
             plugin_list = Plugin.objects(name=plugin_name)
 
         if not plugin_list:
-            return {'status': 'fail', 'log': 'Plugin not installed'}
+            return {'status': 'fail', 'log': unicode(_('Plugin not installed'))}
 
         if not dev_mode:
             # This test mode is here only for travis to allow installing plugin in a readable directory
@@ -324,7 +328,7 @@ class PluginManager(object):
         try:
             metadata = json.load(open(jsonfile))
         except:
-            return {'status': 'fail', 'log': "The json of the plugin can't be loaded"}
+            return {'status': 'fail', 'log': unicode(_("The json of the plugin can't be loaded"))}
 
         for plugin in plugin_list:
             if self.versioncompare(version1=metadata['version'], version2=plugin.version) > 0:
@@ -387,8 +391,8 @@ class PluginManager(object):
                         oIntent.plugin = plugin
                         oIntent.save()
             else:
-                return {'status': 'fail', 'log': 'Plugin already up to date'}
-        return {'status': 'success', 'log': 'Plugin upgraded'}
+                return {'status': 'fail', 'log': unicode(_('Plugin already up to date'))}
+        return {'status': 'success', 'log': unicode(_('Plugin upgraded'))}
 
 class PluginManagerSingleton(object):
     """
@@ -411,7 +415,7 @@ class PluginManagerSingleton(object):
         """
 
         if self.__instance is not None:
-            raise Exception("Singleton can't be created twice !")
+            raise Exception(unicode(_("Singleton can't be created twice !")))
 
     def get(self):
         """
@@ -419,6 +423,5 @@ class PluginManagerSingleton(object):
         """
         if self.__instance is None:
             self.__instance = PluginManager()
-            log.msg("PluginManagerSingleton initialised")
         return self.__instance
     get = classmethod(get)
