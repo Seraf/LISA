@@ -1,15 +1,14 @@
 from ...interface.models import LisaUser
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from mongoengine.queryset import DoesNotExist
-from django.db.models import Q
 from tastypie_mongoengine import resources as mongoresources
 from tastypie.http import HttpUnauthorized, HttpForbidden
 from tastypie import fields
 from tastypie.utils import trailing_slash
-from tastypie.authentication import MultiAuthentication, SessionAuthentication
+from tastypie.authentication import MultiAuthentication
 from django.conf.urls import *
-
 from .mixins import PublicEndpointResourceMixin, CustomApiKeyAuthentication
+from tastypie import authorization
 
 class ProfileResource(mongoresources.MongoEngineResource):
 
@@ -28,11 +27,17 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
     class Meta:
         queryset = LisaUser.objects.all()
         authentication = MultiAuthentication(CustomApiKeyAuthentication())
-        #authorization = UserOnlyAuthorization()
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', ]
-        allowed_methods = ['get', 'post']
+        authorization = authorization.Authorization()
+
+        """fields = ['username', 'first_name', 'last_name', 'apikey',
+                  'api_key_created', 'email', 'date_joined',
+                  'is_active', 'is_superuser', 'is_staff', 'id',
+                  'features', 'user_permissions'
+        ]"""
+
+        # FIXME :Problem with the put : why I receive an _id field on mongodb save with user and not plugin ?
+        allowed_methods = ['get', 'post', 'put', 'delete', 'patch']
         login_allowed_methods = ['post', ]
-        resource_name = 'user'
         extra_actions = [
             {
                 'name': 'login',
@@ -42,8 +47,8 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
                     'username': {
                         'type': 'string',
                         'required': True,
-                        'description':'Unique username required.'
-                        },
+                        'description': 'Unique username required.'
+                    },
                     'password': {
                         'type': 'string',
                         'required': True,
@@ -104,7 +109,6 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
         except DoesNotExist:
             return self.create_response(request, {'success': False, 'reason': 'incorrect'}, HttpUnauthorized)
 
-
     def dispatch_logout(self, request, **kwargs):
         """
         A view for handling the various HTTP methods (GET/POST/PUT/DELETE) on
@@ -121,9 +125,3 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
         else:
             # Not logged in
             return self.create_response(request, {'success': False}, HttpUnauthorized)
-
-
-EnabledResources = (
-    UserResource,
-    ProfileResource
-)

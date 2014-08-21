@@ -11,6 +11,7 @@ from mongoengine import *
 from lisa.server.web.weblisa.settings import DBNAME
 connect(DBNAME)
 
+
 class LisaUser(BaseUser):
     """
     Subclass of mongoengine.django.auth.User with API key for authentication.
