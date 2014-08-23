@@ -2,13 +2,14 @@ from ...interface.models import LisaUser
 from django.contrib.auth import login, logout
 from mongoengine.queryset import DoesNotExist
 from tastypie_mongoengine import resources as mongoresources
-from tastypie.http import HttpUnauthorized, HttpForbidden
+from tastypie.http import HttpUnauthorized, HttpForbidden, HttpAccepted
 from tastypie import fields
 from tastypie.utils import trailing_slash
 from tastypie.authentication import MultiAuthentication
 from django.conf.urls import *
 from .mixins import PublicEndpointResourceMixin, CustomApiKeyAuthentication
 from tastypie import authorization
+from mongoengine import document
 
 class ProfileResource(mongoresources.MongoEngineResource):
 
@@ -61,7 +62,14 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
                 'http_method': 'POST',
                 'resource_type': 'list',
                 'fields': {}
+            },
+            {
+                'name': 'regenerateapikey',
+                'summary': 'Regenerate the API Key for a user',
+                'http_method': 'GET',
+                'fields': {}
             }
+
         ]
 
     def dehydrate_user_permissions(self, bundle):
@@ -79,9 +87,28 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/login%s" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_login'), name='api_user_login'),
-            url(r"^(?P<resource_name>%s)/logout%s" % (self._meta.resource_name, trailing_slash()), self.wrap_view('dispatch_logout'), name='api_user_logout'),
+            url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/regenerateapikey%s" % (self._meta.resource_name,
+                                                                                  trailing_slash()),
+                self.wrap_view('regenerate_api_key'), name='api_user_regenerate_api_key'),
+            url(r"^(?P<resource_name>%s)/login%s" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('dispatch_login'), name='api_user_login'),
+            url(r"^(?P<resource_name>%s)/logout%s" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('dispatch_logout'), name='api_user_logout'),
+
         ]
+
+    def regenerate_api_key(self, request, **kwargs):
+        self.method_check(request, allowed=['post', 'get'])
+        self.is_authenticated(request)
+        self.throttle_check(request)
+        queryset = LisaUser.objects(pk=kwargs['pk'])
+        for user in queryset:
+            user.apikey = user.set_api_key()
+            user.save()
+        status = {'username': user.username, 'apikey': user.apikey}
+        self.log_throttled_access(request)
+        return self.create_response(request, status, HttpAccepted)
+
 
     def dispatch_login(self, request, **kwargs):
         """
