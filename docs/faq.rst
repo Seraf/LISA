@@ -57,6 +57,18 @@ a load balancer.
 
 The only problem is a lack of support for ARM. But there's a ticket opened on their JIRA issue tracker.
 
+Can I install LISA on a Raspberry Pi ?
+--------------------------------------
+Quick answer : Yes.
+
+Long answer : RPI is an ARM architecture and actually Mongodb is unsupported officially.
+So it isn't packaged for raspbian for example. But you should be able to compile it (take ~7hours).
+
+There's a ticket already opened on their JIRA for ARM support, and they are working on it.
+
+By now, I suggest to run mongodb (and the LISA server) in a virtual machine or a dedicated x86 server.
+
+
 What ports should I open on my firewall ?
 -----------------------------------------
 
