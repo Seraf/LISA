@@ -24,9 +24,17 @@ State of the project :
     :target: https://waffle.io/seraf/lisa
     :alt: 'Stories in Ready'
 
-.. image:: https://pypip.in/v/lisa-server/badge.png
+.. image:: http://img.shields.io/pypi/v/lisa-server.svg
     :target: https://pypi.python.org/pypi/lisa-server
 
+.. image:: http://img.shields.io/pypi/dm/lisa-server.svg
+    :target: https://pypi.python.org/pypi/lisa-server
+
+Donation
+########
+
+.. image:: http://img.shields.io/gittip/Seraf.svg
+    :target: https://www.gittip.com/Seraf/
 
 Documentation
 #############
