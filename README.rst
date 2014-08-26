@@ -36,6 +36,10 @@ Donation
 .. image:: http://img.shields.io/gittip/Seraf.svg
     :target: https://www.gittip.com/Seraf/
 
+.. image:: http://img.shields.io/paypal/donate.png?color=yellow
+    :target: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=nephilim%2eseraphin%40gmail%2ecom&lc=FR&item_name=Julien%20Syx&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
+
+
 Documentation
 #############
 
