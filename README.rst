@@ -9,8 +9,8 @@ I decided to create my own Digital Life Assistant because I didn't found any goo
 L.I.S.A will assist me as a Digital Life Assistant.
 
 It will give me usefull informations even if I didn't ask these, and answer me when I will ask something I want to know or to do.
-I actually have my house managed by a Vera-Lite controller (Zwave).
-L.I.S.A will be able to manage it (and other box with a simple module) and allow me to control with my house by voice.
+I actually have my house managed by a Fibaro Home Center 2 controller (Zwave).
+L.I.S.A will be able to manage it (and other boxes with a simple module) and allow me to control my house by voice.
 
 State of the project : 
 
