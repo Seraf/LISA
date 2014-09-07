@@ -1,7 +1,7 @@
 from setuptools import setup
 import os
 
-VERSION = '0.1.2.6'
+VERSION = '0.2.0'
 
 # When pip installs anything from packages, py_modules, or ext_modules that
 # includes a twistd plugin (which are installed to twisted/plugins/),

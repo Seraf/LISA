@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     'manageplugins',
     'googlespeech'
 )
+
 TASTYPIE_SWAGGER_API_MODULE = 'lisa.server.web.weblisa.urls.v1_api'
 TASTYPIE_ABSTRACT_APIKEY = True
 ########## MONGO CONFIG ##########
