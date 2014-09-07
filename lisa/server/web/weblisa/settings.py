@@ -131,7 +131,6 @@ INSTALLED_APPS = (
     'mongoengine.django.mongo_auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-#    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
@@ -139,8 +138,7 @@ INSTALLED_APPS = (
     'tastypie',
     'tastypie_mongoengine',
     'tastypie_swagger',
-    'manageplugins',
-    'googlespeech'
+    'manageplugins'
 )
 
 TASTYPIE_SWAGGER_API_MODULE = 'lisa.server.web.weblisa.urls.v1_api'
