@@ -20,10 +20,6 @@ path = '/'.join([ConfigManagerSingleton.get().getPath(), 'lang'])
 _ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
                                               languages=[configuration['lang']]).ugettext
 
-import django
-if hasattr(django, 'setup'):
-    django.setup()
-
 
 class PluginManager(object):
     """
@@ -51,7 +47,7 @@ class PluginManager(object):
 
     def getPluginByName(self, plugin_name):
         """
-        Get the plugin correspoding to a given name
+        Get the plugin corresponding to a given name
         """
         return None
 
