@@ -1,5 +1,5 @@
 mongoengine>=0.8.7
-Django>=1.6.2, < 1.6.3
+Django>=1.6.2, <1.7
 Sphinx>=1.2.2
 Twisted>=13.2.0
 pymongo>=2.7
