@@ -1,8 +1,8 @@
 from lisa.server.libs.server import LisaFactorySingleton
 from twisted.trial import unittest
 from twisted.test import proto_helpers
-
 import json
+
 
 class LisaClientTestCase(unittest.TestCase):
     def setUp(self):

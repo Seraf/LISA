@@ -1,6 +1,5 @@
 # Django settings for blog project.
 import os
-import json
 import sys
 from lisa.server.ConfigManager import ConfigManagerSingleton
 DBNAME = 'lisa'
@@ -8,7 +7,7 @@ DBNAME = 'lisa'
 configuration = ConfigManagerSingleton.get().getConfiguration()
 dir_path = ConfigManagerSingleton.get().getPath()
 
-APP_DIR = os.path.dirname( globals()['__file__'] )
+APP_DIR = os.path.dirname(globals()['__file__'])
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__) + '/../')
 
 sys.path.append(PROJECT_PATH)

@@ -18,7 +18,7 @@ configuration = ConfigManagerSingleton.get().getConfiguration()
 dir_path = ConfigManagerSingleton.get().getPath()
 path = '/'.join([ConfigManagerSingleton.get().getPath(), 'lang'])
 _ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
-                                              languages=[configuration['lang']]).ugettext
+                                      languages=[configuration['lang']]).ugettext
 
 
 class PluginManager(object):

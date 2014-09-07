@@ -1,7 +1,7 @@
-from lisa.server.plugins.PluginManager import PluginManagerSingleton
-from twisted.trial import unittest
 import os
-import json
+from twisted.trial import unittest
+from lisa.server.plugins.PluginManager import PluginManagerSingleton
+
 
 class LisaPluginTestCase(unittest.TestCase):
     def setUp(self):
