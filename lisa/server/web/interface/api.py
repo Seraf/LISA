@@ -4,6 +4,10 @@ from lisa.server.web.interface.models import Workspace
 from models import WidgetUser, Widget
 from tastypie_mongoengine import fields
 
+from ..weblisa.api.mixins import CustomApiKeyAuthentication
+from tastypie.authentication import MultiAuthentication, SessionAuthentication
+
+
 class WidgetResource(mongoresources.MongoEngineResource):
     plugin = fields.ReferenceField(to='lisa.server.web.manageplugins.api.PluginResource', attribute='plugin')
 
@@ -11,15 +15,17 @@ class WidgetResource(mongoresources.MongoEngineResource):
         queryset = Widget.objects.all()
         allowed_methods = ('get','post')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
 
 class WidgetByUserResource(mongoresources.MongoEngineResource):
-    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.UserResource', attribute='user')
+    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.accounts.UserResource', attribute='user')
     widget = fields.ReferenceField(to='lisa.server.web.interface.api.WidgetResource', attribute='widget', full=True)
 
     class Meta:
         queryset = WidgetUser.objects.all()
-        allowed_methods = ('get','post','put','patch')
+        allowed_methods = ('get','post','put','patch','delete')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
 
     def obj_create(self, bundle, **kwargs):
         return super(WidgetByUserResource, self).obj_create(bundle, user=bundle.request.user)
@@ -28,11 +34,12 @@ class WidgetByUserResource(mongoresources.MongoEngineResource):
         return object_list.filter(user=request.user)
 
 class WorkspaceResource(mongoresources.MongoEngineResource):
-    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.UserResource', attribute='user')
+    user = fields.ReferenceField(to='lisa.server.web.weblisa.api.accounts.UserResource', attribute='user')
     widgets = fields.ReferencedListField(of='lisa.server.web.interface.api.WidgetByUserResource', attribute='widgets', full=True,
                                          null=True, help_text='List of widgets')
 
     class Meta:
         queryset = Workspace.objects.all()
-        allowed_methods = ('get','post','put','patch')
+        allowed_methods = ('get','post','put','patch','delete')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())

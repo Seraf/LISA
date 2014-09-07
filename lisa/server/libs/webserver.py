@@ -6,8 +6,10 @@ class Root(resource.Resource):
         self.wsgi_resource = wsgi_resource
 
     def getChild(self, path, request):
-        path0 = request.prepath.pop(0)
-        request.postpath.insert(0, path0)
+        request.postpath = request.prepath + request.postpath
+        request.prepath = []
+        #path0 = request.prepath.pop(0)
+        #request.postpath.insert(0, path0)
         return self.wsgi_resource
 
 

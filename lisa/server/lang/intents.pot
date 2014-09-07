@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: intents 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-05-17 19:30+0200\n"
+"POT-Creation-Date: 2014-08-15 08:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../core/intents.py:38
+#: ../core/intents.py:39
 #, python-format
 msgid "I can %(intentslist)s"
 msgstr ""

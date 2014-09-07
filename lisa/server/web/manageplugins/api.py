@@ -7,14 +7,18 @@ from lisa.server.libs import LisaFactorySingleton
 from lisa.server.plugins.PluginManager import PluginManagerSingleton
 from tastypie.http import HttpAccepted, HttpNotModified, HttpCreated
 
+from ..weblisa.api.mixins import CustomApiKeyAuthentication
+from tastypie.authentication import MultiAuthentication, SessionAuthentication
+
 
 class PluginResource(resources.MongoEngineResource):
     description = fields.EmbeddedListField(of='lisa.server.web.manageplugins.api.EmbeddedDescriptionResource',
                                            attribute='description', full=True, null=True)
     class Meta:
         queryset = Plugin.objects.all()
-        allowed_methods = ('get','post')
+        allowed_methods = ('get', 'post', 'put', 'delete')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
         extra_actions = [
             {
                 'name': 'install',
@@ -30,31 +34,31 @@ class PluginResource(resources.MongoEngineResource):
                       'code': 304
                     }
                 ],
-                'fields':{}
+                'fields': {}
             },
             {
                 'name': 'uninstall',
-                'summary':'Uninstall a plugin',
+                'summary': 'Uninstall a plugin',
                 'http_method': 'GET',
-                'fields':{}
+                'fields': {}
             },
             {
                 'name': 'enable',
-                'summary':'Enable a plugin',
+                'summary': 'Enable a plugin',
                 'http_method': 'GET',
-                'fields':{}
+                'fields': {}
             },
             {
                 'name': 'disable',
-                'summary':'Disable a plugin',
+                'summary': 'Disable a plugin',
                 'http_method': 'GET',
-                'fields':{}
+                'fields': {}
             },
             {
                 'name': 'methodslist',
-                'summary':'List the method of all (or the plugin name in parameter) plugins installed',
+                'summary': 'List the method of all (or the plugin name in parameter) plugins installed',
                 'http_method': 'GET',
-                'fields':{}
+                'fields': {}
             },
         ]
 
@@ -89,7 +93,6 @@ class PluginResource(resources.MongoEngineResource):
         LisaFactorySingleton.get().LisaReload()
         return self.create_response(request, status, HttpCreated)
 
-
     def enable(self, request, **kwargs):
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
@@ -106,11 +109,10 @@ class PluginResource(resources.MongoEngineResource):
         self.is_authenticated(request)
         self.throttle_check(request)
 
-        status = PluginManagerSingleton.get().enablePlugin(plugin_pk=kwargs['pk'])
+        status = PluginManagerSingleton.get().disablePlugin(plugin_pk=kwargs['pk'])
         self.log_throttled_access(request)
         LisaFactorySingleton.get().SchedReload()
         LisaFactorySingleton.get().LisaReload()
-
         return self.create_response(request, status, HttpAccepted)
 
     def uninstall(self, request, **kwargs):
@@ -142,6 +144,8 @@ class EmbeddedDescriptionResource(resources.MongoEngineResource):
         object_class = Description
         allowed_methods = ('get')
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())
+
 
 class IntentResource(resources.MongoEngineResource):
     plugin = fields.ReferenceField(to='lisa.server.web.manageplugins.api.PluginResource', attribute='plugin', null=True)
@@ -149,3 +153,4 @@ class IntentResource(resources.MongoEngineResource):
     class Meta:
         object_class = Intent
         authorization = authorization.Authorization()
+        authentication = MultiAuthentication(CustomApiKeyAuthentication())

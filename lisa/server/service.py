@@ -4,10 +4,12 @@ from twisted.internet import reactor, ssl
 from twisted.application import internet, service
 from twisted.web import server, wsgi, static
 from twisted.python import threadpool, log
-from autobahn.twisted.websocket import WebSocketServerFactory
-from autobahn.twisted.resource import WebSocketResource
+from txsockjs.factory import SockJSFactory
+from twisted.internet.protocol import Factory
 from OpenSSL import SSL
 from lisa.server.ConfigManager import ConfigManagerSingleton
+from twisted.protocols import portforward
+
 
 class ThreadPoolService(service.Service):
     def __init__(self, pool):
@@ -25,10 +27,18 @@ class ThreadPoolService(service.Service):
 # Twisted Application Framework setup:
 application = service.Application('LISA')
 
+
+def server_dataReceived(self, data):
+    portforward.Proxy.dataReceived(self, data)
+
+
+def client_dataReceived(self, data):
+    portforward.Proxy.dataReceived(self, data)
+
+
 def makeService(config):
     from django.core.handlers.wsgi import WSGIHandler
     os.environ['DJANGO_SETTINGS_MODULE'] = 'lisa.server.web.weblisa.settings'
-
 
     if config['configuration']:
         ConfigManagerSingleton.get().setConfiguration(config['configuration'])
@@ -46,21 +56,14 @@ def makeService(config):
 
     # Creating the web stuff
     resource_wsgi = wsgi.WSGIResource(reactor, tps.pool, WSGIHandler())
-    root = libs.Root(resource_wsgi)
-    staticrsrc = static.File('/'.join([dir_path,'web/interface/static']))
+    root = static.File('/'.join([dir_path, 'web/frontend/build']))
+    backendsrc = libs.Root(resource_wsgi)
+    root.putChild("backend", backendsrc)
+    staticrsrc = static.File('/'.join([dir_path, 'web/interface/static']))
     root.putChild("static", staticrsrc)
 
-    # Create the websocket
-    if configuration['enable_secure_mode']:
-        socketfactory = WebSocketServerFactory("wss://" + configuration['lisa_url'] + ":" +
-                                               str(configuration['lisa_web_port_ssl']),debug=False)
-    else:
-        socketfactory = WebSocketServerFactory("ws://" + configuration['lisa_url'] + ":" +
-                                               str(configuration['lisa_web_port']),debug=False)
-    socketfactory.protocol = libs.WebSocketProtocol
-    socketfactory.protocol.configuration, socketfactory.protocol.dir_path = configuration, dir_path
-    socketresource = WebSocketResource(socketfactory)
-    root.putChild("websocket", socketresource)
+    socketfactory = SockJSFactory(Factory.forProtocol(libs.WebSocketProtocol))
+    root.putChild("websocket", socketfactory)
 
     # Configuring servers to launch
     if configuration['enable_secure_mode'] or configuration['enable_unsecure_mode']:
@@ -95,7 +98,14 @@ def makeService(config):
         if configuration['enable_unsecure_mode']:
             # Serve it up:
             internet.TCPServer(configuration['lisa_web_port'], server.Site(root)).setServiceParent(multi)
-            internet.TCPServer(configuration['lisa_engine_port'], libs.LisaFactorySingleton.get()).setServiceParent(multi)
+            internet.TCPServer(configuration['lisa_engine_port'],
+                               libs.LisaFactorySingleton.get()).setServiceParent(multi)
+
+        configuration['enable_cloud_mode'] = True
+        #if configuration['enable_cloud_mode']:
+        #    portforward.ProxyClient.dataReceived = client_dataReceived
+        #    portforward.ProxyServer.dataReceived = server_dataReceived
+        #    reactor.listenTCP(1080, portforward.ProxyFactory('localhost', 8000))
 
     else:
         exit(1)

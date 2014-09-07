@@ -5,7 +5,7 @@ from OpenSSL import SSL
 import os
 import json
 from twisted.internet import reactor, ssl
-from autobahn.twisted.websocket import WebSocketServerProtocol
+from twisted.internet.protocol import Protocol
 import gettext
 from lisa.server.ConfigManager import ConfigManagerSingleton
 
@@ -26,22 +26,23 @@ class CtxFactory(ssl.ClientContextFactory):
         return ctx
 
 
-class WebSocketProtocol(WebSocketServerProtocol):
+class WebSocketProtocol(Protocol):
     def connectionMade(self):
-        self.configuration = self.configuration
-        WebSocketServerProtocol.connectionMade(self)
         self.lisaclientfactory = LisaClientFactory(self)
-        if self.configuration['enable_secure_mode']:
-             self.conn = reactor.connectSSL(self.configuration['lisa_url'], self.configuration['lisa_engine_port_ssl'],
+        if configuration['enable_secure_mode']:
+             self.conn = reactor.connectSSL(configuration['lisa_url'], configuration['lisa_engine_port_ssl'],
                                             self.lisaclientfactory, CtxFactory()
              )
         else:
-            self.conn = reactor.connectTCP(self.configuration['lisa_url'],
-                                           self.configuration['lisa_engine_port'], self.lisaclientfactory)
+            self.conn = reactor.connectTCP(configuration['lisa_url'],
+                                           configuration['lisa_engine_port'], self.lisaclientfactory)
 
-    def onMessage(self, msg, binary):
+    def sendMessage(self, message):
+        self.transport.write(message)
+
+    def dataReceived(self, data):
         self.lisaclientfactory.protocol.sendMessage(json.dumps(
-            {"from": "Lisa-Web","type": "chat", "body": unicode(msg.decode('utf-8')), "zone": "WebSocket"}))
+            {"from": "Lisa-Web","type": "chat", "body": unicode(data.decode('utf-8')), "zone": "WebSocket"}))
 
     def connectionLost(self, reason):
         self.conn.transport = None
@@ -65,7 +66,7 @@ class LisaClient(LineReceiver):
         self.WebSocketProtocol.sendMessage(data)
 
     def connectionMade(self):
-        if self.WebSocketProtocol.configuration['enable_secure_mode']:
+        if configuration['enable_secure_mode']:
             ctx = ClientTLSContext()
             self.transport.startTLS(ctx, self.factory)
 
