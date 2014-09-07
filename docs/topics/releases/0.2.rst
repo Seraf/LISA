@@ -1,0 +1,31 @@
+=========================
+L.I.S.A 0.2 Release Notes
+=========================
+
+:release: 2014-09-07
+
+0.2 has arrived! This release come with new features !
+
+Major Features
+==============
+* New interface written in AngularJS
+* Everything use API
+* Upgrade plugins and core from Interface
+* Use sockjs for Websocket
+
+Compatibility
+=============
+You will have to delete your user from Mongo Database.
+
+.. code-block:: none
+
+   ╭─seraf@tagada-laptop ~/Sandbox/LISA ‹lisa› ‹master*›
+   ╰─➤ mongo
+
+   MongoDB shell version: 2.4.9
+   connecting to: test
+   > use lisa
+   switched to db lisa
+   > db.user.remove()
+
+   lisa-cli createsuperuser
