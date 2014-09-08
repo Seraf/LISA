@@ -316,7 +316,7 @@ class LisaResource(tastyresources.Resource):
         r = requests.get('https://pypi.python.org/pypi/lisa-server/json')
         if r.status_code == requests.codes.ok:
             remote_version = r.json()['info']['version']
-            remote_version = "0.1.2.9"
+            
         else:
             return self.create_response(request, {'status': 'fail', 'log': 'Problem contacting pypi.python.org'}, HttpAccepted)
 
