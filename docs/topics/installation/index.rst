@@ -35,6 +35,8 @@ Quick Install
     # Install twisted then the LISA server
     pip install twisted
     pip install lisa-server
+    # Create your user
+    lisa-cli createsuperuser
 
 
 Platform-specific Installation Instructions

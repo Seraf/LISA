@@ -1,4 +1,4 @@
 include requirements.txt
-recursive-include lisa *.html *.css *png *.js *.rst *.xml *.py *.json *.mo *.po *.crt *.key *.pem *.sample *.tpl
+recursive-include lisa *.html *.css *png *.js *.rst *.xml *.py *.json *.mo *.po *.crt *.key *.pem *.sample *.tpl *.md *.eot *.svg *.ttf *.woff *.less
 graft twisted
 prune *.pyc
