@@ -12,7 +12,7 @@ Quick Install
 .. code-block:: bash
 
     # Installing Debian dependencies
-    sudo apt-get install mongodb python-setuptools libxslt1-dev libxslt1.1 libxml2-dev build-essential python-dev libssl-dev python-openssl libyaml-dev
+    sudo apt-get install mongodb python-setuptools libxslt1-dev libxslt1.1 libxml2-dev libffi-dev build-essential python-dev libssl-dev python-openssl libyaml-dev
     # Installing pip
     sudo easy_install pip
     # Installing tools to create a python virtual environment
