@@ -48,12 +48,14 @@ class UserResource(PublicEndpointResourceMixin, mongoresources.MongoEngineResour
                     'username': {
                         'type': 'string',
                         'required': True,
-                        'description': 'Unique username required.'
+                        'description': 'Unique username required.',
+                        'paramType': 'body'
                     },
                     'password': {
                         'type': 'string',
                         'required': True,
-                        'description': 'password required'
+                        'description': 'password required',
+                        'paramType': 'body'
                     }
                 }
             },

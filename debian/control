@@ -1,0 +1,17 @@
+Source: lisa-server
+Section: python
+Priority: extra
+Maintainer: Julien Syx <jsyx@redhat.com>
+#Build-Depends: debhelper (>= 9), python, dh-virtualenv
+Build-Depends: debhelper (>= 9), python
+Standards-Version: 3.9.5
+X-Python-Version: >=2.5, <=2.7
+Homepage: http://www.lisa-project.net
+
+Package: lisa-server
+Architecture: any
+Depends: ${python:Depends}, ${misc:Depends}, mongodb,
+ python-setuptools, libxslt1-dev, libxslt1.1, libxml2-dev,
+ libffi-dev, build-essential, python-dev, libssl-dev,
+ python-openssl, libyaml-dev, python-pip, git-core
+Description: Install the L.I.S.A Server

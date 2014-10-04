@@ -65,12 +65,14 @@ class LisaResource(tastyresources.Resource):
                     'message': {
                         'type': 'string',
                         'required': True,
-                        'description': 'The message to transmit to client(s)'
+                        'description': 'The message to transmit to client(s)',
+                        'paramType': 'body'
                     },
                     'clients_zone': {
                         'type': 'list',
                         'required': True,
-                        'description': "Provide a list of zones : ['all','WebSocket','Bedroom'] ..."
+                        'description': "Provide a list of zones : ['all','WebSocket','Bedroom'] ...",
+                        'paramType': 'body'
                     }
                 }
             },
@@ -82,12 +84,14 @@ class LisaResource(tastyresources.Resource):
                     'message': {
                         'type': 'string',
                         'required': True,
-                        'description': 'The message to vocalize'
+                        'description': 'The message to vocalize',
+                        'paramType': 'body'
                     },
                     'lang': {
                         'type': 'string',
                         'required': True,
-                        'description': "Lang of the message"
+                        'description': 'Lang of the message',
+                        'paramType': 'body'
                     }
                 }
             },
@@ -99,12 +103,14 @@ class LisaResource(tastyresources.Resource):
                     'message': {
                         'type': 'string',
                         'required': True,
-                        'description': 'The message to vocalize'
+                        'description': 'The message to vocalize',
+                        'paramType': 'body'
                     },
                     'lang': {
                         'type': 'string',
                         'required': True,
-                        'description': "Lang of the message"
+                        'description': 'Lang of the message',
+                        'paramType': 'body'
                     }
                 }
             }
@@ -139,12 +145,20 @@ class LisaResource(tastyresources.Resource):
 
         from tastypie.http import HttpAccepted, HttpNotModified
 
+        data = self.deserialize(request, request.body, format=request.META.get('CONTENT_TYPE', 'application/json'))
+        message = data.get('message', '')
+        clients_zone = data.get('clients_zone', '')
+
+        """
+        print request.body
+
         if request.method == 'POST':
             message = request.POST.get("message")
             clients_zone = request.POST.getlist("clients_zone")
         else:
             message = request.GET.get("message")
             clients_zone = request.GET.getlist("clients_zone")
+        """
         jsondata = json.dumps({
                                       'body': message,
                                       'clients_zone': clients_zone,
@@ -219,7 +233,6 @@ class LisaResource(tastyresources.Resource):
         self.throttle_check(request)
         message = request.POST.get("message")
         lang = request.POST.getlist("lang")
-
 
         from tastypie.http import HttpAccepted, HttpNotModified
         from django.http import HttpResponse

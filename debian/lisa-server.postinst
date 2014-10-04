@@ -1,0 +1,31 @@
+#!/bin/sh
+# postinst script for lisa-server
+#
+# $Id: lisa-server.postinst,v 0.2 2014/10/04 08:36:43 seraf Exp $
+#
+
+#DEBHELPER#
+
+LISA_GROUP=alivelisa
+LISA_USER=alivelisa
+LISA_DIR=/home/${LISA_USER}/.virtualenvs
+
+set -e
+
+case "$1" in
+    configure)
+    su - ${LISA_USER} -c "source /usr/local/bin/virtualenvwrapper.sh ; workon lisa-server ; pip install twisted ; pip install lisa-server"
+    echo "[INFO] Creating the user for LISA, please answer these questions :"
+    su - ${LISA_USER} -c "source /usr/local/bin/virtualenvwrapper.sh ; workon lisa-server ; lisa-cli createsuperuser"
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

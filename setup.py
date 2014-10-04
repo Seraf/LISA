@@ -1,7 +1,7 @@
 from setuptools import setup
 import os
 
-VERSION = '0.2.0.1'
+VERSION = '0.2.0.2'
 
 # When pip installs anything from packages, py_modules, or ext_modules that
 # includes a twistd plugin (which are installed to twisted/plugins/),
@@ -38,7 +38,7 @@ else:
     egg_info.write_toplevel_names = _hacked_write_toplevel_names
 
 def listify(filename):
-    return filter(None, open(filename, 'r').read().strip('\n').split('\n'))
+    return [i for i in open(filename, 'r').read().strip('\n').split('\n') if 'git://' not in i]
 
 if __name__ == '__main__':
     setup(
