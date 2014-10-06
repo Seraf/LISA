@@ -14,6 +14,7 @@ path = ''.join([ConfigManagerSingleton.get().getPath(), '/lang/'])
 _ = translation = gettext.translation(domain='lisa', localedir=path, fallback=True,
                                               languages=[configuration['lang']]).ugettext
 
+
 class CtxFactory(ssl.ClientContextFactory):
     def __init__(self, dir_path):
         self.dir_path = dir_path
@@ -30,9 +31,8 @@ class WebSocketProtocol(Protocol):
     def connectionMade(self):
         self.lisaclientfactory = LisaClientFactory(self)
         if configuration['enable_secure_mode']:
-             self.conn = reactor.connectSSL(configuration['lisa_url'], configuration['lisa_engine_port_ssl'],
-                                            self.lisaclientfactory, CtxFactory()
-             )
+            self.conn = reactor.connectSSL(configuration['lisa_url'], configuration['lisa_engine_port_ssl'],
+                                           self.lisaclientfactory, CtxFactory())
         else:
             self.conn = reactor.connectTCP(configuration['lisa_url'],
                                            configuration['lisa_engine_port'], self.lisaclientfactory)
@@ -41,8 +41,9 @@ class WebSocketProtocol(Protocol):
         self.transport.write(message)
 
     def dataReceived(self, data):
+        print data
         self.lisaclientfactory.protocol.sendMessage(json.dumps(
-            {"from": "Lisa-Web","type": "chat", "body": unicode(data.decode('utf-8')), "zone": "WebSocket"}))
+            {'from': 'Lisa-Web', 'type': 'chat', 'body': unicode(data), 'zone': 'WebSocket'}))
 
     def connectionLost(self, reason):
         self.conn.transport = None
@@ -50,6 +51,7 @@ class WebSocketProtocol(Protocol):
 
 class ClientTLSContext(ssl.ClientContextFactory):
     isClient = 1
+
     def getContext(self):
         return SSL.Context(SSL.TLSv1_METHOD)
 
@@ -70,26 +72,27 @@ class LisaClient(LineReceiver):
             ctx = ClientTLSContext()
             self.transport.startTLS(ctx, self.factory)
 
+
 class LisaClientFactory(ReconnectingClientFactory):
     def __init__(self, WebSocketProtocol):
         self.WebSocketProtocol = WebSocketProtocol
 
     def startedConnecting(self, connector):
-        log.msg(_('Started to connect.'))
+        log.msg('Started to connect.')
 
     def buildProtocol(self, addr):
         self.protocol = LisaClient(self.WebSocketProtocol, factory=self)
-        log.msg(_('Connected to Lisa.'))
-        log.msg(_('Resetting reconnection delay'))
+        log.msg('Connected to Lisa.')
+        log.msg('Resetting reconnection delay')
         self.resetDelay()
         return self.protocol
 
     def clientConnectionLost(self, connector, reason):
-        log.err(unicode(_("Lost connection.  Reason: %(reason)s" % {'reason': str(reason)})))
+        log.err("Lost connection.  Reason: %(reason)s" % {'reason': str(reason)})
         ReconnectingClientFactory.clientConnectionLost(self, connector, reason)
 
     def clientConnectionFailed(self, connector, reason):
-        log.err(unicode(_("Connection failed. Reason: %(reason)s" % {'reason': str(reason)})))
+        log.err("Connection failed. Reason: %(reason)s" % {'reason': str(reason)})
         ReconnectingClientFactory.clientConnectionFailed(self, connector, reason)
 
 

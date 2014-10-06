@@ -13,5 +13,5 @@ Architecture: any
 Depends: ${python:Depends}, ${misc:Depends}, mongodb,
  python-setuptools, libxslt1-dev, libxslt1.1, libxml2-dev,
  libffi-dev, build-essential, python-dev, libssl-dev,
- python-openssl, libyaml-dev, python-pip, git-core
+ python-openssl, libyaml-dev, python-pip, git
 Description: Install the L.I.S.A Server

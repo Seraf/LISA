@@ -1,20 +1,43 @@
 #!/bin/sh
-# postinst script for lisa-server
-#
-# $Id: lisa-server.postinst,v 0.2 2014/10/04 08:36:43 seraf Exp $
-#
-
-#DEBHELPER#
 
 LISA_GROUP=alivelisa
 LISA_USER=alivelisa
-LISA_DIR=/home/${LISA_USER}/.virtualenvs
+VIRTUALENV_DIR=/home/${LISA_USER}/.virtualenvs/
 
 set -e
 
 case "$1" in
     configure)
-    su - ${LISA_USER} -c "source /usr/local/bin/virtualenvwrapper.sh ; workon lisa-server ; pip install twisted ; pip install lisa-server"
+    # Adding ${LISA_GROUP} as system group
+    if ! getent group ${LISA_GROUP} > /dev/null 2>&1
+    then
+        echo "Creating system group: ${LISA_GROUP}"
+	    addgroup --system ${LISA_GROUP}
+    fi
+
+    # Adding ${LISA_USER}
+    if ! id -u ${LISA_USER} > /dev/null 2>&1; then
+        echo "Creating user ${LISA_USER} in group ${LISA_GROUP}"
+        useradd --system -m --gid ${LISA_GROUP} --shell /bin/bash ${LISA_USER}
+    fi
+
+    if [ ! -d "${VIRTUALENV_DIR}" ]; then
+        mkdir ${VIRTUALENV_DIR}
+        chown -R ${LISA_USER}:${LISA_GROUP} ${VIRTUALENV_DIR}
+    fi
+
+    # Installing tools for virtualenv
+    echo "[INFO] Installing virtualenv tools"
+    pip install virtualenv virtualenvwrapper
+
+    if ! grep --quiet "workon" /home/${LISA_USER}/.bashrc; then
+        echo "export WORKON_HOME=${VIRTUALENV_DIR}" >> /home/${LISA_USER}/.bashrc
+        echo "export PROJECT_HOME=/home/${LISA_USER}/" >> /home/${LISA_USER}/.bashrc
+        echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/${LISA_USER}/.bashrc
+        echo "workon lisa-server" >> /home/${LISA_USER}/.bashrc
+    fi
+    su - ${LISA_USER} -c "source /usr/local/bin/virtualenvwrapper.sh ; mkvirtualenv lisa-server ; workon lisa-server ; pip install git+https://github.com/Seraf/django-tastypie-mongoengine.git ; pip install twisted ; pip install lisa-server"
+
     echo "[INFO] Creating the user for LISA, please answer these questions :"
     su - ${LISA_USER} -c "source /usr/local/bin/virtualenvwrapper.sh ; workon lisa-server ; lisa-cli createsuperuser"
     ;;
