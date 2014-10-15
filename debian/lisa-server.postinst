@@ -3,6 +3,8 @@
 LISA_GROUP=alivelisa
 LISA_USER=alivelisa
 VIRTUALENV_DIR=/home/${LISA_USER}/.virtualenvs/
+LISA_CONF=/etc/lisa/server/
+LOG_DIR=/var/log/lisa/
 
 set -e
 
@@ -26,6 +28,10 @@ case "$1" in
         chown -R ${LISA_USER}:${LISA_GROUP} ${VIRTUALENV_DIR}
     fi
 
+    if [ ! -d "${LOG_DIR}" ]; then
+        mkdir ${LOG_DIR}
+    fi
+
     # Installing tools for virtualenv
     echo "[INFO] Installing virtualenv tools"
     pip install virtualenv virtualenvwrapper
@@ -40,6 +46,11 @@ case "$1" in
 
     echo "[INFO] Creating the user for LISA, please answer these questions :"
     su - ${LISA_USER} -c "source /usr/local/bin/virtualenvwrapper.sh ; workon lisa-server ; lisa-cli createsuperuser"
+    if [ ! -d "${LISA_CONF}" ]; then
+        mkdir -p ${LISA_CONF}
+        cp ${VIRTUALENV_DIR}/lisa-server/lib/python2.7/site-packages/lisa/server/configuration/lisa.json.sample ${LISA_CONF}/lisa.json
+    fi
+
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)
