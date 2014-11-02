@@ -1,4 +1,10 @@
 include requirements.txt
 recursive-include lisa *.html *.css *png *.js *.rst *.xml *.py *.json *.mo *.po *.crt *.key *.pem *.sample *.tpl *.md *.eot *.svg *.ttf *.woff *.less *.map
 graft twisted
-prune *.pyc
+prune *.pyc 
+recursive-exclude lisa/server/web/frontend/src *
+recursive-exclude lisa/server/web/frontend/node_modules *
+recursive-exclude lisa/server/web/frontend/vendor *
+recursive-exclude lisa/server/web/frontend/karma *
+recursive-exclude lisa/server/_trial_temp *
+

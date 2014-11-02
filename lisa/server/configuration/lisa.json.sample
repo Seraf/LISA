@@ -24,7 +24,8 @@
     "enable_secure_mode": false,
     "enable_unsecure_mode": true,
     "wit_url": "https://api.wit.ai/",
-    "wit_token": "ATSHFOROYVUWQ3HTYBGHJNNYAXD7NTBC",
+    "wit_server_token": "ATSHFOROYVUWQ3HTYBGHJNNYAXD7NTBC",
+    "wit_client_token": "NENLZYIHUCNI3O4WTEP3SNU66MAB2DDX",
     "wit_confidence": 0.800,
     "bot_name": "lisa",
     "plugin_store": "http://plugins.lisa-project.net/"

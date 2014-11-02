@@ -273,7 +273,7 @@ class LisaResource(tastyresources.Resource):
         self.method_check(request, allowed=['get'])
         self.is_authenticated(request)
         self.throttle_check(request)
-        self.wit = Wit(configuration['wit_token'])
+        self.wit = Wit(configuration['wit_server_token'])
 
         from tastypie.http import HttpAccepted, HttpNotModified
 

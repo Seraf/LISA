@@ -19,7 +19,7 @@ class RulesEngine():
         client = MongoClient(configuration['database']['server'], configuration['database']['port'])
         self.database = client.lisa
 
-        self.wit = Wit(configuration['wit_token'])
+        self.wit = Wit(configuration['wit_server_token'])
 
     def Rules(self, jsonData, lisaprotocol):
         rulescollection = self.database.rules

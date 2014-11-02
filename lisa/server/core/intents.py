@@ -21,7 +21,7 @@ class Intents:
         mongo = MongoClient(host=self.configuration['database']['server'],
                             port=self.configuration['database']['port'])
         self.database = mongo.lisa
-        self.wit = Wit(self.configuration['wit_token'])
+        self.wit = Wit(self.configuration['wit_server_token'])
 
     def list(self, jsonInput):
         intentstr = []

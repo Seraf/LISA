@@ -42,8 +42,10 @@ class WebSocketProtocol(Protocol):
 
     def dataReceived(self, data):
         print data
-        self.lisaclientfactory.protocol.sendMessage(json.dumps(
-            {'from': 'Lisa-Web', 'type': 'chat', 'body': unicode(data), 'zone': 'WebSocket'}))
+        #self.lisaclientfactory.protocol.sendMessage(json.dumps(
+        #    {'from': 'Lisa-Web', 'type': 'chat', 'body': unicode(data), 'zone': 'WebSocket'}))
+
+        self.lisaclientfactory.protocol.sendMessage(json.dumps(json.loads(unicode(data))))
 
     def connectionLost(self, reason):
         self.conn.transport = None
