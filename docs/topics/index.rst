@@ -71,7 +71,7 @@ Follow on Github
 The L.I.S.A code is developed via Github. Follow L.I.S.A for constant updates on what
 is happening in L.I.S.A development:
 
-- `L.I.S.A Server. <http://www.github.com/Seraf/L.I.S.A>`_
+- `L.I.S.A Server. <http://www.github.com/Seraf/LISA>`_
 
 You can follow the roadmap on Waffle :
 
