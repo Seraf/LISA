@@ -35,6 +35,7 @@ Quick Install
     # Install twisted then the LISA server
     pip install twisted
     pip install lisa-server
+    pip install django-tastypie-mongoengine
     # Create your user
     lisa-cli createsuperuser
 
