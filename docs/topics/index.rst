@@ -44,25 +44,22 @@ Join L.I.S.A !
 
 There are many ways to participate in and communicate with the L.I.S.A community.
 
-L.I.S.A has an active IRC channel and a forum.
+L.I.S.A has a chat and a Question&Answer website.
 
-Forum
-=====
+Q&A
+===
 
-Join the `L.I.S.A forum`_. It is the best place to ask questions
-about L.I.S.A and see whats going on with L.I.S.A development! It is open to new members.
+The `Q&A Website`_ is the best place to ask questions about L.I.S.A.
 
-.. _`L.I.S.A forum`: http://forum.lisa-project.net/
+.. _`Q&A Website`: http://ask.lisa-project.net/
 
 
-IRC
+Chat
 ====
 
-The ``#lisa-project`` IRC channel is hosted on the popular `Freenode`__ network. You
-can use the `Freenode webchat client`__ right from your browser.
+The chat is hosted on `Gitter`_. You will only need a github account.
 
-.. __: http://freenode.net/irc_servers.shtml
-.. __: http://webchat.freenode.net/?channels=lisa-project&uio=Mj10cnVlJjk9dHJ1ZSYxMD10cnVl83
+.. _`Gitter`: https://gitter.im/project-lisa/lisa
 
 
 Follow on Github
